@@ -4,6 +4,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 
 # Daily Note - Feb 2026
 
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Daily Note - Feb 2026
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, optimization
+- 论文/报告：31 篇
+- Show, Don't Tell: Morphing Latent Reasoning into Image Generation【Unified Model】
+- PlanViz: Evaluating Planning-Oriented Image Generation and Editing for Computer-Use Tasks【Unified Model, GUI】
+- ChatUMM: Robust Context Tracking for Conversational Interleaved Generation【Unified Model, Tencent Hunyuan】
+- UReason: Benchmarking the Reasoning Paradox in Unified Multimodal Models【Unified Model】
+- Kelix Technique Report【Unified Model】
+- GENIUS: Generative Fluid Intelligence Evaluation Suite【Unified Model】
+- UniT: Unified Multimodal Chain-of-Thought Test-time Scaling【Unified Model】
+- LaViDa-R1: Advancing Reasoning for Unified Multimodal Diffusion Language Models【Unified Model, DLM】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
 ## Show, Don't Tell: Morphing Latent Reasoning into Image Generation【Unified Model】
 
 [https://arxiv.org/pdf/2602.02227](https://arxiv.org/pdf/2602.02227)
@@ -159,7 +175,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.15521](https://arxiv.org/pdf/2602.15521)
 
 - **GLU（Gated Linear Unit）机制**提供了密集到MoE转换的自然蓝图。**通过分析GLU的细粒度神经级激活模式，可以揭示一个固有的MoE架构：由持续激活的通用神经元和动态激活的专用神经元组成**。基于此，论文提出**ExpertWeaver**框架，通过三阶段流程（捕获激活模式、层自适应配置、神经元分区）实现无需训练的密集到MoE转换，同时保持原始模型的激活结构完整性。它本质上就是把 GLU 里的“细粒度神经元级激活模式”，升格成“专家级激活模式”，从而把一个 dense FFN 重新组织成 MoE 结构。
+
 # Reasoning
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reasoning
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：40 篇
+- Good SFT Optimizes for SFT, Better SFT Prepares for Reinforcement Learning【SFT&RL】
+- Why Does RL Generalize Better Than SFT? A Data-Centric Perspective on VLM Post-Training【SFT&RL】
+- Towards On-Policy SFT: Distribution Discriminant Theory and its Applications in LLM Training【SFT&RL】
+- On-Policy Supervised Fine-Tuning for Efficient Reasoning【SFT&RL】
+- ⭐⭐Evolutionary System Prompt Learning can Facilitate Reinforcement Learning for LLMs
+- ⭐⭐What LLMs Think When You Don’t Tell Them What to Think About?【James Zou】
+- What Does Vision Tool-Use Reinforcement Learning Really Learn? Disentangling Tool-Induced and Intrinsic Effects for Crop-and-Zoom【Visual Reasoning, Pengfei Liu, MiniMax】
+- AdaptMMBench: Benchmarking Adaptive Multimodal Reasoning for Mode Selection and Reasoning Process【Visual Reasoning, BIGAI】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Good SFT Optimizes for SFT, Better SFT Prepares for Reinforcement Learning【SFT&RL】
 
@@ -361,7 +394,20 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.22441](https://arxiv.org/pdf/2602.22441)
 
 - 论文系统性地揭示了现有潜推理方法普遍存在**捷径依赖**现象：模型即使在不使用潜推理步骤（latent depth = 0）或潜表示被严重扰动的情况下，仍能保持较高的任务准确率。这表明模型可能通过表面线索或输入-输出的直接映射来"作弊"，而非真正执行多步推理过程。研究进一步分析了**弱监督**（仅依赖最终答案的反馈）与**强监督**（对中间潜状态进行细粒度约束）如何影响这种捷径行为的发生程度。论文揭示了监督强度与潜推理特性之间的根本性权衡：强监督（如SIM-CoT、CoLaR）通过强制对齐中间潜状态与文本推理步骤，有效抑制捷径行为，但限制了潜表示维持多样化假设的能力；弱监督（如Coconut、CODI）允许潜状态编码更丰富的候选轨迹，但更容易产生捷径依赖简言之，该工作通过一系列干预实验和注意力分析，挑战了潜推理方法"自动实现高效并行搜索"的乐观假设，并指出了当前方法在**推理忠实性（faithfulness）与搜索多样性（diversity）**之间的内在张力。
+
 # Reward Model
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reward Model
+- 方法：agent, reasoning
+- 论文/报告：4 篇
+- Joint Reward Modeling: Internalizing Chain-of-Thought for Efficient Visual Reward Models
+- When Is Compositional Reasoning Learnable from Verifiable Rewards?
+- CODE-SHARP: Continuous Open-ended Discovery and Evolution of Skills as Hierarchical Reward Programs
+- CodeScaler: Scaling Code LLM Training and Test-Time Inference via Execution-Free Reward Models【Code】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Joint Reward Modeling: Internalizing Chain-of-Thought for Efficient Visual Reward Models
 
@@ -383,7 +429,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.17684](https://arxiv.org/pdf/2602.17684)
 
 - 解决**基于可验证奖励的强化学习（RLVR）在代码大语言模型（Code LLMs）训练和推理中的可扩展性瓶颈**，提出一种无执行奖励模型（Execution-Free Reward Model），使其能够： 在训练阶段替代二进制执行反馈，支持在合成数据上进行稳定、可扩展的RL训练； 在推理阶段作为高效的Best-of-N选择器，在保持与单元测试方法相当性能的同时，实现10倍的延迟降低。
+
 # Data
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Data
+- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning, multimodal-reasoning
+- 论文/报告：17 篇
+- ⭐⭐Agentic Proposing: Enhancing Large Language Model Reasoning via Compositional Skill Synthesis【Alibaba】
+- R1-SyntheticVL: Is Synthetic Data from Generative Models Ready for Multimodal Large Language Model?【Data Synthesis】
+- Not All Negative Samples Are Equal: LLMs Learn Better from Plausible Reasoning【Data Synthesis】
+- ⭐⭐UniGeM: Unifying Data Mixing and Selection via Geometric Exploration and Mining【Data Mixing】
+- ⭐⭐Decouple Searching from Training: Scaling Data Mixing via Model Merging for Large Language Model Pre-training【Data Mixing】
+- Learning More from Less: Unlocking Internal Representations for Benchmark Compression
+- Not All Preferences Are Created Equal: Stability-Aware and Gradient-Efficient Alignment for Reasoning Models
+- SparseEval: Efficient Evaluation of Large Language Models by Sparse Optimization
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ⭐⭐Agentic Proposing: Enhancing Large Language Model Reasoning via Compositional Skill Synthesis【Alibaba】
 
@@ -470,7 +533,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.16763](https://arxiv.org/pdf/2602.16763)
 
 - 系统研究了**LLM基准测试的饱和现象**（benchmark saturation），即顶尖模型性能趋于一致、失去统计区分能力的问题。**核心结论**：基准饱和主要由**时间暴露累积**和**测量分辨率限制**驱动，而非孤立的设计缺陷；常见的"保密"或"开放式"策略并不能有效延长基准寿命，需通过结构性设计（**更大规模、动态更新、专家深度策划**）和主动生命周期管理来维持评估生态的区分力。
+
 # Foundation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Foundation
+- 方法：agent, reasoning, vision, reinforcement-learning, multimodal-learning, multimodal-reasoning, stat-ml, deep-learning
+- 论文/报告：11 篇
+- EUGens: Efficient, Unified, and General Dense Layers【DeepMind】
+- Graph is a Substrate Across Data Modalities
+- Delving into Muon and Beyond: Deep Analysis and Extensions
+- OneVision-Encoder: Codec-Aligned Sparsity as a Foundational Principle for Multimodal Intelligence
+- Improving Reconstruction of Representation Autoencoder
+- Do We Need Adam? Surprisingly Strong and Sparse Reinforcement Learning with SGD in LLMs
+- SpiralFormer: Looped Transformers Can Learn Hierarchical Dependencies via Multi-Resolution Recursion
+- STAR : Bridging Statistical and Agentic Reasoning for Large Model Performance Prediction
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## EUGens: Efficient, Unified, and General Dense Layers【DeepMind】
 
@@ -527,7 +607,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.16689](https://arxiv.org/pdf/2602.16689)
 
 - **对象中心（Object-Centric, OC）视觉表示是否比传统的密集（dense）视觉表示更适合实现组合泛化（compositional generalization）**，即模型对熟悉概念的新组合进行推理的能力。OC表示在难泛化设置中占优：在hard难度（训练多样性最低）下，OC表示的COOD准确率显著高于密集表示；仅在easy设置且配备大型下游模型时，密集表示才能匹敌或略微超越。 计算效率优势：在有限下游计算预算（<4 PFLOPs）下，OC表示 consistently 实现更高COOD准确率；密集表示需消耗3倍以上计算资源才能在简单任务上取得小幅领先。 样本效率优势：OC表示在少样本（103 –104 张图像）场景下泛化能力显著更强，密集表示仅在数据量充足（40 k张）、多样性高且下游模型大时才能追上。 Slot Attention不可替代：简单的k-means聚类或Cross-Attention压缩密集表示，在组合泛化上均不及经过预训练的Slot Attention瓶颈。
+
 # Generation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Generation
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
+- 论文/报告：19 篇
+- Generative Modeling via Drifting【Kaiming He】
+- Research on World Models Is Not Merely Injecting World Knowledge into Specific Tasks
+- Mind-Brush: Integrating Agentic Cognitive Search and Reasoning into Image Generation
+- Unified Personalized Reward Model for Vision Generation【Jiaqi Wang, SII】
+- UniReason 1.0: A Unified Reasoning Framework for World Knowledge Aligned Image Generation and Editing【Jiaqi Wang, SII】
+- GenArena: How Can We Achieve Human-Aligned Evaluation for Visual Generation Tasks?【Jiaqi Wang, SII】
+- RISE-Video: Can Video Generators Decode Implicit World Rules?【World Model】
+- WorldCompass: Reinforcement Learning for Long-Horizon World Models【World Model】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Generative Modeling via Drifting【Kaiming He】
 
@@ -624,7 +721,18 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.15922](https://arxiv.org/pdf/2602.15922)
 
 - 论文提出DreamZero，通过以下机制解决上述问题：联合视频-动作预测：将动作学习从"状态-动作模仿"转变为"逆动力学学习"——通过预测未来视觉状态来指导动作生成利用视频扩散先验：基于预训练的视频扩散模型（Wan2.1-I2V-14B），继承互联网规模视频数据中的丰富时空物理动力学知识实时闭环控制：通过算法和系统优化（DreamZero-Flash），将14B参数模型的推理速度提升38倍，实现7Hz实时控制。
+
 # Agent Training
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Training
+- 方法：agent, reinforcement-learning
+- 论文/报告：2 篇
+- RLAnything: Forge Environment, Policy, and Reward Model in Completely Dynamic RL System
+- **Agent World Model: Infinity Synthetic Environments for Agentic Reinforcement Learning**
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## RLAnything: Forge Environment, Policy, and Reward Model in Completely Dynamic RL System
 
@@ -636,7 +744,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.10090](https://arxiv.org/pdf/2602.10090)
 
 - 解决**智能体强化学习（Agentic Reinforcement Learning）中环境稀缺、多样性不足且难以扩展**的核心问题。论文提出**Agent World Model (AWM)**，一种**全自动合成可执行工具使用环境的流程，通过代码驱动和数据库支持的状态管理**，实现大规模、多样化、状态一致且适合在线强化学习的智能体训练环境。
+
 # Agent Applications
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Applications
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：86 篇
+- Why Your Deep Research Agent Fails? On Hallucination Evaluation in Full Research Trajectory【Research, Chao Huang】
+- PaperBanana: Automating Academic Illustration for AI Scientists【Research, Google】
+- AutoFigure: Generating and Refining Publication-Ready Scientific Illustrations【Research, Yue Zhang】
+- S1-NexusAgent: a Self-Evolving Agent Framework for Multidisciplinary Scientific Research【Research】
+- WideSeek: Advancing Wide Research via Multi-Agent Scaling【Research】
+- WideSeek-R1: Exploring Width Scaling for Broad Information Seeking via Multi-Agent Reinforcement Learning【Research】
+- Accelerating Scientific Research with Gemini: Case Studies and Common Techniques【Research】
+- AIRS-Bench: a Suite of Tasks for Frontier AI Research Science Agents【Research】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Why Your Deep Research Agent Fails? On Hallucination Evaluation in Full Research Trajectory【Research, Chao Huang】
 
@@ -1068,7 +1193,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.19000](https://arxiv.org/pdf/2602.19000)
 
 - 论文提出了MagicAgent框架，其核心贡献包括：轻量级合成数据框架：覆盖五种关键规划维度的可扩展数据生成管线；两阶段多任务优化范式：结合监督微调（SFT）与多目标强化学习（RL），并引入χPO算法显式建模探索-利用权衡；全局负载均衡的MoE训练策略：通过全局批次统计和z-loss正则化，实现专家专业化与负载均衡的统一。
+
 # AI for Science
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Science
+- 方法：agent, generation, language, vision-language-model, bio-molecular, reasoning, vision, multimodal-learning
+- 论文/报告：25 篇
+- Scalable Spatio-Temporal SE(3) Diffusion for Long-Horizon Protein Dynamics【ByteDance Seed】
+- CryoLVM: Self-supervised Learning from Cryo-EM Density Maps with Large Vision Models
+- Scaling-Aware Adapter for Structure-Grounded LLM Reasoning
+- **El Agente Estructural: An Artificially Intelligent Molecular Editor**
+- BABE: Biology Arena BEnchmark【ByteDance Seed】
+- AFD-INSTRUCTION: A Comprehensive Antibody Instruction Dataset with Functional Annotations for LLM-Based Understanding and Design
+- **AntigenLM: Structure-Aware DNA Language Modeling for Influenza**
+- Beyond Independent Genes: Learning Module-Inductive Representations for Gene Perturbation Prediction
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Scalable Spatio-Temporal SE(3) Diffusion for Long-Horizon Protein Dynamics【ByteDance Seed】
 
@@ -1195,7 +1337,17 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 [https://arxiv.org/pdf/2602.20449](https://arxiv.org/pdf/2602.20449)
 
 - 比较PLMs与NLMs在注意力头中存储的**位置信息**（positional information）与**语义信息**（semantic information）的比例分布差异，验证PLMs是否在不同输入、不同层、不同注意力头之间表现出比NLMs更高的注意力模式变异性。这表明蛋白质的小词汇量与复杂相互作用需要更灵活的注意力机制。解决如何更好地利用PLMs中间层（intermediate layers）的潜在表示（latent representations）来提升下游任务性能。具体包括： 早期性能饱和现象：针对非结构性质预测任务（如基因本体论、酶委员会分类、亚细胞定位），**利用中间层往往比最后一层表现更好的特性** 早期退出（Early-Exit）机制的适应性改进：将自然语言领域中用于提高效率但通常以牺牲准确性为代价的早期退出技术，适配到蛋白质领域，以实现同时提升准确性和计算效率的目标。**提出Most Confident Layer Fallback策略：在每层附加MLP计算置信度，若未达阈值则选择全模型中置信度最高的层输出，而非传统NLP方法中默认的末层。**
+
 # Survey
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Survey
+- 方法：agent
+- 论文/报告：1 篇
+- Rethinking Memory Mechanisms of Foundation Agents in the Second Half【Memory】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Rethinking Memory Mechanisms of Foundation Agents in the Second Half【Memory】
 

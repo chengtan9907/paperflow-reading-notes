@@ -3,6 +3,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 ---
 # Daily Note - May 2026
 
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Daily Note - May 2026
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：40 篇
+- 📌 GLM-5V-Turbo: Toward a Native Foundation Model for Multimodal Agents 【Zhipu】
+- 📌 SenseNova-U1: Unifying Multimodal Understanding and Generation with NEO-unify Architecture
+- 📌 ⭐ Qwen-Scope: Turning Sparse Features into Development Tools for Large Language Models 【Qwen】
+- 📌Gated DeltaNet-2: Decoupling Erase and Write in Linear Attention【NVIDIA】
+- 📌 ⭐Gemini Embedding 2: A Native Multimodal Embedding Model from Gemini【Google DeepMind】
+- The MiniMax-M2 Series: Mini Activations Unleashing Max Real-World Intelligence【MiniMax】
+- LLaVA-OneVision-2: Towards Next-Generation Perceptual Intelligence
+- Training Long-Context Vision-Language Models Effectively with Generalization Beyond 128K Context【ByteDance Seed】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
 ## 📌 GLM-5V-Turbo: Toward a Native Foundation Model for Multimodal Agents 【Zhipu】
 
 [https://arxiv.org/pdf/2604.26752](https://arxiv.org/pdf/2604.26752)
@@ -203,7 +219,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.29247](https://arxiv.org/pdf/2605.29247)
 
 - 本文针对**小型语言模型（SLMs，≤3B参数）在多步数学推理任务中性能显著落后**的问题，提出了一种轻量级的推理时干预框架。论文提出无需训练的推理时激活引导方法，包含三个关键组件： （1）Dense-Rewriting（密集重写） 为避免直接使用大模型响应导致的分布不匹配（distribution shift），利用GPT-5.1对小模型自身的"稀疏"输出进行保守重写： 合并相邻冗余步骤，保持数学计算和最终答案不变 生成"密集"正样本（xpos ），与原始"稀疏"负样本（xneg ）形成对比对 重写后的样本保持域内特性（低负对数似然NLL），与模型内在生成先验对齐;2）引导向量提取 **基于少量对比样本（N=50 ），在选定层 ℓ 计算平均隐藏状态差异**;（3）推理时干预在解码过程中，向目标层（通常为中间层，如L16/L17）的残差流注入引导向量。
+
 # Reasoning
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reasoning
+- 方法：agent, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization, multimodal-learning
+- 论文/报告：26 篇
+- Formalizing Mathematics at Scale【Math, Meta】
+- When to Vote, When to Rewrite: Disagreement-Guided Strategy Routing for Test-Time Scaling【Test-Time Scaling】
+- Path-Lock Expert: Separating Reasoning Mode in Hybrid Thinking via Architecture-Level Separation
+- RAG over Thinking Traces Can Improve Reasoning Tasks
+- EvoLM: Self-Evolving Language Models through Co-Evolved Discriminative Rubrics【Rubrics】
+- Perceptual Flow Network for Visually Grounded Reasoning【Visual Reasoning, Ant, AI Lab】
+- Visual Latents Know More Than They Say: Unsilencing Latent Reasoning in MLLMs【Visual Reasoning】
+- Fill the GAP: A Granular Alignment Paradigm for Visual Reasoning in Multimodal Large Language Models【Visual Reasoning, Qwen】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Formalizing Mathematics at Scale【Math, Meta】
 
@@ -335,7 +368,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.28008](https://arxiv.org/pdf/2605.28008)
 
 - 研究了**压缩推理数据（Compressed Chain-of-Thought, CoT）在大语言模型后训练中的作用机制**，揭示了监督微调（SFT）与强化学习（RL）在处理压缩推理链时的不同特性，并为资源受限场景下的数据设计提供了实证指导。阐明SFT建立压缩推理的"模仿能力"，而RL通过探索实现"分解与重组"，支持RL能发现基础模型分布外新解的观点。**若数据有限，应优先选择Composed CoT（显式操作组合）并配合数据重复**；若追求极致推理效率且数据充足，可谨慎使用Implicit CoT但避免过度训练
+
 # Reward Model
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reward Model
+- 方法：agent, reasoning, vision, reinforcement-learning, optimization, multimodal-learning, multimodal-reasoning, deep-learning
+- 论文/报告：18 篇
+- 🧐RLVR Datasets and Where to Find Them: Tracing Data Lineage for Better Training Data【Tencent】
+- Delay, Plateau, or Collapse: Evaluating the Impact of Systematic Verification Error on RLVR
+- 🧐On the Implicit Reward Overfitting and the Low-rank Dynamics in RLVR
+- ANCORA: Learning to Question via Manifold-Anchored Self-Play for Verifiable Reasoning
+- 🧐Internalizing Outcome Supervision into Process Supervision: A New Paradigm for Reinforcement Learning for Reasoning【Alibaba】
+- 🧐One-Way Policy Optimization for Self-Evolving LLMs【Qwen】
+- 🧐Rubric-Grounded RL: Structured Judge Rewards for Generalizable Reasoning【Rubric】
+- ⭐Rubric-based On-policy Distillation【Rubric, Tencent】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## 🧐RLVR Datasets and Where to Find Them: Tracing Data Lineage for Better Training Data【Tencent】
 
@@ -427,7 +477,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.28805](https://arxiv.org/pdf/2605.28805)
 
 - 针对多模态大语言模型中视觉结果验证的**可靠性**与**细粒度**不足问题，提出了**多模态元验证（Multimodal Meta-Verification）**框架。元验证（Meta-Verification）要求验证器提供判断理由（rationales），但文本化解释存在**奖励黑客（reward hacking）**风险且计算开销大。论文探索**如何有效整合元验证反馈以训练更可靠的多模态验证器**。把 verifier 从“True/False 打分器”升级成“**能画框定位错误 + 指导图像自我修正的 meta-verifier**”。
+
 # Data
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Data
+- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, multimodal-learning, multimodal-reasoning
+- 论文/报告：15 篇
+- S^3-R1: Learning to Retrieve and Answer Step-by-Step with Synthetic Data【Google DeepMind】
+- ⭐Diagnosing Capability Gaps in Fine-Tuning Data【Microsoft】
+- Rethinking Data Curation in LLM Training: Online Reweighting Offers Better Generalization than Offline Methods
+- ⭐DataArc-SynData-Toolkit: A Unified Closed-Loop Framework for Multi-Path, Multimodal, and Multilingual Data Synthesis
+- G-Zero: Self-Play for Open-Ended Generation from Zero Data【Zero Data】
+- 20/20 Vision Language Models: A Prescription for Better VLMs through Data Curation Alone
+- SEED: Targeted Data Selection by Weighted Independent Set【ByteDance】
+- Learning Relative Representations for Fine-Grained Multimodal Alignment with Limited Data
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## S^3-R1: Learning to Retrieve and Answer Step-by-Step with Synthetic Data【Google DeepMind】
 
@@ -504,7 +571,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.29448](https://arxiv.org/pdf/2605.29448)
 
 - **如何准确且高效地评估训练数据集对于机器学习模型的价值?**论文建立**矩阵谱函数**（Matrix Spectral Functions）的统一理论开发**基于世俗方程（Secular Equation）的快速算法。**论文证明**数据价值不能由数据量、类别平衡或计算预算单独决定**。通过建立矩阵谱函数的理论框架、开发可扩展的优化算法，并识别出Facility Location等有效评估代理指标，为高效、可解释的数据集构建与筛选提供了新范式。
+
 # Foundation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Foundation
+- 方法：language, vision-language-model, reasoning, vision, retrieval, vision-language
+- 论文/报告：9 篇
+- Let ViT Speak: Generative Language-Image Pre-training【ByteDance】
+- Optimizer-Model Consistency: Full Finetuning with the Same Optimizer as Pretraining Forgets Less【Apple】
+- Muon is Not That Special: Random or Inverted Spectra Work Just as Well
+- Can Muon Fine-tune Adam-Pretrained Models?
+- From Generalist to Specialist Representation
+- Improved Baselines with Representation Autoencoders【Adobe, Saining Xie】
+- LLMs as Noisy Channels: A Shannon Perspective on Model Capacity and Scaling Laws【ByteDance Seed】
+- ⭐⭐SeedER: Seed-and-Expand Retrieval from Knowledge Graphs
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Let ViT Speak: Generative Language-Image Pre-training【ByteDance】
 
@@ -551,7 +635,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.26842](https://arxiv.org/pdf/2605.26842)
 
 - 论文提出MONA（Muon Optimizer with Nesterov Acceleration），通过以下方式解决上述问题： **正交化前注入曲率感知：将基于梯度差分的加速项 Ak （即 Ak=βaAk−1+(1−βa)(Gk−Gk−1) ）在正交化之前应用于原始梯度**，使动量缓冲区捕获曲率感知方向，再经Muon的谱范数约束处理。 保持几何结构：该设计既保留了Muon的谱范数正则化（spectral-norm regularization）特性，又通过加速项实现对尖锐极小值的显式逃逸（escape from sharp minima）。 简言之，论文旨在构建一种兼具Muon几何优势与二阶曲率感知能力的优化器，以**提升从1B到68B参数规模的混合专家（MoE）语言模型**在预训练和微调阶段的收敛速度与下游任务性能。
+
 # Generation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Generation
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, vision-language, stat-ml
+- 论文/报告：24 篇
+- Visual Generation in the New Era: An Evolution from Atomic Mapping to Agentic World Modeling
+- Representation Fréchet Loss for Visual Generation【OpenAI】
+- A Benchmark for Interactive World Models with a Unified Action Generation Framework【World Model】
+- WorldReasonBench: Human-Aligned Stress Testing of Video Generators as Future World-State Predictors【World Model】
+- SCOPE: Simulating Cross-game Operations in Playable Environments for FPS World Models【World Model】
+- WorldCraft: From Camera Navigation to Object Manipulation in Interactive Video World Models【World Model】
+- ⭐Nano World Models: A Minimalist Implementation of Future Video Prediction【World Model】
+- Gamma-World: Generative Multi-Agent World Modeling Beyond Two Players【World Model, NVIDIA】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Visual Generation in the New Era: An Evolution from Atomic Mapping to Agentic World Modeling
 
@@ -673,7 +774,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.06548](https://arxiv.org/pdf/2605.06548)
 
 - 试图提出一种与传统自回归 (autoregressive) 语言模型不同的生成方式。作者提出了一个全新的框架，叫做 Cola DLM（即 Continuous Latent Diffusion Language Model），试图**通过扩散模型在潜在空间中建模文本**，从而： 打破严格的左–右顺序依赖 实现更灵活的生成结构 同时具备高效生成与全局语义理解能力 简单来说，**它不是逐词生成，而是在潜在空间做扩散 —— 先全局理解语义，再解码成文本**。1. 文本到潜在空间的映射 (Text VAE) 使用变分自编码器 (VAE) **将文本编码成一个连续的潜在表示。这样做的好处是把离散文本转换成连续空间**，更适合做扩散建模。 2. 潜在空间中的全局语义 Prior 模型 (Block‑causal DiT) 在这个连续潜在空间上，用一种称为 block‑causal DiT 的扩散Transformer 模型去建模文本的全局先验（global prior）。这个先验负责捕捉整个句子的语义信息，不依赖严格的顺序。 3. 条件解码器生成文本 在完成潜在空间的语义建模之后，解码器根据生成的潜在语义条件去生成最终的自然语言文本。
+
 # Agent Application
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Application
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：151 篇
+- Can AI Be a Good Peer Reviewer? A Survey of Peer Review Process, Evaluation, and the Future【Research】
+- SciResearcher: Scaling Deep Research Agents for Frontier Scientific Reasoning【Research, Science, Data】
+- AcademiClaw: When Students Set Challenges for AI Agents【Research, Pengfei Liu】
+- SciIntegrity-Bench: A Benchmark for Evaluating Academic Integrity in AI Scientist Systems【Research】
+- ⭐DataMaster: Towards Autonomous Data Engineering for Machine Learning【Research】
+- ⭐D3-Gym: Constructing Real-World Verifiable Environments for Data-Driven Discovery【Research, Science】
+- 🧐AutoLLMResearch: Training Research Agents for Automating LLM Experiment Configuration -- Learning from Cheap, Optimizing Expensive【Research】
+- Graphs of Research: Citation Evolution Graphs as Supervision for Research Idea Generation【Research】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Can AI Be a Good Peer Reviewer? A Survey of Peer Review Process, Evaluation, and the Future【Research】
 
@@ -1430,7 +1548,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.22217](https://arxiv.org/pdf/2605.22217)
 
 - 解决**自博弈强化学习（Self-Play RL）中的训练崩溃与不稳定问题**。自博弈稳定性由两个独立杠杆控制，但二者的作用存在**不对称性**： 数据级门控（Data Gating）：**决定哪些提议者生成的任务进入训练池的筛选机制** **奖励接地（Reward Grounding）：对已准入任务进行策略更新的奖励信号 ****通过Python输出预测任务与确定性DSL（领域特定语言）对照实验，论文发现： 门控的充分性：****严格的执行门控（确保程序确定性地执行并产生明确输出）足以在任何奖励设计下维持稳定，包括无真实标签访问权限的自一致性奖励（self-consistency reward）****。 奖励的不足性：****一旦移除数据门控，没有任何奖励变体（包括基于执行真实标签的接地奖励）能够防止训练崩溃****。 反直觉现象——"接地提议者悖论"（Grounded Proposer Paradox）：****具有真实标签访问权限的提议者，在与自一致性求解者配对时，反而比无接地的提议者更快地加速崩溃，因为它集中于生成"干净"任务****，这些任务构成了通往虚假自一致吸引子的最快路径。数据准入控制： ****严格门控机制：仅当程序能够成功执行且在两次重复运行中产生确定性输出时，才允许该任务进入训练池（Fε=0 ）****。这过滤了包含哈希随机化、浮点显示差异或副作用的模糊程序。 不对称性验证：实验证明，****在严格门控下，包括无真实标签访问的自一致性奖励（self-consistency reward）在内的所有奖励变体均能保持稳定****；而一旦移除门控，即使使用基于执行真实标签的接地奖励（grounded reward），系统仍会崩溃。**
+
 # AI for Education
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Education
+- 方法：agent, reasoning, multimodal-reasoning, stat-ml
+- 论文/报告：6 篇
+- ⭐Generative AI in K-12 Classrooms: A Midyear Implementation Report
+- UniER: A Unified Benchmark for Item-level and Path-level Exercise Recommendation
+- Teaching AI Through Benchmark Construction: QuestBench as a Course-Based Practice for Accountable Knowledge Work
+- ⭐LiveK12Bench: Have Large Multimodal Models Truly Conquered High School-level Examinations?【Tencent】
+- ⭐⭐⭐AgentSchool: An LLM-Powered Multi-Agent Simulation for Education【AI Lab】
+- A Unified Framework for the Evaluation of LLM Agentic Capabilities
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ⭐Generative AI in K-12 Classrooms: A Midyear Implementation Report
 
@@ -1462,7 +1595,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 [https://arxiv.org/pdf/2605.27898](https://arxiv.org/pdf/2605.27898)
 
 - 解决**LLM Agent能力评估中的混杂因素问题**——即**当前基准测试结果往往同时反映了模型本身的能力与特定基准实现选择（scaffold、parser、environment等）的联合效应**，导致跨基准比较难以解释为对底层模型能力的纯净测量。论文提出统一评估框架，通过以下方式解决上述问题：标准化三元组：将异质基准统一为⟨I,T,E⟩（指令-工具-环境）格式固定Scaffold：采用统一的ReAct风格架构（smolagents）执行所有评估，使scaffold级选择恒定可控沙盒：构建隔离的环境副本，支持可选的离线快照模式，将环境波动性与Agent行为分离统一指标：引入任务完成度（TCS）、效率指标（步骤/token/时间）及决策/执行层失败分类法通过该框架，论文实现了对内在LLM能力与框架/环境诱导伪影的解耦，使基准分数成为可解释的、受控的模型能力测量。
+
 # AI for Science
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Science
+- 方法：agent, ai-for-science, language, reasoning, multimodal-reasoning, protein-language-model
+- 论文/报告：8 篇
+- Can Coding Agents Reproduce Findings in Computational Materials Science?
+- Proteo-R1: Reasoning Foundation Models for De Novo Protein Design
+- A-CODE: Fully Atomic Protein Co-Design with Unified Multimodal Diffusion【ByteDance Seed】
+- ⭐Towards A Generative Protein Evolution Machine with DPLM-Evo【ByteDance Seed】
+- CellScientist: Dual-Space Hierarchical Orchestration for Closed-Loop Refinement of Virtual Cell Models
+- ProteinOPD: Towards Effective and Efficient Preference Alignment for Protein Design
+- 🧐MoleCode unlocks structural intelligence in large language models
+- Protein Fold Classification at Scale: Benchmarking and Pretraining
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Can Coding Agents Reproduce Findings in Computational Materials Science?
 

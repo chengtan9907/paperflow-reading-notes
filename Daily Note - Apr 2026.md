@@ -4,6 +4,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 
 # Daily Note - Apr 2026
 
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Daily Note - Apr 2026
+- 方法：generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning, multimodal-reasoning
+- 论文/报告：17 篇
+- Dynin-Omni: Omnimodal Unified Large Diffusion Language Model【Unified Model】
+- TorchUMM: A Unified Multimodal Model Codebase for Evaluation, Analysis, and Post-training【Unified Model】
+- LLaDA2.0-Uni: Unifying Multimodal Understanding and Generation with Diffusion Large Language Model【Unified Model】
+- Tuna-2: Pixel Embeddings Beat Vision Encoders for Multimodal Understanding and Generation【Unified Model, Meta】
+- MMCORE: MultiModal COnnection with Representation Aligned Latent Embeddings【ByteDance Seed】
+- Context Unrolling in Omni Models【ByteDance Seed】
+- 📌KAT-Coder-V2 Technical Report【Code, Kuaishou】
+- 📌⭐⭐Olmo Hybrid: From Theory to Practice and Back【Linear Attention】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
 ## Dynin-Omni: Omnimodal Unified Large Diffusion Language Model【Unified Model】
 
 [https://arxiv.org/pdf/2604.00007](https://arxiv.org/pdf/2604.00007)
@@ -89,7 +105,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.20209](https://arxiv.org/pdf/2604.20209)
 
 - 斯坦福大学的研究人员引入了一种名为“自引导自博弈”（Self-Guided Self-Play, SGS）的算法，该算法**使用一个集成的“引导”语言模型，以确保为求解器模型生成高质量、相关的合成问题**。这种方法使得一个7B参数的模型在形式定理证明中超越了671B参数模型的pass@4性能，并比基线强化学习方法实现了高出7%的渐近求解率。目录持续推进大型语言模型自我对弈自引导自我对弈的三个角色奖励质量和相关性的机制管理求解器熵和探索性能和扩展性分析为什么指导模型是必要的：一项消融研究结论与未来方向。
+
 # Reasoning
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reasoning
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：26 篇
+- AutoGraph-R1: End-to-End Reinforcement Learning for Knowledge Graph Construction【Microsoft】
+- Therefore I am. I Think
+- LongCoT: Benchmarking Long-Horizon Chain-of-Thought Reasoning
+- Rethinking On-Policy Distillation of Large Language Models: Phenomenology, Mechanism, and Recipe
+- Think Anywhere in Code Generation【Tongyi】
+- ATP-Bench: Towards Agentic Tool Planning for MLLM Interleaved Generation【Visual Reasoning, Qwen】
+- MuSEAgent: A Multimodal Reasoning Agent with Stateful Experiences【Visual Reasoning】
+- Agentic-MME: What Agentic Capability Really Brings to Multimodal Intelligence?【Visual Reasoning】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## AutoGraph-R1: End-to-End Reinforcement Learning for Knowledge Graph Construction【Microsoft】
 
@@ -221,7 +254,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.23747](https://arxiv.org/pdf/2604.23747)
 
 - 研究得出以下结论：**标准SFT-then-RL流程在数学推理基准测试上全面超越所有被评估的混合策略方法**（在Qwen2.5-Math-7B上平均提升+3.8分，在Llama-3.1-8B上提升+22.2分）即使仅使用50步RL的截断变体，在计算量更少的情况下仍优于混合策略方法混合策略方法声称的改进主要源于与受损基线的不公平比较，而非其算法设计的固有优势因此，**该研究恢复了学术界对标准SFT-then-RL范式的信心，并强调了跨框架验证对于防止系统性基线虚低的重要性**。
+
 # Reward Model
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reward Model
+- 方法：agent, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization, vision-language
+- 论文/报告：11 篇
+- SUPERNOVA: Eliciting General Reasoning in LLMs with Reinforcement Learning on Natural Instructions
+- Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling
+- ReflectRM: Boosting Generative Reward Models via Self-Reflection within a Unified Judgment Framework
+- CLEAR: Context Augmentation from Contrastive Learning of Experience via Agentic Reflection【AWS】
+- Self-Preference Bias in Rubric-Based Evaluation of Large Language Models【Rubrics】
+- Visual Preference Optimization with Rubric Rewards【Rubrics】
+- ConsistRM: Improving Generative Reward Models via Consistency-Aware Self-Training【Baidu】
+- Self-Distilled RLVR
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## SUPERNOVA: Eliciting General Reasoning in LLMs with Reinforcement Learning on Natural Instructions
 
@@ -278,7 +328,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.18574](https://arxiv.org/pdf/2604.18574)
 
 - LLM如何通过RLVR实现泛化的条件。这项工作的核心发现是，泛化——模型将训练期间所学知识应用于新的、未见过问题的能力——受训练奖励饱和时机的影响。在强化学习训练期间，模型的奖励（其获得正确答案的频率）通常遵循一条曲线，该曲线从低开始并最终趋于平稳。研究人员确定了两个不同的阶段：**饱和前阶段**：训练奖励稳步增长的时期。在此阶段，模型通常会学习可迁移的推理模式，从而提高在保留基准上的性能。**饱和后阶段**：模型在训练集上达到最大奖励后的时期。在此阶段继续训练通常会导致收益递减甚至性能崩溃，因为模型可能正在“奖励作弊”或仅仅记忆特定的训练实例。该研究引入了一个指标 $t_{sat}$，定义为训练奖励达到其最大值99%的最早更新步长。泛化良好的模型往往具有较长的饱和前阶段（较大的 $t_{sat}$），从而使其能够吸收复杂的推理结构。令人惊讶的是，对于具有强大现有领域知识的模型（如Qwen2.5-Math在数学任务上），RLVR效率极高。即使只有 $N = 8$ 个训练样本，这些模型也显示出显著的提升。例如，Qwen2.5-Math-1.5B 在 MATH-500 基准测试中，仅用8个样本就实现了与使用 $N = 2048$ 个样本相当的性能提升。相比之下，没有这些先验知识的模型（如Llama-3.2-Instruct在数学上）饱和速度极快（$t_{sat} < 100$），并且无法从小数据集中泛化。
+
 # Foundation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Foundation
+- 方法：language, vision-language-model, reasoning, vision, reinforcement-learning, optimization, vision-language, deep-learning
+- 论文/报告：8 篇
+- ASI-Evolve: AI Accelerates AI【Pengfei Liu】
+- Loop, Think, & Generalize: Implicit Reasoning in Recurrent-Depth Transformers
+- Nexus: Same Pretraining Loss, Better Downstream Generalization via Common Minima【ByteDance Seed】
+- A Layer-wise Analysis of Supervised Fine-Tuning
+- Back to the Barn with LLAMAs: Evolving Pretrained LLM Backbones in Finetuning Vision Language Models
+- Evolution of Optimization Methods: Algorithms, Scenarios, and Evaluations
+- From  P(y|x) to  P(y) : Investigating Reinforcement Learning in Pre-train Space
+- ⭐Image Generators are Generalist Vision Learners【Google DeepMind】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ASI-Evolve: AI Accelerates AI【Pengfei Liu】
 
@@ -320,7 +387,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.20329](https://arxiv.org/pdf/2604.20329)
 
 - **验证图像生成模型是否具备通用视觉理解能力（generalist vision understanding capabilities），即****图像生成预训练是否能产生适用于多种视觉任务的强大且通用的视觉表征？构建了一个名为 Vision Banana 的通用模型，验证其是否能在以下任务上达到最先进水平（SOTA）： 2D理解：语义分割、实例分割、指代分割（referring expression segmentation） 3D理解：单目度量深度估计、表面法线估计 视觉生成：文本到图像生成、图像编辑。论文探索了将图像生成作为视觉任务统一接口的可行性——将所有视觉任务输出参数化为RGB图像，类似于文本生成在自然语言处理中的统一作用。这种方法理论上能自然处理视觉任务中的歧义性（ambiguity），避免判别式模型中常见的模式平均（mode-averaging）问题。 简言之，该论文试图证明：计算机视觉领域可能正在经历一场范式转变，生成式视觉预训练（generative vision pretraining）有望成为构建基础视觉模型的核心方法，同时服务于视觉生成和理解。**
+
 # Data
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Data
+- 方法：agent, generation, language, optimization, gui-agent
+- 论文/报告：8 篇
+- ⭐Optimsyn: Influence-Guided Rubrics Optimization for Synthetic Data Generation【Ant】
+- BenchScope: How Many Independent Signals Does Your Benchmark Provide?
+- Xpertbench: Expert Level Tasks with Rubrics-Based Evaluation【ByteDance Seed】
+- ⭐Rethinking Data Mixing from the Perspective of Large Language Models【Data Mixing】
+- ⭐Optimsyn: Influence-Guided Rubrics Optimization for Synthetic Data Generation【Data Generation】
+- Tracing the Roots: A Multi-Agent Framework for Uncovering Data Lineage in Post-Training LLMs【AI Lab】
+- MetaGAI: A Large-Scale and High-Quality Benchmark for Generative AI Model and Data Card Generation
+- ViPO: Visual Preference Optimization at Scale
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ⭐Optimsyn: Influence-Guided Rubrics Optimization for Synthetic Data Generation【Ant】
 
@@ -362,7 +446,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.24953](https://arxiv.org/pdf/2604.24953)
 
 - 解决**视觉生成模型（Visual Generative Models）中偏好优化（Preference Optimization）范式的有效扩展问题。论文提出了双重解决方案： Poly-DPO：通过****引入多项式扩展项动态调整样本权重，增强对噪声数据的鲁棒性，同时在高质量数据上自适应退化为标准 DPO****； ViPO 数据集：构建包含 100 万图像对（1024px）和 30 万视频对（720p+）的大规模高质量数据集，通过系统化分类和先进生成模型确保偏好信号的一致性与平衡性。**
+
 # Generation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Generation
+- 方法：agent, generation
+- 论文/报告：8 篇
+- ImagenWorld: Stress-Testing Image Generation Models with Explainable Human Evaluation on Open-ended Real-World Tasks【Wenhu Chen】
+- A Frame is Worth One Token: Efficient Generative World Modeling with Delta Tokens【Amazon】
+- Seedance 2.0: Advancing Video Generation for World Complexity【ByteDance Seed】
+- HY-World 2.0: A Multi-Modal World Model for Reconstructing, Generating, and Simulating 3D Worlds【World Model, Tencent Hunyuan】
+- WorldMark: A Unified Benchmark Suite for Interactive Video World Models【World Model】
+- Agentic World Modeling: Foundations, Capabilities, Laws, and Beyond【World Model】
+- 📌Wan-Image: Pushing the Boundaries of Generative Visual Intelligence【Wan】
+- VibeToken: Scaling 1D Image Tokenizers and Autoregressive Models for Dynamic Resolution Generations
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ImagenWorld: Stress-Testing Image Generation Models with Explainable Human Evaluation on Open-ended Real-World Tasks【Wenhu Chen】
 
@@ -404,14 +505,41 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.24885](https://arxiv.org/pdf/2604.24885)
 
 - 论文提出VibeToken（分辨率无关的1D tokenizer）和VibeToken-Gen（AR生成器），通过以下方式解决上述问题： **将任意分辨率图像编码为固定且可控的短序列（32–256 tokens）** 实现恒定投推理计算开销（179 GFLOPs，与分辨率无关，比基线高效63倍） 支持原生超分辨率和任意长宽比，无需针对特定分辨率重新训练。
+
 # Agent Training
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Training
+- 方法：agent
+- 论文/报告：1 篇
+- Agent^2 RL-Bench: Can LLM Agents Engineer Agentic RL Post-Training?
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Agent^2 RL-Bench: Can LLM Agents Engineer Agentic RL Post-Training?
 
 [https://arxiv.org/pdf/2604.10547](https://arxiv.org/pdf/2604.10547)
 
 - 提出 **Agent2 RL-Bench**，论文建立了一个包含**六个任务（涵盖数学推理、代码生成、评判优化、具身交互、网络购物和深度搜索问答）**的基准，首次实现了对智能体驱动的后训练行为的自动化诊断，包括运行时仪表记录和事后结构化分析报告生成。Agent2 RL-Bench 包含六个任务，按结构复杂度分为三层： L1（静态规则）：GSM8K与HumanEval，使用确定性验证器，测试基础数据构建与监督训练。 L2（静态评判）：AlpacaEval 2.0，引入基于LLM评判者的非确定性奖励，测试优化不可编程信号的能力。 L3（交互式长程）：ALFWorld（稀疏奖励具身交互）、WebShop（密集奖励网络购物）、DeepSearchQA（工具增强搜索-评判循环），要求智能体实现环境交互、多步轨迹收集、轨迹级奖励处理与持续在线数据生成。
+
 # Agent Applications
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Applications
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：87 篇
+- HippoCamp: Benchmarking Contextual Agents on Personal Computers
+- Proactive Agent Research Environment: Simulating Active Users to Evaluate Proactive Assistants【Research, Apple】
+- AIBench: Evaluating Visual-Logical Consistency in Academic Illustration Generation【Research, Tongyi】
+- Towards a Medical AI Scientist【Research】
+- ⭐OmniMem: Autoresearch-Guided Discovery of Lifelong Multimodal Agent Memory【Research, Memory】
+- EigentSearch-Q+: Enhancing Deep Research Agents with Structured Reasoning Tools【Research, Meta】
+- Towards Knowledgeable Deep Research: Framework and Benchmark【Research】
+- ⭐PaperOrchestra: A Multi-Agent Framework for Automated AI Research Paper Writing【Research】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## HippoCamp: Benchmarking Contextual Agents on Personal Computers
 
@@ -846,7 +974,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 [https://arxiv.org/pdf/2604.25602](https://arxiv.org/pdf/2604.25602)
 
 - 论文提出了 OxyGent 框架，通过以下核心创新实现突破： **引入统一的Oxy原子抽象，将智能体、工具、LLM和推理流程封装为可插拔组件**，支持乐高式（Lego-like）组装和热插拔 实现权限驱动的动态规划（permission-driven dynamic planning），在运行时生成执行路径并提供实时可视化 构建OxyBank AI资产管理平台，建立自动化数据回流、标注和联合演化的闭环机制。
+
 # AI for Science
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Science
+- 方法：agent, language, reasoning, multimodal-learning, multimodal-reasoning, stat-ml, explanation, gui-agent
+- 论文/报告：9 篇
+- Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute
+- Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design【Latent Labs】
+- DrugPlayGround: Benchmarking Large Language Models and Embeddings for Drug Discovery
+- General Multimodal Protein Design Enables DNA-Encoding of Chemistry
+- EvoLen: Evolution-Guided Tokenization for DNA Language Model
+- Towards Autonomous Mechanistic Reasoning in Virtual Cells【Valence Labs】
+- **ProtoCycle: Reflective Tool-Augmented Planning for Text-Guided Protein Design**
+- 📌MIMIC: A Generative Multimodal Foundation Model for Biomolecules
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute
 

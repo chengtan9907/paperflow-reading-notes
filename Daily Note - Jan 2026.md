@@ -4,6 +4,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 
 # Daily Note - Jan 2026
 
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Daily Note - Jan 2026
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：38 篇
+- UniCorn: Towards Self-Improving Unified Multimodal Models through Self-Generated Supervision【Unified Model】
+- Unified Thinker: A General Reasoning Modular Core for Image Generation【Unified Model】
+- **Omni-R1: Towards the Unified Generative Paradigm for Multimodal Reasoning**【Unified Model】
+- OpenVision 3: A Family of Unified Visual Encoder for Both Understanding and Generation【Unified Model】
+- PyraTok: Language-Aligned Pyramidal Tokenizer for Video Understanding and Generation【Unified Model】
+- VisGym: Diverse, Customizable, Scalable Environments for Multimodal Agents【Unified Model】
+- Visual Generation Unlocks Human-Like Reasoning through Multimodal World Models【Unified Model, ByteDance Seed】
+- ⭐UEval: A Benchmark for Unified Multimodal Generation【Unified Model, Zhuang Liu】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
 ## UniCorn: Towards Self-Improving Unified Multimodal Models through Self-Generated Supervision【Unified Model】
 
 [https://arxiv.org/pdf/2601.03193](https://arxiv.org/pdf/2601.03193)
@@ -194,7 +210,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.19325](https://arxiv.org/pdf/2601.19325)
 
 - 作者提出 Innovator-VL，通过**“高质量数据精选 + 全参数监督微调 + 面向推理的强化学习”**三阶段策略，在仅 5 M 科学样本、无大规模科学预训练的情况下，实现： 37 项通用、数学、科学基准上的 SOTA 或可比性能； 完全开源的数据、代码、超参数与评估脚本，确保端到端可复现； 显著更高的推理 token 效率，验证“小数据 + 精调”即可激发科学推理潜能。
+
 # Reasoning
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reasoning
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：47 篇
+- Fantastic Reasoning Behaviors and Where to Find Them: Unsupervised Discovery of the Reasoning Process【Google DeepMind】
+- VIPER: Process-aware Evaluation for Generative Video Reasoning【Video Reasoning】
+- Watching, Reasoning, and Searching: A Video Deep Research Benchmark on Open Web for Agentic Video Reasoning【Video Reasoning】
+- VideoLoom: A Video Large Language Model for Joint Spatial-Temporal Understanding【Video Reasoning】
+- Molmo2: Open Weights and Data for Vision-Language Models with Video Understanding and Grounding【Video Reasoning】
+- Thinking in Frames: How Visual Context and Test-Time Scaling Empower Video Reasoning【Video Reasoning】
+- GeoBench: Rethinking Multimodal Geometric Problem-Solving via Hierarchical Evaluation【Visual Reasoning, Junchi Yan】
+- **Milestones over Outcome: Unlocking Geometric Reasoning with Sub-Goal Verifiable Reward**【Visual Reasoning, Junchi Yan】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Fantastic Reasoning Behaviors and Where to Find Them: Unsupervised Discovery of the Reasoning Process【Google DeepMind】
 
@@ -431,7 +464,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.18779](https://arxiv.org/pdf/2601.18779)
 
 - 人工/oracle 解答即使不模仿，也能当探索提示： **“把前缀拼进题干 → 模型按指令继续写”即可把初始状态搬到更易得奖励的区域**，且行为可借助指令跟随与回溯迁移回无提示场景。
+
 # Data
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Data
+- 方法：language, reasoning, optimization, stat-ml, explanation
+- 论文/报告：13 篇
+- Efficiently Estimating Data Efficiency for Language Model Fine-tuning
+- ⭐Can Small Training Runs Reliably Guide Data Curation? Rethinking Proxy-Model Practice【James Zou】
+- ⭐**Logics-STEM: Empowering LLM Reasoning via Failure-Driven Post-Training and Document Knowledge Enhancement****【Alibaba】**
+- ⭐DatBench: Discriminative, Faithful, and Efficient VLM Evaluations
+- ⭐⭐One Sample to Rule Them All: Extreme Data Efficiency in RL Scaling【Pengfei Liu】
+- EDCO: Dynamic Curriculum Orchestration for Domain-specific Large Language Model Fine-tuning【Huawei】
+- Closing the Data Loop: Using OpenDataArena to Engineer Superior Training Datasets【AI Lab】
+- Do explanations generalize across large reasoning models?
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Efficiently Estimating Data Efficiency for Language Model Fine-tuning
 
@@ -498,7 +548,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.21996](https://arxiv.org/pdf/2601.21996)
 
 - 作者提出 Mechanistic Data Attribution（MDA） 框架，首次把影响函数（Influence Functions）扩展到单个可解释单元的粒度，实现：** 精确定位对某一 head/神经元/特征最具影响力的训练样本**； 通过数据增删干预，因果验证这些样本确实决定该单元的形成； 揭示诱导头（induction head）与上下文学习（ICL）之间的因果耦合； 基于高影响样本的结构性模式，构建可扩展的数据增强管线，在多个模型尺度上加速目标电路的收敛。
+
 # Foundation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Foundation
+- 方法：language
+- 论文/报告：6 篇
+- Efficient Context Scaling with LongCat ZigZag Attention【LongCat】
+- How to Set the Batch Size for Large-Scale Pre-training?
+- Revisiting Multi-Task Visual Representation Learning【ByteDance】
+- A Scalable Measure of Loss Landscape Curvature for Analyzing the Training Dynamics of LLMs【Meta】
+- Self-Improving Pretraining: using post-trained models to pretrain better models【Meta】
+- Scaling Embeddings Outperforms Scaling Experts in Language Models【LongCat】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Efficient Context Scaling with LongCat ZigZag Attention【LongCat】
 
@@ -530,7 +595,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.21204](https://arxiv.org/pdf/2601.21204)
 
 - **当模型足够稀疏时，把参数预算投向 N-gram 嵌入表比继续增加 MoE 专家更能降低损失、提升推理吞吐**，且系统开销可控。
+
 # Generation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Generation
+- 方法：generation, reasoning, multimodal-learning, multimodal-reasoning, stat-ml
+- 论文/报告：15 篇
+- VINO: A Unified Visual Generator with Interleaved OmniModal Context
+- NextFlow: Unified Sequential Modeling Activates Multimodal Understanding and Generation【ByteDance】
+- Learning Latent Action World Models In The Wild【World Model, Meta, LeCun】
+- Inference-time Physics Alignment of Video Generative Models with Latent World Models【World Model, Meta】
+- Advancing Open-source World Models【World Model, Ant】
+- Think-Then-Generate: Reasoning-Aware Text-to-Image Diffusion with LLM Encoders【Kuaishou】
+- Rethinking Video Generation Model for the Embodied World【ByteDance Seed】
+- Scaling Text-to-Image Diffusion Transformers with Representation Autoencoders【Saining Xie】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## VINO: A Unified Visual Generator with Interleaved OmniModal Context
 
@@ -607,7 +689,21 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.22158](https://arxiv.org/pdf/2601.22158)
 
 - 实现**一步（one-step）、无潜空间（latent-free）的图像生成，把“多步采样”和“潜空间建模”这两个传统扩散/流模型的核心组件同时去掉，从而用端到端**的方式直接从噪声生成像素级图像。
+
 # Agent Training
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Training
+- 方法：agent, generation, reinforcement-learning, optimization
+- 论文/报告：5 篇
+- ⭐Youtu-Agent: Scaling Agent Productivity with Automated Generation and Hybrid Policy Optimization【Youtu】
+- ⭐JudgeFlow: Agentic Workflow Optimization via Block Judge
+- BAPO: Boundary-Aware Policy Optimization for Reliable Agentic Search
+- Learn Like Humans: Use Meta-cognitive Reflection for Efficient Self-Improvement
+- Self-Compression of Chain-of-Thought via Multi-Agent Reinforcement Learning
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ⭐Youtu-Agent: Scaling Agent Productivity with Automated Generation and Hybrid Policy Optimization【Youtu】
 
@@ -634,7 +730,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.21919](https://arxiv.org/pdf/2601.21919)
 
 - 大型推理模型在 RL 后训练中因稀疏二元奖励极易“过度思考”，生成冗长、重复的思维链，造成推理延迟高；传统全局长度惩罚会误删关键步骤，牺牲准确率。提出 Self-Compression via MARL——**训练阶段**引入三个参数共享智能体协同压缩，**推理阶段**仅保留推理智能体，零额外开销。
+
 # Agent Applications
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Applications
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
+- 论文/报告：72 篇
+- HeurekaBench: A Benchmarking Framework for AI Co-scientist【Research】
+- **Higher-Order Knowledge Representations for Agentic Scientific Reasoning**【Research】
+- SciIF: Benchmarking Scientific Instruction Following Towards Rigorous Scientific Intelligence【Research】
+- SciFig: Towards Automating Scientific Figure Generation【Research】
+- ⭐⭐Sci-Reasoning: A Dataset Decoding AI Innovation Patterns【Research】
+- Beyond Static Tools: Test-Time Tool Evolution for Scientific Reasoning【Research】
+- IDRBench: Interactive Deep Research Benchmark【Research】
+- MMDeepResearch-Bench: A Benchmark for Multimodal Deep Research Agents【Research】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## HeurekaBench: A Benchmarking Framework for AI Co-scientist【Research】
 
@@ -996,7 +1109,23 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.18137](https://arxiv.org/pdf/2601.18137)
 
 - 提出 DeepPlanning 基准，含： 旅行规划 120 任务（中英双语）——分钟级日程，需订交通、酒店、景点、餐厅，满足时空-预算硬约束。 购物规划 120 任务——多商品+优惠券组合，需全局最低价且库存/尺码/时效合规。
+
 # AI for Science
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Science
+- 方法：agent, language, bio-molecular, cross-modal, protein-language-model
+- 论文/报告：7 篇
+- SeedFold: Scaling Biomolecular Structure Prediction【ByteDance Seed】
+- SeedProteo: Accurate De Novo All-Atom Design of Protein Binders【ByteDance Seed】
+- Open World Knowledge Aided Single-Cell Foundation Model with Robust Cross-Modal Cell-Language Pre-training【BGI】
+- PCEvo: Path-Consistent Molecular Representation via Virtual Evolutionary
+- EnzyPGM: Pocket-conditioned Generative Model for Substrate-specific Enzyme Design
+- Demystifying Data-Driven Probabilistic Medium-Range Weather Forecasting【NVIDIA】
+- BioAgent Bench: An AI Agent Evaluation Suite for Bioinformatics
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## SeedFold: Scaling Biomolecular Structure Prediction【ByteDance Seed】
 
@@ -1033,7 +1162,19 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 [https://arxiv.org/pdf/2601.21800](https://arxiv.org/pdf/2601.21800)
 
 - 针对“如何可信地评估大语言模型（LLM）在真实生物信息学流程中的代理能力”这一核心问题，提出并验证了 BioAgent Bench 基准。作者构建了一个**包含 10 个典型生物信息学流程（RNA-seq、变异检测、宏基因组等）**的端到端评测套件，并引入 LLM 评委自动打分与多类扰动实验。
+
 # Survey
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Survey
+- 方法：agent, language, reasoning
+- 论文/报告：3 篇
+- Agent-as-a-Judge
+- **Toward Efficient Agents: Memory, Tool learning, and Planning****【AI Lab】**
+- Agentic Reasoning for Large Language Models
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Agent-as-a-Judge
 

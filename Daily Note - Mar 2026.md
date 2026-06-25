@@ -4,6 +4,22 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 
 # Daily Note - Mar 2026
 
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Daily Note - Mar 2026
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, optimization
+- 论文/报告：27 篇
+- Reason to Contrast: A Cascaded Multimodal Retrieval Framework【Retrieval, Meta】
+- Keyword search is all you need: Achieving RAG-Level Performance without vector databases using agentic tool use【Retrieval, Amazon】
+- Can Unified Generation and Understanding Models Maintain Semantic Equivalence Across Different Output Modalities?【Unified Model】
+- UniG2U-Bench: Do Unified Models Advance Multimodal Understanding?【Unified Model】
+- InternVL-U: Democratizing Unified Multimodal Models for Understanding, Reasoning, Generation and Editing【Unified Model】
+- Towards Unified Multimodal Interleaved Generation via Group Relative Policy Optimization【Unified Model】
+- Flash-Unified: A Training-Free and Task-Aware Acceleration Framework for Native Unified Models【Unified Model】
+- HYDRA: Unifying Multi-modal Generation and Understanding via Representation-Harmonized Tokenization【Unified Model】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
 ## Reason to Contrast: A Cascaded Multimodal Retrieval Framework【Retrieval, Meta】
 
 [https://arxiv.org/pdf/2602.23369](https://arxiv.org/pdf/2602.23369)
@@ -139,7 +155,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2605.19276](https://arxiv.org/pdf/2605.19276)
 
 - 论文提出了**OpenCompass**——一个基于模块化与组件解耦设计的一站式、可扩展、支持高并发的通用LLM评估平台，旨在为学术界和工业界提供统一、高效的评估工具，实现对LLM优势与劣势的精准识别及后续优化。
+
 # Reasoning
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reasoning
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：34 篇
+- Annotation-Free Visual Reasoning for High-Resolution Large Multimodal Models via Reinforcement Learning【Visual Reasoning】
+- Thinking with Images as Continuous Actions: Numerical Visual Chain-of-Thought【Visual Reasoning】
+- Through the Lens of Contrast: Self-Improving Visual Reasoning in VLMs【Visual Reasoning】
+- UniM: A Unified Any-to-Any Interleaved Multimodal Benchmark【Visual Reasoning, Microsoft】
+- VisionCreator-R1: A Reflection-Enhanced Native Visual-Generation Agentic Model【Visual Reasoning, Tencent Hunyuan】
+- VTC-Bench: Evaluating Agentic Multimodal Models via Compositional Visual Tool Chaining【Visual Reasoning】
+- MME-CoF-Pro: Evaluating Reasoning Coherence in Video Generative Models with Text and Visual Hints【Visual Reasoning】
+- Let's Think with Images Efficiently! An Interleaved-Modal Chain-of-Thought Reasoning Framework with Dynamic and Precise Visual Thoughts【Visual Reasoning】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Annotation-Free Visual Reasoning for High-Resolution Large Multimodal Models via Reinforcement Learning【Visual Reasoning】
 
@@ -311,7 +344,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2605.18851](https://arxiv.org/pdf/2605.18851)
 
 - 论文提出 STRIDE（Stepwise Language Feedback for LLM Reasoning），通过以下范式转移解决上述问题： **从标量到语言：将过程监督从单维标量奖励转变为可学习的步骤级语言反馈（learnable stepwise language feedback）**； 共同训练机制：仅使用结果奖励（outcome-based rewards）共同训练生成器与生成式验证器，无需昂贵的步骤级人工标注； 轨迹重定向（Trajectory Redirection）：利用验证器的语言批评定位首次失败点（First Point of Failure, FPF），通过多锚点重定向策略（Multi-Point Redirection）从中断处重构推理路径，将失败轨迹转化为有效训练信号。 该方法特别针对零通过率问题（zero-pass-rate problems）——即传统标量方法完全无法提供学习信号的困难样本，通过高带宽语言反馈实现推理能力的突破。**不要再把 verifier 的过程反馈压成一个 scalar reward，而是****让 verifier 直接生成“逐步语言批注”，再把这些批注作为上下文，引导 generator 从出错前的位置重新推理****。**
+
 # Reward Model
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Reward Model
+- 方法：agent, language, vision-language-model, reasoning, vision, optimization, vision-language, stat-ml
+- 论文/报告：10 篇
+- ⭐How Far Can Unsupervised RLVR Scale LLM Training?
+- ⭐CLIPO: Contrastive Learning in Policy Optimization Generalizes RLVR【Qwen】
+- Visual-ERM: Reward Modeling for Visual Equivalence【AI Lab】
+- RewardFlow: Topology-Aware Reward Propagation on State Graphs for Agentic RL with Large Language Models
+- CausalRM: Causal-Theoretic Reward Modeling for RLHF from Observational User Feedbacks【Zhouchen Lin】
+- Reasoning over mathematical objects: on-policy reward modeling and test time aggregation【Math】
+- ⭐MemReward: Graph-Based Experience Memory for LLM Reward Prediction with Limited Labels【Jiaxuan You】
+- ⭐⭐On the Direction of RLVR Updates for LLM Reasoning: Identification and Exploitation【RLVR, Qwen】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ⭐How Far Can Unsupervised RLVR Scale LLM Training?
 
@@ -363,7 +413,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2603.23184](https://arxiv.org/pdf/2603.23184)
 
 - 传统基于人类反馈的强化学习（RLHF）依赖昂贵的显式偏好标注（如成对比较）。相比之下，隐式反馈（如用户是否复制回答）具有成本低廉、规模庞大的优势，但面临两个根本性挑战：缺乏确定负样本：无反馈样本（ri=0）可能包含实际满意的用户（假阴性），不可简单视为负样本；**用户偏好偏差：不同响应引发用户反馈的倾向（propensity）存在异质性（如知识问答易复制，开放对话难复制）**，导致传统正样本-未标注（PU）学习方法失效。论文提出ImplicitRM框架，通过**将训练样本分层为四个潜在群组（正-主动、负-主动、正-被动、负-被动），并基于似然最大化推导出理论上无偏的学习目标**，从而同时解决缺乏确定负样本和用户偏好偏差的问题。
+
 # Foundation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Foundation
+- 方法：language, vision-language-model, vision, vision-language, stat-ml
+- 论文/报告：11 篇
+- Memory Caching: RNNs with Growing Memory【Google】
+- Unified Vision-Language Modeling via Concept Space Alignment
+- Self-Play Only Evolves When Self-Synthetic Pipeline Ensures Learnable Information Gain
+- Rethinking Representativeness and Diversity in Dynamic Data Selection
+- Aligning Language Models from User Interactions
+- Fine-tuning MLLMs Without Forgetting Is Easier Than You Think
+- ⭐Revisiting Model Stitching In the Foundation Model Era【Amazon】
+- 📌Mamba-3: Improved Sequence Modeling using State Space Principles
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Memory Caching: RNNs with Growing Memory【Google】
 
@@ -420,7 +487,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2603.25744](https://arxiv.org/pdf/2603.25744)
 
 - 论文提出**Multi-Resolution Fusion (MuRF)** 策略，**通过在推理时构建输入图像金字塔、提取多尺度特征并进行融合，在不修改或重新训练VFM主干网络的前提下，生成同时包含全局语义信息与局部细节的统一表示**，从而解锁预训练VFMs在多类下游任务（密集预测、多模态理解、无监督异常检测等）中的潜力。**关键设计**：**选择通道拼接而非逐元素相加，以避免破坏不同尺度的正交信号（如宏观语义与微观边缘），使下游任务头能够自适应地选择所需信息。**
+
 # Data
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Data
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：15 篇
+- ⭐FT-Dojo: Towards Autonomous LLM Fine-Tuning with Language Agents**【MSRA】**
+- Learning from Synthetic Data Improves Multi-hop Reasoning
+- TopoCurate: Modeling Interaction Topology for Tool-Use Agent Training【LongCat】
+- In-Context Reinforcement Learning for Tool Use in Large Language Models
+- Data Agent: Learning to Select Data via End-to-End Dynamic Optimization
+- Scale Dependent Data Duplication
+- Capacity-Aware Mixture Law Enables Efficient LLM Data Optimization
+- Does the Question Really Matter? Training-Free Data Selection for Vision-Language SFT
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ⭐FT-Dojo: Towards Autonomous LLM Fine-Tuning with Language Agents**【MSRA】**
 
@@ -497,7 +581,24 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2603.24202](https://arxiv.org/pdf/2603.24202)
 
 - 针对**大规模强化学习（RL）训练代码生成模型时的数据瓶颈问题**，提出了一套多轮合成数据生成框架，并系统研究了课程设计、任务难度与环境多样性对RL训练动态的影响。
+
 # Generation
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Generation
+- 方法：agent, generation, language, reasoning, optimization, multimodal-reasoning, stat-ml, cross-modal
+- 论文/报告：18 篇
+- Helios: Real Real-Time Long Video Generation Model【ByteDance】
+- InfinityStory: Unlimited Video Generation with World Consistency and Character-Aware Shot Transitions【Adobe】
+- RealWonder: Real-Time Physical Action-Conditioned Video Generation【Jiajun Wu】
+- InSpatio-WorldFM: An Open-Source Real-Time Generative Frame Model
+- EVATok: Adaptive Length Video Tokenization for Efficient Visual Autoregressive Generation
+- EvoTok: A Unified Image Tokenizer via Residual Latent Evolution for Visual Understanding and Generation
+- Fair Benchmarking of Emerging One-Step Generative Models Against Multistep Diffusion and Flow Models
+- Out of Sight, Out of Mind? Evaluating State Evolution in Video World Models
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Helios: Real Real-Time Long Video Generation Model【ByteDance】
 
@@ -589,14 +690,41 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2605.15055](https://arxiv.org/pdf/2605.15055)
 
 - 解决扩散模型（diffusion models）在强化学习（RL）框架下的多任务优化难题。 具体而言，现有基于RL的扩散模型改进方法**大多局限于单任务优化（如单独优化美学质量、文本渲染准确性或组合对齐等），而实际应用通常要求单一模型同时满足多个异构目标（如既美观又忠实于文本提示且能正确渲染文字）**。将RL扩展到多任务设置面临以下根本性挑战： **联合优化（Joint Optimization）**的困境：同时训练所有任务会导致目标冲突（cross-task interference）和任务难度不平衡（task-difficulty imbalance），不同任务的优化方向相互干扰，简单任务往往主导学习动态而抑制困难任务的信号。 **级联优化（Cascade RL）的局限：按顺序逐任务训练虽能避免梯度冲突，但流程繁琐、需要精心设计训练计划，且存在灾难性遗忘（catastrophic forgetting）**风险——适应后续任务时会损害先前习得的能力。 为此，论文提出DiffusionOPD框架，通过**在线策略蒸馏（Online Policy Distillation, OPD）**解耦单任务探索与多任务能力整合：先独立训练任务专属教师模型（避免相互干扰），再将这些教师的能力蒸馏到统一的学生模型中（沿学生自身轨迹进行监督），从而规避多任务联合优化的冲突与级联训练的遗忘问题。
+
 # Agent Training
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Training
+- 方法：agent, reinforcement-learning
+- 论文/报告：1 篇
+- ARL-Tangram: Unleash the Resource Efficiency in Agentic Reinforcement Learning【Xiaomi】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## ARL-Tangram: Unleash the Resource Efficiency in Agentic Reinforcement Learning【Xiaomi】
 
 [https://arxiv.org/pdf/2603.13019](https://arxiv.org/pdf/2603.13019)
 
 - 解决 **智能体强化学习（Agentic RL）** 过程中极高的资源浪费问题，并提出了一个名为 **ARL-Tangram** 的高效资源管理系统。核心思想是 “动作级编排”（Action-level Orchestration）。 精细化管理： **系统不再以“任务”或“整个轨迹”为单位分配资源，而是精确到每一个“动作”（Action）。只有当智能体真正需要调用外部工具或进行某项计算时，系统才动态分配资源，用完即收回**。 弹性调度算法： 开发了一套调度算法，**在满足复杂的异构资源约束（不同动作需要不同硬件）的同时，最大限度地缩短 动作完成时间**（ACT, Action Completion Time）。
+
 # Agent Applications
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Agent Applications
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：103 篇
+- DARE-bench: Evaluating Modeling and Instruction Fidelity of LLMs in Data Science
+- Let There Be Claws: An Early Social Network Analysis of AI Agents on Moltbook【OpenClaw】
+- EvoX: Meta-Evolution for Automated Discovery【Research】
+- SciDER: Scientific Data-centric End-to-end Researcher【Research】
+- DeepResearch-9K: A Challenging Benchmark Dataset of Deep-Research Agent【Research】
+- MM-DeepResearch: A Simple and Effective Multimodal Agentic Search Baseline【Research】
+- Reasoning as Gradient: Scaling MLE Agents Beyond Tree Search【Research, MSRA】
+- Talk Freely, Execute Strictly: Schema-Gated Agentic AI for Flexible and Reproducible Scientific Workflows【Research】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## DARE-bench: Evaluating Modeling and Instruction Fidelity of LLMs in Data Science
 
@@ -1113,7 +1241,21 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 [https://arxiv.org/pdf/2603.28052](https://arxiv.org/pdf/2603.28052)
 
 - 论文提出 Meta-Harness，通过以下机制解决上述问题： 文件系统作为经验存储：将先前所有候选 harness 的源代码、评估分数和执行轨迹存入文件系统 代理式提议者（Agentic Proposer）：使用具备工具调用能力的编码代理（而非原始 LLM），通过 grep、cat 等标准操作选择性检索历史信息，而非将其打包为单一提示词 端到端代码空间搜索：在可执行代码空间中进行搜索，允许对检索逻辑、记忆更新和提示构造进行算法级修改 通过这种方式，Meta-Harness 实现了对 harness 代码的自动化、端到端优化，同时克服了传统文本优化方法因反馈压缩而导致的信用分配（credit assignment）困难。
+
 # AI for Science
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Science
+- 方法：agent, reasoning
+- 论文/报告：5 篇
+- Mozi: Governed Autonomy for Drug Discovery LLM Agents
+- Surg-R1: A Hierarchical Reasoning Foundation Model for Scalable and Interpretable Surgical Decision Support with Multi-Center Clinical Validation
+- CHIMERA-Bench: A Benchmark Dataset for Epitope-Specific Antibody Design
+- 📌Lingshu-Cell: A generative cellular world model for transcriptome modeling toward virtual cells【Damo Academy】
+- Self-evolving AI agents for protein discovery and directed evolution【Liang Hong】
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
 
 ## Mozi: Governed Autonomy for Drug Discovery LLM Agents
 
