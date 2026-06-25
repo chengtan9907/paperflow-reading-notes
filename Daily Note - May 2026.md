@@ -483,7 +483,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, multimodal-learning, multimodal-reasoning
+- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, multimodal-learning, vision-language
 - 论文/报告：15 篇
 - S^3-R1: Learning to Retrieve and Answer Step-by-Step with Synthetic Data【Google DeepMind】
 - ⭐Diagnosing Capability Gaps in Fine-Tuning Data【Microsoft】
@@ -641,7 +641,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, vision-language, stat-ml
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, stat-ml, vision-language
 - 论文/报告：24 篇
 - Visual Generation in the New Era: An Evolution from Atomic Mapping to Agentic World Modeling
 - Representation Fréchet Loss for Visual Generation【OpenAI】
@@ -1554,7 +1554,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, reasoning, multimodal-reasoning, stat-ml
+- 方法：agent, reasoning, stat-ml, multimodal-reasoning, stat-me
 - 论文/报告：6 篇
 - ⭐Generative AI in K-12 Classrooms: A Midyear Implementation Report
 - UniER: A Unified Benchmark for Item-level and Path-level Exercise Recommendation

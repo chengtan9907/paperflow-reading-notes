@@ -350,7 +350,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Model
-- 方法：agent, language, vision-language-model, reasoning, vision, optimization, vision-language, stat-ml
+- 方法：agent, language, vision-language-model, reasoning, vision, optimization, stat-ml, vision-language
 - 论文/报告：10 篇
 - ⭐How Far Can Unsupervised RLVR Scale LLM Training?
 - ⭐CLIPO: Contrastive Learning in Policy Optimization Generalizes RLVR【Qwen】
@@ -419,7 +419,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Foundation
-- 方法：language, vision-language-model, vision, vision-language, stat-ml
+- 方法：language, vision-language-model, vision, stat-ml, vision-language, stat-me
 - 论文/报告：11 篇
 - Memory Caching: RNNs with Growing Memory【Google】
 - Unified Vision-Language Modeling via Concept Space Alignment
@@ -587,7 +587,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, reasoning, optimization, multimodal-reasoning, stat-ml, cross-modal
+- 方法：agent, generation, language, reasoning, optimization, stat-ml, multimodal-reasoning, stat-me
 - 论文/报告：18 篇
 - Helios: Real Real-Time Long Video Generation Model【ByteDance】
 - InfinityStory: Unlimited Video Generation with World Consistency and Character-Aware Shot Transitions【Adobe】

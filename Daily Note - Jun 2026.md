@@ -130,7 +130,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Multimodal Models & Visual Reasoning
-- 方法：language, vision-language-model, reasoning, vision, optimization, multimodal-reasoning, vision-language, cross-modal
+- 方法：language, vision-language-model, reasoning, vision, optimization, vision-language, multimodal-reasoning, cross-modal
 - 论文/报告：8 篇
 - PRISM: Synergizing Vision Foundation Models via Self-organized Expert Specialization
 - Representation Forcing for Bottleneck-Free Unified Multimodal Models【Unified Model, ByteDance Seed】
@@ -204,7 +204,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Models & Reinforcement Learning
-- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning, multimodal-reasoning
+- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning, stat-ml
 - 论文/报告：13 篇
 - Scaling LLM Reasoning from Minimal Labels: A Semi-Supervised Framework with a Lightweight Verifier
 - AdaSR: Adaptive Streaming Reasoning with Hierarchical Relative Policy Optimization
@@ -424,7 +424,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：World Models, Generation & Audio
-- 方法：agent, generation, stat-ml, gui-agent
+- 方法：agent, generation, stat-ml, stat-me, gui-agent
 - 论文/报告：7 篇
 - dots.tts Technical Report【RedNote】
 - MetaWorld: Scaling Multi-Agent Video World Model from Single-view Video Data【World Model】
@@ -492,7 +492,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Research Agents & Scientific Discovery
-- 方法：agent, generation, reasoning, optimization, deep-learning, machine-learning
+- 方法：agent, generation, reasoning, optimization, machine-learning, deep-learning
 - 论文/报告：6 篇
 - Self-Evolving Deep Research via Joint Generation and Evaluation【Research】
 - DuMate-DeepResearch: An Auditable Multi-Agent System with Recursive Search and Rubric-Grounded Reasoning【Research, Baidu】
@@ -550,7 +550,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Web, GUI & Computer-Use Agents
-- 方法：agent, reinforcement-learning, stat-ml, deep-learning, machine-learning, gui-agent
+- 方法：agent, reinforcement-learning, stat-ml, machine-learning, deep-learning, stat-me, gui-agent
 - 论文/报告：8 篇
 - DailyReport: An Open-ended Benchmark for Evaluating Search Agents on Daily Search Tasks【Search, Meituan】
 - OpenWebRL: Demystifying Online Multi-turn Reinforcement Learning for Visual Web Agents【Web, Microsoft】
@@ -825,7 +825,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Memory, Personalization & Long-Horizon Agents
-- 方法：agent, generation, reasoning, vision, retrieval, stat-ml
+- 方法：agent, generation, reasoning, vision, retrieval, stat-ml, stat-me, econ-em
 - 论文/报告：9 篇
 - Beyond Visual Memory: Mechanistic Diagnostics of Latent Visual Reasoning【Visual Reasoning, Alibaba, SII】
 - DecMem: Towards Minute-Long Consistent World Generation with Decoupled Memory【World Model, Kuaishou Kling】
@@ -960,8 +960,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
-- 方法：agent, ai-for-science, language, bio-molecular, science-discovery, stat-ml, cross-modal, protein-language-model
-- 论文/报告：9 篇
+- 方法：agent, ai-for-science, language, bio-molecular, science-discovery, optimization, stat-ml, stat-me
+- 论文/报告：10 篇
 - AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle【Research】
 - Benchmarking AI Agents for Addressing Scientific Challenges Across Scales【Research, Science】
 - SwitchCraft: A Programmatic Framework for Designing State-Switching Proteins【Bowen Jing】
@@ -1042,6 +1042,15 @@
 
 - **本文针对化学语言模型（cLMs）是否真正学习分子语义的争议，采用机制可解释性方法——稀疏自编码器（SAEs）来分析编码器型模型MolFormer-XL。通过对各层残差流训练SAE，作者发现早期层主要编码位置跟踪隐变量以解析SMILES语法，后期层则捕获原子-子结构和药理学相关特征。这一发现支持cLMs确实学习了有意义的化学知识。进一步，通过比较规范SMILES、非规范SMILES和无效SMILES的表示，发现非规范SMILES导致更剧烈的表示偏移，其根源在于位置隐变量的跨层传播。这表明模型对输入字符串的规范形式敏感，而非简单的语法错误。最后，作者提供了交互式可视化工具InterMol便于社区探索。**
 
+<!-- paperflow:259488b6162c943d -->
+## Is GraphRAG Needed? From Basic RAG to Graph-/Agentic Solutions with Context Optimization
+
+[[Deep Reading - Jun 2026/Is GraphRAG Needed-From Basic RAG to Graph-Agentic Solutions with Context Optimization|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25656v1](https://arxiv.org/pdf/2606.25656v1)
+
+- **本文针对基本 RAG 在处理半结构化知识库（如精准医学知识图谱）时的局限性，系统比较了包括基本 RAG、GraphRAG、Modular RAG 和 Agentic RAG 在内的多种 RAG 变体。作者首先定义了 9 个标准化的 RAG 场景，覆盖从简单文档检索到高级智能体-图集成的不同复杂度，并给出了具体实现。然后在包含 129K 实体和 8.1M 关系的精准医学知识库上进行实验，比较了各场景在检索精度、答案质量、效率等方面的表现。针对 GraphRAG 和 Agentic RAG 中常见的上下文溢出问题，提出了一种新颖的上下文工程方法，通过新的文本/图表示和定制化智能体循环模式（超越 ReAct）来管理检索结果，使模型能有效利用长上下文。实验揭示了检索-生成间隙，即 LLM 选择的实体并不总是最优，建议端到端评估。论文最终为实践者提供了在不同用例、数据特征和性能约束下选择合适 RAG 架构的实证指导。**
+
 # Foundation AI & AGI
 
 <!-- paperflow-topic-summary:start -->
@@ -1074,7 +1083,7 @@
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
-- 论文/报告：18 篇
+- 论文/报告：24 篇
 - Exploring Extrinsic and Intrinsic Properties for Effective Reasoning with Code Interpreter
 - Revisiting the Systematicity in Negation in the Era of In-Context Learning
 - Efficiently Representing Algorithms With Chain-of-Thought Transformers
@@ -1276,13 +1285,73 @@
 
 论文的贡献在于：1) 提出了评估嵌入几何对齐的通用框架（RSA+原型典型性+混淆控制）；2) 在心理健康领域实证揭示了预训练嵌入与专家结构的对齐及其条件；3) 强调了显式混淆测试的重要性，而非仅依赖分类准确率。局限包括：专家参考矩阵并非临床诊断本体，仅用于类别比较；零样本对齐仍适度，结果支持有限主张（预训练嵌入可恢复部分专家结构，但需监督才能更好捕捉）。总体而言，论文为评估LLM嵌入的语义结构提供了方法论，并对AI for Science（如心理健康领域的知识组织）具有启发意义。**
 
+<!-- paperflow:e69364c9153d4c7b -->
+## OPERA: Aligning Open-Ended Reasoning via Objective Perplexity-based Reinforcement Learning
+
+[[Deep Reading - Jun 2026/OPERA-Aligning Open-Ended Reasoning via Objective Perplexity-based Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25757v1](https://arxiv.org/pdf/2606.25757v1)
+
+- **论文OPERA针对开放式推理任务（如创意写作）中强化学习对齐的挑战，提出了一种基于困惑度动态的内在奖励框架。传统RL方法依赖LLM-as-a-judge作为奖励模型，但存在风格偏差和位置不一致导致的监督不稳定问题。OPERA的核心创新是将奖励信号从外部判官转移到模型自身的困惑度动态上，具体通过量化关键反思状态的不确定性降低来产生内在奖励。为实现冷启动，论文设计了Perplexity-Guided Iterative Trace Synthesis方法：利用认知制动触发模型进行System 2深层推理，并通过引导词生成多样化推理轨迹；同时采用困惑度优先的rollouts，基于内部log-probability筛选逻辑一致的推理分支，最终构建了20,000条高质量推理轨迹的专用数据集。基于该数据集使用RL训练，优化目标为最大化内在奖励。实验在Qwen3-8B上取得了开源模型最佳性能，在部分开放式任务中匹敌甚至超越Gemini2.5和MiniMax-M2.5等专有模型。控制实验表明，OPERA在冷启动数据选择和RL对齐阶段均优于LLM-as-a-judge基线，训练更稳定。论文本质上是将对齐的优化目标从外部评判的质量转移到推理结构的逻辑一致性，为开放式任务的RL对齐提供了新范式。**
+
+<!-- paperflow:b525af1c60bdf7f7 -->
+## MiniOpt: Reasoning to Model and Solve General Optimization Problems with Limited Resources
+
+[[Deep Reading - Jun 2026/MiniOpt-Reasoning to Model and Solve General Optimization Problems with Limited Resources|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25832v1](https://arxiv.org/pdf/2606.25832v1)
+
+- **To address these challenges, we propose MiniOpt, a reinforcement learning framework that learns to solve optimization problems through an "reasoning-to-model-and-solve" paradigm.
+
+Ke Zhao $^{*}$ , Zixiang Di $^{*}$ , Hong Qian, Xiang Shu, Yaolin Wen, Qitao Shi, Bingdong Li, Xingyu Lu, Xiangfeng Wang, Jun Zhou, Ke Tang, and Yang Yu Abstract—Achieving strong… Existing approaches typically rely on large-scale supervised datasets, costly reasoning annotations, and expensive intermediate step verification, resulting in substantial…
+
+This paper proposes MiniOpt, a novel reasoning-to-model-and-solve paradigm and the corresponding small-scale models MiniOpt-3B and MiniOpt-7B. The proposed models achieve competitive or even superior performance under limited computational resources.
+
+We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple types and scenarios to assess whet...**
+
+<!-- paperflow:d65923758b783561 -->
+## Training for the Model You Return: Improving Optimization for Iterate-Averaged Language Models
+
+[[Deep Reading - Jun 2026/Training for the Model You Return-Improving Optimization for Iterate-Averaged Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25086v1](https://arxiv.org/pdf/2606.25086v1)
+
+- **本文针对语言模型训练中普遍存在的返回平均模型（如EMA）现象，提出了一个根本性的优化问题：既然我们最终使用平均权重，为何不直接针对这个目标优化训练过程？作者从最优控制的视角出发，在连续时间随机二次模型的假设下，利用庞特里亚金最大值原理推导出最优控制策略，该策略会将当前权重向EMA方向拉回。该策略的实用近似被命名为PACE（Push And Control EMA），它作为AdamW的轻量包装，引入三个超参数：拉回强度c、EMA衰减指数κ和更新频率uf。理论方面，PACE在标准随机凸优化设置下与原始算法具有相同的收敛阶（仅差一个常数因子），且在二次损失下可以任意程度地降低平均估计的渐近均方误差。实验方面，论文在1-2B参数语言模型的监督微调以及GPT-2在FineWeb上的预训练中进行了广泛的评估。实验设计包括与AdamW、AdamW+EMA以及Schedule-Free的对比，并对学习率、衰减调度、PACE超参数进行了系统扫描。结果表明，PACE在几乎所有设置下均优于基线，且对超参数鲁棒。与Schedule-Free相比，PACE性能相当但能兼容学习率衰减。论文还通过合成二次实例验证了理论的严格改善。总体而言，PACE提供了一个简单、理论上可解释且实验验证有效的改进，可直接集成到现有LM训练流程中。**
+
+<!-- paperflow:35f379821b481d7b -->
+## Evaluating LLMs on Real-World Software Performance Optimization
+
+[[Deep Reading - Jun 2026/Evaluating LLMs on Real-World Software Performance Optimization|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25530v1](https://arxiv.org/pdf/2606.25530v1)
+
+- **本论文针对当前缺乏真实世界软件性能优化基准的问题，提出了SWE-Pro——一个仓库级基准，包含102个人工专家从开源项目中编写的优化任务。每个任务配以参数化性能测试，在噪声感知测量条件下综合评估运行时、峰值内存和TWMU。通过在多个SOTA LLM上的广泛实验，作者发现：1) LLM的运行时优化效果微乎其微，甚至在Oracle检索下性能平均下降0.69×；2) 内存优化几乎不存在，且经常导致内存增加；3) 专家优化平均实现15.5×加速和171.3×内存降低，在91.2%和65.7%的任务上有改进。论文还提出使用90% RCIW收敛准则过滤系统方差，成功复现87%的专家改进。这项工作首次系统性地揭示了当前LLM在仓库级多维性能优化上的巨大不足，为未来研究提供了扎实的评估平台与明确挑战。**
+
+<!-- paperflow:d8e8ca8a1f61754d -->
+## Weave of Formal Thought
+
+[[Deep Reading - Jun 2026/Weave of Formal Thought|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25987v1](https://arxiv.org/pdf/2606.25987v1)
+
+- **论文《Weave of Formal Thought》提出了一种名为WoFT的范式，旨在统一代码生成中的严格语法验证与学习到的结构表示。首先，论文指出现有大型语言模型生成代码虽表面流畅，但缺乏形式语法保证，现有约束解码框架在处理上下文相关词法（如Python缩进）、最大匹配分词和关键字提取方面存在局限，且仅近似屏蔽无效子词。其次，论文方案包含两个核心组件：约束解码器和潜在变量微调。约束解码器基于GLR解析与推测性词法分析，维护同步的并发词法器状态假设，确保只接受能扩展为有效程序前缀的子词，实现完备性。潜在变量微调方法使用重加权醒睡(RWS)算法优化重要性加权证据下界，使模型在生成过程中学习插入非终结符作为结构草稿本。实验部分在Python上对StarCoder2-3B进行微调，per-token交叉熵相对降低14.3%，但未报告功能正确性基准结果。论文最后讨论了未来方向，如标准评估、端到端微分句法推理和扩展至更多语言。总体而言，WoFT提出了一种神经符号融合的新思路，在语法验证和结构学习方面均有贡献，但实验证据尚局限于语言建模损失。**
+
+<!-- paperflow:2e1f9a3efb81df83 -->
+## Improved Large Language Diffusion Models
+
+[[Deep Reading - Jun 2026/Improved Large Language Diffusion Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25331v1](https://arxiv.org/pdf/2606.25331v1)
+
+- **论文iLLaDA（Improved Large Language Diffusion Models）旨在探索完全双向注意力扩散语言模型的潜力。论证主线：现有自回归LLM占据主导，但双向扩散预训练在数据利用上有理论优势，且LLaDA初步验证了可行性；iLLaDA通过大规模预训练（12T token）和改进的训练配方，证明双向扩散可以成为一条有竞争力的路径。技术主线：模型采用masked diffusion目标，全程（预训练+SFT）保持，使用全双向注意力，并引入变长生成和置信度评分。实验主线：在通用、数学、代码基准上与LLaDA和Qwen2.5 7B对比，iLLaDA在多数任务上大幅超越LLaDA，并与自回归模型持平或更好。结论：双向扩散训练是一种有前途的替代方案，值得进一步研究。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
 - 方法：agent, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization, retrieval
-- 论文/报告：30 篇
+- 论文/报告：38 篇
 - DEEPRUBRIC: Evidence-Tree Rubric Supervision for Efficient Reinforcement Learning of Deep Research Agents
 - Gen-VCoT: Generative Visual Chain-of-Thought Reasoning via Diffusion-Based RGB Intermediate Representations
 - Connect the Dots: Training LLMs for Long-Lifecycle Agents with Cross-Domain Generalization Via Reinforcement Learning
@@ -1564,13 +1633,97 @@
 
 - **论文提出DynamicMem，一个合成长期记忆基准，用于模拟真实世界中用户画像的持续演变。通过构建15个月、跨16个应用的用户轨迹，每个用户平均2.2M token和1772个事件，DynamicMem捕捉了用户属性、习惯和偏好随季节和人生事件的变化。基准要求记忆系统从分散的跨应用行为信号中推断当前用户状态，而非直接回忆。在5个季度检查点上评估5类记忆系统，发现：状态补全性能随历史长度下降，而个性化服务性能稳定，揭示了现有系统在处理动态、分布式记忆时的根本缺陷。该基准为长期记忆与个性化研究提供了更真实的测试平台。**
 
+<!-- paperflow:7602fa33cb2e5ef9 -->
+## Semantic Consistency Policy Optimization for Reinforcement Learning of LLM Agents
+
+[[Deep Reading - Jun 2026/Semantic Consistency Policy Optimization for Reinforcement Learning of LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25852v1](https://arxiv.org/pdf/2606.25852v1)
+
+- **论文《Semantic Consistency Policy Optimization for Reinforcement Learning of LLM Agents》针对基于组的强化学习（Group-based RL）在训练 LLM 智能体时存在的信用分配问题，提出了一种名为语义一致性策略优化（SCPO）的奖励塑形方法。
+
+**动机与问题**：当前 group-based RL 方法（如 GRPO）通过从完整轨迹的成功或失败结果推导步骤级信用。这种“轨迹结果”绑定导致了一个矛盾：语义几乎相同的中间步骤（例如，在 WebShop 中点击“下一页”）因其所在轨迹的最终成功或失败而被赋予正或负的信用。论文将此称为“语义信用不一致”，并指出它会向相似动作发送冲突的梯度，同时浪费失败轨迹中部分正确的进展（例如，前期步骤正确但后期步骤出错时，前期步骤亦被惩罚）。
+
+**方法核心**：SCPO 是一种无值函数的奖励塑形插件，它无需训练价值函数即可为每个步骤重新分配更合理的信用。给定一个由多个 rollout 组成的组（其中至少包含一条成功轨迹），对于失败轨迹中的每一步，SCPO 使用一个通用语义重排器（reranker）计算它与成功兄弟中每一步的语义匹配分数，并找到最佳匹配。然后，它比较该步骤与其前一时刻的匹配分数变化：如果匹配分数增加，说明取得了朝向成功的积极进展，则赋予正向额外奖励；否则不奖励。这一额外奖励被加到原始的组奖励（如 GiGPO 的基于相对比较的步骤信用）上，用于后续的优势估计。SCPO 可即插即用，与任何 group-based agentic RL 方法兼容。
+
+**实验与结果**：在 ALFWorld（文本家居任务）和 WebShop（电商导航）两个基准上，以 1.5B 参数 LLM 为基座，SCPO 显著提升了作为骨干的 GiGPO 方法。在 ALFWorld 上达到 93.7±4.1% 成功率，在 WebShop 上达到 74.8±2.0% 成功率，均为当时同尺度下的 SOTA。增益集中在最困难的多步任务上，证实了其对信用不一致的缓解作用。消融实验（合理...**
+
+<!-- paperflow:2fb007b1fa06708f -->
+## Why Multi-Step Tool-Use Reinforcement Learning Collapses and How Supervisory Signals Fix It
+
+[[Deep Reading - Jun 2026/Why Multi-Step Tool-Use Reinforcement Learning Collapses and How Supervisory Signals Fix It|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26027v1](https://arxiv.org/pdf/2606.26027v1)
+
+- **本文系统研究了多步工具使用任务中强化学习训练的不稳定性问题，并探索了多种监督信号作为解决方案。首先，论文通过实验揭示了单独使用RL会导致模型在训练中突然崩溃，性能急剧下降，工具调用结构（例如控制token）失效。深入分析表明，崩溃根源在于特定控制token（如格式标记）的概率出现尖峰，破坏了结构化执行顺序，但模型的底层工具使用能力并未丧失，只是被误格式掩盖。这一发现挑战了“RL失败意味着能力不足”的直觉。
+
+为了解决该问题，论文提出了一个统一的实验框架，系统比较了四种监督信号：离线监督、提示引导、错误示例监督以及组合信号，并在两种训练方案（同步SFT+RL和交错SFT+RL）下评估。主要发现包括：交错SFT+RL能显著提高训练稳定性，几乎避免崩溃现象，但导致格式和内容分布外泛化性能下降；同步方案稳定性较差但泛化稍好。学习率分析显示过高的学习率会加剧不稳定性和崩溃风险。此外，论文还跨设置测试了泛化能力，表明不同任务间存在迁移差异。
+
+实验结果表明，理解RL失败的原因比简单调整超参数更重要。多样化的监督信号能引导模型在探索中保持结构完整性，但存在稳定性-泛化权衡。论文局限性包括训练数据规模有限、工具环境开源受限，以及OOD评估仅覆盖格式和内容变化。整体上，本文为智能体RL训练提供了重要见解和实用指导。**
+
+<!-- paperflow:c558e651db2811b5 -->
+## Uncertainty Quantification for Computer-Use Agents: A Benchmark across Vision-Language Models and GUI Grounding Datasets
+
+[[Deep Reading - Jun 2026/Uncertainty Quantification for Computer-Use Agents-A Benchmark across Vision-Language Models and|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25760v1](https://arxiv.org/pdf/2606.25760v1)
+
+- **本文针对计算机使用代理中VLM执行GUI点击任务的不确定性量化问题，提出了一个名为ARGUS的跨体制基准。该基准系统比较了27种开放权重和8种闭源的后验UQ方法在4个VLM代理和4个GUI定位数据集上的性能。主要贡献包括：(1) 构建了第一个跨体制UQ评估框架，定义了体制由数据集、模型类和可观测接口构成；(2) 全面评估了包括logit-based、采样一致性、隐藏状态密度、注意力、verbalized和保形预测在内的多种UQ方法族；(3) 揭示UQ排名选择性迁移的规律：在固定模型下跨数据集高度稳定，但跨模型类和跨接口时显著下降；(4) 为闭源模型提供UQ方法选择建议，强调需要重新排序而非外推。实验表明，隐藏状态和密度方法在开放权重模型中泛化最好，但闭源场景下verbalized自评估和保形预测更实用。该工作为构建可靠、可迁移的UQ系统提供了重要指导。**
+
+<!-- paperflow:f7ac7d98f11c0349 -->
+## WinDOM: Self-Family Distillation for Small-Model GUI Grounding
+
+[[Deep Reading - Jun 2026/WinDOM-Self-Family Distillation for Small-Model GUI Grounding|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25964v1](https://arxiv.org/pdf/2606.25964v1)
+
+- **论文针对小模型GUI定位任务，提出WinDOM数据集和自家族蒸馏（SFD）方法，系统研究了冷启动蒸馏饱和度对后续GRPO强化学习的交互影响。主要发现是未饱和的冷启动比完全收敛的冷启动作为GRPO初始化器效果更好，提升OOD平均+5.4点。同尺度EMA教师无需外部模型即可达到接近跨尺度教师（4B）的性能。论文通过大规模实验验证了方法的有效性，并展示了在多个OOD基准上的显著改进。论文还探讨了在线RL、偏好优化等未来方向。整体而言，这项工作为训练小规模、高效的GUI定位智能体提供了实用的配方和全新的视角。**
+
+<!-- paperflow:e08c0381e270d476 -->
+## Reclaim Evaluation: A Lossy Memory Is Worse Than an Empty One
+
+[[Deep Reading - Jun 2026/Reclaim Evaluation-A Lossy Memory Is Worse Than an Empty One|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25449v1](https://arxiv.org/pdf/2606.25449v1)
+
+- **本文研究了语言模型记忆压缩导致的可纠正性问题。作者发现，如果模型的记忆只保留了错误结论而丢弃了推导过程（lossy memory），那么模型会自信地重复错误，且任何后续纠正都无法改变这一错误，这种失败被称为脆性记忆（brittle memory）。相比之下，如果模型没有记忆（empty memory），它会弃权，避免犯错。这一现象在测试的7个模型上一致成立，从未逆转。
+作者提出了 reclaim evaluation 协议来测量可纠正性：在固定记忆预算下压缩交互，然后测试纠正能否恢复正确答案。实验表明，可纠正性完全取决于答案决定源（source）是否存活，而非模型能力。基于此，作者提出了 source-first 策略：保留可重算的源头，丢弃可重新推导的结论。该策略在 oracle 版本下完全恢复可纠正性（挽回率1.00），而一个单提示的可部署版本也能达到0.49–0.88的挽回率，但主要集中在紧凑的数字型源头。
+该工作的意义在于揭示了记忆压缩中的一个关键权衡：保留结论会阻断纠正，保留源头则保留可纠正性。这对于智能体、助手记忆系统等需要长期记忆的部署场景具有重要启示。**
+
+<!-- paperflow:5e67b7cb07926198 -->
+## GUI agent: Guided Exploration of User-Sensitive Screens
+
+[[Deep Reading - Jun 2026/GUI agent-Guided Exploration of User-Sensitive Screens|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25705v1](https://arxiv.org/pdf/2606.25705v1)
+
+- **本文针对LLM驱动的GUI代理在开放环境中面临用户敏感屏幕时缺乏接管机制的问题，提出了一种系统探索查询空间的方法。主要贡献包括：开发一个探索器代理，从用户示范任务出发，通过迭代训练构建动作-状态图，自动识别会导致用户敏感状态的查询路径；在选定的GUI应用上验证表明，用户敏感查询空间随训练轮次增加而缩小，证明探索器有效。相关工作涵盖了GUI代理泛化与探索先验。实验展示了方法的可行性，但缺乏定量结果和严格基线对比。未来工作可扩展应用场景和优化效率。**
+
+<!-- paperflow:1f93ecad8a1e8175 -->
+## Staying In Character: Perspective-Bounded Memory For Book-Based Role-Playing Agents
+
+[[Deep Reading - Jun 2026/Staying In Character-Perspective-Bounded Memory For Book-Based Role-Playing Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25632v1](https://arxiv.org/pdf/2606.25632v1)
+
+- **本文针对基于小说的角色扮演智能体中普遍存在的事实越界和风格单调问题，提出了REVERIEMEM视角受限三层记忆架构。该架构将记忆分为情景层、语义层和个性层，分别对应第一人称经历、可见性标记的事实知识以及情境依赖的表达模式。推理时通过分层检索与约束，确保角色仅使用其可知信息并调整风格。为评估知识边界，作者构建了包含4386个问题、覆盖8部小说的KBF-QA基准。实验表明，REVERIEMEM在知识边界保真度上提升34.6个百分点，在叙事生成质量上达到79%胜率。论文还讨论了现有方法的局限性，并指出了未来方向，如极端视角压力测试和多智能体协调。这项工作为构建更真实的角色扮演系统提供了系统性方案。**
+
+<!-- paperflow:210a3d4dc810408a -->
+## Autodata: An agentic data scientist to create high quality synthetic data
+
+[[Deep Reading - Jun 2026/Autodata-An agentic data scientist to create high quality synthetic data|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25996v1](https://arxiv.org/pdf/2606.25996v1)
+
+- **本文提出Autodata框架，旨在通过自主AI智能体模拟人类数据科学家的工作流来生成高质量合成数据。框架的核心是Agentic Self-Instruct，智能体迭代生成数据、评估质量、调整策略。实验涵盖计算机科学、法律推理和数学推理三个领域，表明Autodata优于传统合成数据方法，而元优化能带来更大提升。论文认为，该方法将计算资源从推理转向数据生成，可能改变AI数据构建方式。但受限于证据，具体实验细节、基线名称、数值结果需阅读原文。**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：generation, language, vision-language-model, reasoning, vision, optimization, retrieval, multimodal-reasoning
-- 论文/报告：11 篇
+- 方法：generation, language, vision-language-model, reasoning, vision, optimization, retrieval, multimodal-learning
+- 论文/报告：17 篇
 - Text-Vision Co-Instructed Image Editing
 - Timage: A Generative Text-in-Image Paradigm for Fine-Tuning Vision-Language Models
 - The Hidden Evolution of Disguised Visual Context inside the VLM
@@ -1695,15 +1848,71 @@ historical context. Rather than selecting frames before generation, CaR concaten
 
 - **本文提出数据学（philomatics）中的WRF数据演化框架，旨在从历史数据集序列生成演化数据集。受维特根斯坦规则遵循和家族相似性哲学概念启发，WRF将每个数据集表示为描述符向量，通过外推历史描述符轨迹预测规则遵循目标，通过平均预测家族相似性目标。然后从历史数据生成候选数据集，通过加权损失评分，并可选进行描述符空间优化。框架允许样本量和特征维度变化。在合成和图像数据集上的模拟验证了WRF能产生有意义的演化数据。主要贡献：1) 定义数据演化问题；2) 提出哲学动机框架；3) 设计描述符表示与规则预测方法；4) 演示生成和优化流程。限制包括描述符手工设计、优化计算成本、实验规模有限。**
 
+<!-- paperflow:cc219d1c5aa0164b -->
+## How Robust is OCR-Reasoning? Evaluating OCR-Reasoning Robustness of Vision-Language Models under Visual Perturbations
+
+[[Deep Reading - Jun 2026/How Robust is OCR-Reasoning-Evaluating OCR-Reasoning Robustness of Vision-Language Models under|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26041v1](https://arxiv.org/pdf/2606.26041v1)
+
+- **本文系统研究了视觉语言模型在OCR推理任务中的鲁棒性问题。作者指出，尽管VLM在OCR基准上表现优异，但在视觉退化（如模糊、噪声、几何变换）下的表现尚不了解。为了填补这一空白，他们构建了OCR-Robust基准，包含812个样本，覆盖文档、场景文本、收据、手写、数学（OCR1.0）以及图表、几何图、表格（OCR2.0）。通过预研究从18种候选扰动中筛选出5种代表类型（各3个严重级别），并采用干净准确率、相对腐败保留（RCR）、最坏情况保留（WCR）和复合鲁棒性指数（CRI）进行评估。实验涵盖18个模型，包括闭源（GPT-4V、Gemini等）、开源VLM（LLaVA、Qwen-VL等）和OCR+LLM分解流水线。主要发现：①更高干净准确率不意味着更强鲁棒性；②模型在结构密集型任务（图表、表格）上退化更显著；③闭源模型通常更鲁棒；④OCR+LLM分解和CoT提示不能稳定改善鲁棒性。论文讨论了数据规模、扰动选择范围等方面的局限性，并指出复合扰动和多语言扩展是未来方向。**
+
+<!-- paperflow:fe37cea035f7ca57 -->
+## Causal-rCM: A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive Diffusion Distillation in Streaming Video Generation and Interactive World Models
+
+[[Deep Reading - Jun 2026/Causal-rCM-A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive Diffusion D|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25473v1](https://arxiv.org/pdf/2606.25473v1)
+
+- **本文针对自回归视频扩散模型推理成本高的问题，提出了Causal-rCM，将rCM的扩散蒸馏思想（前向散度CM与反向散度DMD互补）适配到因果训练范式（teacher-forcing和self-forcing）。技术贡献包括：(1)首次将连续时间一致性模型（sCM/MeanFlow）用于自回归视频扩散，并通过定制FlashAttention-2 JVP内核实现高效训练，收敛速度比离散时间CM快10倍。(2)设计分阶段训练流水线：先通过teacher-forcing CM（TF-CM）进行高效初始蒸馏，再利用self-forcing DMD（SF-DMD）进行on-policy微调，两者协同达到SOTA。(3)在流式视频生成中（帧级和块级）仅需1-2步采样，VBench-T2V达到84.63分，与50步教师模型相当。在动作条件交互世界模型Cosmos 3上展示了自然交互能力。实验揭示了TF-CM作为初始化关键、连续时间CM的优势以及联合训练的挑战。论文提供了开源算法和基础设施，为高效视频扩散蒸馏建立了新基准。局限性包括长rollout不稳定、完全联合优化困难以及仅合成数据训练。**
+
+<!-- paperflow:b738a6e81ea19b42 -->
+## TriViewBench: Controlled Complexity Scaling for Multi-View Structural Reasoning in MLLMs
+
+[[Deep Reading - Jun 2026/TriViewBench-Controlled Complexity Scaling for Multi-View Structural Reasoning in MLLMs|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26029v1](https://arxiv.org/pdf/2606.26029v1)
+
+- **论文提出了TriViewBench，一个用于诊断MLLMs多视图结构推理的受控基准。通过合成3D场景参数化对象数量和遮挡，生成1923个场景和超过14K QA对，分为四种复杂度等级和三种推理类别。评估了18个开源和闭源MLLMs，发现所有模型存在一致的能力层次（局部决策>对象计数>全局恢复），且性能随复杂度单调下降，尤其在高复杂度任务上退化严重。错误分析揭示了单视图欠计数和多视图过度计数两种不相关失败模式，表明模型缺乏有效的跨视图推理。CoT提示仅在高能力模型上对全局恢复有微小改善，整体收益近乎为零，指出瓶颈在于空间表征而非推理策略。论文将TriViewBench定位为系统诊断MLLMs结构推理可扩展性的框架。**
+
+<!-- paperflow:138aae08379ad48d -->
+## Brevity is the Soul of Inference Efficiency: Inducing Concision in VLMs via Data Curation
+
+[[Deep Reading - Jun 2026/Brevity is the Soul of Inference Efficiency-Inducing Concision in VLMs via Data Curation|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25432v1](https://arxiv.org/pdf/2606.25432v1)
+
+- **本文提出通过预训练数据筛选来诱导VLM的简洁性输出，从而提升推理效率。作者首先指出当前效率优化忽略输出长度膨胀的问题，然后设计了一套数据筛选流程，选择简洁且正确的训练样本。在1B-4B参数规模的14个VLM对比中，筛选模型在精度几乎持平的前提下，每次正确回答的FLOPs降低最多35倍。匹配长度下，筛选模型精度相比未筛选基线大幅提升（最高+21.2pp），且增益随规模增大。进一步分析表明，通用冗长无益，推理式冗长仅在有限条件下有效且窗口缩。实验结论支持“推理效率应聚焦于每次正确回答的token成本”的观点，并为通过数据治理实现简洁性提供了实证基础。**
+
+<!-- paperflow:d48f07385988b31b -->
+## In-context Region-based Drag: Drag Any Region to Any Shape
+
+[[Deep Reading - Jun 2026/In-context Region-based Drag-Drag Any Region to Any Shape|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25907v1](https://arxiv.org/pdf/2606.25907v1)
+
+- **本文提出ICRDrag，一种基于上下文学习（in-context learning）的区域拖拽图像编辑方法。不同于点拖拽的模糊性，区域拖拽使用源区域掩码和目标区域掩码精确指定编辑意图。ICRDrag以源图像、源掩码和目标掩码为输入，通过扩散Transformer（DiT）在单次前向传播中生成目标图像。核心贡献是两种注意力正则化：图像-掩码注意力一致性（IMAC）和源-目标注意力对应（STAC），分别对齐跨模态注意力和确保区域间对应。为支持大规模训练，作者构建了包含20万对掩码-图像对的PRD数据集。实验在多个数据集上显示，ICRDrag在编辑精度、视觉质量、用户偏好方面大幅超过现有方法。消融实验验证了两种正则化的有效性，且方法可泛化到不同DiT骨干。代码、模型和数据集已开源。**
+
+<!-- paperflow:2ca3894f165516ea -->
+## RAVEN: Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory
+
+[[Deep Reading - Jun 2026/RAVEN-Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25206v1](https://arxiv.org/pdf/2606.25206v1)
+
+- **本文提出RAVEN（Retrieval-Augmented Visuo-spatio-temporal mEmory for Navigation），一个直接基于视觉嵌入的智能记忆系统，专为长时域机器人问答与导航设计。核心创新在于跳过图像到文本的字幕化过程，将观察到的RGB图像编码为稠密向量，并与位姿、时间共同索引，存储于向量数据库同时构建空间地图。查询时，由一个LLM驱动的代理解析自然语言约束并调用相应的空间、语义或时间检索工具。在NaVQA和FindingDory两个基准上，RAVEN一致超越基于字幕的方法，并以更低的成本匹配GPT-4V等大模型。在真实机器人平台Unitree Go1上，RAVEN在多个大型室内环境成功完成自然语言目标导航任务，平均成功率87%。此外，系统在视频帧率压缩22315倍时仍能保持鲁棒性能。论文最后讨论了依赖预训练编码器、动态场景挑战等局限性，并指出未来方向。**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：stat-ml, deep-learning
-- 论文/报告：2 篇
+- 方法：stat-ml, deep-learning, stat-me
+- 论文/报告：4 篇
 - Learning Process Rewards via Success Visitation Matching for Efficient RL
 - What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
+- On-Policy Self-Distillation with Sampled Demonstrations Reduces Output Diversity
+- Data Augmentation: A Fourier Analysis Perspective
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1730,3 +1939,51 @@ Emergent misalignment (EM) is a phenomenon in which models generalize with narro
 directly: (1) training dynamics, (2) model “priors”, and (3) data. We explain each angle in more detail below, connecting related works and our proposals.
 
 ing learning schedules for one narrow fine-tuning, we did not find meaningful local minima that yielded significantly better alignment scores at comparable or lower training loss. \- Model “priors”: Our comparisons found that while most misaligned models have statistically different mean and standard deviations from the pre-tra...**
+
+<!-- paperflow:4a86e5fdda34a88e -->
+## On-Policy Self-Distillation with Sampled Demonstrations Reduces Output Diversity
+
+[[Deep Reading - Jun 2026/On-Policy Self-Distillation with Sampled Demonstrations Reduces Output Diversity|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26091v1](https://arxiv.org/pdf/2606.26091v1)
+
+- **本文系统研究了 on-policy self-distillation with sampled demonstrations (SDSD) 对输出多样性的影响。首先，通过理论分析揭示 SDSD 的最优策略会通过点状条件互信息 (PCMI) 加权，使得模型过度增强与已采样示范兼容的 rollout，从而造成模式坍塌——这是与理想 on-policy RL（保留正确解概率比）的关键区别。其次，在图路径寻找和科学问答基准上实验证实：SDSD 虽能取得高 pass@1 准确率，但 pass@k 曲线平坦，功能/语义多样性显著低于 RL，且在分布外泛化中失败。论文还指出 token 级熵不能有效反映这种多样性损失。最后，讨论了缓解策略（如修改梯度方向）并指出未来方向。**
+
+<!-- paperflow:9b13df4b26b42e55 -->
+## Data Augmentation: A Fourier Analysis Perspective
+
+[[Deep Reading - Jun 2026/Data Augmentation-A Fourier Analysis Perspective|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.24418v1](https://arxiv.org/pdf/2606.24418v1)
+
+- **本文系统研究了有限群对称性下部分数据增强的统计性质。作者针对基于投影基的密度估计和回归问题，利用傅里叶分析和表示论建立了理论框架。主要发现：当使用随机采样的群元素子集进行数据增强时，估计器的极小化最优速率与使用整个群相同，近似误差随子集大小增大而消失。这一结果解释了实践中随机部分增强的广泛有效性。同时，论文证明了一个不可能性结果：若假设空间足够表达，精确不变性只能通过全群平均实现，任何部分增强都无法严格保证。这些结论统一了完全/部分数据增强、精确/近似对称性的理论理解，并为设计计算高效的对称性学习算法提供了指导。**
+
+# AI Research
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI Research
+- 方法：ai-for-science
+- 论文/报告：2 篇
+- Data-Driven Evolution of Library and Information Science Research Methods (1990-2022): A Perspective Based on Fine-grained Method Entities
+- When Surveys Become Conversations: Adaptive Matrix Validation for AI-Assisted Interviews
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
+<!-- paperflow:d3631ed53ef54964 -->
+## Data-Driven Evolution of Library and Information Science Research Methods (1990-2022): A Perspective Based on Fine-grained Method Entities
+
+[[Deep Reading - Jun 2026/Data-Driven Evolution of Library and Information Science Research Methods (1990-2022)-A Perspect|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.25320v1](https://arxiv.org/pdf/2606.25320v1)
+
+- **本研究针对图情领域自1990年代以来数据驱动研究范式的影响，通过自动提取细粒度方法实体（算法与模型、数据资源、软件与工具、指标），系统分析了1990-2022年间研究方法的演化特征。论文首先构建了包含图情领域代表性期刊全文的语料库，从方法章节中提取四类实体，然后从三个维度（时间、研究主题、研究方法）进行量化分析。主要发现包括：数据资源是方法论演化的核心驱动力；方法实体呈现出‘出现-稳定/实际应用’的循环模式，即新方法先快速涌现，随后进入稳定或实际应用阶段；不同研究主题和方法类型下的实体分布存在显著差异；2011-2013年间实体相似度下降可能与神经网络技术的兴起有关。研究为理解图情领域方法论的演化提供了客观、定量的视角，有助于指导未来方法选择和研究规划。论文还讨论了方法实体抽取的局限性（依赖方法章节假设）、语料覆盖范围有限等，并指出未来可向多学科扩展、结合引用分析等方向。**
+
+<!-- paperflow:2e114b78c3a5d644 -->
+## When Surveys Become Conversations: Adaptive Matrix Validation for AI-Assisted Interviews
+
+[[Deep Reading - Jun 2026/When Surveys Become Conversations-Adaptive Matrix Validation for AI-Assisted Interviews|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.24244v1](https://arxiv.org/pdf/2606.24244v1)
+
+- **本文针对AI辅助访谈这一新兴调查范式中的关键测量问题，提出了一套完整的统计设计和推断框架——自适应矩阵验证（AMV）。主要动机是：AI系统能够将自由叙述映射为结构化变量，但这种映射充满噪声、版本依赖且可能存在子群异质性，若不加以统计校准，直接使用映射数据会导致严重偏差且无法量化不确定性。AMV的核心思想是放弃“完美映射”的幻想，转而采用测量误差模型：将AI映射视为带误差的代理变量，通过稀疏但概率已知的结构化验证问题，在调查内部嵌入校准机制。具体地，每位受访者在完成AI访谈后，随机回答少量验证问题（例如时间使用调查中的具体活动记录或以死因叙述中的医学诊断）。估计器采用两步策略：第一步利用所有验证数据估计AI映射的系统偏差函数（全局校准），第二步利用该受访者自身的验证答案修正个体残余误差。论文严格推导了总体均值、比例、子群均值以及回归系数（映射值作为自变量或因变量）的渐近无偏估计量，并给出了与经典调查方差类似的解析方差公式。基于方差表达式，还提供了设计规划工具：给定目标标准误差，计算所需验证问题总数和每位受访者分配的验证问题数。实证部分通过三类仿真验证了方法的有效性：设计校准参数化模拟展示了在不同映射误差强度、验证问题质量和稀疏度下的性能行为；基于美国时间使用调查（ATUS）的半仿真案例说明了在真实数据分布下的实用性；CHAMPS死因叙述研究则展示在医疗领域应用中的潜力。实验结论表明，当AI映射误差中等以上时，AMV能以每位受访者4-6个验证问题的代价获得接近全结构化问卷的精度；但验证问题的质量是关键调节变量，且对回归系数估计的校正能力弱于均值估计。论文指出AMV将AI辅助访谈重新定义为调查测量问题而非自然语言处理问题，强调了统计设计与验证的重要性，为AI在调查中的负责任整合提供了可操作途径。**

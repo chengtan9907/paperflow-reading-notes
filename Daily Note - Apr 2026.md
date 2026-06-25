@@ -7,7 +7,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Daily Note - Apr 2026
-- 方法：generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning, multimodal-reasoning
+- 方法：generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning, vision-language
 - 论文/报告：17 篇
 - Dynin-Omni: Omnimodal Unified Large Diffusion Language Model【Unified Model】
 - TorchUMM: A Unified Multimodal Model Codebase for Evaluation, Analysis, and Post-training【Unified Model】
@@ -452,7 +452,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation
+- 方法：agent, generation, econ-em
 - 论文/报告：8 篇
 - ImagenWorld: Stress-Testing Image Generation Models with Explainable Human Evaluation on Open-ended Real-World Tasks【Wenhu Chen】
 - A Frame is Worth One Token: Efficient Generative World Modeling with Delta Tokens【Amazon】
@@ -980,7 +980,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, language, reasoning, multimodal-learning, multimodal-reasoning, stat-ml, explanation, gui-agent
+- 方法：agent, language, reasoning, multimodal-learning, stat-ml, multimodal-reasoning, stat-me, gui-agent
 - 论文/报告：9 篇
 - Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute
 - Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design【Latent Labs】

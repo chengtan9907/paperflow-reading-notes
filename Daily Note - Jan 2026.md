@@ -470,7 +470,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：language, reasoning, optimization, stat-ml, explanation
+- 方法：language, reasoning, optimization, stat-ml, stat-me, explanation
 - 论文/报告：13 篇
 - Efficiently Estimating Data Efficiency for Language Model Fine-tuning
 - ⭐Can Small Training Runs Reliably Guide Data Curation? Rethinking Proxy-Model Practice【James Zou】
@@ -601,7 +601,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：generation, reasoning, multimodal-learning, multimodal-reasoning, stat-ml
+- 方法：generation, reasoning, multimodal-learning, stat-ml, multimodal-reasoning, stat-me
 - 论文/报告：15 篇
 - VINO: A Unified Visual Generator with Interleaved OmniModal Context
 - NextFlow: Unified Sequential Modeling Activates Multimodal Understanding and Generation【ByteDance】
