@@ -587,7 +587,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, reasoning, optimization, stat-ml, multimodal-reasoning, stat-me
+- 方法：agent, generation, language, reasoning, optimization, stat-ml, multimodal-reasoning, gui-agent
 - 论文/报告：18 篇
 - Helios: Real Real-Time Long Video Generation Model【ByteDance】
 - InfinityStory: Unlimited Video Generation with World Consistency and Character-Aware Shot Transitions【Adobe】

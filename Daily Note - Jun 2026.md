@@ -424,7 +424,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：World Models, Generation & Audio
-- 方法：agent, generation, stat-ml, stat-me, gui-agent
+- 方法：agent, generation, stat-ml, gui-agent, stat-me
 - 论文/报告：7 篇
 - dots.tts Technical Report【RedNote】
 - MetaWorld: Scaling Multi-Agent Video World Model from Single-view Video Data【World Model】
@@ -492,7 +492,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Research Agents & Scientific Discovery
-- 方法：agent, generation, reasoning, optimization, machine-learning, deep-learning
+- 方法：agent, generation, reasoning, optimization, deep-learning, machine-learning
 - 论文/报告：6 篇
 - Self-Evolving Deep Research via Joint Generation and Evaluation【Research】
 - DuMate-DeepResearch: An Auditable Multi-Agent System with Recursive Search and Rubric-Grounded Reasoning【Research, Baidu】
@@ -550,7 +550,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Web, GUI & Computer-Use Agents
-- 方法：agent, reinforcement-learning, stat-ml, machine-learning, deep-learning, stat-me, gui-agent
+- 方法：agent, reinforcement-learning, stat-ml, deep-learning, gui-agent, machine-learning, stat-me
 - 论文/报告：8 篇
 - DailyReport: An Open-ended Benchmark for Evaluating Search Agents on Daily Search Tasks【Search, Meituan】
 - OpenWebRL: Demystifying Online Multi-turn Reinforcement Learning for Visual Web Agents【Web, Microsoft】
@@ -961,7 +961,7 @@
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
 - 方法：agent, ai-for-science, language, bio-molecular, science-discovery, optimization, stat-ml, stat-me
-- 论文/报告：10 篇
+- 论文/报告：11 篇
 - AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle【Research】
 - Benchmarking AI Agents for Addressing Scientific Challenges Across Scales【Research, Science】
 - SwitchCraft: A Programmatic Framework for Designing State-Switching Proteins【Bowen Jing】
@@ -1051,6 +1051,15 @@
 
 - **本文针对基本 RAG 在处理半结构化知识库（如精准医学知识图谱）时的局限性，系统比较了包括基本 RAG、GraphRAG、Modular RAG 和 Agentic RAG 在内的多种 RAG 变体。作者首先定义了 9 个标准化的 RAG 场景，覆盖从简单文档检索到高级智能体-图集成的不同复杂度，并给出了具体实现。然后在包含 129K 实体和 8.1M 关系的精准医学知识库上进行实验，比较了各场景在检索精度、答案质量、效率等方面的表现。针对 GraphRAG 和 Agentic RAG 中常见的上下文溢出问题，提出了一种新颖的上下文工程方法，通过新的文本/图表示和定制化智能体循环模式（超越 ReAct）来管理检索结果，使模型能有效利用长上下文。实验揭示了检索-生成间隙，即 LLM 选择的实体并不总是最优，建议端到端评估。论文最终为实践者提供了在不同用例、数据特征和性能约束下选择合适 RAG 架构的实证指导。**
 
+<!-- paperflow:0181d95a8282a7d6 -->
+## scBench-Long: Verifiable Benchmarking of Long-Horizon Single-Cell Biology
+
+[[Deep Reading - Jun 2026/scBench-Long-Verifiable Benchmarking of Long-Horizon Single-Cell Biology|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26563](https://arxiv.org/pdf/2606.26563)
+
+- **本文提出 scBench-Long，一个专注于长视界单细胞生物学的可验证基准。研究动机在于现有基准无法评估 AI 代理完成多步骤科学推理的能力。scBench-Long 包含 21 个评估，覆盖五个研究系统（黑色素瘤免疫反应、RNA+ATAC 调控、人-猴嵌合体、肺癌衰老、COVID-19 病理），每个任务要求代理从原始或近原始单细胞数据出发，整合多种数据类型和背景知识，最终输出符合受控词汇的科学声明。基准设计强调可验证性，通过预定义的答案词汇和确定性评分（pass/fail）确保评估客观，同时辅以轨迹规则追踪关键分析步骤。实验表明，最强模型-工具组合通过率仅 25.4%，代理普遍在执行完整推理和避免已知失败模式（如依赖文献先验、混淆数值大小与重要性）上存在不足。作者将 scBench-Long 定位为更广泛可验证基准家族的一部分，并讨论未来扩展方向。**
+
 # Foundation AI & AGI
 
 <!-- paperflow-topic-summary:start -->
@@ -1083,7 +1092,7 @@
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
-- 论文/报告：24 篇
+- 论文/报告：27 篇
 - Exploring Extrinsic and Intrinsic Properties for Effective Reasoning with Code Interpreter
 - Revisiting the Systematicity in Negation in the Era of In-Context Learning
 - Efficiently Representing Algorithms With Chain-of-Thought Transformers
@@ -1345,13 +1354,40 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 
 - **论文iLLaDA（Improved Large Language Diffusion Models）旨在探索完全双向注意力扩散语言模型的潜力。论证主线：现有自回归LLM占据主导，但双向扩散预训练在数据利用上有理论优势，且LLaDA初步验证了可行性；iLLaDA通过大规模预训练（12T token）和改进的训练配方，证明双向扩散可以成为一条有竞争力的路径。技术主线：模型采用masked diffusion目标，全程（预训练+SFT）保持，使用全双向注意力，并引入变长生成和置信度评分。实验主线：在通用、数学、代码基准上与LLaDA和Qwen2.5 7B对比，iLLaDA在多数任务上大幅超越LLaDA，并与自回归模型持平或更好。结论：双向扩散训练是一种有前途的替代方案，值得进一步研究。**
 
+<!-- paperflow:8bcb164b7f5ba19c -->
+## Reinforcement Learning without Ground-Truth Solutions can Improve LLMs
+
+[[Deep Reading - Jun 2026/Reinforcement Learning without Ground-Truth Solutions can Improve LLMs|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27369](https://arxiv.org/pdf/2606.27369)
+
+- **本文针对 RLVR 对 ground-truth 答案的依赖问题，提出 RiVER 框架，将可执行评分任务作为 RL 训练环境。核心贡献是识别并解决了连续评分奖励中的两个偏差（scale dominance 和 frequency dominance），并通过实例级排名校准和 top-k 加权设计出稳定的奖励成型方法。实验在 12 个算法工程任务上训练，并在三个异构基准上评估，证明了 RiVER 不仅能提升评分任务性能，还能迁移到精确求解基准，而未经校准的原始分数基线则无法迁移。这项工作为利用丰富但无 ground-truth 的可执行环境来增强 LLM 的通用编码能力开辟了新路径。**
+
+<!-- paperflow:308e081ed6d32844 -->
+## GEOALIGN: Geometric Rollout Curation for Robust LLM Reinforcement Learning
+
+[[Deep Reading - Jun 2026/GEOALIGN-Geometric Rollout Curation for Robust LLM Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26917](https://arxiv.org/pdf/2606.26917)
+
+- **本文提出GEOALIGN，一种基于几何信号的轻量级rollout筛选方法，用于改善在线RL对齐LLM时的训练稳定性。核心贡献是识别了方向不一致性这一失败模式，即少数高奖励rollout的更新方向与批次整体方向冲突，导致训练振荡。GEOALIGN通过在prompt内形成偏好对，学习投影器计算位移方向，并与批次共识原型比较，检测并修正此类异常rollout。实验在对话对齐和数学推理任务上验证了有效性，表明该方法能提升最终性能并减少训练振荡，优于多个现有基线。**
+
+<!-- paperflow:ca39890c98d9f694 -->
+## Extracting Problem and Method Sentence from Scientific Papers: A Context-enhanced Transformer Using Formulaic Expression Desensitization
+
+[[Deep Reading - Jun 2026/Extracting Problem and Method Sentence from Scientific Papers-A Context-enhanced Transformer Usi|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26481](https://arxiv.org/pdf/2606.26481)
+
+- **本文聚焦于从科学论文中自动提取问题句和方法句这一关键任务。针对标注数据量小导致的模型泛化问题，作者提出两个创新：一是基于公式化表达（FE）脱敏的数据增强方法，通过生成合成数据并削弱模型对固定短语的依赖；二是上下文增强Transformer，利用上下文信息强化目标句子中关键词的权重并抑制噪音。论文在两个公开数据集上开展全面实验，定量结果显示宏F1分数相对基线提升3.71%和2.67%。同时，论文测试了大语言模型的上下文学习能力，发现其不适用于该细粒度句子抽取任务。结果表明，所提出的方法有效且实用，为该领域提供了新的解决思路。论文还详细讨论了FE的特征、数据增强的具体策略以及模型的消融分析。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization, retrieval
-- 论文/报告：38 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：43 篇
 - DEEPRUBRIC: Evidence-Tree Rubric Supervision for Efficient Reinforcement Learning of Deep Research Agents
 - Gen-VCoT: Generative Visual Chain-of-Thought Reasoning via Diffusion-Based RGB Intermediate Representations
 - Connect the Dots: Training LLMs for Long-Lifecycle Agents with Cross-Domain Generalization Via Reinforcement Learning
@@ -1717,13 +1753,75 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 
 - **本文提出Autodata框架，旨在通过自主AI智能体模拟人类数据科学家的工作流来生成高质量合成数据。框架的核心是Agentic Self-Instruct，智能体迭代生成数据、评估质量、调整策略。实验涵盖计算机科学、法律推理和数学推理三个领域，表明Autodata优于传统合成数据方法，而元优化能带来更大提升。论文认为，该方法将计算资源从推理转向数据生成，可能改变AI数据构建方式。但受限于证据，具体实验细节、基线名称、数值结果需阅读原文。**
 
+<!-- paperflow:994747dd03c6038d -->
+## Qwen-Image-Agent: Bridging the Context Gap in Real-World Image Generation
+
+[[Deep Reading - Jun 2026/Qwen-Image-Agent-Bridging the Context Gap in Real-World Image Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26907](https://arxiv.org/pdf/2606.26907)
+
+- **论文《Qwen-Image-Agent: Bridging the Context Gap in Real-World Image Generation》由阿里通义千问团队（机构为推测，institution字段留空）撰写，发表于arxiv。核心贡献是识别并形式化了真实世界图像生成中的“上下文缺口”（Context Gap）问题，并提出Qwen-Image-Agent框架来系统解决。框架由两个主要模块组成：
+1. **上下文感知规划**：动态分析用户上下文缺失，制定信息获取计划。
+2. **上下文接地**：通过推理、搜索、记忆和反馈四种渠道收集缺失上下文，并整合为完整生成上下文。
+
+为评估智能体图像生成能力，论文构建了IA-Bench基准，包含规划、推理、搜索、记忆四项能力子集，每个子集约250个任务。实验在IA-Bench、Mindbench和WISE-Verified三个基准上进行，Qwen-Image-Agent在所有评估中均优于强大基线，包括标准T2I模型、检索增强模型以及其他智能体框架。消融实验证实了各模块的重要性，其中规划模块最为关键。论文还讨论了常见失败模式，如未识别上下文缺口、过度接地、搜索错误和记忆冲突，为未来研究指明方向。该工作系统性地将智能体范式引入图像生成领域，强调了上下文完整性的重要性，并提供了可复现的评估协议。**
+
+<!-- paperflow:f2653ab3feec81cc -->
+## OPID: On-Policy Skill Distillation for Agentic Reinforcement Learning
+
+[[Deep Reading - Jun 2026/OPID-On-Policy Skill Distillation for Agentic Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26790](https://arxiv.org/pdf/2606.26790)
+
+- **本文提出OPID，一种在策略技能蒸馏框架，用于增强基于结果的强化学习在语言智能体任务中的表现。核心动机是结果奖励的稀疏性导致对中间决策缺乏指导，而现有技能蒸馏方法依赖外部存储或特权信息，成本高且分布不匹配。OPID直接从当前策略的已完成轨迹中提取层次化技能：片段级技能总结整个episode的流程或失败模式，步骤级技能聚焦关键时刻的决策。通过关键优先路由，智能体在关键步骤使用步骤级技能，否则使用片段级技能。将技能注入历史后，旧策略对同一响应在原始和技能增强上下文中重新评分，计算token级对数概率差异作为自蒸馏优势，并与结果优势结合更新策略。实验在ALFWorld、WebShop和Search-based QA上进行，使用Qwen2.5-7B和Qwen3-1.7B模型，结果一致优于纯结果RL和现有蒸馏基线，展示了更好的性能、样本效率和鲁棒性。代码已开源。**
+
+<!-- paperflow:1a0d724d91525dbe -->
+## Empowering GUI Agents via Autonomous Experience Exploration and Hindsight Experience Utilization for Task Planning
+
+[[Deep Reading - Jun 2026/Empowering GUI Agents via Autonomous Experience Exploration and Hindsight Experience Utilization|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27330](https://arxiv.org/pdf/2606.27330)
+
+- **本文针对小型MLLM在GUI任务规划中规划能力弱、跨网站泛化差的问题，提出自主经验探索与事后经验利用方法PEEU以及分析框架TDHAF。PEEU通过让代理在环境中自由探索并记录轨迹（规划树），再对轨迹进行事后反思和结构化，合成高质量的高级训练数据。该方法无需人工标注，可自动生成多样化经验。TDHAF框架将任务分解为低、中、高三个粒度，系统研究组合泛化。实验在真实网站基准上进行，基于Qwen2.5-VL-7B的PEEU达到30.6%准确率，显著超过相同规模的基线（7.8%）和更大的32B模型。分析发现：低级技能掌握不保证高级规划能力，而高级任务训练带来的OOD泛化更强，且对低级任务也有效。结论表明，利用事后经验和构造高级任务是提升小模型规划能力的关键。**
+
+<!-- paperflow:e557927e868c1e70 -->
+## Einstein World Models
+
+[[Deep Reading - Jun 2026/Einstein World Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26969](https://arxiv.org/pdf/2606.26969)
+
+- **本文提出Einstein World Models (EWM)，旨在为LLM赋予通过视觉思维实验进行推理的能力。论文从哲学和认知科学的角度论证了语言推理的局限性，指出许多复杂问题需要场景级可视化，而语言难以有效表达物体身份、空间关系、物理规律等维度。EWM框架将视觉时间序列的生成纳入LLM的推理轨迹：LLM在推理过程中调用一个世界模块（world-module），生成关于当前场景的简短播放（rollout），该播放不是最终答案，而是可检查的假设，其视觉内容可支持后续推理步骤。EWM拓展了LLM的工具调用能力（如搜索、代码执行）至视觉思维实验领域。论文还讨论了与链式思维、世界模型、视觉生成等相关工作的关系，指出传统世界模型主要作为高保真模拟器，限制了思维实验的范围；EWM则重新定位了可视化在推理中的角色。目前该论文处于概念提出阶段，检索证据中未见详细的实验结果。**
+
+<!-- paperflow:3aa5060108e2b0fa -->
+## AgentX: Towards Agent-Driven Self-Iteration of Industrial Recommender Systems
+
+[[Deep Reading - Jun 2026/AgentX-Towards Agent-Driven Self-Iteration of Industrial Recommender Systems|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.26859](https://arxiv.org/pdf/2606.26859)
+
+- **论文《AgentX: Towards Agent-Driven Self-Iteration of Industrial Recommender Systems》由阿里巴巴集团（推测，作者单位证据不足）团队撰写，针对工业推荐系统中算法迭代依赖人工、创新速度受限于人力规模的瓶颈，提出了一个生产部署的多智能体自动迭代框架 AgentX。
+
+**论证主线**：论文认为推荐算法迭代应从“手工艺”转向“工业化”，但现有流程中想法生成、代码实现、实验评估和知识积累全依赖工程师，导致改进速度与人力线性相关。为此，作者设计了一个四阶段闭环多智能体系统，使迭代变为自主、可规模化的过程。
+
+**技术主线**：AgentX 包含四个紧密耦合的阶段：
+- Brainstorm Agent 融合历史实验、系统架构、数据分析和外部研究，生成排序后的实验提案。
+- Developing Agent 将提案转化为生产代码，并通过编译、测试、性能预估等多维验证确保可靠性。
+- Evaluation Agent 进行安全在线 A/B 实验，使用防护栏（guardrail）防止有害方案上线，并将结果结构化存储。
+- Harness Evolution 层基于 SGPO（Semantic Gradient Policy Optimization）方法，将实验执行轨迹提炼为语义梯度，持续更新各代理的能力，形成自我改进的闭环。
+系统设计强调闭环、可扩展和自演化，区别于经典 LLM Agent 任务（假设可验证奖励和一次执行）的理解。
+
+**实验主线**：论文在真实工业推荐场景中验证了 AgentX 的有效性，报告了显著指标：每周迭代量翻倍、8 倍并发、3.7 倍业务价值、0.561% 用户应用时长增长和超过 1 亿人民币年化收入。此外，相同闭环原则被成功扩展至模型研究，实现自主论文复现、模块消融等。论文还简要展示了与专家智能体协同演化的案例（Showcase II）。
+
+**局限与缺口**：论文未提供详细消融实验（如单个 agent 的贡献）、人工工程师的基准细节、统计显著性检验、失败案例系统分析。对安全防护的机...**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：generation, language, vision-language-model, reasoning, vision, optimization, retrieval, multimodal-learning
-- 论文/报告：17 篇
+- 论文/报告：19 篇
 - Text-Vision Co-Instructed Image Editing
 - Timage: A Generative Text-in-Image Paradigm for Fine-Tuning Vision-Language Models
 - The Hidden Evolution of Disguised Visual Context inside the VLM
@@ -1902,17 +2000,36 @@ historical context. Rather than selecting frames before generation, CaR concaten
 
 - **本文提出RAVEN（Retrieval-Augmented Visuo-spatio-temporal mEmory for Navigation），一个直接基于视觉嵌入的智能记忆系统，专为长时域机器人问答与导航设计。核心创新在于跳过图像到文本的字幕化过程，将观察到的RGB图像编码为稠密向量，并与位姿、时间共同索引，存储于向量数据库同时构建空间地图。查询时，由一个LLM驱动的代理解析自然语言约束并调用相应的空间、语义或时间检索工具。在NaVQA和FindingDory两个基准上，RAVEN一致超越基于字幕的方法，并以更低的成本匹配GPT-4V等大模型。在真实机器人平台Unitree Go1上，RAVEN在多个大型室内环境成功完成自然语言目标导航任务，平均成功率87%。此外，系统在视频帧率压缩22315倍时仍能保持鲁棒性能。论文最后讨论了依赖预训练编码器、动态场景挑战等局限性，并指出未来方向。**
 
+<!-- paperflow:0602aebfd4f1b150 -->
+## Paying More Attention to Visual Tokens in Self-Evolving Large Multimodal Models
+
+[[Deep Reading - Jun 2026/Paying More Attention to Visual Tokens in Self-Evolving Large Multimodal Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27373](https://arxiv.org/pdf/2606.27373)
+
+- **论文聚焦自演进大型多模态模型（LMMs）中的视觉欠条件化问题，指出现有方法优化答案一致性但忽略视觉注意力，导致模型依赖语言先验。为此，作者提出VISE——一种完全无监督的自演进框架，通过两个不变性奖励直接正则化视觉条件化：几何不变性奖励保证空间一致性，语义不变性奖励惩罚无证据生成。VISE在单一模型内训练，无需外部奖励或标注。在18个基准上的实验表明，以Qwen3-VL-2B为基础，VISE在COCO Caption上CIDEr提升16.85，TextCaps上提升19.66，物体幻觉（Chair-I）降低5.0，并在多个模型家族中展现泛化性。但局限性在于物体存在可靠性有所下降。论文论证了直接增加视觉token注意力对自演进LMMs的必要性和充分性。**
+
+<!-- paperflow:6ceae09706682a09 -->
+## Ask, Solve, Generate: Self-Evolving Unified Multimodal Understanding and Generation via Self-Consistency Rewards
+
+[[Deep Reading - Jun 2026/Ask, Solve, Generate-Self-Evolving Unified Multimodal Understanding and Generation via Self-Cons|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27376](https://arxiv.org/pdf/2606.27376)
+
+- **本文提出一个名为“Ask, Solve, Generate”的自我进化训练框架，旨在使统一多模态模型仅使用无标签图像即可提升视觉理解和图像生成能力。框架通过三个内部角色（提议者、求解者、生成者）协作，利用自洽性奖励信号驱动训练，无需任何外部监督。为稳定训练，引入求解者令牌熵（STE）。该方法在扩散、整流流和自回归三种主流统一模型上进行了验证，在多项理解和生成基准上取得一致提升。实验表明，该框架具有跨架构的通用性，为降低统一多模态模型对人工标注的依赖提供了新思路。**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
 - 方法：stat-ml, deep-learning, stat-me
-- 论文/报告：4 篇
+- 论文/报告：5 篇
 - Learning Process Rewards via Success Visitation Matching for Efficient RL
 - What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
 - On-Policy Self-Distillation with Sampled Demonstrations Reduces Output Diversity
 - Data Augmentation: A Fourier Analysis Perspective
+- All you need is log
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1957,6 +2074,15 @@ ing learning schedules for one narrow fine-tuning, we did not find meaningful lo
 [https://arxiv.org/pdf/2606.24418v1](https://arxiv.org/pdf/2606.24418v1)
 
 - **本文系统研究了有限群对称性下部分数据增强的统计性质。作者针对基于投影基的密度估计和回归问题，利用傅里叶分析和表示论建立了理论框架。主要发现：当使用随机采样的群元素子集进行数据增强时，估计器的极小化最优速率与使用整个群相同，近似误差随子集大小增大而消失。这一结果解释了实践中随机部分增强的广泛有效性。同时，论文证明了一个不可能性结果：若假设空间足够表达，精确不变性只能通过全群平均实现，任何部分增强都无法严格保证。这些结论统一了完全/部分数据增强、精确/近似对称性的理论理解，并为设计计算高效的对称性学习算法提供了指导。**
+
+<!-- paperflow:e29ed87c7e74e4a7 -->
+## All you need is log
+
+[[Deep Reading - Jun 2026/All you need is log|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27349](https://arxiv.org/pdf/2606.27349)
+
+- **论文《All you need is log》由Akshay Balsubramani撰写，系统研究了多分布Rényi散度的公理化特征。论文首先指出，许多现代统计和机器学习问题（如多群体公平性审计、多先验PAC-Bayes泛化界、多假设检验、模型检查点对比）需要同时比较W≥3个分布，而经典的二分布Rényi散度无法直接推广。作者证明了，任何实值泛函F(π1,...,πW)若满足数据单调性（即经任意黑箱随机处理变换后不增）和对独立乘积可加性（即对联合分布评估等于各分量评估之和），则必为多路coincidence divergence C_α(π1,...,πW) = -log ∫ π1^{α1}...πW^{αW} 在参数α上的正积分，其中α满足∑αk=1。该积分在参数空间上有四种几何区域：单纯形内部（0≤αk≤1）、混合符号指数锥（一个αl>1，其余≤0）、热带边界（α→∞方向，蕴含多路最大散度）以及单纯形顶点处的KL散度边。论文通过构造显式示例证明每个区域都是必要的，并且可以从单纯形内部取极限恢复。更重要的是，这一族同样从其他四个独立公理路径导出：Kolmogorov-Nagumo广义均值结合Rényi熵的均值定义、Khinchin和Shore-Johnson的经典熵公理、多假设检验误差指数、以及多彩票赌博解释。这种多重收敛为多分布Rényi散度的‘规范性’提供了强有力的结构证据。论文还建立了与Blackwell矩阵支配的谱对比，并讨论了在信息几何中的含义。**
 
 # AI Research
 

@@ -470,7 +470,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：language, reasoning, optimization, stat-ml, stat-me, explanation
+- 方法：language, reasoning, optimization, stat-ml, stat-me, math-pr, math-st, explanation
 - 论文/报告：13 篇
 - Efficiently Estimating Data Efficiency for Language Model Fine-tuning
 - ⭐Can Small Training Runs Reliably Guide Data Curation? Rethinking Proxy-Model Practice【James Zou】
@@ -1115,7 +1115,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, language, bio-molecular, cross-modal, protein-language-model
+- 方法：agent, language, bio-molecular, bioinformatics, cross-modal, protein-language-model
 - 论文/报告：7 篇
 - SeedFold: Scaling Biomolecular Structure Prediction【ByteDance Seed】
 - SeedProteo: Accurate De Novo All-Atom Design of Protein Binders【ByteDance Seed】
