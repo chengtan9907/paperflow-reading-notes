@@ -3,7 +3,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：On-Policy Distillation & Post-Training
-- 方法：reasoning, vision, reinforcement-learning, retrieval, multimodal-learning, multimodal-reasoning, deep-learning
+- 方法：reasoning, vision, retrieval, reinforcement-learning, deep-learning, multimodal-learning
 - 论文/报告：12 篇
 - Dense Supervision, Sparse Updates: On the Sparsity and Geometry of On-Policy Distillation
 - Learning to Reason by Analogy via Retrieval-Augmented Reinforcement Fine-Tuning
@@ -130,7 +130,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Multimodal Models & Visual Reasoning
-- 方法：language, vision-language-model, reasoning, vision, optimization, vision-language, multimodal-reasoning, cross-modal
+- 方法：language, vision-language-model, reasoning, vision, optimization
 - 论文/报告：8 篇
 - PRISM: Synergizing Vision Foundation Models via Self-organized Expert Specialization
 - Representation Forcing for Bottleneck-Free Unified Multimodal Models【Unified Model, ByteDance Seed】
@@ -204,7 +204,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Models & Reinforcement Learning
-- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning, stat-ml
+- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, deep-learning, optimization, multimodal-learning
 - 论文/报告：13 篇
 - Scaling LLM Reasoning from Minimal Labels: A Semi-Supervised Framework with a Lightweight Verifier
 - AdaSR: Adaptive Streaming Reasoning with Hierarchical Relative Policy Optimization
@@ -424,7 +424,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：World Models, Generation & Audio
-- 方法：agent, generation, stat-ml, gui-agent, stat-me
+- 方法：agent, generation, gui-agent
 - 论文/报告：7 篇
 - dots.tts Technical Report【RedNote】
 - MetaWorld: Scaling Multi-Agent Video World Model from Single-view Video Data【World Model】
@@ -492,7 +492,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Research Agents & Scientific Discovery
-- 方法：agent, generation, reasoning, optimization, deep-learning, machine-learning
+- 方法：agent, generation, reasoning, machine-learning, deep-learning, optimization
 - 论文/报告：6 篇
 - Self-Evolving Deep Research via Joint Generation and Evaluation【Research】
 - DuMate-DeepResearch: An Auditable Multi-Agent System with Recursive Search and Rubric-Grounded Reasoning【Research, Baidu】
@@ -550,7 +550,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Web, GUI & Computer-Use Agents
-- 方法：agent, reinforcement-learning, stat-ml, deep-learning, gui-agent, machine-learning, stat-me
+- 方法：agent, reinforcement-learning, machine-learning, deep-learning, gui-agent
 - 论文/报告：8 篇
 - DailyReport: An Open-ended Benchmark for Evaluating Search Agents on Daily Search Tasks【Search, Meituan】
 - OpenWebRL: Demystifying Online Multi-turn Reinforcement Learning for Visual Web Agents【Web, Microsoft】
@@ -626,7 +626,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Skills, Harness & Tooling
-- 方法：agent, generation, language, vision-language-model, vision, reinforcement-learning, optimization, retrieval
+- 方法：agent, generation, language, vision-language-model, vision, retrieval, reinforcement-learning, deep-learning
 - 论文/报告：25 篇
 - 🤔EvoTrainer: Co-Evolving LLM Policies and Training Harnesses for Autonomous Agentic Reinforcement Learning【Research, Tongyi】
 - AutoLab: Can Frontier Models Solve Long-Horizon Auto Research and Engineering Tasks?【Research】
@@ -825,7 +825,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Memory, Personalization & Long-Horizon Agents
-- 方法：agent, generation, reasoning, vision, retrieval, stat-ml, stat-me, econ-em
+- 方法：agent, generation, reasoning, vision, retrieval
 - 论文/报告：9 篇
 - Beyond Visual Memory: Mechanistic Diagnostics of Latent Visual Reasoning【Visual Reasoning, Alibaba, SII】
 - DecMem: Towards Minute-Long Consistent World Generation with Decoupled Memory【World Model, Kuaishou Kling】
@@ -960,8 +960,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
-- 方法：agent, ai-for-science, language, bio-molecular, science-discovery, optimization, stat-ml, stat-me
-- 论文/报告：11 篇
+- 方法：agent, ai-for-science, language, bio-molecular, science-discovery, reinforcement-learning, deep-learning, optimization
+- 论文/报告：14 篇
 - AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle【Research】
 - Benchmarking AI Agents for Addressing Scientific Challenges Across Scales【Research, Science】
 - SwitchCraft: A Programmatic Framework for Designing State-Switching Proteins【Bowen Jing】
@@ -1060,6 +1060,42 @@
 
 - **本文提出 scBench-Long，一个专注于长视界单细胞生物学的可验证基准。研究动机在于现有基准无法评估 AI 代理完成多步骤科学推理的能力。scBench-Long 包含 21 个评估，覆盖五个研究系统（黑色素瘤免疫反应、RNA+ATAC 调控、人-猴嵌合体、肺癌衰老、COVID-19 病理），每个任务要求代理从原始或近原始单细胞数据出发，整合多种数据类型和背景知识，最终输出符合受控词汇的科学声明。基准设计强调可验证性，通过预定义的答案词汇和确定性评分（pass/fail）确保评估客观，同时辅以轨迹规则追踪关键分析步骤。实验表明，最强模型-工具组合通过率仅 25.4%，代理普遍在执行完整推理和避免已知失败模式（如依赖文献先验、混淆数值大小与重要性）上存在不足。作者将 scBench-Long 定位为更广泛可验证基准家族的一部分，并讨论未来扩展方向。**
 
+<!-- paperflow:7c607b6caf2133ea -->
+## PerturbCellRL: Verifier-Guided Reinforcement Learning for Single-Cell Perturbation Prediction
+
+[[Deep Reading - Jun 2026/PerturbCellRL-Verifier-Guided Reinforcement Learning for Single-Cell Perturbation Prediction|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27752](https://arxiv.org/pdf/2606.27752)
+
+- **这篇论文提出了 PerturbCellRL，旨在解决单细胞扰动预测模型中“统计分布匹配”与“生物学逻辑一致性”脱节的问题。作者指出，尽管流匹配等生成模型能生成看似真实的细胞表达谱，但这些细胞往往在关键的生物学特征（如差异表达基因排序和信号通路响应）上表现不佳。为了弥补这一缺陷，PerturbCellRL 借鉴了 LLM 领域的对齐思想，将生物学知识转化为可计算的奖励函数，通过强化学习对预训练模型进行微调。核心方法包括四个维度的奖励设计：Pearson 和 RMSE 用于保证细胞在表达空间的位置和方向正确，DE Spearman 和 Pathway 活性则确保其功能逻辑符合生物学常识。在 Norman 和 ComboSciPlex 两个大规模基准数据集上的实验结果表明，PerturbCellRL 不仅在单细胞层面的生物学指标上取得了显著进步，还保持甚至提升了群体水平的预测精度。此外，论文还展示了验证器引导的推理策略（Best-of-N）能进一步压榨模型潜力。该研究为构建“可信的虚拟细胞”提供了一个系统性的框架，强调了在 AI for Science 领域，除了追求数据驱动的分布拟合，引入显式的科学知识校验（Verifier-guided alignment）是通往高可靠性模拟器的必经之路。**
+
+<!-- paperflow:1c6698f8e0cf51b6 -->
+## When Search Agents Should Ask: DiscoBench for Clarification-Aware Deep Search
+
+[[Deep Reading - Jun 2026/When Search Agents Should Ask-DiscoBench for Clarification-Aware Deep Search|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27669](https://arxiv.org/pdf/2606.27669)
+
+- **这篇论文针对 LLM 搜索智能体在处理复杂任务时的“盲目搜索”问题，提出了 DiscoBench 基准测试。研究的核心逻辑在于：深度搜索本质上是一个在不确定性空间中寻找最优路径的过程，而歧义是导致路径偏离的主要诱因。论文通过构建包含多步推理和人为歧义的任务集，系统地评估了智能体在识别歧义、发起澄清提问以及整合用户反馈方面的表现。实验结果表明，当前的顶尖模型在“澄清意识”上存在显著短板，往往通过猜测而非交互来处理不确定性，导致在复杂任务中的鲁棒性较差。DiscoBench 为开发更智能、更具交互性的搜索智能体提供了重要的评测工具和改进方向，强调了元认知和主动交互在未来 AI 搜索中的核心地位。**
+
+<!-- paperflow:8b9b1c9d059f73ca -->
+## Towards Automating Scientific Review with Google's Paper Assistant Tool
+
+[[Deep Reading - Jun 2026/Towards Automating Scientific Review with Google's Paper Assistant Tool|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.28277](https://arxiv.org/pdf/2606.28277)
+
+- **《Towards Automating Scientific Review with Google's Paper Assistant Tool》探讨了在 AI 时代如何利用 AI 自身来解决科学评审的扩展性难题。论文的核心贡献在于提出了 Paper Assistant Tool (PAT)，这是一个基于智能体架构的深度评审框架。
+
+**论证主线**：
+作者首先指出，AI 辅助科研导致投稿量激增，人类评审体系已达极限。为了解决这一矛盾，必须引入 AI 辅助验证。作者提出了一个四级分类法，将 AI 在评审中的角色从简单的格式检查提升到深度的逻辑验证。
+
+**技术主线**：
+PAT 的核心在于“推理缩放”。科学论文的验证需要极高的逻辑深度，传统的单次模型调用往往难以胜任。PAT 通过代理化的工作流，模拟人类审稿人的思考过程，对论文的理论推导和实验设计进行反复核查。在 SPOT 数学错误基准测试中，这种方法带来了 34% 的性能飞跃，证明了推理资源投入与评审质量之间的正相关关系。
+
+**实验与应用主线**：
+除了在标准基准测试上的成功，PAT 还在 STOC 和 ICML 两个顶级会议中进行了实战演练。在预提交阶段，它作为作者的“虚拟助手”，帮助识别了许多关键错误。这不仅提升了论文质量，也预示了一种新的科研范式：AI 负责初步的严谨性检查，人类专家则专注于评估论文的创新性和长远影响力。这种协作模式在保留人类决策权的同时，极大地提高了科学验证的效率。**
+
 # Foundation AI & AGI
 
 <!-- paperflow-topic-summary:start -->
@@ -1091,8 +1127,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
-- 论文/报告：27 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval
+- 论文/报告：31 篇
 - Exploring Extrinsic and Intrinsic Properties for Effective Reasoning with Code Interpreter
 - Revisiting the Systematicity in Negation in the Era of In-Context Learning
 - Efficiently Representing Algorithms With Chain-of-Thought Transformers
@@ -1381,13 +1417,57 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 
 - **本文聚焦于从科学论文中自动提取问题句和方法句这一关键任务。针对标注数据量小导致的模型泛化问题，作者提出两个创新：一是基于公式化表达（FE）脱敏的数据增强方法，通过生成合成数据并削弱模型对固定短语的依赖；二是上下文增强Transformer，利用上下文信息强化目标句子中关键词的权重并抑制噪音。论文在两个公开数据集上开展全面实验，定量结果显示宏F1分数相对基线提升3.71%和2.67%。同时，论文测试了大语言模型的上下文学习能力，发现其不适用于该细粒度句子抽取任务。结果表明，所提出的方法有效且实用，为该领域提供了新的解决思路。论文还详细讨论了FE的特征、数据增强的具体策略以及模型的消融分析。**
 
+<!-- paperflow:71be4f8b261533bc -->
+## The Weakest Link Tells It All: Outcome-Supervised Process Reward Modeling via Learnable Credit Assignment
+
+[[Deep Reading - Jun 2026/The Weakest Link Tells It All-Outcome-Supervised Process Reward Modeling via Learnable Credit As|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27739](https://arxiv.org/pdf/2606.27739)
+
+- **这篇论文深入探讨了大型语言模型在数学推理任务中的过程奖励建模（PRM）问题。作者挑战了传统结果监督中常见的“均匀分配”假设，提出了一种基于“最弱环节”逻辑的可学习信用分配（LCA）框架。该框架的核心思想是：一个推理链的质量取决于其最差的一个步骤。为了实现这一目标，作者引入了 PQM 模型，并设计了 SWS 池化技术来克服训练过程中的数据冗余和模型退化问题。通过在 MATH500 和 ProcessBench 等权威基准上的实验，论文证明了 PQM 在无需步骤级人工标注的前提下，能够达到甚至超过部分需要复杂标注或启发式规则的方法。论文不仅提供了理论证明（如 SWS 池化的鲁棒性），还通过大量的消融实验和阈值分析，展示了该方法在不同基座模型上的稳定性和有效性。这项工作为低成本、高效率地提升 LLM 的推理可靠性提供了一条极具前景的技术路径。**
+
+<!-- paperflow:4a463b995b9884a3 -->
+## Can LLMs Judge Better Than They Generate? Evaluating Task Asymmetry, Mechanistic Interpretability and Transferability for In-Context QA
+
+[[Deep Reading - Jun 2026/Can LLMs Judge Better Than They Generate-Evaluating Task Asymmetry, Mechanistic Interpretability|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.28050](https://arxiv.org/pdf/2606.28050)
+
+- **本文系统性地审视了大语言模型在生成与评价任务之间的能力边界。通过在受控的 In-Context QA 环境下对比 GA（生成准确率）和 EA（评价准确率），研究打破了“评价必然比生成简单”的固有认知。实验表明，在大多数常规问答任务中，模型的生成表现优于评价表现，这种不对称性在多跳推理任务 MuSiQue 中才因生成难度的剧增而发生反转。
+
+研究通过机械解释性手段揭示了评价失败的根本原因：模型在执行评价任务时，其注意力机制表现出显著的“偷懒”行为，对关键上下文信息的关注度仅为生成时的一小部分。此外，通过 LoRA 微调实验，作者证明了生成与评价能力之间存在复杂的张力——强化其中一种能力往往会以牺牲另一种能力或引入新的偏见（如过度接受）为代价。这一结论对于依赖 LLM 自我修正和奖励模型对齐的现有技术路径具有重要的警示意义，提示开发者需要重新评估评价环节的可靠性。**
+
+<!-- paperflow:ebbb425bc34f514f -->
+## Recall Before Rerank: Benchmarking Deep Learning Models for Large-Scale Code-to-Code Retrieval
+
+[[Deep Reading - Jun 2026/Recall Before Rerank-Benchmarking Deep Learning Models for Large-Scale Code-to-Code Retrieval|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27401](https://arxiv.org/pdf/2606.27401)
+
+- **本文针对大规模代码到代码检索系统中的“第一阶段召回”这一核心瓶颈进行了深度剖析。作者指出，尽管重排序技术日益成熟，但如果初始召回阶段失效，整个系统的上限将被锁死。通过对 23 种深度学习模型在 5 种语言、4 个数据集上的 920 次实验运行，论文揭示了当前技术栈的严峻现状：高性能模型在处理 TB 级数据时面临不可持续的计算成本，而轻量级模型在复杂语义匹配上力不从心。
+
+技术路线上，论文不仅评估了现有模型，还创新性地引入了 LLM 驱动的代码规范化和查询重写方案。实验证明，这种预处理手段能有效弥补中小型模型的性能短板，使其在特定场景下达到与重型模型相当的精度。然而，论文也诚实地指出了 LLM 规范化带来的额外延迟开销。
+
+在实验发现方面，论文强调了“没有银弹”的原则：在近乎重复检测中，简单的词法编码器往往优于复杂的语义模型；而在跨语言检索中，预训练数据的分布决定了模型的生死。最后，论文为工业界提供了清晰的选型建议，并为学术界指明了在资源受限条件下实现高效、鲁棒代码检索的研究方向。这不仅是一篇基准测试论文，更是对当前代码智能领域“唯参数论”倾向的一次有力反思。**
+
+<!-- paperflow:053eda36ae3d6c88 -->
+## Formalizing Latent Thoughts: Four Axioms of Thought Representation in LLMs
+
+[[Deep Reading - Jun 2026/Formalizing Latent Thoughts-Four Axioms of Thought Representation in LLMs|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27378](https://arxiv.org/pdf/2606.27378)
+
+- **本文针对大语言模型中日益流行的“潜在思维表示”提出了首个系统性的公理化评估框架。作者指出，现有的基于下游任务准确率的评估方法存在严重的“黑盒”问题，无法揭示模型内部表示的真实质量。为此，论文定义了因果性、最小性、可分离性和稳定性四个核心公理，并设计了相应的量化度量指标。
+
+通过对 Llama-3、DeepSeek-R1 等多种主流模型的深度审计，研究揭示了一个令人担忧的现状：现有的潜在思维表示在功能上是不完整的。最显著的问题是“表示坍缩”，即模型内部无法有效区分同类任务下的不同实例，且这些表示相对于原始输入嵌入并没有提供显著的额外增益。即使是经过专门推理强化的 RL 模型，在这些底层表示属性上也未表现出质的飞跃。这一发现挑战了当前“连续向量可以完美替代离散 CoT”的假设，为未来开发更透明、更高效的推理模型指明了方向：我们需要关注表示本身的结构化质量，而不仅仅是最终的输出分数。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
-- 论文/报告：43 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, retrieval, reinforcement-learning
+- 论文/报告：49 篇
 - DEEPRUBRIC: Evidence-Tree Rubric Supervision for Efficient Reinforcement Learning of Deep Research Agents
 - Gen-VCoT: Generative Visual Chain-of-Thought Reasoning via Diffusion-Based RGB Intermediate Representations
 - Connect the Dots: Training LLMs for Long-Lifecycle Agents with Cross-Domain Generalization Via Reinforcement Learning
@@ -1815,13 +1895,81 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 
 **局限与缺口**：论文未提供详细消融实验（如单个 agent 的贡献）、人工工程师的基准细节、统计显著性检验、失败案例系统分析。对安全防护的机...**
 
+<!-- paperflow:7725b852bd634a51 -->
+## ProMSA:Progressive Multimodal Search Agents for Knowledge-Based Visual Question Answering
+
+[[Deep Reading - Jun 2026/ProMSA-Progressive Multimodal Search Agents for Knowledge-Based Visual Question Answering|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27974](https://arxiv.org/pdf/2606.27974)
+
+- **本文针对知识库视觉问答（KB-VQA）中长尾实体识别和复杂推理的难题，提出了 ProMSA 框架。该框架的核心思想是将 KB-VQA 视为一个受预算约束的渐进式多模态搜索过程。ProMSA 智能体能够根据当前推理状态，自主决定是进行图像检索以识别实体，还是进行文本检索以获取属性，并具备多轮迭代和显式去重的能力。为了解决多轮搜索策略难以训练的问题，作者提出了 TN-GSPO 强化学习算法，通过对 Token 和 Node 级别的双重归一化以及非对称裁剪，实现了稳定且高效的策略优化。在 E-VQA 和 InfoSeek 两个大规模基准数据集上的实验结果表明，ProMSA 在准确率上显著超过了现有的 RAG 方法和单模态搜索智能体，展现了强大的长尾实体处理能力和跨模态推理泛化性。该研究为构建具备自主知识获取能力的通用多模态智能体提供了重要的技术路径。**
+
+<!-- paperflow:5f59418f7445cbfd -->
+## ATOD: Annealed Turn-aware On-policy Distillation for Multi-turn Autonomous Agents
+
+[[Deep Reading - Jun 2026/ATOD-Annealed Turn-aware On-policy Distillation for Multi-turn Autonomous Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27814](https://arxiv.org/pdf/2606.27814)
+
+- **本文提出了 ATOD 算法，旨在解决小型语言模型智能体在长程交互任务中训练效率低且性能受限的问题。研究者敏锐地观察到，在线蒸馏（OPD）虽能提供快速的早期引导，但存在“教师天花板”；而强化学习（RL）虽能突破上限，却面临严重的冷启动和稀疏奖励挑战。ATOD 通过一种创新的“先模仿、后超越”的混合架构解决了这一矛盾。其核心贡献在于：1) 提出了一个统一的混合优势函数，将 Token 级的教师指导与环境奖励相结合；2) 设计了动态退火调度，实现了从模仿到探索的平滑过渡；3) 引入了 T-DUR 机制，利用分歧度和不确定性对多回合任务中的关键决策点进行重加权，显著提升了监督信号的有效性。实验在具身智能、网页导航和复杂问答三大领域展开，结果表明 ATOD 不仅在性能上大幅领先于现有的蒸馏和 RL 基准，更证明了通过合理的训练策略，小参数量模型完全有潜力在特定任务中超越其大模型教师。这一发现为在资源受限环境下部署高性能、高效率的智能体提供了重要的理论支持和实践路径。**
+
+<!-- paperflow:19ff75bd0355c3bd -->
+## Ko-WideSearch: A Korean Breadth-Search Benchmark for Exhaustive Set Enumeration by Web Agents
+
+[[Deep Reading - Jun 2026/Ko-WideSearch-A Korean Breadth-Search Benchmark for Exhaustive Set Enumeration by Web Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27595](https://arxiv.org/pdf/2606.27595)
+
+- **本文介绍了 KO-WIDESEARCH，这是一个专门为评估 Web Agent 在韩语语境下执行穷举性广度搜索能力而设计的基准测试。作者指出，当前的智能体研究过度关注“深度”推理，而忽视了在现实应用中同样重要的“广度”枚举任务（如整理完整的行政名单或产品参数表）。
+
+该研究的核心贡献在于：
+1. **定义了新维度**：明确了广度搜索作为 Web Agent 评估的独立轴向，并指出了其在集合边界控制和结构化完整性方面的独特挑战。
+2. **高效构建方法**：通过自动化的“合成与验证”流水线，克服了构建穷举性基准测试的高成本障碍，提供了包含 228 个复杂表格任务的高质量数据集。
+3. **揭示能力缺陷**：通过对前沿智能体的测试，发现它们在处理大规模、多属性任务时存在严重的“行遗漏”和“属性错位”问题。实验数据表明，Item-F1 (92.8%) 与 Row-F1 (53.7%) 的巨大差异揭示了智能体在保证数据完整性方面的核心短板。
+4. **资源投入悖论**：研究进一步发现，单纯增加搜索步数或计算资源无法解决广度搜索带来的挑战，这暗示了现有的智能体架构在处理结构化集合任务时存在范式上的局限性。
+
+总的来说，KO-WIDESEARCH 为韩语智能体的发展提供了一个严苛且必要的评估标准，并为未来提升智能体在复杂数据采集任务中的表现指明了方向。**
+
+<!-- paperflow:0e9a946ef53d5df8 -->
+## Supersede: Diagnosing and Training the Memory-Update Gap in LLM Agents
+
+[[Deep Reading - Jun 2026/Supersede-Diagnosing and Training the Memory-Update Gap in LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27472](https://arxiv.org/pdf/2606.27472)
+
+- **本文针对 LLM 智能体在长程交互中面临的“动态事实更新”难题进行了深度诊断和治疗。作者首先定义并量化了“替代差距”（Supersession Gap），即模型在处理被新信息取代的旧事实时，在有限内存约束下的性能损失。通过对 GPT 系列模型的系统实验，论文揭示了一个严峻的现实：这一差距不仅显著存在，而且无法通过增加模型参数或内存容量来消除。实验数据表明，当对话长度大幅增加时，即使维持相同的压缩比例，智能体的准确率也会发生崩塌，这指向了一个核心结论——内存维护是一个独立的策略问题，而非简单的容量或理解问题。
+
+为了解决这一问题，作者推出了 Supersede 环境，这是首个将事实时效性作为强化学习奖励目标的训练平台。通过在该环境中使用 GRPO 算法对 Qwen2.5-3B 进行微调，研究展示了令人振奋的结果：经过训练的小模型在处理真实、未见过的动态对话时，其替代准确率几乎翻倍。这一进展标志着智能体内存管理从“依赖模型原生能力”或“人工编写启发式规则”向“通过环境反馈自主学习优化策略”的范式转变。论文最后开源了环境、代码、数据集和训练好的模型，为构建能够真正“与时俱进”的智能体提供了坚实的基础设施。**
+
+<!-- paperflow:340435ac5bf416ea -->
+## Agentic Hardware Design as Repository-Level Code Evolution
+
+[[Deep Reading - Jun 2026/Agentic Hardware Design as Repository-Level Code Evolution|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.28279](https://arxiv.org/pdf/2606.28279)
+
+- **本文介绍了 HORIZON，一个创新的自演化智能体框架，它重新定义了 AI 辅助硬件设计的方法论——将其视为仓库级的代码演化过程。HORIZON 的核心逻辑在于：硬件设计（尤其是 RTL）对正确性的要求极高，单次生成无法满足需求，必须通过“工具反馈-自主修正”的闭环来实现。该框架通过 Markdown Harness 定义任务，并将其编译为包含领域知识和验收谓词的项目包。智能体在隔离的 Git 工作树中运行，利用 Git 的版本控制能力进行状态管理和回溯。实验结果令人瞩目：在包括 ChipBench、RTLLM、Verilog-Eval 和 CVDP 在内的所有主流 RTL 基准测试中，HORIZON 均实现了 100% 的自动完成率，且完全无需人工干预。论文深入分析了实验中的迭代效率和 Token 消耗模式，指出虽然在现有基准上正确率已接近饱和，但如何提高 Token 效率以及如何应对更复杂的真实工程挑战（如微架构探索和物理设计约束）仍是未来的开放课题。HORIZON 不仅展示了 LLM 在硬件设计领域的强大潜力，也为构建工业级的自动芯片设计流水线提供了一个系统性的参考架构。**
+
+<!-- paperflow:7d1430de6e453d5d -->
+## Agent-Native Immune System: Architecture, Taxonomy, and Engineering
+
+[[Deep Reading - Jun 2026/Agent-Native Immune System-Architecture, Taxonomy, and Engineering|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.28270](https://arxiv.org/pdf/2606.28270)
+
+- **《Agent-Native Immune System (ANIS): Architecture, Taxonomy, and Engineering》一文开创性地提出了将生物免疫系统逻辑引入自主 AI 智能体防御的工程范式。文章指出，随着智能体具备持久记忆和协作能力，传统的外部防御和训练时对齐已无法应对运行时的动态劫持。ANIS 架构的核心在于其“内生性”，即防御机制被直接编织进智能体的认知推理循环中。
+
+论文详细构建了六层“免疫塔”模型，从底层的硬件隔离到顶层的集体免疫，形成了一个全方位的防御纵深。其中，Harness Triad（Meta, Self, Auto）作为核心驱动力，实现了从威胁感知到疫苗生成的自动化闭环，即持续免疫学习（CIL）。此外，论文通过严谨的理论辨析，区分了“对齐”与“免疫”的功能定位：对齐是价值观的基石，而免疫是运行时的保护神。
+
+通过引入智能体病毒与疫苗的分类法，以及“自身免疫率”等创新评估指标，本文为未来安全、可靠、可进化的智能体生态系统奠定了理论和工程基础。作者强调，在智能体时代，生存不属于最强大的，而属于最能适应环境并具备完善免疫机制的系统。**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：generation, language, vision-language-model, reasoning, vision, optimization, retrieval, multimodal-learning
-- 论文/报告：19 篇
+- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, deep-learning, optimization
+- 论文/报告：21 篇
 - Text-Vision Co-Instructed Image Editing
 - Timage: A Generative Text-in-Image Paradigm for Fine-Tuning Vision-Language Models
 - The Hidden Evolution of Disguised Visual Context inside the VLM
@@ -2018,12 +2166,30 @@ historical context. Rather than selecting frames before generation, CaR concaten
 
 - **本文提出一个名为“Ask, Solve, Generate”的自我进化训练框架，旨在使统一多模态模型仅使用无标签图像即可提升视觉理解和图像生成能力。框架通过三个内部角色（提议者、求解者、生成者）协作，利用自洽性奖励信号驱动训练，无需任何外部监督。为稳定训练，引入求解者令牌熵（STE）。该方法在扩散、整流流和自回归三种主流统一模型上进行了验证，在多项理解和生成基准上取得一致提升。实验表明，该框架具有跨架构的通用性，为降低统一多模态模型对人工标注的依赖提供了新思路。**
 
+<!-- paperflow:f3317b08827d09d1 -->
+## HumanMoveVQA: Can Video MLLMs reason about human movement in videos?
+
+[[Deep Reading - Jun 2026/HumanMoveVQA-Can Video MLLMs reason about human movement in videos|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27999](https://arxiv.org/pdf/2606.27999)
+
+- **本文提出了 HumanMoveVQA，这是一个旨在填补视频 MLLM 在人体全局运动推理领域空白的综合性基准。研究指出，当前的视频理解模型虽然擅长识别“发生了什么事件”，但在理解“人体如何在空间中移动”这一底层几何问题上表现极差。作者通过构建一个基于世界坐标系的自动化流水线，将 3D 运动捕捉数据转化为 10,000 多个涵盖七大推理维度的问答对。实验结果显示，包括 GPT-4o 在内的顶级模型在处理长时程轨迹聚合、运动计数和空间排序时存在显著缺陷，经常表现出严重的语言偏见或推理崩溃。然而，通过在 HumanMoveVQA 数据集上对开源模型 Qwen3-VL 进行监督微调，研究者成功将模型性能提升了近三倍，证明了全局运动推理能力可以通过高质量的几何监督数据习得。该工作为未来开发具备物理常识和空间感知能力的视频 AI 系统提供了重要的数据支持和评估框架。**
+
+<!-- paperflow:faa9095c344e507f -->
+## Reflect-R1: Evidence-Driven Reflection for Self-Correction in Long Video Understanding
+
+[[Deep Reading - Jun 2026/Reflect-R1-Evidence-Driven Reflection for Self-Correction in Long Video Understanding|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27922](https://arxiv.org/pdf/2606.27922)
+
+- **这篇论文介绍了 Reflect-R1，一个旨在解决长视频理解中自我修正难题的证据驱动反射框架。作者指出，现有的多模态模型在进行自我修正时往往陷入内部闭环，缺乏外部客观证据的约束，导致纠错能力虚假。Reflect-R1 通过创新的“直觉-验证-仲裁”三阶段推理流程打破了这一困境：首先产生直觉并检索关键帧，然后在严格隔离的环境下进行证据验证，最后由仲裁层解决冲突并给出最终结论。为了训练这一复杂流程，论文提出了 SD-GRPO 算法，通过阶段解耦的优势函数计算解决了多阶段强化学习中的策略耦合问题。配合新构建的 120K 样本数据集，Reflect-R1 在 VideoMME、LongVideoBench 和 MLVU 等权威榜单上刷新了 SOTA 纪录。实验结果有力地证明了，只有将自我反射建立在客观证据检索的基础上，并辅以精细化的强化学习策略，才能实现真正可靠的长视频智能理解。**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：stat-ml, deep-learning, stat-me
+- 方法：deep-learning
 - 论文/报告：5 篇
 - Learning Process Rewards via Success Visitation Matching for Efficient RL
 - What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
@@ -2113,3 +2279,29 @@ ing learning schedules for one narrow fine-tuning, we did not find meaningful lo
 [https://arxiv.org/pdf/2606.24244v1](https://arxiv.org/pdf/2606.24244v1)
 
 - **本文针对AI辅助访谈这一新兴调查范式中的关键测量问题，提出了一套完整的统计设计和推断框架——自适应矩阵验证（AMV）。主要动机是：AI系统能够将自由叙述映射为结构化变量，但这种映射充满噪声、版本依赖且可能存在子群异质性，若不加以统计校准，直接使用映射数据会导致严重偏差且无法量化不确定性。AMV的核心思想是放弃“完美映射”的幻想，转而采用测量误差模型：将AI映射视为带误差的代理变量，通过稀疏但概率已知的结构化验证问题，在调查内部嵌入校准机制。具体地，每位受访者在完成AI访谈后，随机回答少量验证问题（例如时间使用调查中的具体活动记录或以死因叙述中的医学诊断）。估计器采用两步策略：第一步利用所有验证数据估计AI映射的系统偏差函数（全局校准），第二步利用该受访者自身的验证答案修正个体残余误差。论文严格推导了总体均值、比例、子群均值以及回归系数（映射值作为自变量或因变量）的渐近无偏估计量，并给出了与经典调查方差类似的解析方差公式。基于方差表达式，还提供了设计规划工具：给定目标标准误差，计算所需验证问题总数和每位受访者分配的验证问题数。实证部分通过三类仿真验证了方法的有效性：设计校准参数化模拟展示了在不同映射误差强度、验证问题质量和稀疏度下的性能行为；基于美国时间使用调查（ATUS）的半仿真案例说明了在真实数据分布下的实用性；CHAMPS死因叙述研究则展示在医疗领域应用中的潜力。实验结论表明，当AI映射误差中等以上时，AMV能以每位受访者4-6个验证问题的代价获得接近全结构化问卷的精度；但验证问题的质量是关键调节变量，且对回归系数估计的校正能力弱于均值估计。论文指出AMV将AI辅助访谈重新定义为调查测量问题而非自然语言处理问题，强调了统计设计与验证的重要性，为AI在调查中的负责任整合提供了可操作途径。**
+
+# AI for Education
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Education
+- 方法：vision, deep-learning
+- 论文/报告：1 篇
+- Learning to Reason with Curriculum II: Compositional Generalization
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
+<!-- paperflow:45516b2a6b228fec -->
+## Learning to Reason with Curriculum II: Compositional Generalization
+
+[[Deep Reading - Jun 2026/Learning to Reason with Curriculum II-Compositional Generalization|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27721](https://arxiv.org/pdf/2606.27721)
+
+- **We study this question through the canonical problem of learning to simulate semiautomata (predicting the outcome of $T$ steps of sequential computation), a model that captures…
+
+Jun Compositional generalization—the ability to solve complex problems by combining solutions to simpler sub-problems—is a fundamental capability of both natural and artificial… However, the theoretical underpinnings of compositional generalization remain poorly understood: when and why does decomposing a problem into parts yield more efficient learning…
+
+This work asks how curriculum and composition let a learner solve problems far beyond the reach of its base capabilities—a mechanism widely credited for the success of modern… Adopting semiautomaton simulation as a testbed, our results show that composition combined with curriculum can achieve superpolynomial reductions in supervision and computational…
+
+There,...**

@@ -7,7 +7,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Daily Note - Feb 2026
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, optimization
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, computer-vision
 - 论文/报告：31 篇
 - Show, Don't Tell: Morphing Latent Reasoning into Image Generation【Unified Model】
 - PlanViz: Evaluating Planning-Oriented Image Generation and Editing for Computer-Use Tasks【Unified Model, GUI】
@@ -181,7 +181,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reasoning
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning
 - 论文/报告：40 篇
 - Good SFT Optimizes for SFT, Better SFT Prepares for Reinforcement Learning【SFT&RL】
 - Why Does RL Generalize Better Than SFT? A Data-Centric Perspective on VLM Post-Training【SFT&RL】
@@ -435,7 +435,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning, stat-ml
+- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning
 - 论文/报告：17 篇
 - ⭐⭐Agentic Proposing: Enhancing Large Language Model Reasoning via Compositional Skill Synthesis【Alibaba】
 - R1-SyntheticVL: Is Synthetic Data from Generative Models Ready for Multimodal Large Language Model?【Data Synthesis】
@@ -539,7 +539,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Foundation
-- 方法：agent, reasoning, vision, reinforcement-learning, multimodal-learning, stat-ml, multimodal-reasoning, deep-learning
+- 方法：agent, reasoning, vision, reinforcement-learning, deep-learning, multimodal-learning
 - 论文/报告：11 篇
 - EUGens: Efficient, Unified, and General Dense Layers【DeepMind】
 - Graph is a Substrate Across Data Modalities
@@ -613,7 +613,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning
 - 论文/报告：19 篇
 - Generative Modeling via Drifting【Kaiming He】
 - Research on World Models Is Not Merely Injecting World Knowledge into Specific Tasks
@@ -1343,7 +1343,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-February-2026-2fbe8c0e89
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Survey
-- 方法：agent, econ-em
+- 方法：agent
 - 论文/报告：1 篇
 - Rethinking Memory Mechanisms of Foundation Agents in the Second Half【Memory】
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
