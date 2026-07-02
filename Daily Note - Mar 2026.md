@@ -7,7 +7,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Daily Note - Mar 2026
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, optimization, vision
 - 论文/报告：27 篇
 - Reason to Contrast: A Cascaded Multimodal Retrieval Framework【Retrieval, Meta】
 - Keyword search is all you need: Achieving RAG-Level Performance without vector databases using agentic tool use【Retrieval, Amazon】
@@ -161,7 +161,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reasoning
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning
+- 方法：agent, generation, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning
 - 论文/报告：34 篇
 - Annotation-Free Visual Reasoning for High-Resolution Large Multimodal Models via Reinforcement Learning【Visual Reasoning】
 - Thinking with Images as Continuous Actions: Numerical Visual Chain-of-Thought【Visual Reasoning】
@@ -350,7 +350,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Model
-- 方法：agent, language, vision-language-model, reasoning, vision, optimization
+- 方法：agent, language, vision-language-model, reasoning, optimization, vision, stat-ml, vision-language
 - 论文/报告：10 篇
 - ⭐How Far Can Unsupervised RLVR Scale LLM Training?
 - ⭐CLIPO: Contrastive Learning in Policy Optimization Generalizes RLVR【Qwen】
@@ -419,7 +419,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Foundation
-- 方法：language, vision-language-model, vision
+- 方法：language, vision-language-model, vision, stat-ml, vision-language, stat-me
 - 论文/报告：11 篇
 - Memory Caching: RNNs with Growing Memory【Google】
 - Unified Vision-Language Modeling via Concept Space Alignment
@@ -493,7 +493,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning
+- 方法：agent, generation, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning
 - 论文/报告：15 篇
 - ⭐FT-Dojo: Towards Autonomous LLM Fine-Tuning with Language Agents**【MSRA】**
 - Learning from Synthetic Data Improves Multi-hop Reasoning
@@ -587,7 +587,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, reasoning, optimization, gui-agent
+- 方法：agent, generation, language, reasoning, optimization, stat-ml, gui-agent, multimodal-reasoning
 - 论文/报告：18 篇
 - Helios: Real Real-Time Long Video Generation Model【ByteDance】
 - InfinityStory: Unlimited Video Generation with World Consistency and Character-Aware Shot Transitions【Adobe】
@@ -713,7 +713,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Applications
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, optimization
 - 论文/报告：103 篇
 - DARE-bench: Evaluating Modeling and Instruction Fidelity of LLMs in Data Science
 - Let There Be Claws: An Early Social Network Analysis of AI Agents on Moltbook【OpenClaw】

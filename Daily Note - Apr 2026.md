@@ -7,7 +7,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Daily Note - Apr 2026
-- 方法：generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning, multimodal-learning
+- 方法：generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning, deep-learning
 - 论文/报告：17 篇
 - Dynin-Omni: Omnimodal Unified Large Diffusion Language Model【Unified Model】
 - TorchUMM: A Unified Multimodal Model Codebase for Evaluation, Analysis, and Post-training【Unified Model】
@@ -111,7 +111,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reasoning
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, retrieval, reinforcement-learning
+- 方法：agent, generation, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning
 - 论文/报告：26 篇
 - AutoGraph-R1: End-to-End Reinforcement Learning for Knowledge Graph Construction【Microsoft】
 - Therefore I am. I Think
@@ -260,7 +260,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Model
-- 方法：agent, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization, gui-agent
+- 方法：agent, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning, gui-agent
 - 论文/报告：11 篇
 - SUPERNOVA: Eliciting General Reasoning in LLMs with Reinforcement Learning on Natural Instructions
 - Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling
@@ -334,7 +334,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Foundation
-- 方法：language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning, optimization
+- 方法：language, vision-language-model, reasoning, optimization, vision, reinforcement-learning, deep-learning, vision-language
 - 论文/报告：8 篇
 - ASI-Evolve: AI Accelerates AI【Pengfei Liu】
 - Loop, Think, & Generalize: Implicit Reasoning in Recurrent-Depth Transformers
@@ -452,7 +452,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation
+- 方法：agent, generation, econ-em
 - 论文/报告：8 篇
 - ImagenWorld: Stress-Testing Image Generation Models with Explainable Human Evaluation on Open-ended Real-World Tasks【Wenhu Chen】
 - A Frame is Worth One Token: Efficient Generative World Modeling with Delta Tokens【Amazon】
@@ -528,7 +528,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Applications
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, optimization
 - 论文/报告：87 篇
 - HippoCamp: Benchmarking Contextual Agents on Personal Computers
 - Proactive Agent Research Environment: Simulating Active Users to Evaluate Proactive Assistants【Research, Apple】
@@ -980,7 +980,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, language, reasoning, multimodal-learning, explanation, gui-agent
+- 方法：agent, language, reasoning, multimodal-learning, explanation, stat-ml, gui-agent, multimodal-reasoning
 - 论文/报告：9 篇
 - Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute
 - Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design【Latent Labs】

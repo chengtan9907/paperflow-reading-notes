@@ -6,7 +6,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Daily Note - May 2026
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning
+- 方法：agent, generation, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning
 - 论文/报告：40 篇
 - 📌 GLM-5V-Turbo: Toward a Native Foundation Model for Multimodal Agents 【Zhipu】
 - 📌 SenseNova-U1: Unifying Multimodal Understanding and Generation with NEO-unify Architecture
@@ -225,7 +225,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reasoning
-- 方法：agent, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning, optimization
+- 方法：agent, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning, multimodal-learning
 - 论文/报告：26 篇
 - Formalizing Mathematics at Scale【Math, Meta】
 - When to Vote, When to Rewrite: Disagreement-Guided Strategy Routing for Test-Time Scaling【Test-Time Scaling】
@@ -374,7 +374,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Model
-- 方法：agent, reasoning, vision, reinforcement-learning, deep-learning, optimization, multimodal-learning, gui-agent
+- 方法：agent, reasoning, optimization, vision, reinforcement-learning, multimodal-learning, gui-agent, deep-learning
 - 论文/报告：18 篇
 - 🧐RLVR Datasets and Where to Find Them: Tracing Data Lineage for Better Training Data【Tencent】
 - Delay, Plateau, or Collapse: Evaluating the Impact of Systematic Verification Error on RLVR
@@ -483,7 +483,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, deep-learning, multimodal-learning
+- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, multimodal-learning, deep-learning
 - 论文/报告：15 篇
 - S^3-R1: Learning to Retrieve and Answer Step-by-Step with Synthetic Data【Google DeepMind】
 - ⭐Diagnosing Capability Gaps in Fine-Tuning Data【Microsoft】
@@ -577,7 +577,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Foundation
-- 方法：language, vision-language-model, reasoning, vision, retrieval
+- 方法：language, vision-language-model, reasoning, vision, retrieval, vision-language
 - 论文/报告：9 篇
 - Let ViT Speak: Generative Language-Image Pre-training【ByteDance】
 - Optimizer-Model Consistency: Full Finetuning with the Same Optimizer as Pretraining Forgets Less【Apple】
@@ -641,7 +641,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, gui-agent
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, stat-ml, gui-agent
 - 论文/报告：24 篇
 - Visual Generation in the New Era: An Evolution from Atomic Mapping to Agentic World Modeling
 - Representation Fréchet Loss for Visual Generation【OpenAI】
@@ -780,7 +780,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Application
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, optimization
 - 论文/报告：151 篇
 - Can AI Be a Good Peer Reviewer? A Survey of Peer Review Process, Evaluation, and the Future【Research】
 - SciResearcher: Scaling Deep Research Agents for Frontier Scientific Reasoning【Research, Science, Data】
@@ -1554,7 +1554,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, reasoning
+- 方法：agent, reasoning, stat-ml, multimodal-reasoning, stat-me
 - 论文/报告：6 篇
 - ⭐Generative AI in K-12 Classrooms: A Midyear Implementation Report
 - UniER: A Unified Benchmark for Item-level and Path-level Exercise Recommendation
@@ -1601,7 +1601,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, ai-for-science, language, reasoning
+- 方法：agent, ai-for-science, language, reasoning, multimodal-reasoning, protein-language-model
 - 论文/报告：8 篇
 - Can Coding Agents Reproduce Findings in Computational Materials Science?
 - Proteo-R1: Reasoning Foundation Models for De Novo Protein Design

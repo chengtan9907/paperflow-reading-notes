@@ -216,7 +216,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reasoning
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, deep-learning
+- 方法：agent, generation, language, vision-language-model, reasoning, optimization, vision, reinforcement-learning
 - 论文/报告：47 篇
 - Fantastic Reasoning Behaviors and Where to Find Them: Unsupervised Discovery of the Reasoning Process【Google DeepMind】
 - VIPER: Process-aware Evaluation for Generative Video Reasoning【Video Reasoning】
@@ -470,7 +470,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：language, reasoning, optimization, explanation
+- 方法：language, reasoning, optimization, explanation, stat-ml, stat-me, math-pr, math-st
 - 论文/报告：13 篇
 - Efficiently Estimating Data Efficiency for Language Model Fine-tuning
 - ⭐Can Small Training Runs Reliably Guide Data Curation? Rethinking Proxy-Model Practice【James Zou】
@@ -601,7 +601,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：generation, reasoning, multimodal-learning
+- 方法：generation, reasoning, multimodal-learning, stat-ml, multimodal-reasoning, stat-me
 - 论文/报告：15 篇
 - VINO: A Unified Visual Generator with Interleaved OmniModal Context
 - NextFlow: Unified Sequential Modeling Activates Multimodal Understanding and Generation【ByteDance】
@@ -695,7 +695,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Training
-- 方法：agent, generation, reinforcement-learning, optimization
+- 方法：agent, generation, optimization, reinforcement-learning
 - 论文/报告：5 篇
 - ⭐Youtu-Agent: Scaling Agent Productivity with Automated Generation and Hybrid Policy Optimization【Youtu】
 - ⭐JudgeFlow: Agentic Workflow Optimization via Block Judge
@@ -736,7 +736,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Applications
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, optimization, vision
 - 论文/报告：72 篇
 - HeurekaBench: A Benchmarking Framework for AI Co-scientist【Research】
 - **Higher-Order Knowledge Representations for Agentic Scientific Reasoning**【Research】
@@ -1115,7 +1115,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, language, bio-molecular, bioinformatics
+- 方法：agent, language, bio-molecular, bioinformatics, cross-modal, protein-language-model
 - 论文/报告：7 篇
 - SeedFold: Scaling Biomolecular Structure Prediction【ByteDance Seed】
 - SeedProteo: Accurate De Novo All-Atom Design of Protein Binders【ByteDance Seed】
