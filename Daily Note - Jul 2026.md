@@ -218,9 +218,10 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
-- 方法：generation
-- 论文/报告：1 篇
+- 方法：agent, generation
+- 论文/报告：2 篇
 - DisciplineGen-1M: A Large-Scale Dataset for Multidisciplinary Visual Generation and Editing
+- CausalGame: Benchmarking Causal Thinking of LLM Agents in Games
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -232,6 +233,15 @@
 [https://arxiv.org/pdf/2607.02290](https://arxiv.org/pdf/2607.02290)
 
 - **本文提出DisciplineGen-1M，一个大规模多学科视觉数据集，旨在解决图像生成和编辑模型在知识密集学科图表场景下的不可靠问题。数据集包含120万样本覆盖10个学科，通过四种创新管道构建：矢量图形渲染确保结构精确性，OCR编辑提供真实编辑对，程序化合成扩展多样性，大规模过滤保证质量。每个样本包含图像、描述字幕和编辑指令，并附带结构化元数据。此外，论文训练了一个学科感知推理生成模型，采用扩散架构并融入学科嵌入和知识编码。在GenExam和GRADE基准上的实验表明，该模型大幅超越开源基线，并展现出对一般推理任务（WISE/RISE）的迁移能力。消融分析验证了每种数据管道的贡献，其中矢量渲染最为关键。该工作为学术视觉内容生成提供了关键数据基石，有望推动教育、科研出版等领域的应用。数据集、模型及代码将开源以促进可重复研究。**
+
+<!-- paperflow:0195c5c9d80b565a -->
+## CausalGame: Benchmarking Causal Thinking of LLM Agents in Games
+
+[[Deep Reading - Jul 2026/CausalGame-Benchmarking Causal Thinking of LLM Agents in Games|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.04293](https://arxiv.org/pdf/2607.04293)
+
+- **论文提出CausalGame，一个评估LLM代理因果思考能力的基准测试。通过14个模拟选择偏差、测量误差和隐藏混杂因素的游戏场景，要求代理主动设计实验、观察数据并报告因果关系。对30个前沿LLM的评估显示，所有模型均表现出严重的因果推理缺陷：最佳存活率68.0%（分析最优78-85%），因果推理评分通过率仅5-7%。实验揭示了代理容易受选择偏差影响、无法识别隐藏混杂等关键问题。论文还提供了详细的失败模式分析，并讨论了未来方向。CausalGame为AI科学家系统的因果思考评估提供了可扩展的平台。**
 
 # AI for Education
 
@@ -258,14 +268,16 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, ai-for-science, language, reasoning, science-discovery, retrieval, math-pr, math-st
-- 论文/报告：6 篇
+- 方法：agent, ai-for-science, language, reasoning, science-discovery, optimization, retrieval, math-pr
+- 论文/报告：8 篇
 - CheckRLM: Effective Knowledge-Thought Coherence Checking in Retrieval-Augmented Reasoning
 - Rethinking Speech-LLM Integration for ASR: Effective Joint Speech-Text Training by Interleaving
 - Measuring the Gap Between Human and LLM Research Ideas
 - Purified OPSD: On-Policy Self-Distillation Without Losing How to Think
 - Can Language Models Actually Retrieve In-Context? Drowning in Documents at Million Token Scale
 - Bringing Agentic Search to Earth Observation Data Discovery
+- Weak-to-Strong Generalization via Direct On-Policy Distillation
+- TREK: Distill to Explore, Reinforce to Refine
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -328,13 +340,31 @@
 4. 实际部署：系统已作为公共服务面向地球科学社区开放，并集成了NASA现有工具（Harmony、SDE、WorldView等）。
 实验验证了知识图谱与LLM结合的潜力，以及监督检索与智能体推理的互补性。论文的工作属于AI for Earth Science的前沿实践，对数据密集科学研究的数据发现提供了有效范式。**
 
+<!-- paperflow:ae9a10563beb6952 -->
+## Weak-to-Strong Generalization via Direct On-Policy Distillation
+
+[[Deep Reading - Jul 2026/Weak-to-Strong Generalization via Direct On-Policy Distillation|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05394](https://arxiv.org/pdf/2607.05394)
+
+- **本文提出了 Direct-OPD，一种旨在解决大模型 RL 训练成本瓶颈的弱到强泛化方法。该方法的核心洞察在于：RL 对模型性能的提升可以被抽象为一种“策略偏移”信号，这种信号比模型最终的概率分布更具迁移价值。通过计算弱老师在 RL 前后的对数概率比，并将其作为密集奖励应用于强学生的同策略采样中，Direct-OPD 成功实现了在极低算力消耗下显著提升强模型推理能力的目标。实验在 Qwen3 系列模型上验证了其有效性，特别是在 AIME 2024 等高难度数学竞赛任务中表现卓越。该研究不仅为高效后训练提供了新路径，也深化了对弱到强泛化机制的理解，证明了 RL 成果可以作为一种通用的隐式奖励信号在不同规模的模型间流转。**
+
+<!-- paperflow:431bf8bd4d2aa136 -->
+## TREK: Distill to Explore, Reinforce to Refine
+
+[[Deep Reading - Jul 2026/TREK-Distill to Explore, Reinforce to Refine|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05339](https://arxiv.org/pdf/2607.05339)
+
+- **这篇论文提出了TREK（Teacher-Routed Exploration via Forward KL），一种新颖的分阶段训练方法，用于改进Group Relative Policy Optimization（GRPO）在困难推理prompt上的探索能力。TREK的核心洞察是：GRPO在困难prompt上停滞的根本原因是正确的解模式不在当前学生策略的采样支持内，因此需要一种机制扩展该支持。与传统蒸馏不同，TREK利用蒸馏不是为了复制教师输出，而是为了将教师产生的已验证解模式融入学生的策略分布，从而扩大学生的探索空间。方法上，TREK首先通过pass@k识别学生正确率低的困难prompt；然后，从提议源（可以是外部教师如DeepSeek-V4，或是同一模型但使用额外推理时间）获得多个候选解，经验证器筛选正确解；接着，按这些解在当前学生策略下的似然排序，选择top-r个解；随后，进行短期的前向KL训练，使学生学会生成这些解（即覆盖目标分布），从而扩展其采样支持；最后，恢复标准的on-policy GRPO精炼。整个过程周期性地重复。实验在数学推理和智能体任务上验证了TREK的有效性。在AIME 2024/2025上，使用DeepSeek-V4教师可以在Qwen3各规模（1.7B至32B）上取得一致提升，例如Qwen3-8B的AIME 2025从36.9提升至40.3（avg@16）。自我上下文变体也实现了明显改进，证明方法不依赖于特定外部教师。在智能体任务ALFWorld和ScienceWorld上，TREK分别将成功率从75.8%提升至82.8%和从12.5%提升至26.7%，并且在训练早期展现出快速收敛的优势。TREK的主要贡献包括：（1）识别了GRPO在困难prompt上的探索支持缺失问题；（2）提出了基于前向KL的探查扩展方法，将蒸馏重新定义为支持扩展而非模仿；（3）展示了该方法在多种模型规模和任务上的普适性。局限性在于仍依赖外部或额外的提议源，且前向KL阶段涉及额外超参数调谐。总体而言，TREK提供了一种简单、通用且有效的补充训练协议，可即插即用于现有的GRP...**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, generation
-- 论文/报告：7 篇
+- 方法：agent, generation, language, reinforcement-learning, optimization, multimodal-learning, gui-agent, deep-learning
+- 论文/报告：18 篇
 - AgenticSTS: A Bounded-Memory Testbed for Long-Horizon LLM Agents
 - PACE: A Proxy for Agentic Capability Evaluation
 - SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces
@@ -342,6 +372,7 @@
 - PairCoder++: Pair Programming as a Universal Paradigm for Verified Code-Driven Multimodal and Structured-Artifact Generation
 - WorldDirector: Building Controllable World Simulators with Persistent Dynamic Memory
 - Program-as-Weights: A Programming Paradigm for Fuzzy Functions
+- Search Beyond What Can Be Taught: Evolving the Knowledge Boundary in Agentic Visual Generation
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -428,6 +459,131 @@
 
 - **本文提出Program-as-Weights（PAW），一种新的模糊函数编程范式。核心思想是将自然语言函数规范一次性编译为紧凑的神经网络权重（LoRA适配器），在固定的轻量级解释器（0.6B Qwen3）上本地、离线执行，从而替代对大型LLM API的依赖。为此，作者构建了FuzzyBench数据集（1000万示例），涵盖多种模糊任务（日志分类、JSON修复、排序等）。他们训练了一个4B参数的编译器，采用两阶段流程：首先通过任务改写模板将用户规范标准化，然后由LoRA编译器生成适配器。编译后的PAW程序在测试集上达到73.78%精确匹配，超过直接提示32B模型（68.70%），而推理内存仅约1/50，在MacBook M3上以30 token/s运行。此外，PAW支持函数组合和本地部署，为日常编程中的模糊任务提供了可重复、低成本、保护隐私的解决方案。论文还讨论了局限，如当前限于单步、未验证多步推理，以及编译器未显式优化组合性。整体上，PAW将基础模型从逐个问题解决者重新定位为工具构建者，对边缘计算、隐私敏感应用和降低AI成本具有重要意义。**
 
+<!-- paperflow:f795f0dc84556434 -->
+## Search Beyond What Can Be Taught: Evolving the Knowledge Boundary in Agentic Visual Generation
+
+[[Deep Reading - Jul 2026/Search Beyond What Can Be Taught-Evolving the Knowledge Boundary in Agentic Visual Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05382](https://arxiv.org/pdf/2607.05382)
+
+- **这篇论文系统研究了视觉生成模型的世界知识瓶颈问题。作者首先论证了用户请求的开放性和长尾性，指出生成器的训练数据是固定的，因此对于新实体、趋势事件等无法正确生成，且会自信地产生幻觉。现有基准（如T2I-CompBench、DPG-Bench）只评估常见概念，导致生成器得分虚高（近40分虚高）。为了正视这一问题，作者构建了SearchGen-20K数据集和SearchGen-Bench基准，包含20,839条提示，覆盖12种失败类别和22个领域，并提供了预执行的多模态搜索语料库以支持离线研究。在SearchGen-Bench上的评估显示，前沿开放生成器仅得21-28分，商业模型也仅得41-58分，远低于标准基准的分数。
+
+基于此，作者探索了使用搜索工具进行知识增强的路径。然而，简单的检索-拼接策略（朴素搜索）会不加选择地注入信息，反而干扰生成器的正常输出。作者将原因归结为生成器存在一个特定的、演化的知识边界：某些知识可通过训练内化，某些必须保留在外部上下文中。这个边界难以预先指定，但可以通过teach-then-search协同训练框架发现。
+
+该框架包括两个阶段：首先是“teach”阶段，评估生成器的当前知识边界；然后是“search”阶段，利用拒绝采样微调训练一个搜索推理器，使其只搜索生成器确实不知道的信息，从而避免噪声。经过单次迭代的协同训练后，搜索推理器能够实现生成器自适应搜索，在SearchGen-Bench上产生从无搜索到自适应搜索的单调性能提升。论文将这一框架定位为递归自我改进的基础，未来可以通过多轮迭代进一步优化。
+
+实验部分详细对比了无搜索、朴素搜索和自适应搜索的设置，验证了自适应搜索的有效性。消融研究可能分析了搜索时机、检索数量等因素。总体而言，这篇论文对于推动世界知识引导的视觉生成具有重要价值，提供了基准、方法和开放资源。**
+
+<!-- paperflow:0cbe438386eb6eec -->
+## Turning Off-Policy Tokens On-Policy: A Plug-in Approach for Improving LLM Alignment
+
+[[Deep Reading - Jul 2026/Turning Off-Policy Tokens On-Policy-A Plug-in Approach for Improving LLM Alignment|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.04728](https://arxiv.org/pdf/2607.04728)
+
+- **本文针对LLM RL后训练中的离策略问题，提出选择性重要性采样（SIS）方法。该方法受拒绝采样启发，在token级别将离策略token转换为在策略token，从而避免传统重要性采样比率连乘导致的方差爆炸。SIS作为即插即用模块，仅修改策略损失中的重要性比率，几乎不增加计算开销。在稠密和MoE架构的LLM上，覆盖数学推理和智能体任务，SIS一致提升所有评估指标，并提供更强的鲁棒性，尤其是在高度离策略数据下。理论分析证明SIS缩小了token级与序列级梯度估计的差距。与现有方法（如R3）正交并可以结合取得更好性能。论文的主要贡献是提出一种新颖的分布转换视角来解决离策略偏差，并基于拒绝采样实现简单高效的具体算法。**
+
+<!-- paperflow:653bf3db72a1f945 -->
+## STAPO: Selective Trajectory-Aware Policy Optimization for LLM Agent Training
+
+[[Deep Reading - Jul 2026/STAPO-Selective Trajectory-Aware Policy Optimization for LLM Agent Training|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.04963](https://arxiv.org/pdf/2607.04963)
+
+- **本文从强化学习中稀疏奖励导致LLM agent轨迹忽视的问题出发，指出已有基于Shannon熵的步骤级不确定性监督不准确的原因——混淆了状态随机性和智能体置信度。作者提出归一化熵（normalized entropy），通过将当前动作分布的熵与智能体在该状态下的平均熵比较，消除状态复杂度的影响，从而可靠地识别因轨迹忽视产生的低质量动作。基于此，设计了STAPO（Selective Trajectory-Aware Policy Optimization），一个层次化分组RL框架，包含两阶段操作：异常定位阶段，利用归一化熵的统计特征动态定位轨迹中的异常步骤；选择性优化阶段，对这些异常步骤联合采用轨迹感知奖励（鼓励轨迹一致性）和轨迹无关惩罚（维持训练稳定性），而其他步骤保持正常策略更新。在ALFWorld、WebShop和搜索增强问答三个代表性的长程智能体任务上，STAPO均取得最优成功率，且消融实验证实归一化熵和联合优化机制的关键作用。分析表明，计算开销增加约5.7%，但相比扩大组大小更经济。作者还给出了在视觉-语言agent上的初步结果，但指出更广泛的多模态设置仍需探索。论文的主要贡献在于：1）定义轨迹忽视问题并分析现有熵方法的局限；2）提出归一化熵以精准定位异常步骤；3）构建实用的STAPO框架；4）在多个任务上验证有效性。**
+
+<!-- paperflow:b3bc773ad440df03 -->
+## Multi-Turn On-Policy Distillation with Prefix Replay
+
+[[Deep Reading - Jul 2026/Multi-Turn On-Policy Distillation with Prefix Replay|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.04763](https://arxiv.org/pdf/2607.04763)
+
+- **论文研究多轮在线蒸馏（OPD）在智能体任务中的高效实现。完全在线的 OPD 虽然效果好，但需要大量环境交互，成本高。作者发现多轮 OPD 存在前缀陷阱：使学生历史更 on-policy 虽然能提高相关性，但可能降低教师在这些历史上的目标可靠性。为解决这一问题，提出 ReOPD（Replayed-Prefix On-Policy Distillation），一种无需环境交互的离线蒸馏方法。ReOPD 利用预先收集的教师轨迹作为重放前缀，在选定步骤让学生行动并由教师提供监督。它通过步骤衰减采样策略优先使用早期前缀，从而在保持学生相关性同时确保教师可靠性。实验在数学推理和搜索任务上验证了 ReOPD 的有效性：准确率匹配或超越在线 OPD，训练速度至少快4倍，且无需在训练中调用工具。该方法将昂贵的智能体交互转化为可复用的离线资源，为大规模蒸馏提供了可扩展的范本。主要贡献在于：(1) 提出 ReOPD 算法；(2) 揭示前缀陷阱；(3) 将多轮 OPD 视为可靠性感知的前缀分布设计；(4) 实现高效训练，零环境交互。**
+
+<!-- paperflow:2a81575bf04628a1 -->
+## UI-MOPD: Multi-Platform On-Policy Distillation for Continual GUI Agent Learning
+
+[[Deep Reading - Jul 2026/UI-MOPD-Multi-Platform On-Policy Distillation for Continual GUI Agent Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.04425](https://arxiv.org/pdf/2607.04425)
+
+- **本文针对多平台GUI代理构建中的数据稀缺和行为模式混淆问题，提出了UI-MOPD方法，首次将多教师在线策略蒸馏引入GUI代理的持续学习框架。
+
+**动机与挑战**：随着多模态基础模型的发展，GUI代理从单平台向跨平台演进成为趋势。然而，跨平台数据难以获取，且不同平台交互惯例差异大，导致联合训练出现行为混合、平台能力退化及灾难性遗忘。现有工作多聚焦于统一建模，但未专门处理持续学习中的平台特定能力保持问题。
+
+**方法**：
+1. **Uni-GUI数据集**：收集桌面（OSWorld）和移动（MobileWorld）平台的高质量交互轨迹，确保数据多样性和可执行性。
+2. **UI-MOPD框架**：包含多个平台特定教师策略（在每个平台单独训练）和一个平台条件共享学生策略。共享策略通过平台嵌入（platform embedding）条件化，使其能根据不同环境切换交互模式。
+3. **在线策略蒸馏**：持续学习过程中，学生与环境交互产生新轨迹，并依据当前平台动态选择对应教师，通过蒸馏损失（如KL散度）将教师的知识迁移给学生，同时学生在当前任务上通过强化学习（如REINFORCE）优化任务成功。
+4. **平台条件蒸馏**：蒸馏损失中显式包含平台标识，确保学生针对不同平台学习独立的行为分布，避免模式混叠。
+
+**实验**：在OSWorld（678任务）和MobileWorld（200任务）上评估，将UI-MOPD与UI-TARS-2、GELab-Zero-4B、MobileAgent-v3.5等基线对比。结果表明：
+- UI-MOPD在OSWorld上达到38.2%成功率，在MobileWorld上达到12.0%，性能具有竞争力且跨平台更均衡。
+- 相比顺序微调，UI-MOPD显著缓解了灾难性遗忘，保持了先前平台的能力。
+- 消融实验验证了多教师蒸馏和平台条件的必要性。
+
+**贡献**：
+1. 构建了Uni-GUI跨平台数据集。
+2. 提出了UI-MOPD，首个用于GUI代理持续学习的多教师在线策略蒸馏方法。
+3. 系统实验证明了方法在跨平台能力平衡和遗忘缓解上的有效性。
+
+*...**
+
+<!-- paperflow:cb27ab48c77e7b43 -->
+## CompactionRL: Reinforcement Learning with Context Compaction for Long-Horizon Agents
+
+[[Deep Reading - Jul 2026/CompactionRL-Reinforcement Learning with Context Compaction for Long-Horizon Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05378](https://arxiv.org/pdf/2607.05378)
+
+- **本文提出CompactionRL，一个将可学习上下文压缩融入PPO强化学习框架的方法，用于解决长周期智能体LLM的上下文窗口限制问题。论文首先指出现有RL流程假设完整轨迹可用，但长周期任务中轨迹可能超出窗口，需要压缩。CompactionRL在rollout收集阶段动态触发压缩：当交互历史长度接近预算时，模型生成当前状态的紧凑总结，并用该总结和少量最近上下文替换旧历史。训练时采用token-level loss normalization和cross-trajectory GAE两项技术，确保多段压缩轨迹的有效学习。实验在SWE-bench Verified和Terminal-Bench 2.0两个编程基准上进行，使用GLM-4.5-Air和GLM-4.7-Flash作为基座模型。结果显示CompactionRL在Pass@1上取得显著提升，绝对增益3.1~6.8点不等，且一致性良好。该框架已被部署到智谱GLM-5.2模型的RL训练中，进一步验证其实用价值。主要贡献在于首次提出端到端的RL训练框架，将上下文压缩从推理技巧转化为可训练组件，为构建超长周期智能体提供了可行方案。**
+
+<!-- paperflow:1cdfdf84ace37ece -->
+## GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks
+
+[[Deep Reading - Jul 2026/GaP-A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05369](https://arxiv.org/pdf/2607.05369)
+
+- **本文提出Graph-as-Policy (GaP)，一种用于变分自动化（VA）任务的多智能体自学习框架。VA任务要求机器人在反复执行同类操作时应对对象几何和姿态的变化，而现有模型无关策略可靠性不足，LLM代码生成易幻觉。GaP结合TAMP的结构化可解释性与LLM的灵活性，将策略表示为有向计算图，节点来自模块化开放机器人技能库（MORSL）。多智能体系统（分解、编码、校验、优化）协作生成初始图，然后通过内部仿真排练和迭代优化（调整参数和拓扑）最大化成功率和吞吐量。论文贡献包括：定义VA任务类别、提出GaP框架、构建MORSL、开源8个VA基准（4仿真+4真实世界）。实验表明GaP在成功率和吞吐量上显著优于模型无关策略、TAMP和基于LLM的代码方法。消融实验证实迭代优化和多智能体协作是关键。尽管存在依赖LLM、几何推理有限、sim-to-real差距等局限性，GaP在可靠性和灵活性间取得了有效平衡，为工业机器人自动化提供了有前景的框架。**
+
+<!-- paperflow:953802decf4970d6 -->
+## OptiAgent: End-to-End Optimization Modeling via Multi-Agent Iterative Refinement
+
+[[Deep Reading - Jul 2026/OptiAgent-End-to-End Optimization Modeling via Multi-Agent Iterative Refinement|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05346](https://arxiv.org/pdf/2607.05346)
+
+- **本文提出OptiAgent，一个端到端的多智能体优化建模框架。给定自然语言问题描述，框架自动生成数学公式和求解代码，通过四个专用智能体和四个反馈循环进行迭代精炼。主要贡献包括：1）优先数学建模的模块化架构；2）多循环验证机制，覆盖五种关键失败模式；3）在多个基准上达到SOTA性能。实验证明，该方法在LP、MILP和NLP任务上均优于先前工作，同时提高了建模过程的透明度和可审计性。**
+
+<!-- paperflow:24411e96e1ccc129 -->
+## HunyuanOCR-1.5: Making Lightweight OCR VLMs Faster and Better
+
+[[Deep Reading - Jul 2026/HunyuanOCR-1.5-Making Lightweight OCR VLMs Faster and Better|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.04884](https://arxiv.org/pdf/2607.04884)
+
+- **HunyuanOCR-1.5是轻量级端到端OCR专用视觉语言模型的升级版本，继承HunyuanOCR-1.0的骨干设计，重点提升推理速度和长尾OCR能力。论文的动机源于当前OCR VLM在文档表格等长结构文本上解码缓慢，以及在古籍、多图像理解等特殊场景下性能不足的局限性。为解决这些问题，作者引入了两个关键技术：DFlash推理加速技术和Agentic Data Flow智能体数据构建系统。DFlash基于推测性解码，在保持输出质量的前提下显著降低解码延迟，实验显示Transformer引擎下加速6.37倍，vLLM下加速2.14倍，达到轻量级OCR VLM中最快推理速度。Agentic Data Flow则构建了一个自动化流水线，将模型弱点转化为数据需求，自主搜索、验证并生成针对性训练数据，有效提升了模型在古籍OCR、图表表格解析、多图像问答等长尾领域的能力。同时，论文采用能力导向评估体系，在OmniDocBench v1.6上取得顶级端到端OCR性能，并在多个专门构建的基准上创下新纪录。模型还通过升级预训练（更高分辨率、更大数据量）和后训练（多任务微调、长上下文扩展）进一步扩展边界。关键贡献包括：(1) 首个将推测性解码适配到OCR结构化输出并获得显著加速的工作；(2) 提出基于智能体的数据构造框架弥补长尾数据短缺；(3) 在多项长尾任务上达到最优，且不牺牲核心OCR能力；(4) 提供开源模型和加速工具，推动研究传播。整体而言，HunyuanOCR-1.5在效率和质量上实现了平衡，成为轻量级端到端OCR VLM的卓越标杆。**
+
+<!-- paperflow:814ffe7524521b11 -->
+## AgentGym2: Benchmarking Large Language Model Agents in De-Idealized Real-World Environments
+
+[[Deep Reading - Jul 2026/AgentGym2-Benchmarking Large Language Model Agents in De-Idealized Real-World Environments|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05174](https://arxiv.org/pdf/2607.05174)
+
+- **语言智能体正快速部署，但现有评估多基于理想化环境，无法反映真实世界中的不确定性、噪声和探索需求。本文提出AgentGym2，一个去理想化的评估框架，其任务实例直接源于真实端到端工作需求，除推理和规划外，重点测量端到端程序执行、工具发现、工具组合和鲁棒性四项能力。框架基于AgentGym扩展，增加了数字真实环境（如终端、浏览器），构建了可组合工具箱，并采用分层设计解耦智能体、工具与环境。实验评估了15个主流闭源和开源模型，发现包括GPT-5、Gemini在内的SOTA系统在AgentGym2上表现挣扎，尤其在工具发现和组合任务上远未达到可部署水平，凸显了当前智能体能力与现实应用之间的鸿沟。论文还分析了不同模型的强弱项，指出工具探索和适应新组合是主要瓶颈。AgentGym2为智能体研究提供了一个更贴近实际需求的测试平台，有望推动更具鲁棒性和泛化能力的智能体系统发展。**
+
+<!-- paperflow:b8c018f5d8ea9304 -->
+## LLM-as-a-Verifier: A General-Purpose Verification Framework
+
+[[Deep Reading - Jul 2026/LLM-as-a-Verifier-A General-Purpose Verification Framework|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05391](https://arxiv.org/pdf/2607.05391)
+
+- **论文提出LLM-as-a-Verifier，一种无需训练的通用验证框架，通过连续评分实现了验证能力的缩放。背景：尽管预训练、后训练和测试时计算的缩放极大提升了LLM能力，但验证——判断解决方案正确性的能力——未得到同等关注。标准方法如LM Judge仅提供离散分数，粒度粗、区分度低。方法：框架的核心是计算评分token logits的期望，得到连续分数。在此基础上，作者识别出三个缩放轴：(1) 评分粒度（细化评分尺度），(2) 重复评估（多次评分平均），(3) 标准分解（多维标准评分聚合）。实验：在Terminal-Bench V2 (86.5%)、SWE-Bench Verified (78.2%)、RoboRewardBench (87.4%)、MedAgentBench (73.3%)上达到SOTA。缩放实验证实各轴均能提升准确率，且粒度轴收益最大。作为过程奖励模型时，pass@1单调提升。作为强化学习奖励信号，显著提升SAC在机器人任务和GRPO在数学推理上的样本效率（约2倍和1.1倍）。此外，细粒度信号可作为任务进展代理，并开发了TurboAgent工具集成到Claude Code。讨论：验证应被视为与生成同等重要的缩放轴。局限：需要访问模型logits，不适用于完全封闭API；部分场景下连续评分的校准性仍待改进。结论：LLM-as-a-Verifier提供了一种低成本、高收益的验证增强方案，有望成为智能体系统的标准组件。**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
@@ -463,12 +619,15 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：language, vision-language-model, vision, reinforcement-learning, vision-language, deep-learning
-- 论文/报告：4 篇
+- 方法：language, vision-language-model, reinforcement-learning, vision, vision-language, deep-learning
+- 论文/报告：7 篇
 - Optimizing Visual Generative Models via Distribution-wise Rewards
 - Visually Grounded Self-Reflection for Vision-Language Models via Reinforcement Learning
 - ESC: Emotional Self-Correction for Reliable Vision-Language Models
 - From SRA to Self-Flow: Data Augmentation or Self-Supervision?
+- ChatImage: Navigating Long-Form LLM Answers through Interactive Images
+- SteelBench: Evaluating Vision-Language Models in Real-World Industrial Environments
+- GUSH3R: Everyone Everywhere All at Once as Gaussians
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -507,6 +666,37 @@
 [https://arxiv.org/pdf/2607.02508](https://arxiv.org/pdf/2607.02508)
 
 - **论文从质疑Self-Flow性能提升来源出发，设计Attention Separation实验，证明双时步调度的主要贡献是噪声维度的数据增强而非自对齐增强。进一步发现Attention Separation本身也可作为数据增强方法。最终构建了包含自对齐、双时步调度和注意分离增强的统一训练方案，并在ImageNet 256×256上验证了有效性。论证主线为：提出假说→设计诊断实验→验证假说→利用发现构建新方法。技术主线为：SRA自对齐目标 → DTS双时步输入 → AS注意分离掩码。实验主线为：对比SRA、Self-Flow、DTS+AS和最终方案，消融各组件贡献。论文的主要贡献在于澄清了自对齐方法的关键机制，并提供了诊断和增强工具。**
+
+<!-- paperflow:d2fdf45dcb431da1 -->
+## ChatImage: Navigating Long-Form LLM Answers through Interactive Images
+
+[[Deep Reading - Jul 2026/ChatImage-Navigating Long-Form LLM Answers through Interactive Images|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05290](https://arxiv.org/pdf/2607.05290)
+
+- **ChatImage 论文提出了一种将长形式 LLM 答案转换为交互式视觉图像的系统。动机是解决当前 LLM 答案以线性文本呈现导致的细粒度检查困难。方法包括内容结构化、布局规划、图像生成和视觉接地，其中关键设计是'生成-然后-接地'，即先合成图像再通过视觉模型定位交互区域，以保证一致性。论文发布了参考实现和包含 30 个问题的基准，涵盖信息图、地图和场景。实验使用交互循环完成度、视觉对齐门控和掩码完整性指标进行评估，结果显示 ChatImage 能够有效生成可交互图像，且接地策略优于基线。论文还讨论了应用场景（如教育和技术文档）和局限性（最适合已有空间结构的答案）。总体而言，ChatImage 为 LLM 答案的可视化和交互提供了一种新颖的范式。**
+
+<!-- paperflow:24835882d75343b0 -->
+## SteelBench: Evaluating Vision-Language Models in Real-World Industrial Environments
+
+[[Deep Reading - Jul 2026/SteelBench-Evaluating Vision-Language Models in Real-World Industrial Environments|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05264](https://arxiv.org/pdf/2607.05264)
+
+- **这篇论文引入SteelBench，一个旨在评估视觉-语言模型在真实工业环境（特别是钢铁厂CCTV监控）中能力的诊断基准。现有视频和VLM基准缺乏对工业CCTV特有的视觉退化（灰尘、低光、遮挡）和程序性推理（活动识别与安全规则判断）的测试。SteelBench包含从149小时工厂录像中精心挑选的1345个密集标注片段，每片段标注每个工人的动作、PPE状态、空间位置和关联安全规则。论文创新性地提出来源感知审计协议，以量化使用VLM辅助标注可能带来的自我验证偏见，发现未审计的VLM标签可使同族模型准确率高估17个百分点。作者在九个代表性VLMs（包括GPT-4o、Gemini、Qwen、LLaVA等）上进行了动作识别、安全推理、校准和诊断检查等多维度评估。结果显示最佳模型Qwen3.5-122B仅达42.6%动作准确率，远低于人类84.6%的基准。即使动作正确，模型也频繁在安全判断上出错。没有一个模型通过五项预设诊断检查中的两项以上。结果表明，在工业活动理解中，简单的准确率排行榜不足以衡量能力，需要关注失败模式、来源可靠性和推理一致性。SteelBench数据集公开，为未来研究提供了诊断工具和基准。**
+
+<!-- paperflow:8f882c8a7bb1f77a -->
+## GUSH3R: Everyone Everywhere All at Once as Gaussians
+
+[[Deep Reading - Jul 2026/GUSH3R-Everyone Everywhere All at Once as Gaussians|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05243](https://arxiv.org/pdf/2607.05243)
+
+- **本文提出GUSH3R，一个用于从单目视频进行动态人体-场景重建的前馈框架。核心思想是结合几何先验（DUSt3R）和人体先验（SMPL），在单次前向传播中同时重建动态人体和静态场景为统一的3D高斯泼溅表示。该表示支持可微渲染，可直接进行高保真新视角合成。
+
+方法上，GUSH3R分别预测场景高斯和人体高斯，利用先验参数化确保几何一致性，并合并为统一场景。在多个数据集上的实验表明，该方法在新视角合成质量上达到或接近现有优化方法，但推理速度大幅提升，展示了前馈方案在动态场景重建中的潜力。
+
+局限性包括依赖先验质量、对严重遮挡和复杂交互效果有限、未利用时间信息等。本文工作为实时动态人体-场景重建提供了新思路，未来可向更鲁棒、更高效的方向发展。**
 
 # Machine Learning
 
