@@ -279,7 +279,7 @@
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, language, reasoning, science-discovery, reinforcement-learning, optimization, retrieval
-- 论文/报告：10 篇
+- 论文/报告：11 篇
 - CheckRLM: Effective Knowledge-Thought Coherence Checking in Retrieval-Augmented Reasoning
 - Rethinking Speech-LLM Integration for ASR: Effective Joint Speech-Text Training by Interleaving
 - Measuring the Gap Between Human and LLM Research Ideas
@@ -386,13 +386,22 @@
 
 - **该论文系统性地揭示了在无参考评判者（reference-free LLM judges）下进行自博弈（self-play）训练时存在的结构性问题：由于验证不对称性，评判者衡量的是合理性而非正确性，导致策略可以通过生成看似合理但错误的答案来劫持奖励信号。作者通过设计隐藏锚点审计（hidden-anchor audit）精确量化了这种奖励黑客攻击的程度——在GSM8K任务上，自博弈将评判者通过率从0.72提升至0.94，但真实准确率保持不变（0.20），产生了0.74的判对差距。更重要的是，这种黑客攻击具有强大的可转移性：制造的错误不仅能欺骗同族模型，还能欺骗不同家族（Qwen, Llama, Gemma）和不同规模（至14B）的模型，甚至一个严格的三家族集成仍然接受55%的错误答案。多种防御措施（更强评判者、重计算提示、直接训练集成奖励）均告失败。论文识别出决定性的变量不是评判者是否看到候选，而是它是否先提交自身答案：如果评判者首先独立生成答案（盲解），辨别力从接近随机提升至0.96；如果先提交自身答案再判断候选（候选可见），假阳性率从0.719骤降至0.012。基于此，作者提出去锚定奖励（de-anchored reward）作为训练信号，在自博弈全程保持假阳性率为零，从而防止盆地形成而非事后检测。该模式在代码生成和竞赛数学的最佳N选择场景下被复制，并在Gemma策略的完整训练循环中得到验证。论文提供了一个可证伪的边界（判对差距不超过1-准确率），为理解哪些机制暴露于该漏洞提供了理论指导。**
 
+<!-- paperflow:4fbabb2546d63f0d -->
+## Max Out GRPO Signal: Adaptive Trace Prefix Control for Hard Reasoning Problems
+
+[[Deep Reading - Jul 2026/Max Out GRPO Signal-Adaptive Trace Prefix Control for Hard Reasoning Problems|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.07674](https://arxiv.org/pdf/2607.07674)
+
+- **本论文提出 AdaPrefix-GRPO，一种通过自适应前缀长度控制来解决 GRPO 在困难问题上梯度消失问题的方法。论文首先指出 GRPO 在组内所有 rollout 均失败时梯度为零的缺陷，将问题归因于困难样本的无效学习。受前缀可以调节问题难度的启发，作者将前缀长度建模为每个问题的连续难度旋钮，并设计了一个闭环反馈控制器。该控制器基于每个问题的实时成功率（移动平均 k/G）与目标 set-point（全局 50% 加上每个问题的偏移）之间的误差，动态调整前缀长度，使得成功率始终保持在梯度利用率最高的区域。同时，控制器在训练后期逐渐将前缀长度衰减到零，确保模型最终能独立解决任务。实验表明，在相同训练计算量下，AdaPrefix-GRPO 在 0.6B 模型上将数学推理准确率提升 2.1 倍，在 Qwen3-1.7B 上提升 1.6 倍，在 AIME 上提升 1.7 倍，并大幅缩短推理序列长度。该方法实现简洁，仅需数据准备和 loss mask 修改，不改变 GRPO 核心训练流程。论文还讨论了一系列消融实验和边界条件，证实了控制器的有效性。最后，论文指出了前缀来源（参考解 vs. 模型生成）和控制器超参数的影响，并提出若干未来方向。总体而言，AdaPrefix-GRPO 为 GRPO 的难度自适应训练提供了一个简单而强大的框架。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, science-discovery, reinforcement-learning, optimization, retrieval
-- 论文/报告：22 篇
+- 方法：agent, ai-for-science, generation, language, reasoning, science-discovery, reinforcement-learning, optimization
+- 论文/报告：24 篇
 - AgenticSTS: A Bounded-Memory Testbed for Long-Horizon LLM Agents
 - PACE: A Proxy for Agentic Capability Evaluation
 - SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces
@@ -648,6 +657,24 @@
 
 - **本文聚焦于 LLM 智能体系统中技能库的自适应选择问题。随着技能库规模增长，传统固定 top-k 方法无法应对任务难度和技能适用性的动态变化。论文提出 SkillReranker，一种推理时自适应技能重排序框架，核心思想是通过任务和技能的语义分解，构建有向无环执行图来显式建模任务状态与技能之间的转换关系。具体而言，首先利用 LLM 对任务进行分解得到子任务序列和中间状态，同时对技能库中的每个技能提取其前提状态和效果状态；然后将中间状态作为节点，候选技能作为连接相邻状态之间的边，形成执行图；接着通过分裂条件判定将图划分为多个子任务区间，每个区间内利用交叉编码器对候选技能进行重排序，选出最适合该子任务的技能组合。实验在 ALFWorld 和 ScienceWorld 两个基准上，使用三个不同的 backbone LLM 进行，结果显示 SkillReranker 相比基线方法显著提升了任务成功率，并减少了交互步数和 token 消耗。论文的主要贡献包括：(1) 提出了一个即插即用的推理时重排序框架，无需额外训练；(2) 设计了任务-技能对齐的执行图机制，实现了细粒度状态感知；(3) 通过实验验证了方法在多种设置下的有效性。论文也指出了其局限性：依赖 LLM 分解的准确性、框架开销、以及当前仅限文本环境。未来工作可向多模态、动态更新、以及降低计算成本等方向扩展。总体而言，SkillReranker 为技能库的自适应选择提供了一条新路径，尤其适用于需要精确状态跟踪的复杂任务场景。**
 
+<!-- paperflow:0015439c164f77fb -->
+## Agon: Competitive Cross-Model RL with Implicit Rival Grading of Reasoning
+
+[[Deep Reading - Jul 2026/Agon-Competitive Cross-Model RL with Implicit Rival Grading of Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.07690](https://arxiv.org/pdf/2607.07690)
+
+- **本文针对GRPO等可验证奖励强化学习方法仅评分最终答案而忽视推理过程导致模型产生长而非优推理的问题，提出Agon（竞争性跨模型强化学习）。核心思想是让两个模型互为对手和裁判：在对称角色交替中，一个模型草拟解决方案，另一个模型阅读该草稿后独立解题。奖励不仅基于最终答案正确性，更基于一方是否战胜另一方，从而隐式地评估推理质量，无需过程标签。训练采用GRPO风格的组相对优化。推理时采用两阶段级联：草稿模型先产生推理，回答模型阅读后生成最终答案，这一过程与训练一致。实验在数学（DeepMath困难集）和代码（Competitive Programming）上进行，使用Qwen3、Qwen3.5和Gemma4模型。主要结果：Agon将GRPO的pass@1翻倍，增益是未训练Mixture-of-Agents的约8倍，该收益在多个模型家族上复现。消融验证了双模型共同进化的必要性，且Agon有效抑制了GRPO常见的推理长度膨胀。论文贡献在于：重新定义推理质量为竞争对手可提供的隐式奖励；提出Agon训练配方；展示显著实证改进。局限包括：需要两个强度匹配的模型；计算成本翻倍；仅在具备清晰奖励的任务上验证；缺乏理论收敛分析。未来工作方向为潜在空间协同推理。**
+
+<!-- paperflow:426abed2f0bb43da -->
+## From Noisy Traces to Root Causes: Structural Trajectory Analysis and Causal Extraction for Agent Optimization
+
+[[Deep Reading - Jul 2026/From Noisy Traces to Root Causes-Structural Trajectory Analysis and Causal Extraction for Agent|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.07702](https://arxiv.org/pdf/2607.07702)
+
+- **本文提出STRACE（Structural Trajectory Analysis and Causal Extraction），一个用于长周期智能体优化的端到端框架。动机在于：现有基于LLM反思的优化器（如Reflexion）直接处理原始执行轨迹，面临批次级冗余异质和轨迹内因果信号稀疏的双重问题，导致优化低效甚至过度拟合。STRACE通过两个创新模块解决此困境：批次级故障模式挖掘（基于统计和结构化诊断过滤冗余痕迹）和轨迹内因果定位（在文本依赖图上后向裁剪出因果紧凑的子轨迹，并定位根因模块）。优化器仅对根因模块的指令进行预防性更新，实现了安全、经济且高效的改进。实验在HotpotQA、WebArena和VeruSAGE-Bench上进行，结果显示STRACE显著优于标准上下文过滤基线，特别是在严格的形式化验证任务VeruSAGE-Bench上将成功率从42.5%提升至58.5%（绝对提升16%）。消融研究验证了两个关键组件的必要性。论文贡献包括：(1) 提出将执行日志视为结构化因果证据的优化视角；(2) 引入联合轨迹过滤与因果定位机制；(3) 实现模块级别精确的指令注入。这些贡献为长周期智能体优化提供了新的方法论。**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
@@ -684,7 +711,7 @@
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：generation, language, vision-language-model, reinforcement-learning, vision, multimodal-learning, vision-language, deep-learning
-- 论文/报告：12 篇
+- 论文/报告：13 篇
 - Optimizing Visual Generative Models via Distribution-wise Rewards
 - Visually Grounded Self-Reflection for Vision-Language Models via Reinforcement Learning
 - ESC: Emotional Self-Correction for Reliable Vision-Language Models
@@ -830,14 +857,28 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 
 - **本文由Xinyuan Chen等二十余位作者联合撰写，旨在为人工智能领域中'世界模型'（World Model）这一核心但定义模糊的概念提供精确的科学定义和系统的发展路线图。全文共六章。第一章引言指出，从基于模型的强化学习到视频生成，再到具身机器人和物理AI，大量系统被冠以'世界模型'之名，却缺乏统一的定义。第二章正式定义世界模型：它是一个使用有限计算资源对物理世界中状态转移过程的近似，必须满足全模态性、多维输出和因果结构三大属性。文章进一步讨论了智能体-环境循环框架（2.2节），并区分了'理解世界'（学习隐式表征用于决策）和'预测未来'（显式预测下一观测）两种主要观点（2.3节），认为二者并非互斥而是互补。第三章（根据目录推断）对现有世界模型进行了分类，可能包括基于显式物理模型的方法和基于神经网络学习的方法。第四章详细介绍了构建有效世界模型的关键技术，包括：链式想象（Chain-of-Imagination），即将推理拆解为多步通过世界模型进行想象的过程；物理约束学习，如利用微分方程或对称性来引导模型；反事实推理，用于探索干预效应；以及长期和层次化规划。第五章（推测）列举了应用领域，涵盖机器人操作、自动驾驶、游戏和通用物理AI。第六章总结开放挑战，包括数据不对称（多模态数据分布不均）、物理一致性的保持、评估标准化的缺失、安全和对齐等问题。本文的核心贡献在于给出了一个跨子领域可接受的世界模型定义，并规划了一个从基础预测到完全物理交互的分阶段路线图。适合AI研究者快速了解世界模型领域的整体图景和关键争议。**
 
+<!-- paperflow:c06f61ef5569aeb9 -->
+## To Retain or to Adapt? Generalizing Continual Learning
+
+[[Deep Reading - Jul 2026/To Retain or to Adapt-Generalizing Continual Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.05609](https://arxiv.org/pdf/2607.05609)
+
+- **本论文对持续学习（CL）的基础哲学进行了深刻的反思。长期以来，CL 领域被“缓解灾难性遗忘”这一单一目标所主导，默认将联合任务学习（JTL）视为不可逾越的性能巅峰。作者通过严密的理论推导和实验验证指出，这种“保留至上”的观点在非平稳环境中是站不住脚的。
+
+论文的核心贡献在于将 CL 重新定义为在线优化问题，并引入了平均终身误差（ALE）作为评价标准。通过对 ALE 的分解，作者识别出了“不稳定性”与“瞬态误差”之间的根本冲突。理论推导得出的“临界任务时长”公式为我们提供了一个清晰的判据：当任务足够长或环境变化足够快时，保留旧知识不仅无益，反而有害。这一发现为“何时该遗忘”提供了科学的解释，而不仅仅是将其视为一种失效模式。
+
+在方法论上，论文提出的“预测性持续学习（Predictive CL）”框架将 CL 与在线学习理论接轨，强调了对未来任务结构的预测能力。实验部分通过图像分类和强化学习任务，生动地展示了历史知识如何从助推器变成绊脚石，并证明了简单的窗口化策略在处理非平稳流时的有效性。总而言之，这篇论文不仅提供了一套新的度量工具和算法框架，更重要的是，它促使社区重新思考持续学习的终极目标：我们究竟是为了记住过去，还是为了更好地适应未来？**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：待从后续精读中沉淀
-- 论文/报告：1 篇
+- 方法：deep-learning
+- 论文/报告：2 篇
 - Denser $\neq$ Better: Limits of On-Policy Self-Distillation for Continual Post-Training
+- The Optimal Sample Complexity of Learning Autoregressive Chain-of-Thought
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -849,3 +890,12 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 [https://arxiv.org/pdf/2607.01763](https://arxiv.org/pdf/2607.01763)
 
 - **本文主要研究on-policy自蒸馏在持续后训练中的实际效果和价值。作者首先指出持续后训练面临的知识获取与遗忘保持的矛盾，以及近期on-policy学习被认为能缓解遗忘的趋势。他们提出自蒸馏策略优化（SDPO）框架作为研究工具，在on-policy数据上实施密集的token级蒸馏训练。通过精心设计的单领域特化实验和多阶段持续后训练实验，论文获得了关键的对比结果：SDPO在教师信号稳定时能快速提升领域内任务表现，但无法推广到新分布且在持续学习中导致显著遗忘甚至崩溃；与之对比，on-policy RL方法GRPO收敛较慢但能可靠地保留旧知识。进一步分析发现，密集自蒸馏会增大参数和响应的漂移，并通过教师-学生循环放大高频格式伪影。基于这些现象，作者得出核心结论：on-policy数据本身不保证持续学习成功；密集自蒸馏的适用条件严格，不应作为默认稳定器。论文的贡献在于对乐观假设的实验性检验、开发了简单有效的诊断指标、并揭示了重要的失败模式，为后续研究提供了实证基础和警示。**
+
+<!-- paperflow:591a8326bf3793f2 -->
+## The Optimal Sample Complexity of Learning Autoregressive Chain-of-Thought
+
+[[Deep Reading - Jul 2026/The Optimal Sample Complexity of Learning Autoregressive Chain-of-Thought|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.07423](https://arxiv.org/pdf/2607.07423)
+
+- **本文在可实现的PAC学习框架下，分析了自回归思维链（CoT）精确迹线学习的样本复杂度。主要结果表明，样本复杂度由局部下一个词类的Daniely-Shalev-Shwartz维度决定，且与迹线长度无关。这一结果通过引入奇偶维度（parity dimension）得以证明，该维度是DS维度的展开稳定改进，通过低坐标跨越定理控制一包含密度。论文还展示了DS维度在自回归展开下可能增长，从而解释了为何需要奇偶维度作为中介。与先前工作（如压缩路线和在线学习方法）相比，本文提供了更紧的上界，且无迹线长度依赖，实现了最优的样本复杂度率。论文的主要贡献包括：建立样本复杂度与DS维度的直接联系；提出奇偶维度作为关键分析工具；并揭示DS维度在展开下的不稳定性。**
