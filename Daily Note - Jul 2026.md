@@ -288,8 +288,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, ai-for-science, language, reasoning, science-discovery, reinforcement-learning, optimization, retrieval
-- 论文/报告：12 篇
+- 方法：agent, ai-for-science, language, vision-language-model, reasoning, science-discovery, vision, reinforcement-learning
+- 论文/报告：14 篇
 - CheckRLM: Effective Knowledge-Thought Coherence Checking in Retrieval-Augmented Reasoning
 - Rethinking Speech-LLM Integration for ASR: Effective Joint Speech-Text Training by Interleaving
 - Measuring the Gap Between Human and LLM Research Ideas
@@ -414,13 +414,46 @@
 
 - **本论文针对隐私敏感领域（如银行）ASR系统中合成语音适应问题，提出使用组相对策略优化（GRPO）替代监督微调（SFT）。论文系统比较了SFT、GRPO和SFT+GRPO在银行领域合成语音上的表现。实验表明，GRPO在纯合成数据上WER从SFT的36.71%降至22.09%（相对降低40%），结合SFT可进一步降至20.19%。混合少量真实语音（5-10小时）即可接近使用全量真实语音的SFT效果。论文还探究了合成数据选择策略和奖励函数设计，发现随机采样和WER奖励最有效。机制分析表明，GRPO改进来自行为层面：减少插入错误、改善停止校准和注意力锚定，而早期表示不变。这些发现表明，当合成语音是主要资源时，RL应优先于SFT。论文的实验设计严谨，提供问题、方法、实验和机制的全面分析，对低资源环境下的ASR领域适应具有重要指导意义。**
 
+<!-- paperflow:c31fe63d368f4b76 -->
+## Scalable Visual Pretraining for Language Intelligence
+
+[[Deep Reading - Jul 2026/Scalable Visual Pretraining for Language Intelligence|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09657](https://arxiv.org/pdf/2607.09657)
+
+- **本文系统研究了视觉预训练（VP）作为语言智能基础模型的可扩展学习范式。当前的主流语言模型预训练仅依赖文本，但科学知识大量以视觉形式（公式、图表、排版）呈现，这些信息在转文本过程中丢失。作者挑战了“语言模型必须从文本学习”的默认假设，提出直接在文档图像上进行无监督视觉预训练。核心方法是对渲染的文档页面使用Vision Transformer编码成patch序列，然后以自回归方式预测每个patch在潜在空间中的表示。这一目标的优势在于无需配对文本，并且深度整合了视觉潜在信息。通过控制变量实验（同一语料的视觉vs文本表示），作者发现VP在多个科学推理基准上持续优于文本预训练（TP）。更重要的是，VP的性能随预训练数据量增加而提升，表现出良好的可扩展性。在定性分析中，视觉密集样本（如含复杂公式或图表的题目）的增益最为显著，说明模型从视觉布局中捕获了关键线索。此外，VP还自然提升了跨模态对齐能力。尽管本文仅聚焦科学文档，且视觉潜在解码与文本生成间的协调仍有待优化，但其结果为视觉信息在预训练中的价值提供了有力证据，开辟了一种绕过文本提取直接使用视觉语料库的预训练路径。未来工作可探索更大规模的视觉预训练、更高效的编码器以及更细致的多模态协同。**
+
+<!-- paperflow:ed967a1d54d29172 -->
+## Self-Guided Test-Time Training for Long-Context LLMs
+
+[[Deep Reading - Jul 2026/Self-Guided Test-Time Training for Long-Context LLMs|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09415](https://arxiv.org/pdf/2607.09415)
+
+- **## 论文主线概述
+本文聚焦长上下文 LLM 在推理任务中对关键证据有效利用不足的问题，提出 Self-Guided Test-Time Training（S-TTT）方法。
+
+### 背景与动机
+现代 LLM 已支持极长的上下文窗口（如 128k tokens），但实验表明，仅增加窗口长度不必然提升任务表现，模型往往被无关内容干扰，无法准确提取与问题相关的证据。测试时训练（TTT）通过将测试样本视为微调实例进行参数自适应，可针对特定输入调整模型行为，但其在长上下文场景下遭遇“训练数据选择”难题：若直接在全上下文上微调，计算开销极大且引入大量噪声；若随机采样跨度，因大部分内容不相关，反而损害性能。
+
+### 核心方法：S-TTT
+S-TTT 的关键思想是利用模型自身来识别证据丰富的跨度，再仅在这些跨度上执行 TTT。具体分为两步：
+1. **跨度识别**：设计 prompt 指令（包含示例输出格式），要求 LLM 从输入上下文中逐字复制出回答当前问题所需的证据片段。Prompt 可设计为 few-shot 格式，模型输出形如 `<evidence> ... </evidence>` 的标记。可采用多次采样或正则表达式抽取增强鲁棒性。
+2. **参数自适应**：将识别出的跨度按原始顺序拼接为训练序列，对模型应用标准语言建模目标（next token prediction）。使用 LoRA 实现高效、低资源参数更新，避免全参数微调。训练完成后，以更新后的模型生成答案。
+
+### 实验设计
+作者在 LongBench-v2 和 LongBench-Pro 两个长上下文推理基准上评估了 Qwen3-4B-Thinking-2507 和 Llama-3.1-8B-Instruct 两个模型。对比基线包括无 TTT 的基准模型、随机跨度 TTT（random span）、全上下文 TTT（full context）以及 oracle 跨度 TTT（使用 ground truth 证据跨度）。
+
+### 关键结果与现象
+- **跨度质量影响显著**：Random Span TTT 在...**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, reasoning, science-discovery, reinforcement-learning, optimization
-- 论文/报告：30 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：31 篇
 - AgenticSTS: A Bounded-Memory Testbed for Long-Horizon LLM Agents
 - PACE: A Proxy for Agentic Capability Evaluation
 - SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces
@@ -756,6 +789,15 @@
 
 - **论文提出 Test-Time Harness Evolution (TTHE)，一种在测试时通过未标记执行轨迹演化 LLM agent 周围的可执行程序（harness）的新范式。现有 agent 系统通常依赖预定义的固定工作流，但测试时环境变化导致性能下降。TTHE 将 harness 视为适应状态，维护一个候选 harness 种群，利用 agent 自身的执行轨迹（无需真实标签）通过 Proposer 和 Judge 构成进化循环。Proposer 分析当前 harness 与执行轨迹并生成改进版本，Judge 利用执行衍生的代理信号评估并选择更好的 harness 进入种群，从而实现对后续输入的持久适应。整个过程中 solver、proposer、judge 皆使用相同冻结 LLM，不更新权重、不依赖额外标记数据。在 text-to-SQL、竞赛编程、软件工程、数据科学编码、agentic 工具使用五个执行密集型任务上，TTHE 稳定改进 ReAct 基线，产出可检视的策略。论文还分析了代理信号可靠性这一核心挑战。该工作将 LLM agent 的测试时适应重定义为可执行控制程序的演化，揭示了无监督 agent 改进的关键问题。**
 
+<!-- paperflow:5f09e6d978b3d317 -->
+## Video Generation Models are General-Purpose Vision Learners
+
+[[Deep Reading - Jul 2026/Video Generation Models are General-Purpose Vision Learners|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09024](https://arxiv.org/pdf/2607.09024)
+
+- **本文提出GenCeption，将预训练视频生成模型转化为通用视觉感知系统。动机源自NLP通用模型成功，作者认为视频生成提供了时空先验和多模态对齐，是通用视觉预训练的催化剂。方法基于三个原则：保留生成预训练、任务无关后训练、前馈推理。输入RGB视频和任务提示，经VAE编码、DiT处理、VAE解码直接输出任务结果。实验在8种以上任务中达到或超越SOTA，数据效率高（7-500倍数据节省），并展现合成到真实的泛化能力。意义在于提供了视频生成作为通用视觉基础的实践证据，暗示生成中蕴含理解。局限包括架构依赖、任务覆盖不足、微调策略简单、涌现机理尚未清晰。**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
@@ -801,8 +843,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：generation, language, vision-language-model, vision, reinforcement-learning, multimodal-learning, stat-ml, vision-language
-- 论文/报告：17 篇
+- 方法：generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning, stat-ml
+- 论文/报告：19 篇
 - Optimizing Visual Generative Models via Distribution-wise Rewards
 - Visually Grounded Self-Reflection for Vision-Language Models via Reinforcement Learning
 - ESC: Emotional Self-Correction for Reliable Vision-Language Models
@@ -996,6 +1038,24 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 [https://arxiv.org/pdf/2607.08766](https://arxiv.org/pdf/2607.08766)
 
 - **本文提出OPSD-V，一种后训练自蒸馏方法，专门针对少步自回归视频生成器的长时退化问题。现有少步AR模型虽然在延迟上优势，但误差积累和运动弱化限制了实际应用。OPSD-V通过引入真实长视频作为时间上下文，并设计缓存感知的师生框架，让学生在其推理路径上获得密集的轨迹级监督。具体地，学生按常规自回归方式生成，教师则使用更清洁的缓存（替换旧历史为真实帧）提供正确信号。训练仅在自定义的3,800个一分钟长视频上进行，不改变推理配置。实验证明该方法能够显著提升视觉质量、运动动态和长视频基准分数，用户偏好率高达82.5%（排除平局）。论文还分析了相关工作和方法的局限性，指出未来可以扩展数据规模和模型范围。**
+
+<!-- paperflow:86267eef4e04ad6a -->
+## On Locality and Length Generalization in Visual Reasoning
+
+[[Deep Reading - Jul 2026/On Locality and Length Generalization in Visual Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09061](https://arxiv.org/pdf/2607.09061)
+
+- **本文系统研究了视觉推理中的长度泛化问题。受人类视觉系统局部注视的启发以及语言模型长度泛化研究的推动，作者设计了一组简单的视觉状态跟踪任务，要求模型通过聚合多个局部区域信息来完成推理。实验结果表明，采用全局编码的常规视觉模型（如ViT）会学习利用全局感知捷径，导致任务复杂度增加时泛化失败；而提出的一种基于严格局部感知的循环视觉策略，通过序列化局部眼动来获取信息，能够有效实现长度泛化。论文的主要贡献包括：揭示了视觉模型中的全局捷径问题；证明局部顺序感知是稳健组合泛化的必要条件；提供了一套评估视觉长度泛化的基准和消融分析。该工作为视觉模型架构设计提供了新视角，强调了局部注意力在泛化中的关键作用。**
+
+<!-- paperflow:0e2b8fa8f8818bac -->
+## Learning More from Less: Reinforcement Learning from Hindsight
+
+[[Deep Reading - Jul 2026/Learning More from Less-Reinforcement Learning from Hindsight|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09042](https://arxiv.org/pdf/2607.09042)
+
+- **这篇论文提出LfH方法，解决VLA后训练中RL样本效率低的问题。在稀疏奖励下，初始策略的失败轨迹通常被直接抛弃，但这些轨迹可能完成了其他任务。LfH利用一个VLM对一组失败轨迹生成一个事后指令（描述它实际完成的行为），并对每条轨迹评分（衡量符合程度）。然后策略在原始样本和重标记样本上联合训练。这样，失败轨迹变成了成功演示，大幅提高了信号密度。在LIBERO-PRO基准上，LfH在样本效率上比标准RL提升5倍，并超过人工密集奖励基线。消融实验确认指令重标记和奖励重标记均有贡献。分析显示LfH保持了策略多样性，防止了GRPO常见的坍塌。真实机器人实验进一步验证了从仿真到真实的迁移效果。总体而言，LfH提供了一种新颖且实用的范式：通过语言接口将失败重新解释为成功，显著提升数据利用效率。**
 
 # Machine Learning
 
