@@ -374,8 +374,8 @@ VerifierBench则用于单独评估模型自身的验证能力。他们收集了8
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
-- 论文/报告：44 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, reinforcement-learning
+- 论文/报告：45 篇
 - CheckRLM: Effective Knowledge-Thought Coherence Checking in Retrieval-Augmented Reasoning
 - Rethinking Speech-LLM Integration for ASR: Effective Joint Speech-Text Training by Interleaving
 - Measuring the Gap Between Human and LLM Research Ideas
@@ -842,13 +842,22 @@ Across state-level evaluation, arena gameplay, and training trajectories, we fin
 
 - **本文针对LLM偏好对齐中结果级奖励对推理轨迹监督不足的问题，提出TCR。TCR利用偏好对自动生成样本特定思考清单，并评估推理过程是否遵循该清单。引入EMA残差提取结果奖励无法捕获的过程信号。在LLaMA-3、Qwen-2、Mistral三个系列共5个模型上实验，在MT-Bench等多种对齐基准上验证有效性。消融证实EMA残差和样本特定清单的必要性。分析显示过程残差与结果奖励几乎不相关，提供互补信息。TCR无需额外人工标注，易集成到现有RL对齐pipeline中。局限性包括清单质量依赖生成器、EMA超参数敏感、大模型及多模态未验证。未来可探索清单自动优化、扩展至更大模型及更多交互场景。**
 
+<!-- paperflow:47ebb0b335a41ba8 -->
+## VibeVoice-ASR-BitNet Technical Report
+
+[[Deep Reading - Jul 2026/VibeVoice-ASR-BitNet Technical Report|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21075](https://arxiv.org/pdf/2607.21075)
+
+- **本技术报告介绍了VibeVoice-ASR-BitNet，一个针对边缘CPU实时推理的压缩自动语音识别模型。通过对VibeVoice-ASR的VAE声学分词器和自回归语言模型分别采用INT8全流水线量化和BitNet三元权重量化，配合渐进式量化感知训练和ggml框架下的算子融合与SIMD优化，在AMD EPYC CPU上达到RTF<1（仅3线程），比Whisper.cpp快1.6-2.3倍，精度损失有限。论文详细描述了异构量化原理、算子融合方案、实验设置和性能分析，为LLM-based ASR在CPU上的实时部署提供了实用方案。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
-- 论文/报告：79 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, reinforcement-learning
+- 论文/报告：89 篇
 - AgenticSTS: A Bounded-Memory Testbed for Long-Horizon LLM Agents
 - PACE: A Proxy for Agentic Capability Evaluation
 - SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces
@@ -1709,6 +1718,128 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 
 - **本文针对长时域任务中 LLM 智能体的上下文管理难题，提出 PRO-LONG 框架。其核心是程序化记忆：完整、结构化的交互日志加上代码驱动的搜索机制。该方法在保持历史完整性的同时实现了高效检索，解决了现有方法的保存-检索权衡。实验在 ARC-AGI-3 和 Fable 5 基准上进行，结果显示 PRO-LONG 在 pass@1 上提升 18.0 个百分点，匹配或超越专用框架，且 token 使用减少 4.2–5.8 倍。工作贡献包括提出最小化框架、效率验证以及开源实现。论文论证主线清晰：问题-权衡-方案-实验。技术主线强调“完整记录+代码搜索”的廉效设计。实验主线通过多模型、多基准、多指标全面验证。**
 
+<!-- paperflow:68f7758bcd411a5a -->
+## The Dark Room in the Reward Channel: Dense Prediction Rewards Collapse GRPO-Trained LLM Agents -- and What Actually Works
+
+[[Deep Reading - Jul 2026/The Dark Room in the Reward Channel-Dense Prediction Rewards Collapse GRPO-Trained LLM Agents-an|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21273](https://arxiv.org/pdf/2607.21273)
+
+- **这篇论文系统研究了在GRPO（Group Relative Policy Optimization）框架下，为长时域LLM智能体引入密集逐步预测奖励（potential-based prediction reward）所导致的灾难性失败问题，并将其命名为暗室病理。
+
+论证主线：密集逐步监督是解决长时域稀疏奖励的自然思路：每一时刻奖励智能体对其下一观测的预测正确性。由于使用势能塑造，理论上该奖励保持最优策略不变。然而论文发现，在GRPO中，这一配方不仅无效，反而完全摧毁策略。通过精心设计的实验和消融，作者最终定位到罪魁祸首是GRPO优势计算中的标准差归一化（z-scoring）。该归一化在所有样本都失败的组中，将原本有界的预测奖励转化为无界的更新压力，迫使策略陷入一个所有步都预测正确但完全不执行有效动作的退化状态。
+
+技术主线：
+1. 问题发现：在ALFWorld任务上，使用Qwen3-1.7B/4B/8B，预测奖励组成GRPO训练，每种子均收敛到100%预测准确率和0%任务成功率。
+2. 根因定位：通过逐一关闭GRPO组件（均值中心化、标准差归一化、两者同时），发现仅移除标准差归一化就将性能从0%恢复至51.6%（基线49.5%）。
+3. 理论理解：在全失败组中，所有样本的预测奖励相同，组内方差为零，导致z-score优势变为无穷大（除以0）。更一般地，任何密集信号如果在其被完全掌握后组内方差消失（如预测准确率掌握后达到100%），则会在GRPO的z-scoring下遭受无界放大，引发崩溃。论文据此提出方差轮廓准则：安全的密集信号应具有在掌握后仍保持组内方差的特性。
+4. 准则验证：该准则回溯解释了预测奖励的崩溃，并对尚未运行的信号组合做出预注册预测（如随机信号安全、恒定信号危险等）。
+5. 信号渠道对比：在控制信号内容相同下，比较通过奖励通道（GRPO优势）和辅助损失通道（独立交叉熵）的效果。辅助损失通道带来约20点的提升（相对于基线），而奖励通道至多中性甚至有害。混淆黄金实验（使用随机标签）表明，信号内容本身不重要，崩溃源于通道特性。
+
+实验主线：
+- 环境：ALF...**
+
+<!-- paperflow:045fd48bd2095ab6 -->
+## Sample-Efficient Learning from Agent Experience
+
+[[Deep Reading - Jul 2026/Sample-Efficient Learning from Agent Experience|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21051](https://arxiv.org/pdf/2607.21051)
+
+- **本文提出并研究了 Experience Distillation 问题——如何将智能体通过上下文学习（ICL）从其自身交互历史中获得的能力蒸馏到模型权重中，从而在无需上下文的情况下保留这些能力，同时保持高样本效率（即不额外消耗环境交互样本）。作者设计了一种无需额外环境交互的实现：利用收集的轨迹作为数据，使用一个教师模型（在上下文中观察轨迹历史）生成改进的决策目标，然后训练一个学生模型在无上下文条件下模仿这些目标。在 749 个 curated 软件工程任务和 6 个文字冒险游戏上的实验表明，该方法成功保留了至少 64.8% 的 ICL 性能提升，而直接监督微调仅保留 3.8%。与经典强化学习 PPO 相比，ICL+Experience Distillation 在达到更高性能的同时，使用更少的环境样本（9.6 倍减少）。本文是首次系统研究 Experience Distillation，并为样本高效的智能体学习提供了新范式。论文还讨论了相关工作，包括上下文蒸馏、特权信息蒸馏、强化学习基线等。实验结果展示了 ICL 作为一种高效但上下文依赖的策略提升方式，可以通过蒸馏被有效内化，从而在真实世界应用中有巨大潜力。**
+
+<!-- paperflow:39af3bb73ec03b47 -->
+## VoLN: Vision-Only Long-Horizon Navigation---Paradigm, Benchmark, and Method
+
+[[Deep Reading - Jul 2026/VoLN-Vision-Only Long-Horizon Navigation-Paradigm, Benchmark, and Method|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21400](https://arxiv.org/pdf/2607.21400)
+
+- **本文提出Vision-Only Long-Horizon Navigation (VoLN)范式，旨在剥离外部路线指令和全局导航信号对导航性能的影响，使代理仅依赖目标视图和本地可观察场景线索进行长时域闭环导航。这一设定与标准视觉-语言导航（VLN）形成互补，后者常依赖指令中隐含的空间先验，混淆了视觉导航与任务结构利用的能力。
+
+论文首先分析现有导航接口的局限性，指出VLN基准无法分离视觉感知与结构推理的贡献。因此，VoLN将路线信息完全转移到本地线索，目标视图指定目的地，代理必须在线检测、解释和选择线索（如颜色信标、环境特征）来推断路径。这强调了视觉推理和闭环控制，而非语言理解。
+
+为具体实现该范式，论文构建了VoLN-UAV基准，针对无人机空中导航场景。基准包含7210个episode，在多种3D连续环境中，模拟长距离飞行、大视角变化、尺度变化和动力学约束。每个episode提供目标视图序列和分布在环境中的线索（信标），代理需规划并执行飞行轨迹。任务按线索数量和导航距离分为Easy、Normal、Hard三级。
+
+作为初始基线，论文提出VoLN-MLLM方法。该方法使用自监督视觉特征（DINOv2）提取观测和目标视图的特征，通过对比学习对齐到结构化语义空间。模型基于历史观测、目标视图、检索的视觉-语义标记和本体感受输入，使用Transformer预测短期轨迹片段（航点序列）。训练采用仿真器中的地面真值监督。
+
+实验在五环境Test-Unseen split上评估，VoLN-MLLM在Easy、Normal、Hard上的成功率分别为7.4%、4.5%和1.8%。这些极低的数值揭示了VoLN任务的惊人困难性：代理难以在长时域中整合证据、匹配跨视角目标，并保持闭环稳定。论文指出这些结果为后续研究提供了明确挑战和量化基线。
+
+主要贡献包括：（1）提出VoLN范式，重新定义导航任务接口；（2）构建VoLN-UAV基准，提供标准化评估平台；（3）提供VoLN-MLLM基线方法，便于后续比较；（4）通过实验揭示关键瓶颈，为未来工作指明方向。
+
+局限性方面：当前成功率极低，基线方法性...**
+
+<!-- paperflow:eb5ec0c047fe3f5e -->
+## AppWorld-UL: Benchmarking Diverse Agent-User Interactions for Tool-Use
+
+[[Deep Reading - Jul 2026/AppWorld-UL-Benchmarking Diverse Agent-User Interactions for Tool-Use|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.20536](https://arxiv.org/pdf/2607.20536)
+
+- **这篇论文聚焦于工具使用LLM代理在与用户交互场景下的评估问题。真实代理部署中，代理不仅需操作应用API，还需与用户交互——例如任务阐述不明确时请求澄清、操作代价高昂时需确认、任务不可行时通知用户。然而现有基准(如WebArena、AppWorld)严重缺乏对此类交互多样性的覆盖，且用户模拟方法不稳定或过于刚性。为弥补这一缺口，论文提出AppWorld-UL，一种系统化构建的“用户参与”基准。
+
+构建方法：基于AppWorld框架(9个模拟应用、丰富API体系)，采用扰动算子(perturbation operators)将原有自主任务改造为需用户交互的任务。扰动引入三种典型交互现象：不明确(underspecification)——任务描述存歧义，需代理向用户澄清意图；不可行(infeasibility)——目标在当前状态无法达成，需代理主动告知用户并给出替代方案；需批准(need for approval)——操作涉及费用、隐私等代价，需用户明确同意。这些现象可单独或组合出现，共生成516个任务，其中306个为单一类型、126个为组合类型。
+
+用户模拟：为可靠仿真用户行为，论文设计了知识边界(knowledge boundaries)机制，指导LLM仅基于任务相关的部分知识回复，避免过度配合或超出范围的信息，在刚性与自由度间取得平衡。评估采用任务级(整体成功)和场景级(交互过程正确性)双重指标，并通过状态环境程序化验证。
+
+实验用多个前沿LLM作为代理，在AppWorld-UL上进行全面评估。最佳模型Claude Opus 4.7整体成功率仅48.6%，组合子集35.7%，场景级组合任务仅21.3%。消融实验移除交互需求后，同一任务骨架成功率升至78.1%，清晰表明交互能力是主要瓶颈。不同交互类型难度不等，组合场景尤为严峻。错误分析提示代理常未能及时澄清、误解用户意图、忽略确认需求或传达不可行性不充分。
+
+贡献包括：(1) AppWorld-UL基准，系统涵盖三类交互现象，共516个任务；(2) 可复现的扰动生成方法，适用于其他自主基准；(3) 可靠的LLM用户模拟方...**
+
+<!-- paperflow:96d147c054f84235 -->
+## OpenForgeRL: Train Harness-native Agents in Any Environment
+
+[[Deep Reading - Jul 2026/OpenForgeRL-Train Harness-native Agents in Any Environment|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21557](https://arxiv.org/pdf/2607.21557)
+
+- **本文介绍OPENFORGE RL，一个用于在真实推理harness中端到端训练LLM/VLM agent的开源框架。现有agent依赖的推理harness（如Claude Code、Codex）虽强大但难以训练，因为标准SFT/RL栈无法处理其有状态、多进程特性。OPENFORGE RL通过轻量级代理抽象模型调用并记录训练数据，结合Kubernetes编排器管理分布式rollout，使得任何harness×环境组合均可直接使用标准RL代码库（如veRL）训练。在claw-based和GUI agent两大类设置中，使用少量任务（数百至数千），训练得到的OpenForgeClaw和OpenForge-GUI在ClawEval、QwenClawBench、OSWorld-Verified、OnlineMind2Web、WebVoyager等基准上超越同尺寸开放模型，部分指标匹敌或超过数倍大的模型。论文进一步分析了不同harness（ZeroClaw、OpenClaw、Codex）对RL训练的影响，发现RL提升了自我验证、工具覆盖率和多步计划完成能力，但错误恢复仍是关键瓶颈。本文开源了框架、代码、数据和模型，旨在促进开放社区对agent训练的研究。**
+
+<!-- paperflow:06551a2adceaac45 -->
+## MemTools: A Unified Research Framework for Interoperable Agent Memory
+
+[[Deep Reading - Jul 2026/MemTools-A Unified Research Framework for Interoperable Agent Memory|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21404](https://arxiv.org/pdf/2607.21404)
+
+- **本文提出了MemTools，一个面向智能体记忆系统互操作性研究框架。针对现有记忆系统架构碎片化、组件不可互换、评估无可控、异构记忆难管理的问题，MemTools通过三个核心设计提供解决方案：一是通过声明式数据契约标准化记忆生命周期接口，使不同来源的组件能无缝组装；二是将基准数据集与执行协议正交分离，使得评估设计可以独立重构，支持精细的消融和对比；三是设计统一计算接口，在共享运行时下协调符号、神经、多模态记忆表示。论文在跨系统集成、协议重配置和异构协调三个维度进行了实证评估，结果验证了框架的有效性，并揭示了记忆操作时序的关键影响以及异构记忆的互补性。此外，论文讨论了框架的局限性（自动匹配仅结构兼容，可能行为失配）以及未来扩展方向。总体而言，MemTools为智能体记忆的系统性研究提供了实践基础，有望推动该领域的标准化和高效迭代。**
+
+<!-- paperflow:15f655480bc35091 -->
+## AREX: Towards a Recursively Self-Improving Agent for Deep Research
+
+[[Deep Reading - Jul 2026/AREX-Towards a Recursively Self-Improving Agent for Deep Research|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21461](https://arxiv.org/pdf/2607.21461)
+
+- **AREX 是一项关于递归自我改进智能体用于深度研究的工作。核心动机是深度研究中发现成本高而验证成本低的不对称性。AREX 通过构造包含复杂研究任务、多步探索轨迹和证据基础解决方案的训练数据集，并设计双层递归流程（内部研究循环负责逐步调查和状态更新，外部自我改进循环基于置信度决定是否重新研究），将临时答案逐步转化为部分验证的研究状态。该方法基于 Qwen3.5 系列模型，并在 BrowseComp、DeepSearchQA 等六个基准上实验，验证了递归自我改进的有效性。主要贡献包括：提出递归自我改进框架、构建专门训练数据集、实现状态表示与验证机制。**
+
+<!-- paperflow:5688b36550d20476 -->
+## PATS: Policy-Aware Training Scaffolding for Agentic Reinforcement Learning
+
+[[Deep Reading - Jul 2026/PATS-Policy-Aware Training Scaffolding for Agentic Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21419](https://arxiv.org/pdf/2607.21419)
+
+- **本文针对长期LLM智能体强化学习中策略重复失败的问题，提出以策略为中心的训练范式PATS。该框架将rollout组转化为可动态调整的证据卡片，作为训练支架提供自适应指导。PATS通过任务特定评估调整上下文内容：在策略较弱时提供具体成功/失败案例，策略改进后移除冗余提示以保持简洁。策略使用标准RLVR优化，支架在部署时完全丢弃。在ALFWorld和WebShop上，PATS显著提升成功率并减少提示token消耗；在搜索增强QA基准上，保持竞争力同时降低32.1% tokens。实验证明自适应上下文调度优于固定或单调增长的技能库方法。**
+
+<!-- paperflow:deacb40fdd53db74 -->
+## CMI-Mem: Toward Generalizable Long-Term Memory Management via CMI-Augmented Reinforcement Learning
+
+[[Deep Reading - Jul 2026/CMI-Mem-Toward Generalizable Long-Term Memory Management via CMI-Augmented Reinforcement Learnin|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.20553](https://arxiv.org/pdf/2607.20553)
+
+- **论文 CMI-Mem 针对智能体系统中记忆管理器的泛化性问题，提出了一种基于强化学习的轻量级记忆管理器训练框架。现有方法依赖 LLM 评判的合成 QA 对，使得记忆价值评估受限于特定查询和下游读者，导致模型难以迁移到新的记忆使用场景。CMI-Mem 通过引入条件互信息（CMI）作为内在奖励，与下游 QA 正确性奖励组成混合奖励，摆脱了对采样查询的依赖，同时保留了任务导向的效用。技术上，CMI-Mem 采用检索索引记忆架构（RM）以增强记忆的索引能力，并使用 RL 算法（如 PPO）优化记忆管理器的策略。CMI 信号在每个记忆操作时计算，提供即时的信息增量反馈，加速训练。实验在 MemoryAgentBench 等基准上进行，通过消融研究验证了 RM、QA 奖励和 CMI 奖励各自的贡献。结果显示，CMI-Mem 在跨场景迁移上优于纯 QA 基线，尤其在分布外设定下表现突出，且训练和推理更高效。论文还讨论了方法在多模态场景下的局限性、缺乏直接记忆评估指标以及大规模模型上的可扩展性尚未验证等问题。总体而言，CMI-Mem 为通用长期记忆管理提供了一种有效且高效的新范式。**
+
+<!-- paperflow:2f67976b7ab1d398 -->
+## Tencent WorkBuddy Bench: A Multi-Domain Coding-Agent Benchmark with Contamination-Resistant Task Construction
+
+[[Deep Reading - Jul 2026/Tencent WorkBuddy Bench-A Multi-Domain Coding-Agent Benchmark with Contamination-Resistant Task|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.20911](https://arxiv.org/pdf/2607.20911)
+
+- **本文介绍了 Tencent WorkBuddy Bench，一个由腾讯团队（Youtu Lab、Keen Security Lab、Workbuddy、Yunding Security Lab）联合开发的多领域编码智能体基准测试套件。现有编码智能体基准如 SWE-bench、Vibe Code Bench 等虽然推动了领域发展，但存在两个关键不足：一是领域覆盖有限，大多局限于代码仓库修复或前端开发，忽视了办公自动化和安全任务等重要工作场景；二是严重的数据污染问题，由于许多任务来源于公开问题集，模型可能通过记忆而非推理获得高分。Tencent WorkBuddy Bench 的设计目标正是填补这一空白，提供一个多领域、抗污染且可复现的评估平台。该基准包含四个并行的子集：Code（仓库级软件工程任务）、Web（前端网页实现）、Office（办公自动化，如表格计算、文档生成）和 Security（安全任务，包括漏洞修复与密码分析）。每个子集涵盖 10-20 个任务水平，所有任务由领域专家手动构建，确保与已有公开数据不重叠。评估采用确定性评分器，基于参考解决方案进行精确或功能比较，严格避免使用 LLM 作为 judge。整个基准套件开源发布，包含任务定义、Docker 环境镜像、评分脚本和参考解决方案，并定期通过版本更新维护抗污染性。实验方面，论文在两个流行的 agent 框架——CodeBuddy Code（来自腾讯）和 Claude Code（来自 Anthropic）——上评估了七个模型，包括商用模型 GPT-4o、Claude 3.5 Sonnet，以及 CodeBuddy-7B 和 CodeBuddy-13B 等开源模型。每个模型在四个子集上执行，记录首次尝试成功通过任务的比例（pass@1）。实验结果表明：不同模型在不同领域上表现出显著差异，例如 CodeBuddy-13B 在 Code 子集上表现最佳，而 Claude 3.5 在 Security 子集上领先；Web 和 Office 子集上，顶模型间差距缩小，但仍有区别。值得注意的是，基准明确不计算跨子集的总体...**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
@@ -1754,8 +1885,8 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
-- 论文/报告：36 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, reinforcement-learning, vision, multimodal-learning
+- 论文/报告：37 篇
 - Optimizing Visual Generative Models via Distribution-wise Rewards
 - Visually Grounded Self-Reflection for Vision-Language Models via Reinforcement Learning
 - ESC: Emotional Self-Correction for Reliable Vision-Language Models
@@ -2129,6 +2260,15 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 [https://arxiv.org/pdf/2607.19056](https://arxiv.org/pdf/2607.19056)
 
 - **本文提出Vector-Bench，一个专注于指令式SVG代码编辑的基准，旨在严格评估模型同时执行指定修改和保持其余部分不变的能力。基准包含40个精心设计的SVG修复任务，每个任务提供损坏的SVG、自然语言指令、隐藏目标、期望修复列表和保护对象集。指令仅描述视觉缺陷，避免泄露内部标识符，迫使模型依赖语义理解。评估引入二元规范奖励，不仅检查修复是否正确，还强制未请求区域语义不变且输出有效。另有修复进度、UCR等统计量说明部分结果。实验评估了34个模型端点，发现最强的封闭模型也仅达到15%的完全规范成功，而平均修复进度却达43.7%，凸显维护编辑忠实性的巨大挑战。论文公开了所有提示、输出、评估代码和成本数据，为后续研究提供标准化测试平台。该工作补充了现有向量编辑基准的不足，强调了“保持不变”能力的重要性，并对语言模型在结构化视觉代码操作中的局限性提供了实证洞察。**
+
+<!-- paperflow:3c6d06128eb44ef5 -->
+## GraphVid: Interactive Graph-Controllable Video Generation
+
+[[Deep Reading - Jul 2026/GraphVid-Interactive Graph-Controllable Video Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.21580](https://arxiv.org/pdf/2607.21580)
+
+- **本文聚焦于可控视频生成中多物体交互控制的挑战。作者提出GraphVid，一种基于图条件的图像到视频生成模型。与需要精准轨迹或大量数据的现有方法不同，GraphVid允许用户通过有向交互图直观指定物体间的交互关系，从而实现生成控制的灵活性和可解释性。模型基于预训练的LTX-Video Diffusion Transformer，并引入Edge-Aware Graph Reasoning模块来编码图结构信息，通过跨注意力机制注入条件。在训练过程中，骨干网络被冻结，仅训练少量可学习参数，从而在数据效率上具有优势。为支持此类任务，作者还构建了GraphVid-Bench数据集，包含带关系标注的交互视频。在定量评估中，GraphVid在FID、FVD、PSNR和SSIM上均显著优于Motion-I2V，例如FID降低39.9%，PSNR由9.87提升至15.98。人类偏好研究进一步证实了其生成结果在语义和视觉上的一致性和质量。论文展示了结构化语义界面作为可控视频生成新范式的潜力，并为进一步研究提供了基准和方法。主要贡献包括：首次提出图交互控制框架、Edge-Aware图推理模块、以及GraphVid-Bench数据集。**
 
 # Machine Learning
 
