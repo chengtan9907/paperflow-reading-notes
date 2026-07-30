@@ -219,13 +219,14 @@
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
 - 方法：agent, ai-for-science, generation, reasoning, science-discovery, multimodal-reasoning, gui-agent
-- 论文/报告：6 篇
+- 论文/报告：7 篇
 - DisciplineGen-1M: A Large-Scale Dataset for Multidisciplinary Visual Generation and Editing
 - CausalGame: Benchmarking Causal Thinking of LLM Agents in Games
 - Playing ZendoWorld: Challenging AI Agents on Active Visual Concept Induction
 - SciForge: An AI-Native, Multimodal Workbench for Scientific Discovery
 - S1-Omni: A Unified Multimodal Reasoning Model for Scientific Understanding, Prediction, and Generation
 - Agents in the Wild: Where Research Meets Deployment
+- MemSFT: Mitigating Alignment Tax with an External Parametric Memory
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -298,6 +299,15 @@
 最后，教程指出开放挑战，包括提升鲁棒性、安全性、长期可靠性、跨领域泛化，以及人机交互的深度融合。
 
 总体而言，本教程为智能体系统的部署者提供了全面的知识框架和实践工具，是连接研究与应用的重要参考。**
+
+<!-- paperflow:e32e0a2fbdce3268 -->
+## MemSFT: Mitigating Alignment Tax with an External Parametric Memory
+
+[[Deep Reading - Jul 2026/MemSFT-Mitigating Alignment Tax with an External Parametric Memory|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25614v1](https://arxiv.org/pdf/2607.25614v1)
+
+- **本文针对LLM领域微调过程中的对齐税（灾难性遗忘）问题，提出MemSFT方法，通过外部参数化记忆解耦领域专业化与骨干参数更新。方法包括训练参数化记忆LM模仿检索器行为，以及学习路由器动态融合记忆和骨干输出。在生物学、地球科学和法学三个领域，使用Qwen3系列模型（8B至235B-A22B）进行实验。结果显示：MemSFT在领域任务上取得与全微调相当甚至更好的性能，同时通用能力几乎无损失；而全微调导致通用能力显著下降。此外，记忆可跨不同规模模型重用，路由器能自适应调整记忆贡献。与LoRA、Wise-FT等基线相比，MemSFT在保持通用性方面表现最佳。消融实验验证了记忆训练和路由器的必要性。论文展示了在参数层面分离通用能力和领域知识的可行路径。**
 
 # AI for Education
 
@@ -374,8 +384,8 @@ VerifierBench则用于单独评估模型自身的验证能力。他们收集了8
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, reinforcement-learning
-- 论文/报告：45 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：47 篇
 - CheckRLM: Effective Knowledge-Thought Coherence Checking in Retrieval-Augmented Reasoning
 - Rethinking Speech-LLM Integration for ASR: Effective Joint Speech-Text Training by Interleaving
 - Measuring the Gap Between Human and LLM Research Ideas
@@ -851,13 +861,31 @@ Across state-level evaluation, arena gameplay, and training trajectories, we fin
 
 - **本技术报告介绍了VibeVoice-ASR-BitNet，一个针对边缘CPU实时推理的压缩自动语音识别模型。通过对VibeVoice-ASR的VAE声学分词器和自回归语言模型分别采用INT8全流水线量化和BitNet三元权重量化，配合渐进式量化感知训练和ggml框架下的算子融合与SIMD优化，在AMD EPYC CPU上达到RTF<1（仅3线程），比Whisper.cpp快1.6-2.3倍，精度损失有限。论文详细描述了异构量化原理、算子融合方案、实验设置和性能分析，为LLM-based ASR在CPU上的实时部署提供了实用方案。**
 
+<!-- paperflow:274418136352b0bc -->
+## DecoEvo: Score-Decoupled Co-Evolution of Solver and Rubric-Generator Skills in Text Space
+
+[[Deep Reading - Jul 2026/DecoEvo-Score-Decoupled Co-Evolution of Solver and Rubric-Generator Skills in Text Space|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25675v1](https://arxiv.org/pdf/2607.25675v1)
+
+- **DecoEvo提出了一种解耦协同演化框架，用于在文本空间中优化LLM的求解器和评分标准生成器技能。现有文本空间优化方法通常固定评估标准，导致优化信号遗漏未覆盖维度；或者演化评分标准但易因依赖求解器分数而产生虚假进步。DecoEvo通过设计独立的更新目标来解决这一问题：求解器基于标准级反馈更新，评分标准生成器通过要求覆盖审计和响应区分审计更新，两者均不依赖求解器的总体得分。这使得评分标准能自适应地暴露求解器弱点，同时避免被求解器操纵。实验在五个开放任务基准和三个LLM骨干（GPT-4o、Qwen3-4B、Qwen3-8B）上进行，共15个设置。DecoEvo在所有设置中取得平均最优性能，相对SkillOpt增益2.8-5.0%，表明该方法有效且鲁棒。此外，生成器产生的诊断可被精炼为可重用的技能修订，具有实际应用价值。论文还讨论了与对比方法（如SkilOpt、EvoLM、OpenRS等）的关系，并指出解耦演化在避免共同适应陷阱方面的优势。**
+
+<!-- paperflow:0f7ee690c3a40cc0 -->
+## Memory for Large Language Models
+
+[[Deep Reading - Jul 2026/Memory for Large Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25380v1](https://arxiv.org/pdf/2607.25380v1)
+
+- **这篇综述论文以架构为中心，系统梳理了大型语言模型中的内存机制。论文首先指出内存已从计算的隐式副产品演变为显式可控的架构维度，但领域研究高度碎片化。为此，论文提出了一个三维分类法：表示（隐式/显式）、更新动态（离线/在线）和持久性（短期/长期）。沿着这些轴，论文详细形式化了内存的写入、路由、状态转换和整合等机制。在隐式内存方面，分析了标准注意力、线性注意力、状态空间模型和循环单元等；在显式内存方面，讨论了参数高效适应、外部可寻址存储和测试时学习等。论文还重点分析了混合架构（如Transformer+显式记忆）的设计和系统效率权衡，并提出了多维度评估框架。最后，论文总结了隐式内存的结构性局限以及显式内存的边界条件，为未来可扩展和自适应语言建模提供了原则性基础。整体而言，本综述为理解LLM内存提供了统一的设计空间和术语体系，有助于比较不同方法并指导新架构开发。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, reinforcement-learning
-- 论文/报告：89 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：97 篇
 - AgenticSTS: A Bounded-Memory Testbed for Long-Horizon LLM Agents
 - PACE: A Proxy for Agentic Capability Evaluation
 - SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces
@@ -1840,16 +1868,106 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 
 - **本文介绍了 Tencent WorkBuddy Bench，一个由腾讯团队（Youtu Lab、Keen Security Lab、Workbuddy、Yunding Security Lab）联合开发的多领域编码智能体基准测试套件。现有编码智能体基准如 SWE-bench、Vibe Code Bench 等虽然推动了领域发展，但存在两个关键不足：一是领域覆盖有限，大多局限于代码仓库修复或前端开发，忽视了办公自动化和安全任务等重要工作场景；二是严重的数据污染问题，由于许多任务来源于公开问题集，模型可能通过记忆而非推理获得高分。Tencent WorkBuddy Bench 的设计目标正是填补这一空白，提供一个多领域、抗污染且可复现的评估平台。该基准包含四个并行的子集：Code（仓库级软件工程任务）、Web（前端网页实现）、Office（办公自动化，如表格计算、文档生成）和 Security（安全任务，包括漏洞修复与密码分析）。每个子集涵盖 10-20 个任务水平，所有任务由领域专家手动构建，确保与已有公开数据不重叠。评估采用确定性评分器，基于参考解决方案进行精确或功能比较，严格避免使用 LLM 作为 judge。整个基准套件开源发布，包含任务定义、Docker 环境镜像、评分脚本和参考解决方案，并定期通过版本更新维护抗污染性。实验方面，论文在两个流行的 agent 框架——CodeBuddy Code（来自腾讯）和 Claude Code（来自 Anthropic）——上评估了七个模型，包括商用模型 GPT-4o、Claude 3.5 Sonnet，以及 CodeBuddy-7B 和 CodeBuddy-13B 等开源模型。每个模型在四个子集上执行，记录首次尝试成功通过任务的比例（pass@1）。实验结果表明：不同模型在不同领域上表现出显著差异，例如 CodeBuddy-13B 在 Code 子集上表现最佳，而 Claude 3.5 在 Security 子集上领先；Web 和 Office 子集上，顶模型间差距缩小，但仍有区别。值得注意的是，基准明确不计算跨子集的总体...**
 
+<!-- paperflow:c9ec5852b8ec777e -->
+## The Physics of Multi-Turn Long-Horizon Planning: From Pre-training to Post-training via Single- and Multi-Teacher On-Policy Agentic Distillation
+
+[[Deep Reading - Jul 2026/The Physics of Multi-Turn Long-Horizon Planning-From Pre-training to Post-training via Single-an|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.24720v1](https://arxiv.org/pdf/2607.24720v1)
+
+- **这篇论文题为《多轮长时规划的物理：从预训练到后训练的单/多教师在线策略蒸馏》，由中国科学院自动化研究所的研究人员完成。论文旨在系统性地理解基础模型智能体如何获取、塑造和整合多轮长时规划能力。主要贡献包括：(论证主线) 现有研究无法区分规划能力来自预训练还是后训练，作者因而构建统一可控的多轮环境，将问题解耦为三个阶段。(技术主线) 预训练阶段，通过控制数据格式（CoT vs 纯动作）、数据分布（长时比例）和数据质量，揭示显式世界模型构建、适量长时数据和高质量轨迹对组合泛化的关键作用，并发现次优轨迹的错误放大效应。后训练阶段，对比GRPO和在线策略蒸馏（OPD），利用互信息分解更新信号为通用规划模式与任务特定知识，确定两者各自的适用区域：OPD在低质量和长时设置下更有效，因为它提供一致的方向更新。整合阶段，提出多教师在线策略蒸馏（MOPD），实验证明兼容模式可跨环境泛化，部分共享支持持续学习，完全冲突导致干扰。(实验主线) 论文在T=200步的合成环境中进行大量消融实验，包括不同数据配置、后训练算法组合以及多教师设置，验证了各阶段的核心假设。总体而言，该工作为长时规划能力的形成机制提供了首个系统性实验分析，对预训练数据策略和后训练算法选择具有指导意义。**
+
+<!-- paperflow:7fcf719163b196f1 -->
+## OrchBench: Evaluating Multi-Agent Orchestration Plans in Isolation via Deterministic Simulation
+
+[[Deep Reading - Jul 2026/OrchBench-Evaluating Multi-Agent Orchestration Plans in Isolation via Deterministic Simulation|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25656v1](https://arxiv.org/pdf/2607.25656v1)
+
+- **该论文针对多智能体系统（MAS）编排质量评估难的问题，提出OrchBench——一种基于确定性模拟的隔离评估基准。现有端到端评估将编排与执行因素混为一谈，且昂贵耗时。OrchBench从真实任务中提取有向无环图（DAG）来描述子任务依赖，并要求编排器输出子任务到智能体的分配方案以及跨智能体信息传递策略。其核心是一个确定性模拟器，无需真正调用LLM智能体，即可根据信息流完整性、并行度等因素计算出质量得分、完工时间和token成本三项指标。论文通过实验证明，OrchBench模拟得分与Claude Code端到端执行得分高度相关（Pearson r=0.816），而token和耗时分别降低至1.3%和10.3%，展示了作为快速筛查工具的有效性。利用OrchBench，作者系统比较了多种编排策略，发现：保持任务关键信息完整传递比增加智能体数量更为重要；上下文大小与信息保留率存在权衡；并行带来的时间收益随协调失败增加而递减。这些发现揭示了编排中的深层权衡，同时OrchBench为编排算法提供了可重复、高效的评估平台。主要贡献包括提出隔离评估框架、实现高保真模拟、以及获得可复现的编排洞察。论文最后讨论了局限性（例如静态DAG假设、单一后端验证），并展望了向动态图、多框架比较和容错评估等方向的发展。**
+
+<!-- paperflow:7e977626e1a66998 -->
+## HiSkill: Empowering LLM Agents with Hierarchical Skill Graphs
+
+[[Deep Reading - Jul 2026/HiSkill-Empowering LLM Agents with Hierarchical Skill Graphs|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25853v1](https://arxiv.org/pdf/2607.25853v1)
+
+- **论文针对 LLM 智能体在长程交互任务中技能重用效率低、高层技能与可执行动作脱节的问题，提出 HiSkill——一种层次化技能图框架。HiSkill 的核心是将历史交互轨迹组织为有向图，包含两层节点：高层技能节点（文本级抽象，如“获取木材”）和 AtomicOp 节点（可执行动作模板，如“打开箱子”），并定义五种类型边（分解、时序、兼容、支持、恢复）以丰富关系建模。图构建后，推理时根据任务描述检索相关子图，然后由 LLM 智能体在子图引导下迭代执行：当前符号状态和激活技能决定下一步（切换技能或执行 AtomicOp），LLM 将 AtomicOp 具体化为环境可执行动作。该流程使得技能选择与动作执行基于结构化的上下文，而非扁平检索。实验在三个交互环境上进行，与 ReAct、SayCan、Vector Skills、SkillNet、GoS 等对比，HiSkill 在成功率上取得最佳，且推理 token 消耗量最低（相比不使用子图的变体）。消融研究证实了五种边和子图检索的必要性。论文的主要贡献包括：1）首次在 AtomicOp 级别构建层次技能图，桥接高层规划与低层执行；2）引入多种关系边丰富图结构；3）提出子图检索与引导执行机制，实现高效且决策透明的技能调用。局限在于图构建依赖历史数据质量，且关系类型预设可能不覆盖所有场景。总体而言，HiSkill 为 LLM 智能体技能组织与复用提供了一种结构化的新范式。**
+
+<!-- paperflow:b00f09e6ea9c2990 -->
+## CAST: Game Solvers as Turn-Level Teachers for LLM Agents
+
+[[Deep Reading - Jul 2026/CAST-Game Solvers as Turn-Level Teachers for LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25308v1](https://arxiv.org/pdf/2607.25308v1)
+
+- **本文针对LLM代理在长期游戏中信用分配困难的问题，提出利用游戏求解器提供turn-level信号的方法CAST。动机是RLVR依赖稀疏最终奖励，而现有过程信号方案难以兼顾成本和准确性。观察发现游戏求解器的状态值变化可以反映动作质量。基于此，CAST将求解器状态值之差定义为solver advantage，并通过RMS归一化后作为附加奖励注入RLVR。理论证明在soft-optimal求解器假设下，该方法等价于on-policy蒸馏，只需标量值，无需教师logits。在Sokoban、Minesweeper、Rush Hour上进行实验，CAST在域内和未见难度设置中均优于所有基线（包括仅用最终奖励的RLVR和基于过程奖励的方法），零样本迁移到ALFWorld和WebShop也取得最佳平均性能。实验还验证了归一化等组件的重要性。本文贡献包括提出新的信用分配范式，理论联系蒸馏，以及强实验支持。**
+
+<!-- paperflow:f92dde44cd8c7ba8 -->
+## HANDBOOK.md: A Benchmark for Long-Context Agentic Instruction Following
+
+[[Deep Reading - Jul 2026/HANDBOOK.md-A Benchmark for Long-Context Agentic Instruction Following|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25398v1](https://arxiv.org/pdf/2607.25398v1)
+
+- **HANDBOOK.md 是一个针对语言模型代理长上下文策略遵循能力的新基准。论文指出，企业部署中代理经常被置于长期有效的策略文档（如手册、政策文件）之下，但现有基准未充分测试这一部署模式。为此，作者构建了65个企业模拟任务，覆盖金融、医疗、保险、物流和HR领域，使用10家虚构公司，并邀请专家撰写20-124页的标准操作手册。每个任务在独特的模拟环境中运行，环境包含82个工具（文件、邮件、日历、聊天、问题追踪、商业服务），代理需根据手册完成例行工作。评分完全确定，基于824条程序性准则，既检查行动是否完成，也检查违规行为是否避免。为防止记忆，每个任务从一个基础手册变异而来。实验评估了30种模型配置（包括GPT-4、Claude、Gemini等），在严格评分下最佳通过率仅36.2%，大多数前沿模型低于25%。论文进一步归纳了四种主要失败模式：政策被环境请求覆盖、检查后违规、长距离规则遗忘和虚假合规。该基准为评估和改进代理的规则遵循能力提供了高质量测试平台，对企业级AI安全部署有直接参考价值。**
+
+<!-- paperflow:2af7153fb1eb6e47 -->
+## Kimi K3: Open Frontier Intelligence
+
+[[Deep Reading - Jul 2026/Kimi K3-Open Frontier Intelligence|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.24653v1](https://arxiv.org/pdf/2607.24653v1)
+
+- **Kimi K3 是来自 Moonshot AI（Kimi 团队）的一个开放前沿智能模型，总参数量 2.8T，激活参数 104B，原生支持多模态视觉输入，上下文窗口达到 100 万 token。模型采用混合专家架构，核心技术创新包括：
+
+**架构创新**
+- Kimi Delta Attention (KDA)：通过交替使用 Gated MLA 层和标准注意力层，实现对长序列的高效混合。Gated MLA 使用门控机制选择性地聚合远程信息，降低了二次复杂度。
+- Attention Residuals (AttnRes)：为每个注意力层引入残差连接和信息门控，缓解深层网络中的信息衰减，使得 2.8T 模型的训练和推理更加稳定。
+- Stable LatentMoE：改进的 MoE 路由机制，每个 token 从 896 个专家中激活 16 个。稳定性正则化防止专家塌陷和负载不均，提升 MoE 训练效率。
+
+**训练与缩放**
+预训练阶段使用精心设计的数据配方，结合课程学习和数据配比。通过这些架构创新和训练优化，Kimi K3 在相同计算量下较前代 Kimi K2 实现了约 2.5 倍的缩放效率提升。
+
+**后训练：强化学习驱动的多领域训练**
+后训练使用强化学习覆盖四大领域：长编码（Long Code）、通用智能体（General Agent）、通用推理（General Reasoning）和知识（Knowledge）。每个领域支持多级推理深度（low/medium/high/max），模型通过 RL 学会在不同复杂度水平下调整推理过程，实现了组合泛化。训练环境包括可验证搜索、专业知识和软件工程与内核优化、多模态推理（视觉在环工具使用）以及持久化智能体交互。
+
+**基础设施创新**
+为了支持 2.8T 模型的高效训练和百万 token 智能体 RL，论文实现了算法-系统协同设计：完美平衡的专家并行（动态分配专家，保证计算通信均衡）、高效内存管理（针对混合注意力优化显存）、持久化 rollout 和沙箱状态管理（在有限预算下实现长步骤 RL）。
+
+**评估结果**
+在编码（...**
+
+<!-- paperflow:eb34e3dfc388aaac -->
+## WorkSurface-Bench: Benchmarking Enterprise Agents on Multi-Surface Knowledge Routing
+
+[[Deep Reading - Jul 2026/WorkSurface-Bench-Benchmarking Enterprise Agents on Multi-Surface Knowledge Routing|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25765v1](https://arxiv.org/pdf/2607.25765v1)
+
+- **论文 WorkSurface-Bench 针对企业智能体在多表面知识源中的路由能力评估问题提出了一个专门的基准。作者首先指出现有评估的不足之处：它们要么考察检索（RAG），要么考察工具调用，但未能判断智能体是否具备根据问题选择合适知识表面（路由）的能力。在企业应用中，知识通常分布在文档、电子表格和依赖图等不同表面，选择错误表面将导致后续所有操作失效。为填补这一空白，论文从 Workspace-Bench-Lite 数据集中通过半自动转换得到1,151个原子任务，覆盖五个角色场景，并确保每个任务有明确的表面标签和可审计的参考答案。参考答案的可审计性是一大特色：表格答案通过执行 DuckDB SQL 查询复现，确保数值计算正确；文档答案通过已验证的文本跨度定位；图答案通过依赖关系源注释追溯。这使得路由与回答可以分别测量，从而清晰定位失败原因。在实验设计上，论文采用四种代表性 LLM 骨干和六种不同受控设置，收集大量轨迹数据。黄金约束工具设置下，路由 F1 接近完美（98.7-99.8%），但回答准确率仅56.1-75.3%，这一显著差距表明路由是必要但非充分条件。通过匹配干预实验进一步发现，表面提示能改善回答（特别对三个模型有效），而移除不相关工具有助于提升路由效率和准确率。路由与回答之间的相关系数仅为0.62，印证了分离评估的重要性。此外，论文还进行了严格的人工审核，确保基准质量。最终，论文提出了一个标准化的评估流程，并开放了所有资源。整体上，WorkSurface-Bench 提供了一个新颖且必要的评估维度，为未来企业智能体研究提供了新的测试平台。**
+
+<!-- paperflow:99c9b2354a22e9af -->
+## Agent Skills Matter: Inferring Proprietary Skills from Execution Trajectories
+
+[[Deep Reading - Jul 2026/Agent Skills Matter-Inferring Proprietary Skills from Execution Trajectories|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25560v1](https://arxiv.org/pdf/2607.25560v1)
+
+- **本文针对Agent技能商业化中出现的专有技能泄露风险，首次系统定义了技能泄露问题——通过观察执行轨迹逆向推断被隐藏的技能。作者提出了SigLeak，一个基于对比轨迹分析的黑盒框架。SigLeak包括Generator（构造诊断性任务probe）和Skill Synthesizer（对比有无技能启用下的轨迹，迭代提炼技能）。实验在五个场景、三种模型家族和三种Agent框架上进行，对比三个基线。结果表明，SigLeak在几乎所有设置下优于或匹配基线，平均成功率提升6.88个百分点，SkillSim指标最高。消融实验验证了各组件有效性。本文揭示了行为侧信道在Agent技能安全中的重要性，并提供了第一组实证结果。**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Research
 - 方法：待从后续精读中沉淀
-- 论文/报告：3 篇
+- 论文/报告：4 篇
 - What Types of Human-AI Teams Exist?
 - HERMES: A Multi-Granularity Labeling Substrate for Pre-training Data Mixtures
 - Best-of-$N$ TTS Evaluation is Confounded by ASR Family Alignment
+- What do Reward Models Memorize?
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1880,13 +1998,22 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 
 - **这篇论文关注零样本TTS中Best-of-N推理的评估问题。BoN通过ASR验证器从多个候选中选择内容最准确的输出，但本文发现这种评估本身存在混淆：验证器的表现高度依赖于评估它的ASR模型家族。作者在LibriSpeech-PC数据集上使用F5-TTS生成候选，用Whisper、wav2vec2.0和HuBERT三种不同家族的ASR模型作为verifier和evaluator进行实验。实验显示，verifier的排名在不同evaluator下会反转，同家族verifier-evaluator对会高估效果，而跨家族对则显示更真实的性能差距。为了缓解这个问题，作者提出两种跨家族排名集成方法：rank-averaging（平均排名）和conjunctive max-rank（最小化最大排名）。这两种方法在三个evaluator上实现了平均WER 1.61%（N=10），比F5-TTS基线降低12%，并且自动主观指标SIM-o和UTMOS没有退化。此外，最佳单一verifier（Whisper-large-v3）在官方评估器下将WER从2.06%降至1.72%。论文还分析了oracle headroom，指出仍有优化空间。最终建议在BoN TTS评估中至少使用两个不同训练谱系的ASR家族进行交叉验证，以避免结果偏倚。**
 
+<!-- paperflow:998f23e1ddd678f9 -->
+## What do Reward Models Memorize?
+
+[[Deep Reading - Jul 2026/What do Reward Models Memorize|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.24484v1](https://arxiv.org/pdf/2607.24484v1)
+
+- **本文首次系统性地研究了判别训练奖励模型（RM）在人类偏好数据上的反事实记忆问题。通过两个标准人类偏好数据集（PRISM等）和Llama-3.2-1B backbone，论文构建了完整的SFT→RM流程，并采用反事实记忆度量（通过交换偏好标签或扰动属性）和SHAP归因分析，从记忆分配、数据集伪影依赖、启发式特征泛化三个层面揭示了RM的记忆模式。主要发现包括：(1) RM将记忆容量错误集中于高间隔的“简单”偏好对，而非对泛化更有价值的困难样本；(2) RM记住了数据集中特定的伪影特征，如产生回复的大语言模型身份和用户评分者的采样策略；(3) 当面对分布外偏好对比时，RM无法基于上下文质量进行判断，转而过度依赖长度、顺从性等简单启发式相关特征，导致泛化失败。这些发现表明，当前从人类偏好数据判别训练出的RM尚未学会真正的判断能力，而是记忆了数据集的浅层模式和捷径。论文讨论了这些记忆偏差对RLHF可靠性、reward hacking风险以及偏好数据集设计的影响，并开源了实验代码。总体而言，该工作为理解RLHF中奖励模型的内在行为提供了重要视角，并对对齐研究中的数据集构造和模型训练实践具有警示意义。**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：agent, generation, language, vision-language-model, reasoning, reinforcement-learning, vision, multimodal-learning
-- 论文/报告：37 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
+- 论文/报告：40 篇
 - Optimizing Visual Generative Models via Distribution-wise Rewards
 - Visually Grounded Self-Reflection for Vision-Language Models via Reinforcement Learning
 - ESC: Emotional Self-Correction for Reliable Vision-Language Models
@@ -2269,6 +2396,33 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 [https://arxiv.org/pdf/2607.21580](https://arxiv.org/pdf/2607.21580)
 
 - **本文聚焦于可控视频生成中多物体交互控制的挑战。作者提出GraphVid，一种基于图条件的图像到视频生成模型。与需要精准轨迹或大量数据的现有方法不同，GraphVid允许用户通过有向交互图直观指定物体间的交互关系，从而实现生成控制的灵活性和可解释性。模型基于预训练的LTX-Video Diffusion Transformer，并引入Edge-Aware Graph Reasoning模块来编码图结构信息，通过跨注意力机制注入条件。在训练过程中，骨干网络被冻结，仅训练少量可学习参数，从而在数据效率上具有优势。为支持此类任务，作者还构建了GraphVid-Bench数据集，包含带关系标注的交互视频。在定量评估中，GraphVid在FID、FVD、PSNR和SSIM上均显著优于Motion-I2V，例如FID降低39.9%，PSNR由9.87提升至15.98。人类偏好研究进一步证实了其生成结果在语义和视觉上的一致性和质量。论文展示了结构化语义界面作为可控视频生成新范式的潜力，并为进一步研究提供了基准和方法。主要贡献包括：首次提出图交互控制框架、Edge-Aware图推理模块、以及GraphVid-Bench数据集。**
+
+<!-- paperflow:b24fbcd821311434 -->
+## CLBench-V: Evaluating Multimodal Context Learning from Grounding to Knowledge Acquisition
+
+[[Deep Reading - Jul 2026/CLBench-V-Evaluating Multimodal Context Learning from Grounding to Knowledge Acquisition|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25294v1](https://arxiv.org/pdf/2607.25294v1)
+
+- **本文提出了CLBench-V，一个系统评估多模态上下文学习能力的基准。论文首先指出现有多模态模型评估往往忽略上下文学习，而文本上下文学习基准不能直接迁移到多模态场景，且难以诊断失败原因。为此，CLBench-V定义了一个三层次能力框架：上下文基础（正确识别和定位多模态上下文中的信息）、新信息应用（将上下文信息用于新实例）、新知识学习（从上下文获取全新知识并推理）。基准数据结合了从公共基准转换的任务和通过自动构建与过滤生成的新任务，涵盖科学、金融、长文档理解、空间推理、网页视觉问答等域。实验在3443个实例上评估了六个近期多模态大模型，发现最佳模型InternVL3.5-30B-A3B整体得分仅0.2847，其中InternVL3.5在基础和新知识学习上最强，而Qwen3.5-Plus在新信息应用上最强。进一步的诊断实验分析了判断可靠性、上下文长度和图像数量的影响，并归纳了三种主要失败模式。论文公开了代码和数据集，以推动多模态上下文学习研究。**
+
+<!-- paperflow:8b4776b2eafb136c -->
+## VisualPatchWorld: Code World Models as Latent Structured Representations for Planning
+
+[[Deep Reading - Jul 2026/VisualPatchWorld-Code World Models as Latent Structured Representations for Planning|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25236v1](https://arxiv.org/pdf/2607.25236v1)
+
+- **这篇论文提出了 VisualPatchWorld (VPW)，一种将世界动力学表示为代码的方法。VPW 通过两个级别从交互轨迹中自动构建可执行、可检查的代码程序：Level 1 选择定性动力学形式，Level 2 拟合具体参数。生成的代码可用于模型预测控制。实验表明，VPW 在多个规划任务上显著优于先前的代码世界模型，尤其是在需要正确动力学形式的任务上。VPW 在导航和抓取任务上接近使用真值引擎的规划器，但在接触丰富的推动任务上仍有差距，可通过检查少量候选计划来弥补。论文展示了代码世界模型作为神经网络和物理引擎之间有效折中的实用路线。**
+
+<!-- paperflow:afcec590250b011b -->
+## Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation
+
+[[Deep Reading - Jul 2026/Argus-Unified-Towards A Compact and Economical Unified Model for Image Understanding and Generat|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.25527v1](https://arxiv.org/pdf/2607.25527v1)
+
+- **论文提出 Argus-Unified，一个紧凑且经济的统一多模态模型，通过利用预训练视觉-语言模型（VLM）和创新的混合视觉标记设计，以极低的数据（15.6M）和成本（约$2,000）实现了视觉理解与生成的统一。模型采用两阶段训练：第一阶段学习离散图像编码器-解码器，第二阶段利用预训练 VLM 初始化 LLM 并进行统一建模。混合标记机制从同一视觉编码器分别提取连续和离散特征，服务理解与生成。在图像理解基准（GQA、POPE、VQAv2）上达到最先进性能，图像生成质量（FID）与 Janus 和 Emu3 相当。该工作展示了通过有效利用现有预训练模型和紧凑设计，可以显著降低统一模型开发的门槛。局限性包括模型局限于紧凑规模（未在大模型上验证），评估未覆盖更广泛任务。**
 
 # Machine Learning
 
