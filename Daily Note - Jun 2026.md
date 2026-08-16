@@ -3,7 +3,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：On-Policy Distillation & Post-Training
-- 方法：reasoning, vision, reinforcement-learning, retrieval, multimodal-learning, deep-learning, multimodal-reasoning
+- 方法：reasoning, vision, reinforcement-learning, retrieval, multimodal-learning, multimodal-reasoning, deep-learning
 - 论文/报告：12 篇
 - Dense Supervision, Sparse Updates: On the Sparsity and Geometry of On-Policy Distillation
 - Learning to Reason by Analogy via Retrieval-Augmented Reinforcement Fine-Tuning
@@ -130,7 +130,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Multimodal Models & Visual Reasoning
-- 方法：language, vision-language-model, reasoning, optimization, vision, multimodal-reasoning, vision-language, cross-modal
+- 方法：language, vision-language-model, reasoning, vision, optimization, multimodal-reasoning, vision-language, cross-modal
 - 论文/报告：8 篇
 - PRISM: Synergizing Vision Foundation Models via Self-organized Expert Specialization
 - Representation Forcing for Bottleneck-Free Unified Multimodal Models【Unified Model, ByteDance Seed】
@@ -204,7 +204,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reward Models & Reinforcement Learning
-- 方法：agent, ai-for-science, language, reasoning, optimization, reinforcement-learning, multimodal-learning, stat-ml
+- 方法：agent, ai-for-science, language, reasoning, reinforcement-learning, optimization, multimodal-learning, multimodal-reasoning
 - 论文/报告：13 篇
 - Scaling LLM Reasoning from Minimal Labels: A Semi-Supervised Framework with a Lightweight Verifier
 - AdaSR: Adaptive Streaming Reasoning with Hierarchical Relative Policy Optimization
@@ -424,7 +424,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：World Models, Generation & Audio
-- 方法：agent, generation, stat-ml, gui-agent, stat-me
+- 方法：agent, generation, gui-agent, stat-ml, stat-me
 - 论文/报告：7 篇
 - dots.tts Technical Report【RedNote】
 - MetaWorld: Scaling Multi-Agent Video World Model from Single-view Video Data【World Model】
@@ -492,7 +492,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Research Agents & Scientific Discovery
-- 方法：agent, generation, reasoning, optimization, deep-learning, machine-learning
+- 方法：agent, generation, reasoning, optimization, machine-learning, deep-learning
 - 论文/报告：6 篇
 - Self-Evolving Deep Research via Joint Generation and Evaluation【Research】
 - DuMate-DeepResearch: An Auditable Multi-Agent System with Recursive Search and Rubric-Grounded Reasoning【Research, Baidu】
@@ -550,7 +550,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Web, GUI & Computer-Use Agents
-- 方法：agent, reinforcement-learning, stat-ml, gui-agent, deep-learning, machine-learning, stat-me
+- 方法：agent, reinforcement-learning, machine-learning, deep-learning, gui-agent, stat-ml, stat-me
 - 论文/报告：8 篇
 - DailyReport: An Open-ended Benchmark for Evaluating Search Agents on Daily Search Tasks【Search, Meituan】
 - OpenWebRL: Demystifying Online Multi-turn Reinforcement Learning for Visual Web Agents【Web, Microsoft】
@@ -626,7 +626,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Skills, Harness & Tooling
-- 方法：agent, generation, language, vision-language-model, optimization, vision, reinforcement-learning, retrieval
+- 方法：agent, generation, language, vision-language-model, vision, reinforcement-learning, retrieval, optimization
 - 论文/报告：25 篇
 - 🤔EvoTrainer: Co-Evolving LLM Policies and Training Harnesses for Autonomous Agentic Reinforcement Learning【Research, Tongyi】
 - AutoLab: Can Frontier Models Solve Long-Horizon Auto Research and Engineering Tasks?【Research】
@@ -960,7 +960,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
-- 方法：agent, ai-for-science, language, bio-molecular, science-discovery, optimization, reinforcement-learning, stat-ml
+- 方法：agent, ai-for-science, language, bio-molecular, science-discovery, reinforcement-learning, optimization, deep-learning
 - 论文/报告：14 篇
 - AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle【Research】
 - Benchmarking AI Agents for Addressing Scientific Challenges Across Scales【Research, Science】
@@ -1127,7 +1127,7 @@ PAT 的核心在于“推理缩放”。科学论文的验证需要极高的逻�
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, optimization, vision
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
 - 论文/报告：45 篇
 - Exploring Extrinsic and Intrinsic Properties for Effective Reasoning with Code Interpreter
 - Revisiting the Systematicity in Negation in the Era of In-Context Learning
@@ -1608,7 +1608,7 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, optimization
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
 - 论文/报告：69 篇
 - DEEPRUBRIC: Evidence-Tree Rubric Supervision for Efficient Reinforcement Learning of Deep Research Agents
 - Gen-VCoT: Generative Visual Chain-of-Thought Reasoning via Diffusion-Based RGB Intermediate Representations
@@ -2293,7 +2293,7 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：ai-for-science, generation, language, vision-language-model, reasoning, optimization, vision, retrieval
+- 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval, optimization
 - 论文/报告：27 篇
 - Text-Vision Co-Instructed Image Editing
 - Timage: A Generative Text-in-Image Paradigm for Fine-Tuning Vision-Language Models
@@ -2571,7 +2571,7 @@ historical context. Rather than selecting frames before generation, CaR concaten
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：stat-ml, deep-learning, stat-me, cross-modal
+- 方法：deep-learning, cross-modal, stat-ml, stat-me
 - 论文/报告：6 篇
 - Learning Process Rewards via Success Visitation Matching for Efficient RL
 - What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
@@ -2707,7 +2707,7 @@ ing learning schedules for one narrow fine-tuning, we did not find meaningful lo
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, vision, retrieval, gui-agent, deep-learning, math-pr, math-st
+- 方法：agent, vision, retrieval, deep-learning, gui-agent, math-pr, math-st
 - 论文/报告：3 篇
 - Learning to Reason with Curriculum II: Compositional Generalization
 - SABER-Math: Automated Benchmark for Information Retrieval Evaluation in Mathematics
