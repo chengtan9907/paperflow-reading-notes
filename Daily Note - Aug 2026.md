@@ -368,7 +368,7 @@ GROVE 的核心方法分为两个部分：时间分层记忆结构与尺度原�
 ## PaperFlow Summary
 - 概念：AI Agents
 - 方法：agent, ai-for-science, generation, language, reasoning, reinforcement-learning, optimization, multimodal-learning
-- 论文/报告：39 篇
+- 论文/报告：42 篇
 - Global Optimization and Inference-Time Region Grafting for Agentic Workflows
 - Agentic Commerce World: An Auditable and Verifiable Environment for Vibe Commerce
 - CRISP: Critical Step Perception for Training Efficient Deep Search Agents
@@ -933,13 +933,40 @@ ColluSkill 还包含两个关键组件：
 
 - **论文聚焦于自动科研智能体（AutoResearch agents）的强化学习后训练可扩展性问题。AutoResearch agent 是一类能够独立完成实证研究循环的语言模型：给定研究问题后，它提出想法、实现实验、分析结果并迭代改进。这种能力高度依赖后训练，尤其是强化学习。然而，当扩展 RL 训练时，论文识别出一个根本矛盾：一条训练轨迹由“智能体生成”和“环境执行”两部分组成。生成过程可以通过 batching 共享算力，边际成本低；而每条轨迹的执行必须独占沙盒和真实机器时间，难以批量化。因此，随着轨迹数增长，环境执行成为训练成本的主要瓶颈。为消除这一瓶颈，论文提出 World Model RL（WMRL），用一个世界模型来模拟环境执行。世界模型的输入是智能体产生的中间产物，输出模拟执行结果和奖励，其前向传播可以像生成一样批量化和摊销，从而将执行成本转化为可共享的计算成本。但世界模型不完美，其奖励估计受到系统偏差和随机噪声的污染。为此，论文提出两种矫正机制：在线去偏（Online Debiasing）通过一条小型锚定真实执行流在线重铸世界模型输出，抵消偏差；逆方差去噪（Inverse-Variance Denoising）则通过逆方差加权使奖励方差低于任意单一奖励流。论文在理论上证明，这两种机制能将世界模型训练中的永久误差项转化为收缩项，并严格改善收敛保证。实验部分在 AutoResearch 任务上使用 Qwen3.5-4B 和 Qwen3.5-9B 两种规模的后训练 agent，采用 GRPO 训练，验证了 WMRL 带来 3-4 倍加速，且最终性能优于标准 RL baseline；进一步地，4B/9B agent 在保留基准上超过了 48B 和 120B 的开源 agent，展示了强大的规模效率。最后，论文将 WMRL 迁移到具身视觉-语言-动作（VLA）策略后训练，证明该方法具有跨领域通用性。整体而言，论文从实际工程瓶颈出发，提出了结合世界模型与偏差-方差矫正的 RL 训练新范式，并在理论和实验两个层面提供了系统性验证。**
 
+<!-- paperflow:c3192221f97214b2 -->
+## PACE-Bench: Benchmarking Physics Adaptation via Code Evolution in Dynamic Environments
+
+[[Deep Reading - Aug 2026/PACE-Bench-Benchmarking Physics Adaptation via Code Evolution in Dynamic Environments|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14441](https://arxiv.org/pdf/2608.14441)
+
+- **本文介绍了 PACE-Bench，这是一个旨在评估智能体在动态物理环境下通过代码演化进行自我适应能力的基准测试。研究背景基于一个观察：现有的智能体在环境发生突变（如物理规律改变）时表现脆弱。PACE-Bench 构建了 144 个从源环境到目标环境的迁移任务，涵盖 6 个物理领域。智能体必须在 20 次尝试内，利用模拟器的反馈对原有代码进行迭代修改。实验评估了包括 GPT-5.5 和 Qwen3 在内的多种前沿模型，结果表明当前最先进的方法在处理此类任务时仍有巨大提升空间。论文深入探讨了反思机制、记忆效应和搜索策略对演化效率的影响，指出“机制重新设计”是当前智能体面临的核心技术瓶颈。该工作为开发更具鲁棒性和自适应能力的具身智能体提供了重要的评估工具和理论见解。**
+
+<!-- paperflow:c973fd13f07b0cd8 -->
+## MobileMem: Learning from a Year of Mobile Experiences
+
+[[Deep Reading - Aug 2026/MobileMem-Learning from a Year of Mobile Experiences|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.13606](https://arxiv.org/pdf/2608.13606)
+
+- **MobileMem论文围绕AI代理从“孤立问答”向“持续个人助理”演进的趋势，提出一个系统性研究设备端长期记忆的基准与框架。论文首先指出现有记忆基准在移动场景中的不足：真实移动体验是异构、多模态、动态演化且高度个人化的，而多数基准依赖静态文本或人工构造的问答对，缺乏时间一致性和隐私可获取性。为应对这些挑战，MobileMem设计了知识引导的合成管线，从用户先验知识出发生成覆盖一年时间尺度的、时间连贯的交互轨迹，在隐私保护前提下提供可扩展的训练和评估数据。基于此，论文实例化了两个互补场景：文本场景聚焦消息、日程等应用会话；多模态场景（MOBILEMEM-OMNI）结合真实用户参与、合成隐私图像和双语数据，并生成多跳问答对，要求模型跨事件和时间进行推理。任务设计覆盖多跳推理、时间推理、知识更新和隐式偏好推断，几乎涵盖了长期记忆的核心认知能力。评估方面，MobileMem提出统一评估协议，将记忆系统拆分为检索算法、RAG管线、记忆中间件、长上下文推理和智能体执行等可插拔组件，便于公平比较不同架构与策略。论文强调其核心贡献不在于单一数据集，而在于确立一套以“体验”为单位、以“经验智能”为目标的评估范式，并定义了长期时间推理、跨源信息融合、复杂记忆组织和个性化摘要生成四个能力维度。这一工作有望推动记忆系统从简单的信息检索迈向持续的个性化学习与适应，为下一代移动智能体提供标准化的研究平台。**
+
+<!-- paperflow:da9926e90aa31ea4 -->
+## AgentRewind: Recoverable Execution for Long-Horizon LLM Agents
+
+[[Deep Reading - Aug 2026/AgentRewind-Recoverable Execution for Long-Horizon LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14380](https://arxiv.org/pdf/2608.14380)
+
+- **本文针对 LLM 智能体在长程任务中容易因早期错误导致环境不可逆损坏的问题，提出了 AgentRewind 恢复框架。该框架的核心创新在于实现了智能体内部状态（对话上下文）与外部执行环境（文件系统等）的同步检查点记录与回溯。当智能体执行陷入困境时，AgentRewind 可以将其“重置”到之前的正确状态，并提供先前失败的经验作为参考。为了验证该框架，作者还推出了 MettleBench，这是一个强调过程评估的长程工程任务基准。实验证明，AgentRewind 能够显著提高智能体在复杂任务中的鲁棒性和成功率，为构建更可靠的自主智能体系统提供了新的系统级解决方案。论文不仅关注算法层面的改进，更强调了系统基础设施在智能体容错中的关键作用。**
+
 # Language Models
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, language, vision-language-model, reasoning, science-discovery, vision, reinforcement-learning
-- 论文/报告：19 篇
+- 论文/报告：21 篇
 - Self-Improving Large Language Models via Progressive Experience Evolution
 - UEmbed: Unified Sparse and Dense Multimodal Embeddings
 - SFT Conflicts, RL Coexists: A Theoretical and Empirical Analysis of Multi-Task Learning for LLMs
@@ -1190,13 +1217,37 @@ Hi-TTRL 的解决方案分为三步：首先，在完整 rollout 前从部分样
 
 **实验主线**：实验覆盖多个OPD设置，均观察到一致模式：avg@K在全部K范围保持优势；pass@K从小K时的正收益逐步过渡为大K时的负收益；训练动态表明模型在逐步牺牲大K边界以换取小K表现；问题级分析显示出不对称性——失去的可解问题多于获得的可解问题。这些证据共同支持“采样...**
 
+<!-- paperflow:9e6034e1bdd2c6c6 -->
+## SimpleOPD: Simple Tokenizer-Agnostic On-Policy Distillation for Long-Context Reasoning
+
+[[Deep Reading - Aug 2026/SimpleOPD-Simple Tokenizer-Agnostic On-Policy Distillation for Long-Context Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14277](https://arxiv.org/pdf/2608.14277)
+
+- **本文研究从长上下文推理教师模型向短上下文学生模型进行 on-policy 蒸馏（OPD）的挑战与解决方案。论文的核心动机是：长上下文推理模型（如 SU-01）在数学证明等复杂推理任务上表现出色，但其推理过程长、计算开销大，直接使用不现实；而短上下文模型部署友好，但能力不足。OPD 提供了一种在线蒸馏范式，理论上可以传递推理能力，但当教师和学生规格不匹配时，会引入分词器不匹配、师生分布不匹配、响应长度爆炸和训练不稳定等实际问题。论文以 SU-01（30B-A3B，基于 Qwen3-30B-A3B，具有奥林匹克级别数学证明能力）为教师，向多种同族和异族学生模型（Qwen3、Qwen3.5、Intern-S2、GLM-4.7、Gemma-4）蒸馏。
+
+方法上，论文提出三个关键设计：（1）跨分词器对齐：在共享文本空间中执行 OPD，只对齐在教师和学生 tokenizer 下占据相同文本跨度的 token，从而消除词表差异的影响；（2）学生参考 KL 损失：约束学生策略不偏离初始策略，防止教师长输出把学生拉向无法适应的分布，同时抑制响应长度爆炸；（3）终止特殊 token 的 advantage 掩码：对 < / think > 和 < |im_end| > 等终止 token 不施加优势信号，避免教师监督反复惩罚学生终止行为，从而让学生自主决定何时结束生成，帮助长度稳步增长。这些设计都旨在保持训练稳定性和学生自身能力的延续性。
+
+实验方面，论文在数学推理（尤其是自然语言数学证明）和科学基准（HLE、HiPhO）上评测。核心结果是 Intern-S2-Preview 在 ProofBench 上提升 21.2 分到 55.2，超越 Gemini-2.5-Pro；所有学生模型均获得一致性提升，且提升泛化到科学推理任务。论文还专门分析了训练不稳定性问题（实验章节 4.1），说明该工作是针对实际训练难题的工程性研究。
+
+论文的主要贡献包括：首次系统研究长→短上下文 OPD 蒸馏的挑战；提出简单有效的 tokenizer-agnostic 对齐方法、学生参考 KL 约束和终止 token...**
+
+<!-- paperflow:81cfc7217ca55b6f -->
+## Intern-S2-Mobius: Foundation Model with Decoupled Knowledge and Reasoning
+
+[[Deep Reading - Aug 2026/Intern-S2-Mobius-Foundation Model with Decoupled Knowledge and Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14290](https://arxiv.org/pdf/2608.14290)
+
+- **论文针对当前基础模型的两大瓶颈——参数规模扩展带来的硬件压力，以及 Transformer 架构在持续学习和自我进化方面的结构性局限——提出了一种全新的解耦架构 Mobius-v0。该架构将知识存储与推理计算分离：全局共享的 Memory（FFN）负责存储知识向量，多个 Reasoner（Self-Attention）负责迭代组合推理。隐藏状态作为两者之间的缓存和载体，Reasoners 反复查询 Memory 并接收知识回传，从而在潜空间中完成更动态的迭代推理。这种设计改变了 Transformer 的固定深度信息流，优化了激活路径，使每次注意力操作能提取并传递更高密度的信息。为验证架构有效性，论文进行了两个规模的实验：7B 模型从头预训练，在仅使用 Transformer 基线 62.6% 训练数据的情况下达到相近下游分数；35B 规模的 Intern-S2-Mobius 从 Qwen3.5-35B 继续预训练，在性能相近的同时实现近 4 倍的端到端推理加速。这两个结果共同支持知识-推理分离在压缩知识、提升推理效率上的优势。论文还讨论了该架构在持续学习和自我进化方面的潜力，认为其初步具备知识-推理分离特性，有潜力超越 Transformer 在持续学习中的表现，但真实自进化场景还需要与智能体系统和环境共同设计。此外，作者展望了在科学发现场景中，该架构可通过让更多知识同时交互来增强跨域组合泛化，助力颠覆性科学假设的提出。整体而言，论文不仅给出了一种可落地的架构替代方案，也重新定义了知识存储与推理计算的职责边界，为基础模型的发展提供了新思路。**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
-- 论文/报告：14 篇
+- 论文/报告：17 篇
 - CAPEval: A Decoupled Caption Evaluation across Understanding and Generation
 - DIVE: Dynamic Iterative Visual Evidence Construction for Efficient Vision-Language Models
 - HelloWorld: Enabling Socially Interactive Characters in Video World Models
@@ -1383,15 +1434,64 @@ Hi-TTRL 的解决方案分为三步：首先，在完整 rollout 前从部分样
 
 论文的结论部分指出 SGU 是‘endogenous closed-loop evaluation protocol’，强调其不需要外部标注或外部系统，完全利用模型自身的双重能力。虽然当前证据只覆盖摘要和结论片段，但整体逻辑清晰，对统一多模态模型的评测方法论有明确贡献。**
 
+<!-- paperflow:d7365c6476313f5b -->
+## Self-Supervised Visual On-Policy Distillation
+
+[[Deep Reading - Aug 2026/Self-Supervised Visual On-Policy Distillation|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14144](https://arxiv.org/pdf/2608.14144)
+
+- **这篇论文提出了 S²VOPD（自监督视觉在线策略蒸馏），旨在解决视觉语言模型在缺乏强教师或特权信息时如何进行有效在线学习的问题。其核心思想极具启发性：通过对学生模型的视觉输入进行“减法”处理（即强视觉增强），人为制造出教师与学生之间的信息差。在这种设定下，教师模型（输入原图）自然成为了学生模型（输入受损图）的“专家”，从而提供了高质量的在线策略监督信号。
+
+论文通过严谨的实验设计，系统地探索了增强空间。研究发现，不对称性是蒸馏生效的前提，而增强的强度和任务一致性决定了学习的上限。S²VOPD 的表现非常强劲，仅凭 4B 的参数量，在多个感知基准上通过自监督蒸馏达到了甚至超越了千亿级模型和闭源顶尖模型的水平。这一结果有力地证明了：VLM 内部潜藏的知识可以通过巧妙设计的自监督机制被进一步挖掘，而无需无止境地依赖外部标注或更大的模型。该方法简单、通用且高效，为 VLM 的持续进化提供了一种低成本的新范式，尤其是在细粒度视觉理解任务上展现了巨大的潜力。**
+
+<!-- paperflow:67d3823922b7d8dc -->
+## ChartProbe: A Diagnostic Study on Visual Reasoning through Perception, Grounding, and Simple Reasoning
+
+[[Deep Reading - Aug 2026/ChartProbe-A Diagnostic Study on Visual Reasoning through Perception, Grounding, and Simple Reas|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.13766](https://arxiv.org/pdf/2608.13766)
+
+- **ChartProbe 是一篇诊断性研究论文，核心论点是：视觉语言模型在图表问答中的复杂推理失败，往往并非源于推理能力不足，而是受限于更基础的技能——感知、定位和简单推理。作者基于这个假设构建了一个全新的诊断框架，并提供了强有力的干预实验证据。
+
+论证主线：
+论文开篇指出，当前 VLM 在图表问答上不可靠，普遍解释是“缺乏推理能力”，因此研究社区把资源投入到思维链、推理轨迹 SFT、推理奖励 RL 或扩大复杂监督上。作者质疑这种归因，认为图表问答可分解为感知（提取视觉属性）、定位（绑定标签/图例）、简单推理（单步计算）三个原子技能。一个错误的答案可能来自任何一个环节，但聚合的基准分数掩盖了瓶颈所在。因此，他们提出了一个可归因的诊断工具，并用干预而非仅评分来检验：如果复杂推理真的主要受限于推理，那么只训练简单技能就不应带来提升；反之，如果复杂推理的性能受限于底层技能，那么简单技能训练应该能迁移到复杂问题。
+
+技术主线：
+ChartProbe 的探针问题直接从渲染图表的代码生成。这种生成方式保证了三个优点：黄金答案精确（无需人类标注）、可确认难度与技能类型、可精确归因失败。基于此，作者设计了一个“保留复杂推理”的微调协议：只使用简单技能探针进行 LoRA 训练，彻底隔离复杂推理数据。诊断集 ChartProbe-500 包含 4500 个问题，覆盖三类技能。模型为三个开源权重 VLM，评估包括域内（ChartNet 条形图）和域外（饼图、ChartQA、CLEVR）。
+
+实验主线：
+实验结果表明：单独监督感知或定位就能提高简单推理探针，甚至有时超过直接监督简单推理（例如 Qwen 在 CLEVR 上感知训练使简单推理从 21.6% 升至 79.5%，而直接监督仅到 63.2%）。在未见过的复杂推理问题上，所有形式的简单技能监督均带来正收益，最大提升达 27.6%。重要的是，这些收益在三种分布外设置中均成立，说明简单技能学习具有泛化能力，而非记忆特定图表。同时，LLaVA 的感知探针低至 0.3%，其复杂推理提升最小且出现两例回退，这进一步支持了“技能瓶颈”观点——当感知几乎无...**
+
+<!-- paperflow:cc52530a63a91730 -->
+## Think in Latent, Explain in Language: Self-Explainable Latent Reasoning
+
+[[Deep Reading - Aug 2026/Think in Latent, Explain in Language-Self-Explainable Latent Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.13570](https://arxiv.org/pdf/2608.13570)
+
+- **本文提出 Self-Explainable Latent Reasoning（SELR），目标是在潜在推理的高效性与人类可理解性之间建立统一框架，避免现有方法在“黑盒潜在推理”和“事后解码解释”之间的两难选择。
+
+背景上，文本式 CoT 通过中间文本步骤提升推理能力，但生成大量 token 导致计算开销；潜在推理把思考压缩为嵌入表示，大幅提高 token 效率，但压缩过程不可读。以 Coconut 为代表的潜在推理方法完全不可解释，以 Heima 为代表的方法依赖额外解码器生成解释，但这既增加架构开销，又使解释与实际推理过程脱钩。SELR 的出发点很直接：与其外挂解释器，不如训练模型“自己翻译自己的想法”。
+
+方法上，SELR 的核心是一个多任务训练目标，由两个损失构成：Answer Loss 优化潜在推理轨迹以产生正确最终答案，CoT Loss 显式训练同一模型把自己的潜在表示解码为人类可理解的推理步骤。联合优化使得生成的潜在表示既对任务有效，又具备语义可解释性，并且整个系统只需要一个模型，无需外部解码器。模型在潜在空间中思考，但能够随时把思考内容“翻译”成语言，从而同时实现高效推理和自包含解释。
+
+实验上，作者在 LLM 和 VLM 两类模型上都进行了验证，声称 SELR 相比基线在 token 效率和准确率上均有提升，并首次将可解释潜在推理成功应用于视觉-语言模型，在 SOTA 模型上实现了同步改进。研究还系统探索了最佳训练策略。对比基线包含文本 CoT、黑盒潜在推理（Coconut）和事后解码方法（Heima），并解释了为何未直接纳入 HRPO 作为基线。
+
+值得注意的是论文对局限的坦诚：作者强调“Self-Explainable”应理解为自解码的潜在表示带有有意义的忠实性信号，而非完全透明的推理保证。Figure 4 展示了解码 CoT 可能正确但答案错误的案例，说明潜在推理与文本解释之间存在对齐问题；忠实推理本身在文本 CoT 领域也是未决难题。因此，SELR 更准确地说是在“可读性、效率、架构简洁性”之间取得了更优折中，而并非彻底解决了可解释性。
+
+总体来...**
+
 # AI for Education
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, multimodal-learning, deep-learning
-- 论文/报告：2 篇
+- 方法：agent, ai-for-science, generation, multimodal-learning, deep-learning
+- 论文/报告：3 篇
 - Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning
 - M$^3$R-Bench: A Unified Benchmark for Evidence-Grounded Multimodal Metaphor Understanding
+- TeachMateGPT: A Multi-Agent Knowledge-Grounded Framework for Pedagogical Assessment Generation from Science Curriculum Materials
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1438,16 +1538,36 @@ Hi-TTRL 的解决方案分为三步：首先，在完整 rollout 前从部分样
 
 **实验结果**:评测显示M³R-Reasoner在Visual Evidence和Sentiment Justification上相比GPT-5.5分别提升28.45和30.11分,平均rubric分数超越Claude...**
 
+<!-- paperflow:924ffc8aac534265 -->
+## TeachMateGPT: A Multi-Agent Knowledge-Grounded Framework for Pedagogical Assessment Generation from Science Curriculum Materials
+
+[[Deep Reading - Aug 2026/TeachMateGPT-A Multi-Agent Knowledge-Grounded Framework for Pedagogical Assessment Generation fr|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.13708](https://arxiv.org/pdf/2608.13708)
+
+- **本文面向自动生成教科书锚定评估题这一教育 AI 任务，指出现有 RAG 系统在平面检索、单题生成、弱证据防护和低资源课程适配四个方面存在显著不足。为克服这些缺陷，作者提出 TeachMateGPT——一个课程扎根的多智能体生成框架，并系统性地将其拆分为四个创新贡献。
+
+**论证主线**：开篇强调教师工作量大，自动生成评估题可以减轻负担，但必须保证题目与课本严格一致、不编造事实、符合课程大纲结构。作者论证了 vanilla RAG 为何不足以完成此任务：它不能按课程结构索引，无法感知教学层次；只能生成单题，不能满足教师组卷需求；即使检索到弱证据也会强行生成，引入幻觉；而且对孟加拉语等低资源环境缺乏适配。基于此，论文提出以“可控证据流”代替“一次检索”，以“多智能体协作”代替“单体提示”，以“证据门控+人工复核”代替“自动过滤”的解决思路。
+
+**技术主线**：(1) COPE 知识库将教科书按章节—小节—知识点三级建立图状索引，使检索能匹配每个主题的教学层次；(2) 分阶段流水线将任务划分为路由、稠密+词法融合检索、覆盖率门控和专家智能体生成，其中覆盖率门控是 fail-closed 的关键——证据不足时拒绝生成而不是冒险编造；(3) SAVER 对生成题的忠诚度、相关性和幻觉风险进行源归属评分，对构答题逐子部分加强检查，并将存疑项标记出来交由教师决断，而非自动删除；(4) 基于这一流程构建了 NCTB-SciGen8 数据集，覆盖全部 14 章的 198 个题目，并由三位教师评分作为人工基准。
+
+**实验主线**：与 vanilla RAG 对比，TeachMateGPT 在四个指标上全面胜出：忠实度从 0.68 升至 0.96，答案相关性从 0.60 升至 0.89，上下文精确度从 0.54 升至 0.92，上下文召回率从 0.58 升至 0.91。自动评估和人工评估的一致性表明提升不仅是指标上的，也反映在真实题目质量上。文章在结论部分也坦诚讨论了局限，包括范围可迁移性、显式教学图缺失、文本模态对未来扩展的限制，并展望了引导式优化和心理测量学标定。
+
+整体而言，本文的...**
+
 # AI for Science
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, gui-agent
-- 论文/报告：3 篇
+- 方法：agent, ai-for-science, science-discovery, gui-agent, stat-ml, bioinformatics, stat-me
+- 论文/报告：6 篇
 - EviGraph: Evidence-Guided Autonomous Research Agents
 - Fisher-R1: Training LLM Agents for Reliable Hypothesis Testing
 - Idea Search: Guiding Tree Search with Ideas to Explore Diverse Scientific Methods
+- ScienceFlow: A long-horizon agent for ML research, scientific discovery and beyond
+- Ten simple rules for non-visual, reproducible and accessible bioinformatics
+- The Past and Future of AI Scientists
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1483,6 +1603,49 @@ Idea Search 的核心组件是“思想库（Idea Bank）”。该框架首先�
 在 scRNA-seq 批次整合这一极具挑战性的生物信息学任务中，Idea Search 表现优异。它不仅在平均性能上超越了纯树搜索基线，更展现出了发现极高水平创新方案的能力。通过深入的消融实验，作者揭示了“思想引导”与“智能采样”相结合的重要性，并指出在科学任务中，概念层面的探索远比概率层面的随机性更有效。
 
 总的来说，Idea Search 为 AI 驱动的科学研究提供了一个可扩展、可解释且高效的范式。它证明了通过在搜索循环中显式地管理和利用“思想”，我们可以让 AI 智能体像人类科学家一样，在广阔的未知领域中进行有目的、系统性的探索。这一工作对于构建下一代“AI 科学家”具有重要的理论和实践意义。**
+
+<!-- paperflow:f09898c02fee31a4 -->
+## ScienceFlow: A long-horizon agent for ML research, scientific discovery and beyond
+
+[[Deep Reading - Aug 2026/ScienceFlow-A long-horizon agent for ML research, scientific discovery and beyond|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14354](https://arxiv.org/pdf/2608.14354)
+
+- **论文围绕“LLM 智能体如何在长时程范围内自主进行机器学习研究与科学发现”这一核心问题展开。论证主线是：尽管自主科研 agent 已取得初步成功，但它们普遍缺少三种关键机制——连续性（持续维护研究状态）、死胡同恢复（从失败路径退回有价值的状态）、价值驱动的算力分配（把计算资源投给有验证进展的路径），这从根本上损害了搜索效率、浪费计算资源并降低最终成功率。作者进一步指出，现有状态表示类工作（Wang et al., 2026; Lu & Reda, 2026）虽然各自有用，但只把研究状态、轨迹决策和物理执行做了松散连接，这种碎片化是长时程研究难以为继的根本障碍。
+技术主线上，ScienceFlow 用四个互锁的设计来回应上述问题：第一，把长时程研究组织为“研究片段”，每个片段都基于一个可执行的“工作区”，使研究过程有物理载体；第二，将研究进展表示为“可恢复的可执行状态”，这意味着探索、修订和执行都可以在状态层面增量进行，而不是每次从头开始；第三，引入 ESTRA（Executable-State Transition through Re-Anchoring）作为片段之间的迁移机制，它从活跃状态和归档状态中选择下一个锚点，并决定研究是继续还是重定向；第四，设置一个“证据感知执行控制器”，它独立于研究 worker，根据资源可用性、剩余预算和已验证进展来分配物理任务。论文特别强调，把“研究路线选择”与“物理执行控制”分离是 ScienceFlow 区别于既有系统的关键——研究员提出 job，执行控制器决定 job 是否值得跑、在哪里跑、跑多久。
+实验主线上，ScienceFlow 在机器学习工程、数学优化和科学建模三类可执行研究任务上进行了评估。最重要的公开结果是：在完整 MLE-bench、24 小时预算下取得 70.22% 的 Any-Medal 分数，将此前报道的最好成绩提高了 4.92 个百分点。论文将此解读为：高效的状态管理、自适应探索和目标对齐的执行控制，是推动自主研究超越短时程交互、走向长时程可伸缩运的关键要素。结论与摘要相互呼应，强调 ScienceFlow...**
+
+<!-- paperflow:c665a2de1269fae2 -->
+## Ten simple rules for non-visual, reproducible and accessible bioinformatics
+
+[[Deep Reading - Aug 2026/Ten simple rules for non-visual, reproducible and accessible bioinformatics|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14400](https://arxiv.org/pdf/2608.14400)
+
+- **本文是一篇面向计算生物学家和开发者的指南性论文，主题是非视觉、可复现且可访问的生物信息学。作者从自身生活经验出发，指出生物信息学分析严重依赖可视化图形，但这些图形不单是插图，而是分析决策的证据载体；对于使用屏幕阅读器、盲文显示器或音频界面的盲人和低视力研究者，栅格化图形构成了一道结构性屏障。更关键的是，图形所支撑的判断——为什么选这个阈值、考虑过哪些替代方案、数据如何支撑结论、不确定性多大——通常没有被记录下来，图注既不完整也不够结构化。作者引用大规模评估给出问题规模：74.8%的生命科学数据门户和69.1%的期刊网站存在严重可访问性问题，屏幕阅读器完成手动数据发现任务的成功率仅53.3%。已有的可访问性建议主要针对网页数据资源，本文则聚焦日常计算分析实践。
+
+论文的核心论点是：非视觉可访问性和计算可复现性是同一枚硬币的两面，两者都要求分析过程透明、决策有记录。因此，作者提出“图表的可访问等价物是结构化决策记录”：它不仅要保存底层数据，还要说明分析目的、定量证据和不确定性。基于这一理念，论文提出十条简单规则：把图表当作决策记录；谨慎使用AI生成的图描述；提供可访问的计算环境；采用文本优先的字面编程；使用结构化数据和元数据；提供紧凑的对象摘要；采用可访问的出版格式；培养协作实践；建设共享社区基础设施；把可访问性纳入FAIR研究。每条规则都对应具体操作建议，比如用表格和数值摘要代替散点图作为非视觉证据、改进R/Python默认打印输出、验证HTML/PDF结构、提高链接对比度等。
+
+为了展示规则落地，作者在S1 File中提供了一个完整的可访问Seurat分析，使用10x Genomics PBMC 3k公共数据集，改编官方教程，逐图生成包括绘图数值表、结论摘要和推理文字的决策记录；同时提供自定义样式表、键盘导航和HTML/PDF验证。Figures 2-4与Tables 1、3、4配对展示散点图场景的非视觉替代；Table S5把十条规则映射到演示文件的具体部分，Table S6记录与官方教程的逐步对齐，说明可访问化改造不改变分析流程和结论。
+
+论文没有进行用户研究或大规...**
+
+<!-- paperflow:2d2ce946a4499649 -->
+## The Past and Future of AI Scientists
+
+[[Deep Reading - Aug 2026/The Past and Future of AI Scientists|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.14407](https://arxiv.org/pdf/2608.14407)
+
+- **《AI 科学家的过去与未来》是一篇由 Ross D. King 撰写的综述与立场论文，系统定义并讨论了能够自动化科学发现的机器——AI 科学家。论文的主要主张是，科学自动化的真正瓶颈不再是个体组件，而在于组件的深度集成。作者将人工智能科学家界定为一条完整闭环：提出假说、推导后果、设计实验、执行实验（包括机器人操作）、解释结果、修正信念，并再次循环。它们必须联结文献、形式化知识、数学模型、模拟、数据分析和物理实验室，因而“不只是膨胀的预测程序或对话助手”。
+
+论文通过两个历史案例说明这一概念的可行性。Adam 作为第一台以假说形成与真实物理实验闭环做出新颖科学发现的机器，证明了机器驱动的发现过程是可行的。Eve 则构建了现代自驱动实验室的架构，极大地提高了实验自动化和迭代效率。不过，论文特别指出，AI 科学家比自驱动实验室更一般化；只优化目标函数的实验室未必生成或评估显式科学假说，因而不应被视为完整的 AI 科学家。
+
+在“当前焦点”部分，作者论证：既然各组件均可自动化，核心挑战就在集成。未来的 AI 科学家必须把神经学习与逻辑、概率、数学、因果推理、模拟、实验设计、机器人技术和正式科学记录协同融合。就架构而言，检索片段显示论文提出了一个带有解释模块、对抗性批评者与独立验证 agent、安全权限管理员、完整 provenance 系统以及人类可交互接口的体系，对“集成”提供了工程层面的回应。
+
+在“收益和风险”部分，论文提出 AI 科学家可以加速科研、降低成本、提高系统性和可复现性，并具备探索人类难以单独处理的复杂系统、开展大规模多智能体协作的潜力；但也会带来科学权力集中、错误传播被自动化、科学推理直接连接危险物理行动的风险，因此必须建设严格评估、完整溯源、问责、安全与治理框架。在“评估与基准”部分，论文明确批评了两种伪发现：流畅的科学写作和重新发现训练集中已有答案；而应以“前瞻性发现”“发现可靠性”“节省人类科学工作”作为评判标准。
+
+论文最后引入“诺贝尔图灵挑战”——目标是到 2050 年实现自动化、诺贝尔奖级别的科学发现；并认为当前发展节奏已超前于预期。整篇论文在性...**
 
 # Machine Learning
 
