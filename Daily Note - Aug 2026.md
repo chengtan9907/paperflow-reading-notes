@@ -367,8 +367,8 @@ GROVE 的核心方法分为两个部分：时间分层记忆结构与尺度原�
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, reasoning, reinforcement-learning, optimization, multimodal-learning
-- 论文/报告：42 篇
+- 方法：agent, ai-for-science, generation, language, reasoning, reinforcement-learning, retrieval, multimodal-learning
+- 论文/报告：53 篇
 - Global Optimization and Inference-Time Region Grafting for Agentic Workflows
 - Agentic Commerce World: An Auditable and Verifiable Environment for Vibe Commerce
 - CRISP: Critical Step Perception for Training Efficient Deep Search Agents
@@ -960,13 +960,129 @@ ColluSkill 还包含两个关键组件：
 
 - **本文针对 LLM 智能体在长程任务中容易因早期错误导致环境不可逆损坏的问题，提出了 AgentRewind 恢复框架。该框架的核心创新在于实现了智能体内部状态（对话上下文）与外部执行环境（文件系统等）的同步检查点记录与回溯。当智能体执行陷入困境时，AgentRewind 可以将其“重置”到之前的正确状态，并提供先前失败的经验作为参考。为了验证该框架，作者还推出了 MettleBench，这是一个强调过程评估的长程工程任务基准。实验证明，AgentRewind 能够显著提高智能体在复杂任务中的鲁棒性和成功率，为构建更可靠的自主智能体系统提供了新的系统级解决方案。论文不仅关注算法层面的改进，更强调了系统基础设施在智能体容错中的关键作用。**
 
+<!-- paperflow:1fbaefc117a498f1 -->
+## HarnessEval-W: Agentifying the Evaluation of Visual Worlds
+
+[[Deep Reading - Aug 2026/HarnessEval-W-Agentifying the Evaluation of Visual Worlds|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16859](https://arxiv.org/pdf/2608.16859)
+
+- **HarnessEval-W 是一篇提出智能体化世界模型评测方案的论文，核心思想是：评测的可信度不在于分数本身，而在于支撑分数的推理链。作者认为，LSM 生态中的 harness 范式——即把评测本身变成一个可分解、可验证的工作流——应当被迁移到世界模型基准中。论文首先指出现有基准的缺陷：指标以暴力计算方式得出，缺乏可检查的推理链，面对物理因果、几何一致性、观察质量等语义属性时力不从心；且每个评测案例都是独特的上下文，固定 rubric 不适用。为此，作者构建了层次化智能体评测流水线：给定评测案例，先路由到相应技能，再将技能分解为可测量的子问题，为每个子问题生成配备定制上下文与诊断工具的子智能体，父智能体收集并验证证据后给出最终裁决。该流程把每次评测变成一棵透明的证据树。论文进一步将世界模型能力拆解为渲染观察、状态更新、状态序列维持三个基本能力，并据此构建三个评测轴和八个细化评测设置，覆盖物理因果关系、几何一致性、观察质量等维度。实验部分，作者在 18 个代表性世界模型和 330 个评测案例上应用该流水线，结果表明其判断与人类偏好高度一致，并能提供细粒度可验证诊断。同时，作者还评估了评测者自身——即评测框架的可靠性——从人类对齐、与其他基准的比较、鲁棒性三个角度验证。最终论文开源完整流水线，作为 live benchmark 邀请社区共同扩充技能与评测案例，使基准能随世界模型一同演进。整体而言，该工作的贡献不只是一个新的基准分数，而是一套可解释、可验证、可持续演进的评测基础设施。**
+
+<!-- paperflow:10f060373768d6e0 -->
+## Step-Level On-Policy Distillation: Interpolating Between On-Policy Distillation and Supervised Fine-Tuning
+
+[[Deep Reading - Aug 2026/Step-Level On-Policy Distillation-Interpolating Between On-Policy Distillation and Supervised Fi|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16333](https://arxiv.org/pdf/2608.16333)
+
+- **这篇论文提出 Step-Level On-Policy Distillation (SOPD)，旨在解决标准 on-policy distillation（OPD）只能提供 token 级碎片化校正、无法引导学生走出完整正确轨迹的问题。论文首先指出现有 OPD 沿学生生成轨迹逐 token 查询教师分布，虽然保持了 on-policy 状态分布，但校正视野太短，学生一旦早期出错，后续监督无法展开完整修复路径。传统 SFT 虽然提供长程监督，但训练数据来自教师轨迹，存在 train-test mismatch。SOPD 的动机是将 SFT 的长程校正与 OPD 的 on-policy 优势结合：在学生生成的完整轨迹上，在每个自然步骤处向教师查询该步骤的目标输出，教师条件包含学生此前实际做出的所有决策，然后优化 step-balanced cross-entropy 损失。从理论上，SOPD 在不同 step length 极限下会退化为 SFT 或近似 OPD，表明它是两种方法的插值。相比 SFT，教师响应条件化于学生轨迹，与学生访问状态更一致；相比 OPD，它提供更长视野的步骤级校正而非碎片化 token 指导。同时，SOPD 天然适合黑盒蒸馏，因为只需教师生成目标文本，不要求概率访问。实验在推理任务和智能体任务上进行，结果显示 SOPD 显著优于传统 SFT 和 OPD，尤其是在 ALFWorld 上比 Vanilla OPD 提升 13.4 个百分点平均成功率。论文希望为蒸馏方法研究提供新视角。整体上，SOPD 的贡献在于提出一个新的监督插值框架，并展示了其在推理和智能体场景中的有效性。**
+
+<!-- paperflow:98767d66f33c2c6f -->
+## When Tool-Backed Skill Retrieval Fails: Source-Style Collapse in Executable Capability Retrieval
+
+[[Deep Reading - Aug 2026/When Tool-Backed Skill Retrieval Fails-Source-Style Collapse in Executable Capability Retrieval|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16502](https://arxiv.org/pdf/2608.16502)
+
+- **本文研究大规模智能体系统中工具支撑型可执行技能的检索门控问题。随着agent从短小手工工具列表转向大规模外部能力池，检索决定模型在规划前能看到哪些能力。论文聚焦于结构化工具和API这一可测量的技能类别，系统性地揭示了一个此前未命名的失败模式——源风格崩塌：即使工具语料固定不变，检索器也可能因为查询或工具来自不同数据源（具有不同的风格特征）而在部分来源切片上性能骤降。作者以ToolRet为基准，展示了FT-1100这一微调检索器在APIGen、ToolACE、UltraTool等源上覆盖率分别跌至0.7%、0.0%、8.3%，且这些低性能源具有更高的词法重叠度，排除了简单的词法匹配解释。他们进一步发现，查询侧的TF-IDF指纹能够比语义嵌入或查询长度更好地区分检索器可能失败的源风格，因此提出了一种廉价的不匹配信号。基于此，论文设计并验证了ToolScout——一个源感知路由方法，它将TF-IDF信号作为路由守卫，在混合的4996条查询流上把覆盖率从22.3%提升到86.1%；在五个已识别为崩塌的源上，用仅20个匹配样例进行校准，覆盖率加权的全局top-1代理从1.3%提升至53.9%。最后，论文将工具重渲染为可执行技能卡片后重复实验，观察到相同的失败与路由行为，证明原始API schema格式不是原因。论文作出三个关联贡献：精确界定并命名源风格崩塌、提出并验证TF-IDF失败信号、提供并评估ToolScout路由方法。其局限性包括：多个比较共享检索-暴露-下游选择管道，限制了不同架构间的独立性；缺乏独立生成的多源语料的正向复现；技能卡片结果限于结构化工具和API，不覆盖程序性技能等更广泛能力。总体而言，本文揭示了工具检索评测中一个容易被平均值掩盖的分布偏移陷阱，并给出了一个实用的工程化解法。**
+
+<!-- paperflow:ef9a007f87c1ac3b -->
+## SEER: Long-Context Reasoning via Selective Visual-Text Compression
+
+[[Deep Reading - Aug 2026/SEER-Long-Context Reasoning via Selective Visual-Text Compression|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.15962](https://arxiv.org/pdf/2608.15962)
+
+- **SEER 论文应对的痛点是长上下文推理的两难：纯文本注意力代价高，纯视觉压缩又丢精度。作者观察到多数长文档问答只需从少数页面抽取精确信息，其余页面提供全局背景即可。于是提出 SEER——一个“选择性视觉-文本压缩”框架，其思想是将整个文档渲染成图像后先用 VLM 快速视觉扫描一遍，再由模型根据问题用工具选择出候选页面，最后只对选中的页面恢复文本并交给模型精确作答。这个流程意味着模型在同一份文档上既得到视觉压缩带来的 token 节约，又得到文本检索带来的抽取精度，两者通过工具调用来衔接。
+技术路线上，SEER 把选择与检索都建模为工具调用，并在工具交互轨迹上做监督微调（SFT），让模型自己学习何时需要精确文本、何时视觉信息足够。这使得“选择”不再是启发式规则，而是模型能力的一部分。对比上，论文选择了与 SEER 共享基础架构和视觉压缩管线的 Glyph-9B 作为受控基线，又对比了文本型长上下文模型 Qwen3-8B，在 LongBench 的 21 个任务上进行评测。结果显示 SEER 以 51.11% 平均准确率超过 Glyph-9B 2.33 分、超过 Qwen3-8B 3.49 分，同时仍保持 prompt token 节约。
+论文同时坦诚了四点局限：第一，部署层面选择接口不稳健，有时输出越界页面索引且未纠正；第二，证据分散时视觉扫描信息变薄，且训练数据的 answer-conditioned teacher filtering 低估了该场景；第三，SEER 目前专用于 QA，泛化性未验证；第四，关于其他场景的边界尚未充分讨论。整体上，SEER 代表了一条“以查询为中心的压缩”路线，把视觉压缩的效率和文本检索的精度统一到同一个可学习框架中，是长上下文推理中效率-精度权衡的一种新解法。
+（注：本总结基于提供的 Abstract、Introduction、Experiments、Conclusion 和 Limitations 片段，具体细节请以全文为准。）**
+
+<!-- paperflow:ae3bbd8d863cd826 -->
+## Skill2Query: Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval
+
+[[Deep Reading - Aug 2026/Skill2Query-Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16071](https://arxiv.org/pdf/2608.16071)
+
+- **论文《Skill2Query: Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval》关注的场景是智能体技能检索。现代 AI 智能体依赖从技能库中检索可复用技能，技能库规模从几十种增长到成千上万种后，检索准确率成为系统瓶颈；而训练检索器所需的高质量‘查询-技能’监督数据难以人工获取。已有研究尝试用伪查询生成缓解该瓶颈，但多数在文档层面操作，忽视了技能文档内部能力、参数与示例的关系，导致生成的伪查询‘主题相关但参数不匹配’。针对此问题，论文提出 Skill2Query 框架，其核心思想是显式构建技能知识图谱（SKG），将技能文档中的能力、参数、示例及其关系结构化，再通过三个连续阶段生成伪查询：风格模仿（从示例中提取自然语言提问风格）、查询模板生成（基于图谱生成结构化查询骨架）、参数填充（将具体参数值填入模板）。生成的伪查询有三种用途：离线索引增强、在线查询扩展和检索器训练。实验在 TheoremQA、LogicBench、ToolQA、CHAMP 四个基准上，以近 30K 技能为候选池，生成了 700K 条伪查询，覆盖技能检索、检索器训练和端到端智能体执行三类下游任务。结果显示，Skill2Query 在稀疏、稠密和技能路由三种检索设置中一致提升，平均 Recall@1 增益 6.70 个百分点；其训练数据在生成基线中取得最佳 Recall@1 和 nDCG@1；并且使用多种 LLM 后端时，检索提升能传递为任务成功率的提升。论文的贡献在于提出了一种结构感知的伪查询生成范式，证明了显式利用技能内部结构能够产生更有效的检索监督信号，并开源了代码与数据，为智能体技能检索提供了一条实用且可扩展的路径。**
+
+<!-- paperflow:c932ee02010a371c -->
+## AutoSR: Automatic Symbolic Regression by Searching Research States
+
+[[Deep Reading - Aug 2026/AutoSR-Automatic Symbolic Regression by Searching Research States|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16876](https://arxiv.org/pdf/2608.16876)
+
+- **AutoSR 是一篇提出新符号回归范式的论文。作者指出传统符号回归只追求数值拟合和复杂度约束，但在有限噪声数据下，数值上等价的表达式可能在行为上完全不同，因此科学的可信度需要更多证据支撑。现有方法虽然开始引入上下文知识、计算工具和记忆，但搜索过程本身仍然被丢弃，导致无法保留科学调查的动机、失败和线索。AutoSR 将每一个调查分支封装为“研究状态”，保存候选方程、推理、计算证据和独立评审。提议者-评审者智能体在渐进式扩展的 MCTS 中协同工作，在竞争性的研究方向之间分配计算，并不断更新研究状态。搜索结束后，系统把所有记录综合成最终报告，说明所选方程的理由、局限和替代方案。实验中，AutoSR 在九个跨两个基准套件的挑战问题上都恢复了代数等价的方程，其中三个 cp3-bench 方程是此前没有系统能恢复的，体现了该方法的突破能力。论文的主要贡献是提出研究空间符号回归这一概念框架、实现完整的自动化系统、并在基准上验证了其在“恢复难方程”上的有效性。AutoSR 使符号回归从方程级搜索扩展到自动化科学调查，让科学知识和累积证据反过来指导探索与论证。**
+
+<!-- paperflow:9aa3e958a3e80242 -->
+## HyperSkill: Self-Evolving LLM Agents via Hypergraph-Structured Skill Memory
+
+[[Deep Reading - Aug 2026/HyperSkill-Self-Evolving LLM Agents via Hypergraph-Structured Skill Memory|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16114](https://arxiv.org/pdf/2608.16114)
+
+- **本文针对LLM智能体经验记忆设计中的三方面不足，提出了一种基于超图结构的自演化技能记忆框架HYPERSKILL。作者首先指出，有效的记忆设计必须同时回答三个问题：存储什么、如何组织结构以便检索、以及记忆如何随时间演化。现有方法分别在这三方面存在明显缺口：存储上，轨迹、洞察或工作流被作为孤立条目保存，丢失了子任务与可复用技能之间的组成关系，使得跨任务迁移知识困难；检索上，扁平嵌入相似度无视记忆条目间的关联，无法充分利用关系信号；演化上，多数系统不做维护，少数做简单维护也未利用结构信息。基于这些洞见，HYPERSKILL将记忆表示为超图：节点分为子任务步骤和可复用技能，每条超边绑定来自同一条轨迹的子任务与技能，从而保留完整的组成结构。技能节点被多条超边共享，使得跨任务的共同模式得以显式体现。在检索时，HYPERSKILL采用子任务级和轨迹级双路径查询，并通过技能在检索到的轨迹中的共现频率来排序技能，从而输出最相关的程序性知识。在维护时，系统周期性执行结构感知的剪枝与合并，剪除低效用节点，并用质量加权传播合并冗余技能，保持记忆精炼和高效。实验部分，论文在xBench、GAIA和WebWalkerQA三个基准上，使用GPT-4o和Qwen3-30B-A3B两种模型，与十个记忆基线进行对比。结果显示HYPERSKILL在所有设置下都取得最优，且提升幅度显著：GAIA最高+11.51，WebWalkerQA最高+11.18。这验证了超图结构对于记忆组织、检索和演化的综合优势。论文的贡献包括提出了一个全新的超图记忆框架，设计了三项协同机制（超边存储、双路径检索、结构感知维护），并通过大规模实验证明其有效性。局限方面，方法依赖额外LLM调用，引入推理开销；评估范围目前覆盖网页导航和多步推理，尚未验证其他任务类型。总体而言，HYPERSKILL为LLM智能体的记忆设计提供了一个有力的新范式，其核心思想——用超图保存程序性知识的组成关系——具有很强的启发性和可扩展性。**
+
+<!-- paperflow:8427b7628e2821fe -->
+## SkillGate: Training In-Policy Skill Selection in Long-Horizon Agents
+
+[[Deep Reading - Aug 2026/SkillGate-Training In-Policy Skill Selection in Long-Horizon Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18852](https://arxiv.org/pdf/2608.18852)
+
+- **本论文研究长程智能体（long-horizon agent）中“技能选择”（skill selection）这一决策的训练问题。在现代 agent 框架中，技能通常被封装为指令文件，策略在 episode 中途按需读取；公共技能库已含数千条技能。因此“读哪个技能”成为策略在 episode 中途做出的决策，但现有训练信号并未专门训练该决策。论文指出默认修复手段——直接在候选技能表上做 outcome-rewarded RL——存在结构性失败，并命名该失败为“selector credit starvation”（选择器信用匮乏）：在广播式、序列级 advantage 下，命名所选技能的少数 token 只承担损失的极小份额，而且随着轨迹变长，它们继承的信用越来越可能带有错误符号。正确选择在后续执行失败时会被惩罚，尽管该选择本身就是轨迹中最有价值的决策之一。作者对一次完整运行的自有训练制品（training artifacts）进行审计，确认了三个属性都随 horizon 单调恶化：1) 稀缺性（scarcity）：技能命名 token 只占监督信号极小比例；2) 符号错误（wrong-signed credit）：轨迹越长，正确选择越常被惩罚而非奖励；3) 价值（value）：在匹配的 prompt 组内，正确读取仍值 +11.2 个点的任务成功率。论文提出 SkillGate，通过构造将 token support 划分为两条不相交的信用通道：结果信用（outcome credit）只到达执行 token，而独立的 action-local advantage 精确到达技能命名 token，且仅当一条轨迹中的单次读取是正确时为正。在五个 agentic benchmark、16 个候选技能的表上，SkillGate 将 9B 策略的 trial 成功率从 40.8% 提升到 53.2%，明显超过把同样预算花在纯 outcome reward 上的基线，同时将暴露于误导性候选的比例降低了三分之二，并读了更少的技能。论文还讨论了 token-level credit as...**
+
+<!-- paperflow:90d484dd0acac1f9 -->
+## What is Missing from AI Post-Training AI: An Empirical Analysis
+
+[[Deep Reading - Aug 2026/What is Missing from AI Post-Training AI-An Empirical Analysis|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19072](https://arxiv.org/pdf/2608.19072)
+
+- **本文围绕“AI后训练AI”这一新兴范式展开系统实证分析。作者首先指出现有讨论中常见的误区：把LLM代理的后训练能力笼统归结为一种“智能”，但实际上这掩盖了两种截然不同的能力层次——执行级能力（在固定策略内做局部优化）和策略级能力（基于累积证据修正顶层规划）。基于大量公开的后训练代理轨迹（由PostTrainBench归纳），他们发现了一个普遍现象：代理的训练策略在交互一开始就被一次性确定，之后无论实验结果如何矛盾，代理的绝大部分预算都消耗在该策略内部的微调上，从未出现真正意义上的策略替换或重构，即“策略锁定”。
+
+为了解释这一现象，作者提出三个候选原因：缺少经验、缺少指导、推理不足。他们设计了三组干预实验：(1) 为代理注入丰富的实验经验库，虽然显著提升了执行层面的表现（GSM8K +12.6，HumanEval +40.8），但代理仍然维持原有策略不动摇；(2) 在初始阶段提供人类专家指导，能够有效改变初始策略方向，但训练一旦启动，代理再次退回局部调整循环；(3) 增加推理计算，在简单任务上有效，但在最困难任务上几乎无增益。三种干预的对比强烈表明，外部资源可以改善执行、改变出发点，却都无法催生代理在过程中自发对策略进行重新评估和修正。
+
+因此，论文的核心结论是：当前LLM代理在AI post-training中真正缺失的，不是经验、指导或算力，而是一个能够“在执行过程中自发启动策略重评估”的内部机制。这个结论对自动化AI研发提供了重要启示：或许未来的AI研究者需要内置一种类似“科学直觉”或“自我怀疑”的触发模块，才能跨越从任务求解到科学发现的门槛。**
+
+<!-- paperflow:ad97ff4580e17893 -->
+## Metrics That Write Themselves: Evolving an Evaluator from Its Own Blind Spots
+
+[[Deep Reading - Aug 2026/Metrics That Write Themselves-Evolving an Evaluator from Its Own Blind Spots|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18744](https://arxiv.org/pdf/2608.18744)
+
+- **本文针对大语言模型智能体在复杂任务中缺乏可靠评估指标的痛点，提出了名为 EvalCEGAR 的自动指标演化框架。该研究的核心逻辑在于：与其试图定义“什么是完美的答案”，不如通过程序化的方式不断识别和标记“什么是错误的”。EvalCEGAR 借鉴了形式化验证中的反例引导抽象精化思想，通过在沙盒环境中寻找当前指标无法区分的正确与错误样本对（即“碰撞”），精准定位指标的盲点。随后，系统利用这些具体的碰撞对驱动 LLM 编写针对性的 Python 缺陷检测算子。实验结果令人振奋：在代码生成基准测试中，该方法自动演化出的仅 55 行的 Python 算子，在未见任务上的表现显著优于手工编写的指标组合，并能以极低的计算成本达到与 LLM 评委相当的评估精度。这一工作不仅为自动化评估提供了一种高效、可解释且低成本的新范式，也为智能体的自我进化提供了更坚实的信号基础。**
+
+<!-- paperflow:9249be5618cd2191 -->
+## MemFuse: Multi-Source Memory Fusion from Fragmented Observations
+
+[[Deep Reading - Aug 2026/MemFuse-Multi-Source Memory Fusion from Fragmented Observations|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18704](https://arxiv.org/pdf/2608.18704)
+
+- **本文围绕“多源记忆融合”问题展开，针对现有长期记忆系统和基准主要聚焦于单源文本历史、难以应对现实世界中信息分散于多个应用、设备、用户和时间的设置，同时提出了基准 MemFuseBench 和记忆系统 MemFuse。
+
+在问题层面，作者指出现有记忆系统在上下文连贯时表现良好，但真实世界中同一事件往往由不同来源的碎片化观察共同构成，智能体必须整合这些互补信息并保留来源出处，才能在需要跨源证据的问题上给出可靠回答。这一能力尚未被现有基准系统评估。
+
+MemFuseBench 采用 Scene-to-Sensor 流水线，可控地合成带来源标签的事件流、基于证据的问题和对抗性干扰项，并经过 reviewer-corrector 验证。基准包含 357 个问题、7,823 个事件和六个诊断类别，覆盖时间推理、跨源证据融合和噪声鲁棒性等方面，为多源记忆融合提供了标准化测试平台。
+
+MemFuse 记忆系统采用两层记忆结构：事件层原子记忆保留每个事件的原始来源证据，簇层融合记忆在因果融合图中将相关原子事件组织为高一层语义单元。检索时系统先从簇层定位相关记忆，再展开事件层细节，保持端到端的可追溯性。这种设计兼顾了融合的便利性和证据的可验证性。
+
+实验在三种 LLM 设置下对比了朴素 RAG、其他记忆系统和 MemFuse。结果表明 MemFuse 在所有设置下 Overall 分数最高，并在全部六个诊断类别上一致优于朴素 RAG，跨源融合问题上的优势尤其明显。同时，论文也指出证据事件与融合记忆成员事件不完全对齐的局限，并将融合过程与图结构的优化列为未来工作。
+
+总体而言，本文从问题定义、基准构建到系统设计形成完整链条，为多源智能体记忆研究提供了新的评估维度和结构化解决方案。**
+
 # Language Models
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, language, vision-language-model, reasoning, science-discovery, vision, reinforcement-learning
-- 论文/报告：21 篇
+- 论文/报告：23 篇
 - Self-Improving Large Language Models via Progressive Experience Evolution
 - UEmbed: Unified Sparse and Dense Multimodal Embeddings
 - SFT Conflicts, RL Coexists: A Theoretical and Empirical Analysis of Multi-Task Learning for LLMs
@@ -1241,13 +1357,31 @@ Hi-TTRL 的解决方案分为三步：首先，在完整 rollout 前从部分样
 
 - **论文针对当前基础模型的两大瓶颈——参数规模扩展带来的硬件压力，以及 Transformer 架构在持续学习和自我进化方面的结构性局限——提出了一种全新的解耦架构 Mobius-v0。该架构将知识存储与推理计算分离：全局共享的 Memory（FFN）负责存储知识向量，多个 Reasoner（Self-Attention）负责迭代组合推理。隐藏状态作为两者之间的缓存和载体，Reasoners 反复查询 Memory 并接收知识回传，从而在潜空间中完成更动态的迭代推理。这种设计改变了 Transformer 的固定深度信息流，优化了激活路径，使每次注意力操作能提取并传递更高密度的信息。为验证架构有效性，论文进行了两个规模的实验：7B 模型从头预训练，在仅使用 Transformer 基线 62.6% 训练数据的情况下达到相近下游分数；35B 规模的 Intern-S2-Mobius 从 Qwen3.5-35B 继续预训练，在性能相近的同时实现近 4 倍的端到端推理加速。这两个结果共同支持知识-推理分离在压缩知识、提升推理效率上的优势。论文还讨论了该架构在持续学习和自我进化方面的潜力，认为其初步具备知识-推理分离特性，有潜力超越 Transformer 在持续学习中的表现，但真实自进化场景还需要与智能体系统和环境共同设计。此外，作者展望了在科学发现场景中，该架构可通过让更多知识同时交互来增强跨域组合泛化，助力颠覆性科学假设的提出。整体而言，论文不仅给出了一种可落地的架构替代方案，也重新定义了知识存储与推理计算的职责边界，为基础模型的发展提供了新思路。**
 
+<!-- paperflow:1fa9a80a57d21394 -->
+## Every Coin Has Two Sides: On the Dual Nature of Generalization in On-Policy Distillation of Large Language Models
+
+[[Deep Reading - Aug 2026/Every Coin Has Two Sides-On the Dual Nature of Generalization in On-Policy Distillation of Large|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16647](https://arxiv.org/pdf/2608.16647)
+
+- **由于无法获取原文，以下根据标题和作者列表进行推测性总结。论文标题暗示其核心内容为：在大语言模型在线策略蒸馏中，泛化现象存在双重性质——既能提升模型对未知输入的适应能力，也可能导致分布偏移和错误累积。在线策略蒸馏是一种动态训练范式，学生模型不断利用自身生成的数据反馈训练，形成闭环。这种模式使得泛化的影响变得复杂：既是学生模型超越教师局限的途径，也是产生幻觉和分布外错误的根源。论文可能从理论角度分析泛化误差的组成，从实证角度设计区分有益与有害泛化的实验，并提出动态调控策略。实验可能在多个任务和模型规模上验证该双重性质的存在，并展示不同超参数下的行为差异。论文可能最终提出一种更安全、更有效的蒸馏算法设计原则，并呼吁在LLM部署中重新审视泛化概念。然而，这一切均是基于有限元数据的合理推断，任何具体结论都不应作为论文真实内容引用。**
+
+<!-- paperflow:06a69b89d511881d -->
+## Can a Lightweight Multimodal Model Estimate LLM Reasoning Performance? A Study for Compute-Optimal Document Inference
+
+[[Deep Reading - Aug 2026/Can a Lightweight Multimodal Model Estimate LLM Reasoning Performance-A Study for Compute-Optima|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18591](https://arxiv.org/pdf/2608.18591)
+
+- **本文针对现代前沿 LLM 在推理预算分配上的低效问题，提出了一种基于轻量级多模态模型的“飞行前”性能评估框架。核心挑战在于，统一的高预算分配不仅昂贵，还会触发“过度思考惩罚”，导致模型性能下降；而模型自身的动态思考机制又存在滞后性和不准确性。作者通过构建 BudgetDoc 基准，系统地量化了文档任务中模型表现与推理预算的关系。基于此训练的 DRB 评估器（~1B 参数）能够以极低的开销预测大模型在特定任务上的表现。实验结果令人振奋：DRB 不仅能准确识别出无需过多思考的简单样本，还能有效规避过度思考导致的性能衰减。在多个前沿模型（如 Gemini, GPT）的测试中，DRB 在显著降低成本（最高 99%）的同时，维持甚至提升了任务准确度。这一工作为构建计算最优（Compute-optimal）的推理系统提供了新的范式，证明了“用小模型指导大模型预算”的可行性与优越性。**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
-- 论文/报告：17 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
+- 论文/报告：20 篇
 - CAPEval: A Decoupled Caption Evaluation across Understanding and Generation
 - DIVE: Dynamic Iterative Visual Evidence Construction for Efficient Vision-Language Models
 - HelloWorld: Enabling Socially Interactive Characters in Video World Models
@@ -1482,16 +1616,57 @@ ChartProbe 的探针问题直接从渲染图表的代码生成。这种生成方
 
 总体来...**
 
+<!-- paperflow:327b0db8747dca34 -->
+## GenRouter: Unified Workflow Routing for Agentic Image Generation
+
+[[Deep Reading - Aug 2026/GenRouter-Unified Workflow Routing for Agentic Image Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.16721](https://arxiv.org/pdf/2608.16721)
+
+- **本文提出了一种面向智能体图像生成的统一工作流路由框架GenRouter,并配套定义了名为GenCanvas的标准化基础设施。论文的论证主线是: 现有智能体图像生成工作流虽然取得了显著成果,但其'孤岛式'组织方式导致碎片化与计算不匹配两大瓶颈。碎片化指不同工作流彼此隔离,无法灵活组合;计算不匹配指所有提示被迫通过固定重管线,简单任务浪费算力、复杂任务质量不足。为此,论文提出将工作流抽象为可调控的模块化模板,并引入一个动态路由机制为每个提示选择最合适的模板。
+技术主线上,GenCanvas将图像生成中的原子能力标准化为生成原语,并预设从DirectGen到HybridGen的多种模板。GenRouter则采用三阶段决策: 首先用轻量LLM(Qwen3.5-4B)对提示进行需求分析,生成7维任务签名;然后通过效用匹配在模板库中选出最优工作流;最后通过自进化机制从历史经验中学习,不断优化路由策略。这套设计使得系统能够根据任务复杂度动态分配计算资源。
+实验主线上,论文在多个基准上验证了方法的有效性。核心指标包括视觉对齐、执行成本与延迟。结果显示,相比重型静态工作流,GenRouter在提升视觉对齐的同时,将执行成本降低超过95%、延迟降低65%,证明了动态路由在资源效率上的巨大潜力。论文还通过可视化案例展示了路由在不同模板间的切换细节。
+总体而言,本文的主要贡献在于首次将'工作流路由'作为独立研究对象,并构建了配套的标准基础设施。该工作为智能体生成系统的高效组织提供了新范式,也为后续研究(如更复杂的路由策略、跨模态扩展、与其他智能体框架的集成)开辟了空间。
+需要说明的是,由于本次检索仅获取到摘要、引言、相关工作和部分实验片段,以上总结中的具体实验细节(如基准名称、基线设置、消融实验)尚需查阅原文确认。部分关于方法内部机制的描述是基于片段与论文常见结构的合理推断。**
+
+<!-- paperflow:00fd11f59e238b29 -->
+## Beyond Visual CoT: Internalized Visual Thinking for Proactive Video Reasoning
+
+[[Deep Reading - Aug 2026/Beyond Visual CoT-Internalized Visual Thinking for Proactive Video Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.15869](https://arxiv.org/pdf/2608.15869)
+
+- **这是 arXiv 预印本，标题'Beyond Visual CoT: Internalized Visual Thinking for Proactive Video Reasoning'，作者包括 Xiaoyu Zhu、Xinke Deng 等。论文旨在克服传统视觉链式推理的局限，提出'内化视觉思维'的概念，使模型在视频推理中表现出主动性。由于未获取 PDF，无法确认具体方法、实验和结论。综合推测，论文可能提出一种新的训练范式让视觉推理过程内化在模型中，从而提升视频理解的效率和准确性。但所有细节均为推测，需以原文为准。**
+
+<!-- paperflow:bacc6b44173536b2 -->
+## VA-Judger: Reward Modeling from Human Preference Feedback for Joint Video-Audio Generation
+
+[[Deep Reading - Aug 2026/VA-Judger-Reward Modeling from Human Preference Feedback for Joint Video-Audio Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18607](https://arxiv.org/pdf/2608.18607)
+
+- **【背景与动机】
+联合视频-音频生成模型（以文本提示同时生成视频画面和同步音频）正从研究走向产品，但这类模型在强化学习后训练中缺乏天然的奖励信号。现有方法常把音频质量、视觉保真度、同步性等单维度指标加权组合成一个标量奖励，作为后训练优化目标。作者指出两条根本性缺陷：第一，这些指标各自只覆盖一个感知维度，无法刻画文本、视频、音频三者之间的整体语义一致性与时间连贯性，而后者恰恰左右人类偏好；第二，指标分数与真实人类主观判断的对齐度很低，优化这类目标容易诱发 reward hacking，即生成结果在指标上高分，但人类看起来不连贯或不忠实。同时，人类对音视频内容的偏好不是各单模态偏好的简单合并，文本到图像或文本到视频现有的奖励模型观察不到音频流，不能直接迁移。另一个实际障碍是监督信号太稀疏——单个“A比B好”的二元标签，不足以告诉模型质量接近的生成对差在哪里。
+
+【方法思路】
+为了解决这些问题，作者构建了 VAPref-10K 人类偏好数据集：包含 9K 提示与 10.3K 细粒度成对比较，候选样本来自多个开源生成模型，并由人类标注偏好。同时提出 VA-Judger-Bench 基准，划分 easy（400 对）、in-domain（250 对）、out-of-domain（500 对）三个子集，用于检验奖励模型对粗粒度判别、域内和域外泛化的能力。
+方法核心是 VA-Judger，一个链式思维的全模态奖励模型。它在输出最终成对决策前，先产生结构化的逐维判断（如视觉质量、音频质量、同步性、语义一致性、跨模态连贯性等），再综合得到偏好。训练分三阶段：第一阶段用质量差距明显的配对，学习结构化输出和粗糙的好/坏区分；第二阶段针对质量相近的难配对，利用拒绝采样生成偏好解释，并经人类标注验证后把这些可靠解释蒸馏给模型，从而学会识别细微的同步、语义与连贯性失败；第三阶段做维度级强化学习，将人类反馈按维度分解，构造更密集的奖励信号，替代单一二元标签。整个流程始终把监督锚定在人类判断上，避免奖励黑客的风险。
+
+【实验与发现】
+实验部分围绕奖励模型评测和后训练效果展开。奖励模型评测基于 VA-Ju...**
+
 # AI for Education
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, ai-for-science, generation, multimodal-learning, deep-learning
-- 论文/报告：3 篇
+- 方法：agent, ai-for-science, generation, multimodal-learning, optimization, deep-learning
+- 论文/报告：5 篇
 - Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning
 - M$^3$R-Bench: A Unified Benchmark for Evidence-Grounded Multimodal Metaphor Understanding
 - TeachMateGPT: A Multi-Agent Knowledge-Grounded Framework for Pedagogical Assessment Generation from Science Curriculum Materials
+- OmniHandwritingOCR: A Diagnostic Benchmark for Evaluating Multimodal LLMs in Handwritten OCR Scenarios
+- To Go Far, Go Together: Diverse Preferences Induce a Curriculum for Reward Optimization
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1555,19 +1730,44 @@ ChartProbe 的探针问题直接从渲染图表的代码生成。这种生成方
 
 整体而言，本文的...**
 
+<!-- paperflow:626b2161e90c1103 -->
+## OmniHandwritingOCR: A Diagnostic Benchmark for Evaluating Multimodal LLMs in Handwritten OCR Scenarios
+
+[[Deep Reading - Aug 2026/OmniHandwritingOCR-A Diagnostic Benchmark for Evaluating Multimodal LLMs in Handwritten OCR Scen|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18586](https://arxiv.org/pdf/2608.18586)
+
+- **本文针对多模态大语言模型（MLLM）在手写 OCR 场景中忠实识别能力缺乏系统评测的问题，提出了 OmniHandwritingOCR 基准。论点的核心是：现有 OCR 基准过度聚焦印刷文本或干净单行输入，未能覆盖真实手写场景中的多语言、书写者错误和复杂数学表达式；同时，多数评测只给排行榜分数，缺乏诊断性，无法定位失败原因。因此，作者将评测目标从“排名”转向“诊断”，提出了围绕任务多样性、难度感知和标准化评分三大需求设计基准。
+
+在数据与任务设置上，基准包含手写文本识别（HTR）与手写数学表达式识别（HMER），共 6 个子任务、12 个子集，总计 77.57K 张标注图像，数据来自公共数据集和新收集的学生手写内容，覆盖英文文本、中文文本和数学公式。尤其关键的是构建了难度分层（如 easy/medium/hard）的多行公式语料库，用于测试模型在结构复杂度递增下的鲁棒性；依据检索到的数据集统计，ml-medium 约 15,488 张、ml-hard 约 12,999 张，这说明该分层不仅有区分度，也有足够的统计样本支持结论。
+
+评测方面，作者在统一协议下评估了 13 个开源与闭源系统，使用 5 种互补指标，以避免单一指标的误导。实验结果显示：当前系统与忠实转录的要求相去甚远；复杂多行公式上的性能急剧下降；模型排名在不同语言和公式设置之间发生变化，说明现有模型的泛化性和稳定性不足。结合关键词中的 hallucination 与摘要中的“fact-preserving transcription”，可合理推断模型在手写转录中还存在幻觉和事实保留问题。检索到的 Introduction 片段也确认，真实学生作业、事实保留转录、复杂多行公式结构是现有模型的突出短板。
+
+总体上，本文的贡献在于：提出了一个面向手写 OCR 的诊断性评测基准，弥补了现有基准在任务覆盖和难度分层上的不足；给出了统一评测协议与多指标框架，并对 13 个系统进行了横向比较；揭示了 MLLM 在复杂结构、多语言和事实保留上的系统性短板。局限方面，数据来源和难度标注方式可能影响外部效度，具体限制需结合论文讨...**
+
+<!-- paperflow:bb6a9601473cd700 -->
+## To Go Far, Go Together: Diverse Preferences Induce a Curriculum for Reward Optimization
+
+[[Deep Reading - Aug 2026/To Go Far, Go Together-Diverse Preferences Induce a Curriculum for Reward Optimization|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.18770](https://arxiv.org/pdf/2608.18770)
+
+- **论文针对AI对齐中一个被忽视的公平性问题：不同用户的奖励模型即使在准确学习后，其策略优化难度也可能差异悬殊，导致部分用户无法得到有效服务。作者首先论证，在多样化的用户群体中，奖励模型的优化难度天然构成一个从易到难的课程，因此可以将课程学习的思想引入多用户奖励优化。基于这一洞见，他们提出了CurriPO，一个自动构建树形课程的算法。CurriPO从初始策略出发，评估每个用户奖励模型的优化难度，通过分支和策略复用机制，在一次遍历中覆盖全部用户。与先前的课程学习不同，它不需要人工设计课程，也不需要预先假设任务间有明确的难易顺序，而是利用多用户偏好本身的结构。作者在模拟环境中的个性化连续控制任务上进行了系统实验，结果表明CurriPO的人口满意度比最强基线高出1.2~2.1倍，并大幅降低训练时间。消融实验表明，分支和复用机制都是性能的重要支撑；线性单路径课程（Chain）表现显著较差，而取消复用（No reuse）虽大部分场景接近，但仍无法完全达到完整方法的效果。作者进一步分析了“难以到达”的用户群体，证明其主要受益于分支结构，并排除了基线仅训练不足的可能性。论文的贡献包括：提出多用户优化公平性问题，揭示可优化性差异导致的未服务群体；论证多样化偏好自然诱导课程；提出CurriPO方法，包含自动树课程构建、分支和复用机制；在模拟控制任务上证明其有效性。局限性方面，工作仅在模拟环境验证，模型和方法细节在可获取材料中不够完整，真实偏好复杂度和可扩展性有待探索。总体而言，本文独特地将课程学习与多用户公平对齐结合，在概念和算法两个层面都提供了新见解，对该领域有较强的启发价值。**
+
 # AI for Science
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
 - 方法：agent, ai-for-science, science-discovery, gui-agent, stat-ml, bioinformatics, stat-me
-- 论文/报告：6 篇
+- 论文/报告：7 篇
 - EviGraph: Evidence-Guided Autonomous Research Agents
 - Fisher-R1: Training LLM Agents for Reliable Hypothesis Testing
 - Idea Search: Guiding Tree Search with Ideas to Explore Diverse Scientific Methods
 - ScienceFlow: A long-horizon agent for ML research, scientific discovery and beyond
 - Ten simple rules for non-visual, reproducible and accessible bioinformatics
 - The Past and Future of AI Scientists
+- Eureka: Task-Conditioned Meta-Agent Orchestration for Scientific Discovery
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1646,6 +1846,15 @@ Idea Search 的核心组件是“思想库（Idea Bank）”。该框架首先�
 在“收益和风险”部分，论文提出 AI 科学家可以加速科研、降低成本、提高系统性和可复现性，并具备探索人类难以单独处理的复杂系统、开展大规模多智能体协作的潜力；但也会带来科学权力集中、错误传播被自动化、科学推理直接连接危险物理行动的风险，因此必须建设严格评估、完整溯源、问责、安全与治理框架。在“评估与基准”部分，论文明确批评了两种伪发现：流畅的科学写作和重新发现训练集中已有答案；而应以“前瞻性发现”“发现可靠性”“节省人类科学工作”作为评判标准。
 
 论文最后引入“诺贝尔图灵挑战”——目标是到 2050 年实现自动化、诺贝尔奖级别的科学发现；并认为当前发展节奏已超前于预期。整篇论文在性...**
+
+<!-- paperflow:cc9b3395f1472c58 -->
+## Eureka: Task-Conditioned Meta-Agent Orchestration for Scientific Discovery
+
+[[Deep Reading - Aug 2026/Eureka-Task-Conditioned Meta-Agent Orchestration for Scientific Discovery|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19047](https://arxiv.org/pdf/2608.19047)
+
+- **论文提出 Eureka，一种任务条件化的 Meta-Agent 架构，目标是为科学发现、开放数学猜想等长周期任务提供动态、可验证的 Agent 编排范式。核心动机是：固定架构 Agent 需要同时承担任务分解、状态维护、验证、工具使用和长期适应，这在异构任务和不确定性下导致架构不匹配和编排开销。Eureka 的方法包括：将任务编译为动态义务图（带接受语义）；在执行中通过 receding-horizon 规划、架构晋升和最小充分架构编译形成 Macro-Agent；当瓶颈出现时用成本收益门控的受控演化更新局部架构。理论部分建立了多组形式化结果，覆盖固定架构遗憾、规划失效、晋升和演化摊销、信息充分子树接口、并发可串行化和组合验证正确性，为动态架构提供了理论依据。实验部分包含四个量化指标（任务成功率、上下文压缩、增量计算节省、并发一致性）和端到端科学发现评估。主要结果：170/170 递归任务完成，3,948 个接受证书，0 未认证接受或假终止；活动上下文使模型输入 token 中位数从 9,490 降至 4,005；依赖更新任务中 65.38% 重复计算被避免；16,000 并发执行全部与串行执行一致。更重要的是，同一 Meta-Agent 在两种认知结构下形成不同专用 Agent，并产生结构性科学结果（量子过程和时空理论），且架构分化不破坏统一验证基础设施。论文的贡献在于提出一种“元”层架构，将架构形成、执行和演化的全过程形式化，并以统一的验证框架支撑不同科学任务。但由于摘要截断，论文中理论证明细节、两个科学任务的具体发现、以及与现有方法的基线对比均未在可用证据中呈现，需要阅读全文进行评估。**
 
 # Machine Learning
 
