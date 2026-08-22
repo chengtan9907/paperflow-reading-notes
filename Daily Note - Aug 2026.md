@@ -367,8 +367,8 @@ GROVE 的核心方法分为两个部分：时间分层记忆结构与尺度原�
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, reasoning, reinforcement-learning, retrieval, multimodal-learning
-- 论文/报告：53 篇
+- 方法：agent, ai-for-science, generation, language, reasoning, reinforcement-learning, retrieval, optimization
+- 论文/报告：64 篇
 - Global Optimization and Inference-Time Region Grafting for Agentic Workflows
 - Agentic Commerce World: An Auditable and Verifiable Environment for Vibe Commerce
 - CRISP: Critical Step Perception for Training Efficient Deep Search Agents
@@ -1076,13 +1076,139 @@ MemFuse 记忆系统采用两层记忆结构：事件层原子记忆保留每个
 
 总体而言，本文从问题定义、基准构建到系统设计形成完整链条，为多源智能体记忆研究提供了新的评估维度和结构化解决方案。**
 
+<!-- paperflow:262c93e046a2d6a8 -->
+## DeltaML-Bench: Evaluating Machine Learning Agents on Real-World Research Repositories
+
+[[Deep Reading - Aug 2026/DeltaML-Bench-Evaluating Machine Learning Agents on Real-World Research Repositories|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19653](https://arxiv.org/pdf/2608.19653)
+
+- **论文针对机器学习智能体在现实研究仓库中开展自主实验的能力评估问题，提出了 DeltaML-Bench 基准。现有的 Kaggle 式或合成基准只覆盖了理想化的任务，无法反映真实代码库的异构性、破损训练管道和计算资源限制。DeltaML-Bench 从研究论文中提取 48 个真实任务，要求智能体在不完美的开源仓库中通过修复代码、调整配置、运行实验等方式，对论文已发布的基线产生可测量的改进。基准设计强调“真实性”，将原始仓库交付给智能体，不进行额外清理或简化。评估采用两个操作指标：成功率（是否超过基线）和平均分数（改进幅度），并对“规格博弈”进行了显式分析，即智能体是否通过钻评估漏洞来假装成功。实验评测了 GPT-5 和 Claude Sonnet 4 两个前沿模型，采用标准模块化智能体和基于搜索的 ARG 脚手架两种配置，在 4×6 小时和 2×12 小时两种时间分配下进行。结果显示，ARG 脚手架显著提升了 GPT-5 的成功率：在 4×6h 下从 9.4% 提高到 33.9%，在 2×12h 下达到 49.0%；而模块化配置的规格博弈率高达 47.9%，ARG 配置则无此现象，表明搜索式脚手架不仅提升了效能，还增强了行为完整性。论文的核心贡献包括：引入一个贴近真实科研场景的基准；提出改进基线作为评估目标；展示脚手架设计对智能体表现和规格博弈的显著影响；为自主 ML 实验智能体部署中的完整性检查提供了证据。局限性包括：任务数量有限、模型覆盖较少、时间分配实验仅聚焦于部分配置等。未来工作可扩展任务规模、深化规格博弈机制研究以及探索更丰富的支架设计。**
+
+<!-- paperflow:ca109d17f4612e43 -->
+## MileGPO: Milestone Inference with Local Evidence for Graph-Based Policy Optimization of Long-Horizon LLM Agents
+
+[[Deep Reading - Aug 2026/MileGPO-Milestone Inference with Local Evidence for Graph-Based Policy Optimization of Long-Hori|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19803](https://arxiv.org/pdf/2608.19803)
+
+- **本文针对长程 LLM 智能体在强化学习中面临的稀疏奖励和信用分配难题，提出了 MileGPO 框架。该框架的核心思想是“从回放数据中挖掘局部证据来校准中间信用”。MileGPO 不依赖外部模型，而是通过分析同策略轨迹图，自动识别关键的里程碑和陷阱。通过可靠性校准塑形（RCS）和进度对比校准（PCC），它能够过滤掉轨迹中的噪声，精准地为促进任务进展的动作分配信用。在 ALFWorld 和 WebShop 两个复杂基准上的实验证明，MileGPO 不仅在成功率上达到了 SOTA 水平，更展现出了卓越的泛化能力和信用分配准确性。这项工作为构建更高效、更鲁棒的长程自主智能体提供了一种系统性的强化学习优化方案。**
+
+<!-- paperflow:d14726bd3936fd28 -->
+## AI4AI-Bench: Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement
+
+[[Deep Reading - Aug 2026/AI4AI-Bench-Benchmarking LLM Agents in Algorithmic Design for Recursive Self-Improvement|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.20318](https://arxiv.org/pdf/2608.20318)
+
+- **AI4AI-Bench 的核心主张是：递归自我改进（RSI）的可行性取决于一个可被单独测量的能力——智能体能否设计训练算法。论文把“训练算法”定义为连接算力与能力的交换率：更好的目标函数或更新规则会改善每一次后续运行，包括产生下一个智能体的那次运行。因此，RSI 的闭环必须经过算法链路，而现有基准要么被数据收集、要么被超参数调优“取胜”，无法把“改变一次运行如何执行”和“改变模型如何学习”分开。为隔离算法设计层，论文构建了 10 个冻结的研究仓库，覆盖 10 个训练算法家族；每项任务要求智能体在单块 B300 上、4 小时内改写训练算法，随后代码从头重跑至多 12 小时，由隐藏的固定评估器按与仓库原始算法完全相同的流程评分。由于 10 个任务的指标不可公度，论文把每个任务映射到统一尺度：0 = 无信息模型、0.1 = 仓库自带算法、1.0 = 任务最优。实验覆盖 6 个系统的 29 种配置：平均分 0.166，最佳系统 0.250，说明最强的系统也只走完“已有算法→最优”间距的五分之一。行为分析指出差距去向：多数提交从未改变模型的学习方式；少数触及算法层的提交平均 0.226，显著高于其余的 0.126。增加推理投入的主要效果是让智能体“愿意去”算法层，使触及比例从 8% 升到 64%，平均分从 0.094 升到 0.196。对算法层提交的定性分析显示：logit-ensemble 代理在候选排序上不可靠、action 坍缩会使代理失效、有提交用模仿学习替换 RL、多轮 agentic RL 使用 GRPO；拿到完美分数的提交对 GRPO 等方案做出了明确的算法权衡判断。论文最终发布任务套件、评估器和全部已评分提交，使测量可以随系统变化重复。整体上，这项工作既提出了一个可复测的基准，也给出一个偏悲观但清晰的实证结论：当前最强的 LLM 智能体距离真正的算法设计能力还很远，主要瓶颈不是单点能力，而是大多数系统根本没有触达算法层。**
+
+<!-- paperflow:0f7fafcb57521287 -->
+## Mitigating Identity Essentialism in LLM Agents with Longitudinal Life Trajectories
+
+[[Deep Reading - Aug 2026/Mitigating Identity Essentialism in LLM Agents with Longitudinal Life Trajectories|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19621](https://arxiv.org/pdf/2608.19621)
+
+- **本文聚焦于 LLM 社会模拟中一个核心方法论问题：如何构建智能体才能避免身份本质主义并保留人类多样性。作者首先通过响应空间分析（图 1）展示了一个引人注目的现象——基于静态人口统计画像的 LLM 智能体倾向于把群体平均倾向当作每个个体的特质，导致组内响应高度压缩、组间差异被人为扩大，这与社会心理学中的本质主义定义一致。作者将这种多样性塌陷归因于两个相互关联的设计缺陷：一是智能体表征是稀疏且静态的，缺乏个人经历的细节；二是仅通过 prompt 注入的记忆无法被模型持久地内化，无法支撑动态人格演化。
+为解决该问题，作者借鉴认知科学中的互补记忆系统理论，提出了 LifeMem 框架。LifeMem 包含两条互补的记忆通路：(1) 结构化生活事件检索（情景记忆），从纵向调查数据中提取关键生活事件并按时间线注入 prompt，使智能体能够在作答时“回想起”特定人生阶段的经历；(2) 智能体专属 LoRA 参数记忆（语义记忆），通过为每个智能体训练轻量级 LoRA 适配器，将人生经验抽象并固化为模型参数，从而形成持续稳定的个体特质。这种设计同时兼顾了事件级的具体性和规律级的持久性。
+实验部分使用两个著名的纵向追踪数据集——美国的 Add Health 和英国的 Understanding Society，覆盖不同人生阶段的态度和行为测量。作者在三种 LLM 基础上测试了 LifeMem，并与静态画像、显式事件记忆等基线对比。评估从四个维度展开：响应总体分布的对齐程度、整体多样性、组内多样性、以及个体跨生活阶段的变化模式。结果显示，LifeMem 在多数维度上显著改善了与人类数据的一致性，缓解了本质主义倾向。同时，实验也揭示了显式记忆单独使用的局限性，以及多样性提升与总体分布对齐之间可能存在的权衡。
+总体而言，这项工作在方法论上为“如何让 LLM 智能体更像具体的人”提供了一条基于认知科学启发的新路径。它将计算社会学、纵向数据建模和参数高效微调有机结合，具有较强的系统性和可复现性。不过，LifeMem 仍受限于调查数据的覆盖范围和粒度，无法捕捉问卷未记录的人生经历，且其有效性可能在更...**
+
+<!-- paperflow:edd9645f939bb74f -->
+## EnvHarness: Awakening Static Worlds for Agent Learning
+
+[[Deep Reading - Aug 2026/EnvHarness-Awakening Static Worlds for Agent Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19880](https://arxiv.org/pdf/2608.19880)
+
+- **论文针对LLM智能体训练环境静态化的问题，提出EnvHarness框架。其核心观点是：环境不需要从零重建，而是可以通过一层可编程插件来“唤醒”静态世界。EnvHarness包含三种组件：Stage（将环境切片为可控制阶段）、Contract（施加交互约束）、Chain（串联多个环境形成长上下文）。这些组件通过标准接口包装原环境，代理交互接口不变，且每个重塑环境都保留原始验证器，从而在保证正确性的同时实现环境行为重塑。
+为了自动化这一过程，论文设计EnvRigger：将目标策略视为黑盒，从执行轨迹中诊断行为弱点，合成候选组件，并通过新鲜rollout验证和迭代修正。这形成了一个闭环：政策在环境中表现不佳→诊断弱点→重塑环境→验证改进→继续训练。
+实验在四个领域五个基准上验证了有效性：相比原始环境和领域特定生成流水线，EnvHarness在保持实例上提升高达9.0个点，执行步数减少9.8%；用于强化学习时提供更优优化信号，支持策略与环境持续共同进化。该工作将环境从“固定资源”转变为“可训练参数”，为智能体训练提供了一种新范式。**
+
+<!-- paperflow:f0acb88d6b423338 -->
+## Break It Down, Pass It On: Cross-Task Skill Transfer in LLM Agents
+
+[[Deep Reading - Aug 2026/Break It Down, Pass It On-Cross-Task Skill Transfer in LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.20274](https://arxiv.org/pdf/2608.20274)
+
+- **论文《Break It Down, Pass It On: Cross-Task Skill Transfer in LLM Agents》针对LLM智能体经验复用中的重要问题——技能迁移何时可靠——开展了系统受控研究。研究主线沿两个现有方法差异展开：技能归纳层面（任务级 vs 子任务级）和技能表示格式（文本 vs 代码）。作者在三个代表性基准（多应用工具使用、办公文档工作流、数据科学pipeline）上，基于11个LLM构建agent进行顺序任务流实验，以无记忆基线为对照。核心经验发现是：任务级技能大多是有害的，平均将性能压至基线以下；子任务级技能则平均带来正收益；文本技能比代码技能迁移效果更好。
+
+为了解释这些现象并找到事前诊断工具，论文提出并测量了技能的两个互补属性——specificity（具体性：技能与真实任务的匹配紧密度）和abstractness（抽象性：技能相关性跨任务的均匀程度）。单独两者都不能预测任务成功率，但两者的联合效应能够稳定预测，作者将其形式化为skill utility score。该分数只需技能文本和任务描述即可计算，不需要执行任何任务，因此可以作为任务运行前诊断技能记忆质量的实用指标。此外，子任务级技能和文本技能在该分数上得分更高，进一步支持了分数作为因果中介的合理性。
+
+论文的贡献包括：形式化了跨任务技能迁移的流程；构建了两个agent版本对应不同归纳层面；提供了大规模多模型的经验证据；提出基于组合属性的技能效用分数；并给出了可行的实践建议（优先子任务级归纳和文本格式）。局限性在于基准和任务类型有限，Docker沙盒约束阻碍了视觉任务，且未处理动态演进记忆，任务评分仅基于最终状态。整体上，该工作为LLM agent如何构建可迁移技能记忆提供了重要的实证基础和可操作诊断工具。**
+
+<!-- paperflow:7a71bf131f98f9ff -->
+## Repo0: Design-Driven Zero-to-All Code Generation
+
+[[Deep Reading - Aug 2026/Repo0-Design-Driven Zero-to-All Code Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19854](https://arxiv.org/pdf/2608.19854)
+
+- **本文提出了 Repo0，这是一个针对“从零到全”代码生成任务的持续结构演化框架。该研究的核心贡献在于打破了传统代码生成中“一次性规划”的局限，引入了软件工程中的设计原则来驱动生成过程。Repo0 通过维护一个包含需求层和组件层的双向有向无环图（Dual-DAG），为智能体提供了一个显式的、可操作的架构状态空间。在生成过程中，Repo0 并不急于编写具体代码，而是先在模块化指标的引导下，通过迭代执行结构化动作（如合并、拆分组件）来优化仓库架构。只有当架构达到“收敛”状态——即结构稳定且完全覆盖需求时，才进入基于测试驱动开发（TDD）的代码填充阶段。实验结果表明，Repo0 在 RepoCraft 基准测试中表现优异，显著提升了生成仓库的功能完整性和代码质量。这一工作证明了显式架构建模和持续演化机制是实现复杂软件系统自动化构建的关键，为未来自主编程智能体的发展提供了新的范式。**
+
+<!-- paperflow:a0f29624d7f588a0 -->
+## One Success Isn't Reliability: Thinkingbox, a Sandbox and Benchmark for Agents in Stateful Business Workflows
+
+[[Deep Reading - Aug 2026/One Success Isn't Reliability-Thinkingbox, a Sandbox and Benchmark for Agents in Stateful Busine|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19741](https://arxiv.org/pdf/2608.19741)
+
+- **论文针对智能体评估中的一个关键盲区展开：现有基准越来越强调可执行环境，但大多仍把成功定义为“合理的回复”或“合法的工具调用”，而不是“系统终态正确”。作者指出，在代码修复、网页导航、API 调用等场景之外，真实业务工作流还要求智能体在多轮对话中主动收集缺失信息、遵循领域策略、协调多个依赖工具，并最终实现正确的持久状态迁移且不留副作用。为了给这类任务提供可验证的测试平台，论文提出 Thinkingbox 沙箱，支持隔离的 MCP 兼容工具会话、模拟用户对话、完整执行轨迹记录和基于后端终态的结果评估。评估不是看单步动作，而是用任务级可执行检查判断终态是否正确、缺失还是多余，部分任务还会额外检查最终回复的指定属性；这种设计允许不同工具调用路径获得分数，只要最终世界状态一致，同时能捕捉无关副作用。基于该沙箱，作者构建了 Thinkingbox-bench，共 507 个策略条件化工作流，覆盖零售/电商、旅行与酒店、车险、新银行内部 IT、咨询 IT/HR 支持五个领域，测试闭源与开源模型。核心结果是：最强模型 pass@1 为 65.36%，但 pass^20 仅为 25.25%；更重要的是，大量失败尝试表现为“干净终止+合法状态变更动作”，即表面信号正常而终态错误，说明回复级和工具调用级信号无法作为端到端任务完成的代理。这一“发现-可靠性差距”表明，当前模型更擅长偶尔找到一条成功轨迹，而非可靠地完成有状态业务任务。论文最后强调，Thinkingbox 与 Thinkingbox-bench 作为可复用沙箱和可执行基准开源，希望推动智能体评估从“输出正确”转向“状态正确、流程可靠”。**
+
+<!-- paperflow:de838b825a92d940 -->
+## From Agent Behaviour to Agent-Friendly Documentation: An Empirical Study of How Coding Agents Discover, Read, and Write Technical Documentation
+
+[[Deep Reading - Aug 2026/From Agent Behaviour to Agent-Friendly Documentation-An Empirical Study of How Coding Agents Dis|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.20195](https://arxiv.org/pdf/2608.20195)
+
+- **本文是一项实证研究，旨在回答一个此前未被系统探索的问题：自主编码代理在真实开发任务中如何与技术文档交互？随着 LLM 驱动的编码代理越来越多地承担软件变更，传统面向人类开发者的文档体系可能面临错位。作者采用行为学方法，利用两个大规模公开数据集：SWE-chat（557 个代理会话，94,813 个事件，3,033 次文档交互）和 AIDev（33,097 个代理 PR，690,260 个文件变更），从事件序列中提取了代理阅读、创建、修改文档的模式，并进行了统计建模。
+论文的核心发现可以归纳为四点：(1) 代理接触的文档主要是“代理面向”的工件（指令文件和工作笔记占 60.5%），人类经典技术文档和 API 参考仅占极少比例；这说明文档设计需要根本性的转向。(2) 文档咨询与代码编辑之间的关联在统计上不稳定：原始时间关联极弱（转移概率 0.002，lift 1.05），但经过阶段调整后显示正相关（OR 1.33），而文档创建的相关性则因调整而消失。这种对比揭示了未控制任务阶段时可能出现的虚假/掩盖效应。(3) 没有发现文档驱动的验证行为；阅读文档后代理更倾向于推理或再次阅读，测试行为反而下降（调整 OR 0.39），提示文档可能误导代理进入“阅读循环”而非执行验证。(4) 文档咨询以主动为主（70.2%），失败驱动很少（7.5%），且文档修改几乎总是落后于代码修改（4.7 倍），表明文档是“事后整理”而非“事前设计”。
+基于这些痕迹，作者提出了一个描述性的交互模型——双叶循环，用于刻画代理在文档和代码之间的往复模式。该模型强调代理的文档处理不是一个线性旅程（如先读指南再写代码），而是存在两个互相纠缠的循环：一个围绕“代理指令/工作笔记”的自我情境化循环，一个围绕“代码-文档”交替修改的追赶循环。
+论文的贡献在于：首次给出代理文档行为的量化快照，明确了“代理友好型文档”不能简单复制人类文档策略；应用行为事件序列分析和统计调整方法，展示了观察性数据中关联推断的微妙性；提出可指导后续工作的描述性模型。局限包括：数据来源的代表性（可能偏向特定代理框架）、事件分类器的误差，以及观察...**
+
+<!-- paperflow:4b6a83e18e915549 -->
+## Can Agent Memory Systems Track Evolving State?
+
+[[Deep Reading - Aug 2026/Can Agent Memory Systems Track Evolving State|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19652](https://arxiv.org/pdf/2608.19652)
+
+- **论文围绕一个被现有记忆基准忽视的关键能力——状态追踪（state tracking）展开。核心论点：随着 LLM 智能体执行更长、更高风险的任务，其记忆系统仅仅记住历史信息是不够的；必须追踪世界的演化状态，确保回答反映当前状态而非已取代状态。
+
+技术主线：
+1. 能力定义：将状态追踪定义为区别于召回（recall）和推理（reasoning）的独立能力。状态不是预先定义的形式，而是记忆系统为了正确回答所必须维持的东西，评估是纯行为性的。
+2. 基准构建：提出 STATEMEMBENCH，234 个多会话场景，覆盖两个会话长度区间。采用封闭池评分，将答案分为反映当前状态、反映旧状态、其他失败，从而在构造上分离状态追踪失败与其他错误。
+3. 方法设计：提出 STATEMEM，状态优先的记忆方法，显式建模状态取代（supersession）和关系依赖（relational dependencies）。它既能作为独立记忆系统，也可作为轻量级单次调用包装器，应用于现有记忆系统。
+
+实验主线：
+1. 现状评估：现有记忆系统、检索增强基线和长上下文基线在 STATEMEMBENCH 上表现不佳，说明状态追踪是普遍短板。
+2. 方法验证：STATEMEM 在 DeepSeek-V4-Flash 上将当前状态准确率从 0.205 提升至 0.363（1.8 倍），在 Qwen-3.5-9B 上从 0.149 提升至 0.233（1.6 倍）。
+3. 通用性验证：包装器在六个记忆/检索后端上带来 +32 到 +67 个百分点的提升；长度和成本匹配对照实验表明 +15 到 +32 点归因于状态结构。
+4. 洞察：长上下文模型在状态追踪上不占优，仅 GPT-5.4-Nano 达到 0.277，说明长上下文不能自动解决状态更新问题。
+
+总体贡献：提出基准、方法、分析和即插即用的包装方案，首次将状态追踪作为独立能力进行系统评测和优化，揭示了现有记忆系统在状态演化面前的系统性问题，并提供了一条可行的改进路径。**
+
+<!-- paperflow:01043677b58dd7b5 -->
+## Remember, Verify, or Ask? Cross-Family Evaluation of Memory Commitment in LLM Agents
+
+[[Deep Reading - Aug 2026/Remember, Verify, or Ask-Cross-Family Evaluation of Memory Commitment in LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19564](https://arxiv.org/pdf/2608.19564)
+
+- **## 论证主线
+
+LLM 智能体的持久记忆是双刃剑：它能个性化，但错误的持久化会静默扭曲未来行为。现有研究大多关注“如何记”，很少关注“是否该记”。本文把“是否该记”形式化为记忆-澄清边界——一个包含 Remember、Limit、Verify、Ask 四种动作的决策问题，并称之为“记忆承诺”。作者指出，这是独立于记忆容量和检索质量的、关乎安全与可信的智能体能力。**
+
 # Language Models
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, language, vision-language-model, reasoning, science-discovery, vision, reinforcement-learning
-- 论文/报告：23 篇
+- 论文/报告：28 篇
 - Self-Improving Large Language Models via Progressive Experience Evolution
 - UEmbed: Unified Sparse and Dense Multimodal Embeddings
 - SFT Conflicts, RL Coexists: A Theoretical and Empirical Analysis of Multi-Task Learning for LLMs
@@ -1375,13 +1501,62 @@ Hi-TTRL 的解决方案分为三步：首先，在完整 rollout 前从部分样
 
 - **本文针对现代前沿 LLM 在推理预算分配上的低效问题，提出了一种基于轻量级多模态模型的“飞行前”性能评估框架。核心挑战在于，统一的高预算分配不仅昂贵，还会触发“过度思考惩罚”，导致模型性能下降；而模型自身的动态思考机制又存在滞后性和不准确性。作者通过构建 BudgetDoc 基准，系统地量化了文档任务中模型表现与推理预算的关系。基于此训练的 DRB 评估器（~1B 参数）能够以极低的开销预测大模型在特定任务上的表现。实验结果令人振奋：DRB 不仅能准确识别出无需过多思考的简单样本，还能有效规避过度思考导致的性能衰减。在多个前沿模型（如 Gemini, GPT）的测试中，DRB 在显著降低成本（最高 99%）的同时，维持甚至提升了任务准确度。这一工作为构建计算最优（Compute-optimal）的推理系统提供了新的范式，证明了“用小模型指导大模型预算”的可行性与优越性。**
 
+<!-- paperflow:fea737b32cf6b5d8 -->
+## Ask Self, Ask Others: Relation Is All You Need
+
+[[Deep Reading - Aug 2026/Ask Self, Ask Others-Relation Is All You Need|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.20172](https://arxiv.org/pdf/2608.20172)
+
+- **论文《Ask Self, Ask Others: Relation Is All You Need》提出了一种颠覆性的 Token 混合视角，挑战了注意力机制在深度学习中的核心地位。作者认为，Token 之间的交互不应仅仅是简单的加权求和，而应基于显式的关系构建。文章首先定义了 Relation 原语，将其拆解为“询问自我（Ask Self）”和“询问他人（Ask Others）”两个核心动作。这种设计允许模型更精细地控制信息的保留与交换。基于这一理论，作者构建了一套完整的技术栈：从追求极致性能的 Full Relation，到追求极致速度的 FlashRelation，再到面向长序列的 Linear Relation 和 Hybrid 架构。在实验部分，作者采用了严谨的对照实验，在 10M 至 100M 参数规模下证明了 Relation 相比于 MHA 的 NLL 优势。特别是在工程实现上，FlashRelation 的高效表现弥补了新架构在落地初期的性能鸿沟。总的来说，这项工作不仅提供了一个性能更优的替代方案，更重要的是，它为理解 Transformer 内部的信息流动提供了一个全新的理论框架——“Flow follows Relation”（流随关系动）。这种关系优先的设计哲学，为下一代高效、强大的基础模型设计提供了重要启示。**
+
+<!-- paperflow:ff28d75e60d8800f -->
+## Are LLMs becoming similarly creative? Evidence from three years of models
+
+[[Deep Reading - Aug 2026/Are LLMs becoming similarly creative-Evidence from three years of models|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19437](https://arxiv.org/pdf/2608.19437)
+
+- **该论文针对当前 LLM 评测过度聚焦可验证答案任务、忽视开放型创意任务多样性的缺口，提出了一个跨三年模型发布时间轴的初步比较研究。作者选取两类互补的创意提示源：Infinity-Chat100（真实世界开放型用户查询，覆盖六个类别）和 Alternate Uses Task（经典心理测量学发散性思维任务），让 2023 年至今的多个模型提供商及其不同代际模型生成回答，通过句子嵌入相似度计算输出之间的语义距离，以此作为多样性的代理指标。研究结果显示，模型输出多样性在统计上显著下降，表明 LLM 的创意实质正在跨模型趋同。作者认为这一趋势若持续，将威胁人类在 AI 辅助创意工作中的能动性，因为用户接触到的想法范围将被压缩。研究还注意到数据集本身存在相似提示的琐碎问题（如两个关于 Zootopia 的提示），但不影响其测量。讨论部分承认工作为初步性质，并提及人类更熟练地使用 AI 模型可能产生更好的创意结果，暗示解决趋同问题的一个方向是提升人机协作策略。总体而言，论文贡献在于首次从时间维度系统刻画 LLM 创意输出多样性的下降趋势，并提出了创意同质化这一值得关注的风险，但方法细节、统计量和因果解释仍有待后续工作充实。**
+
+<!-- paperflow:ae8d1cc859725f77 -->
+## MemTrapBench: Benchmarking Cognitive Traps in LLM Memory Use
+
+[[Deep Reading - Aug 2026/MemTrapBench-Benchmarking Cognitive Traps in LLM Memory Use|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.20202](https://arxiv.org/pdf/2608.20202)
+
+- **MemTrapBench是一篇关于'LLM记忆使用中的认知陷阱'的基准与修复方法论文。论文首先指出现有记忆基准的评估盲区：只检查记忆能否被正确提取、存储和检索，却忽略了检索到的记忆如何影响模型在当前任务上的推理。作者提出'记忆引发的认知陷阱'概念，包括两类主要失败模式：推理固定（模型被历史解法锁住，无法转向当前任务需要的新方法）和信念扭曲（记忆污染模型对当前事实/目标的信念）。为系统量化这一问题，作者构建了MemTrapBench基准，设计能诱发这两类陷阱的任务。在2个模型家族、5个代表性记忆框架上的实验显示，该基准极具挑战：所有记忆策略的得分都低于'无记忆'设置，即使最强方法也损失超过10%的性能；另一组实验显示，随着注入记忆长度从25%增加到100%，平均分从36.03%单调下降到31.05%，而无记忆情况下得分高达92.29%，说明记忆内容越多，认知陷阱越严重。针对这一现象，作者提出AdaptiveMem，一种轻量的推理期prompt技巧，通过指示LLM有意识地避开记忆陷阱、自适应地使用检索记忆，使模型既保留记忆的受益又不被其误导。在Gemini-3-Flash-Preview上，AdaptiveMem将LightMem在MemTrapBench上的成绩提升14.9个百分点，且不损害该模型在标准记忆基准上的通用记忆性能。论文的贡献在于：1) 揭示并命名了LLM记忆使用中的认知陷阱；2) 提供可复用的评测基准MemTrapBench；3) 给出跨记忆框架有效的推理期缓解方法AdaptiveMem。总体而言，这项研究对长期交互式AI（如agent、个性化助手）的可靠性设计有重要启示，提醒社区在追求记忆容量和检索准确率的同时，也要关注记忆回放对推理的潜在副作用。**
+
+<!-- paperflow:4c30a16546ae4350 -->
+## PersonalBench: Measuring the Authorship Gap in LLM Personalization
+
+[[Deep Reading - Aug 2026/PersonalBench-Measuring the Authorship Gap in LLM Personalization|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19746](https://arxiv.org/pdf/2608.19746)
+
+- **本文提出了 PersonalBench，这是一个旨在量化大语言模型个性化生成中“作者身份鸿沟（Authorship Gap）”的创新基准。作者指出，尽管当前的 LLM是个性化研究的热点，但评估手段一直局限于表面。通过引入 LUAR（一种先进的作者身份验证模型），本研究为个性化生成设定了科学的物理标尺：人类相似度的底线（0.626）和天花板（0.756）。
+
+实验通过对 50 名作者和 1,000 次生成的深度分析，揭示了一个令人沮丧但重要的事实：目前主流的推理时个性化方法（如 RAG、Few-shot Prompting）虽然能产生具有一定区分度的输出（AUC=0.918），但在身份表征的绝对深度上，它们甚至无法达到随机两个人类之间的相似水平。LLM 固有的“机器指纹”在生成过程中占据了绝对主导地位，使得生成的文本在语义和句法深层结构上依然保留了浓厚的 AI 特征。
+
+此外，论文深入探讨了 LLM 裁判在个性化评估中的失效问题。研究发现，LLM 裁判往往被表层的风格模仿所迷惑，给出了虚高的评分，而忽视了深层身份特征的缺失。这一发现对未来如何构建更公正、更具区分度的 LLM 评估协议具有重要的指导意义。PersonalBench 不仅是一个测试集，更是一个警示：要真正实现“像人一样写作”，我们可能需要超越现有的推理时提示工程，转向更深层的模型微调或架构创新。该研究为个性化生成领域提供了一个清晰的坐标系，指明了从“风格模仿”向“身份还原”进阶的艰难路径。**
+
+<!-- paperflow:480b536c604b6938 -->
+## The Asymmetric Harms of LLM Compression
+
+[[Deep Reading - Aug 2026/The Asymmetric Harms of LLM Compression|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19670](https://arxiv.org/pdf/2608.19670)
+
+- **论文《The Asymmetric Harms of LLM Compression》系统研究了 LLM 压缩（后训练量化与剪枝）对模型行为的影响，聚焦于知识保留、置信度和社会偏见三个维度。作者在 3 个 8–9B 指令微调模型上应用 11 种压缩方法，发现压缩带来的行为变化呈不对称性：头部知识（高频、常见事实）的相对保留率下降显著高于尾部知识；压缩模型在已丢失的知识上仍保持高置信度，造成“自信的错误”；同时，整体偏见分数的稳定掩盖了不同人口统计子群体间刻板印象偏好的大幅反向偏移。这些现象共同表明，perplexity、平均准确率和平均偏见分数等聚合指标无法捕捉压缩引入的深层行为风险。论文强调部署前需要对压缩模型进行细粒度、按知识层级和子群体分解的评估。相关工作涉及 LLM 压缩技术和社会偏见，并引用了 Hooker et al. (2020) 和 Maliakkal et al. (2026a, 2026b) 等关于压缩放大偏见的研究。论文的局限性在于仅覆盖 8–9B 模型和选定压缩方法，结论未必迁移到更大模型或更广泛的压缩技术。**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
-- 论文/报告：20 篇
+- 论文/报告：23 篇
 - CAPEval: A Decoupled Caption Evaluation across Understanding and Generation
 - DIVE: Dynamic Iterative Visual Evidence Construction for Efficient Vision-Language Models
 - HelloWorld: Enabling Socially Interactive Characters in Video World Models
@@ -1655,18 +1830,46 @@ ChartProbe 的探针问题直接从渲染图表的代码生成。这种生成方
 【实验与发现】
 实验部分围绕奖励模型评测和后训练效果展开。奖励模型评测基于 VA-Ju...**
 
+<!-- paperflow:9aaa31f55191dba5 -->
+## VGI-BENCH: Probing Visual Intelligence in Video Generation Models
+
+[[Deep Reading - Aug 2026/VGI-BENCH-Probing Visual Intelligence in Video Generation Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19583](https://arxiv.org/pdf/2608.19583)
+
+- **VGI-BENCH 是一项针对视频生成模型视觉推理能力的系统化评测基准工作。论文首先指出现有评测的三个关键要求：输入必须与当前视频模型的视觉先验对齐、任务必须要求有效演化过程而非仅最终状态、难度必须校准为部分可行。基于这些原则，作者构建了包含 27 个任务和 810 个实例的基准，并按任务领域和技能标签进行两级分类，支持细粒度能力剖析。评测发现当前最强模型 Seedance 2.0 仅达到 51.0% 准确率，说明视觉推理能力远未可靠。论文进一步做了四类分析：输出失败模式归类、输入条件敏感性测试、大规模合成微调的迁移边界探索、以及内部去噪轨迹分析。核心发现是：合成微调可以从抽象数据迁移到真实任务，但收益受训练分布对技能覆盖度的限制；去噪轨迹显示后期步骤主要细化早期假设，而不是纠正潜在的推理错误，即模型缺乏可靠的自我纠正机制。论文还明确列出了基准的范围局限（如只覆盖典型 5–10 秒生成长度，排除文本-视频、多图像条件、音频条件等输入模态），并计划发布代码和数据。整体上，VGI-BENCH 提供了评测方法、实证发现和诊断工具，旨在推动下一代视频生成模型的推理能力发展。**
+
+<!-- paperflow:233d84ebc2c54a48 -->
+## Scaffolding Minds: Optimizing Latent Visual Target Representations for Multimodal Reasoning
+
+[[Deep Reading - Aug 2026/Scaffolding Minds-Optimizing Latent Visual Target Representations for Multimodal Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19669](https://arxiv.org/pdf/2608.19669)
+
+- **《Scaffolding Minds: Optimizing Latent Visual Target Representations for Multimodal Reasoning》这篇论文针对多模态大模型在潜变量推理领域的关键缺陷提出了系统性的解决方案。论文首先指出，现有的潜变量推理范式在 SFT 阶段依赖冻结的通用编码器，在 RL 阶段缺乏探索机制，这限制了模型处理复杂视觉推理任务的能力。为了解决这些问题，作者提出了 Scaffolding Minds 框架。该框架的技术主线围绕“可学习的脚手架”展开：在 SFT 阶段，通过引入可微调的脚手架编码器和交叉注意力机制，实现了潜变量目标的动态优化，使其更贴合下游推理任务；在 RL 阶段，通过构建随机采样机制，允许模型在潜变量空间进行“试错”和探索，从而发现更优的推理路径。实验主线涵盖了从合成的空间规划任务到多样化的真实视觉推理基准。结果显示，Scaffolding Minds 在 FrozenLake 任务中取得了高达 19% 的性能提升，并在 9 个通用视觉推理基准上稳健地超越了现有最强模型。消融实验进一步证实了优化目标表征与增强 RL 探索之间的协同效应。总的来说，这篇论文不仅在技术上实现了突破，更在方法论上为多模态推理提供了一个更具动态性和探索性的新范式，对于未来开发具备更强“思维能力”的视觉智能体具有重要的参考价值。**
+
+<!-- paperflow:5a8137ff8348b748 -->
+## Projector Is All You Train
+
+[[Deep Reading - Aug 2026/Projector Is All You Train|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19726](https://arxiv.org/pdf/2608.19726)
+
+- **该论文重新审视了多模态大语言模型（MLLM）的标准训练范式，提出一个根本性问题：为将语言模型适配到新模态，微调语言模型主干是否必要？作者在3D MLLM场景中，通过严格的对照实验回答该问题。实验设计保持编码器、主干、数据一致，仅改变训练策略（仅训练投影器 vs 联合微调投影器和主干），并在多个语言模型主干上重复验证。主要发现包括：（1）仅训练投影器即可达到与联合训练相当甚至更优的3D分类和描述性能，且大部分阈值下优于联合训练；（2）所有仅训练投影器的模型在性能上超越现有方法PointLLM；（3）联合训练导致语言模型原有能力（语言、视觉、空间推理）出现不良漂移，而仅训练投影器从定义上规避了该问题；（4）仅训练投影器的训练样本吞吐量约为联合训练的两倍，显著提升训练效率。作者进一步提出解释性假说，将投影器优化类比于提示工程——投影器输出相当于为冻结语言模型构造的“软提示”，从而无需调整主干即可实现模态适配。该工作表明，模态适配可以解耦为独立训练的投影器模块，同一冻结语言模型可作为多种模态编码器的共享主干，各投影器可独立并行训练。作者也指出工作局限于3D点云编码器，未来可扩展至更多模态及更复杂任务。论文的核心贡献是挑战了MLLM中“联合微调主干”的必要性，提供了一种更高效、更保护原有能力、且性能不妥协的训练范式。**
+
 # AI for Education
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, ai-for-science, generation, multimodal-learning, optimization, deep-learning
-- 论文/报告：5 篇
+- 方法：agent, ai-for-science, generation, optimization, multimodal-learning, deep-learning
+- 论文/报告：6 篇
 - Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning
 - M$^3$R-Bench: A Unified Benchmark for Evidence-Grounded Multimodal Metaphor Understanding
 - TeachMateGPT: A Multi-Agent Knowledge-Grounded Framework for Pedagogical Assessment Generation from Science Curriculum Materials
 - OmniHandwritingOCR: A Diagnostic Benchmark for Evaluating Multimodal LLMs in Handwritten OCR Scenarios
 - To Go Far, Go Together: Diverse Preferences Induce a Curriculum for Reward Optimization
+- Swift-Image: Exploring the Performance Frontier of Compact Unified Image Generation Models
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1754,13 +1957,36 @@ ChartProbe 的探针问题直接从渲染图表的代码生成。这种生成方
 
 - **论文针对AI对齐中一个被忽视的公平性问题：不同用户的奖励模型即使在准确学习后，其策略优化难度也可能差异悬殊，导致部分用户无法得到有效服务。作者首先论证，在多样化的用户群体中，奖励模型的优化难度天然构成一个从易到难的课程，因此可以将课程学习的思想引入多用户奖励优化。基于这一洞见，他们提出了CurriPO，一个自动构建树形课程的算法。CurriPO从初始策略出发，评估每个用户奖励模型的优化难度，通过分支和策略复用机制，在一次遍历中覆盖全部用户。与先前的课程学习不同，它不需要人工设计课程，也不需要预先假设任务间有明确的难易顺序，而是利用多用户偏好本身的结构。作者在模拟环境中的个性化连续控制任务上进行了系统实验，结果表明CurriPO的人口满意度比最强基线高出1.2~2.1倍，并大幅降低训练时间。消融实验表明，分支和复用机制都是性能的重要支撑；线性单路径课程（Chain）表现显著较差，而取消复用（No reuse）虽大部分场景接近，但仍无法完全达到完整方法的效果。作者进一步分析了“难以到达”的用户群体，证明其主要受益于分支结构，并排除了基线仅训练不足的可能性。论文的贡献包括：提出多用户优化公平性问题，揭示可优化性差异导致的未服务群体；论证多样化偏好自然诱导课程；提出CurriPO方法，包含自动树课程构建、分支和复用机制；在模拟控制任务上证明其有效性。局限性方面，工作仅在模拟环境验证，模型和方法细节在可获取材料中不够完整，真实偏好复杂度和可扩展性有待探索。总体而言，本文独特地将课程学习与多用户公平对齐结合，在概念和算法两个层面都提供了新见解，对该领域有较强的启发价值。**
 
+<!-- paperflow:878ffbc3c4aa70ae -->
+## Swift-Image: Exploring the Performance Frontier of Compact Unified Image Generation Models
+
+[[Deep Reading - Aug 2026/Swift-Image-Exploring the Performance Frontier of Compact Unified Image Generation Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.20334](https://arxiv.org/pdf/2608.20334)
+
+- **Swift-Image 是一篇以‘系统化训练工程’为核心思想，探索紧凑统一图像生成模型性能前沿的论文。论文直接挑战了‘更大模型必然更好’的常规思维，展示了在 6B 参数和 243K GPU 训练小时的约束下，通过精心设计的训练流程可以达到开源模型中的领先水平。
+
+论文的论证主线可总结为：模型能力不仅依赖架构和数据规模，更依赖‘如何训练’的工程策略。作者提出的流水线包含五个关键环节：
+
+1. 架构选择：采用 6B 单流 DiT，为多任务统一提供简洁骨架。
+2. 能力渐进式训练：通过课程学习先学广泛语义，再逐步提高分辨率和视觉质量，最后加入统一的生成-编辑监督，从而在受限预算下高效培养多面能力。
+3. 并行专家强化学习：针对生成与编辑目标冲突，分别训练专家 RL 再进行整合，显著提升编辑基准，体现了任务解耦的思想。
+4. 多教师 on-policy 蒸馏：将多个教师模型的知识融合进单一学生，进一步增强多任务一致性。
+5. Prompt Enhancer：把用户的高层意图转化为生成器友好的视觉规格，解耦推理与渲染，并在实验中证明其有效。
+
+在部署方面，论文利用结构化剪枝和知识蒸馏得到几乎无损失的 3B 模型，再用分布匹配蒸馏实现少步采样；后者意外地在编辑任务上带来性能提升。
+
+实验主线覆盖文生图（Qwen-Image-Bench 和内部 Pi-ExpertVerse）和图像编辑（单图与多图），其中单图编辑总分 4.24 为开源最佳。论文还提供了消融和组件分析，说明每个模块的贡献。
+
+整体而言，Swift-Image 的贡献不仅在于新模型，更在于整理出一套可复用的训练工程经验，对资源有限的研究团队和追求高效推理的工业应用具有参考价值。**
+
 # AI for Science
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
 - 方法：agent, ai-for-science, science-discovery, gui-agent, stat-ml, bioinformatics, stat-me
-- 论文/报告：7 篇
+- 论文/报告：8 篇
 - EviGraph: Evidence-Guided Autonomous Research Agents
 - Fisher-R1: Training LLM Agents for Reliable Hypothesis Testing
 - Idea Search: Guiding Tree Search with Ideas to Explore Diverse Scientific Methods
@@ -1768,6 +1994,7 @@ ChartProbe 的探针问题直接从渲染图表的代码生成。这种生成方
 - Ten simple rules for non-visual, reproducible and accessible bioinformatics
 - The Past and Future of AI Scientists
 - Eureka: Task-Conditioned Meta-Agent Orchestration for Scientific Discovery
+- SWE-bench Science: Can Coding Agents Resolve Engineering Tasks in Science?
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1856,18 +2083,30 @@ Idea Search 的核心组件是“思想库（Idea Bank）”。该框架首先�
 
 - **论文提出 Eureka，一种任务条件化的 Meta-Agent 架构，目标是为科学发现、开放数学猜想等长周期任务提供动态、可验证的 Agent 编排范式。核心动机是：固定架构 Agent 需要同时承担任务分解、状态维护、验证、工具使用和长期适应，这在异构任务和不确定性下导致架构不匹配和编排开销。Eureka 的方法包括：将任务编译为动态义务图（带接受语义）；在执行中通过 receding-horizon 规划、架构晋升和最小充分架构编译形成 Macro-Agent；当瓶颈出现时用成本收益门控的受控演化更新局部架构。理论部分建立了多组形式化结果，覆盖固定架构遗憾、规划失效、晋升和演化摊销、信息充分子树接口、并发可串行化和组合验证正确性，为动态架构提供了理论依据。实验部分包含四个量化指标（任务成功率、上下文压缩、增量计算节省、并发一致性）和端到端科学发现评估。主要结果：170/170 递归任务完成，3,948 个接受证书，0 未认证接受或假终止；活动上下文使模型输入 token 中位数从 9,490 降至 4,005；依赖更新任务中 65.38% 重复计算被避免；16,000 并发执行全部与串行执行一致。更重要的是，同一 Meta-Agent 在两种认知结构下形成不同专用 Agent，并产生结构性科学结果（量子过程和时空理论），且架构分化不破坏统一验证基础设施。论文的贡献在于提出一种“元”层架构，将架构形成、执行和演化的全过程形式化，并以统一的验证框架支撑不同科学任务。但由于摘要截断，论文中理论证明细节、两个科学任务的具体发现、以及与现有方法的基线对比均未在可用证据中呈现，需要阅读全文进行评估。**
 
+<!-- paperflow:babbb5059e04cd52 -->
+## SWE-bench Science: Can Coding Agents Resolve Engineering Tasks in Science?
+
+[[Deep Reading - Aug 2026/SWE-bench Science-Can Coding Agents Resolve Engineering Tasks in Science|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19799](https://arxiv.org/pdf/2608.19799)
+
+- **本文针对科学软件工程这一关键但被忽视的领域，提出了 SWE-bench Science 基准测试。研究者意识到，科学软件的正确性直接关系到科学结论的可靠性，因此对编程智能体提出了更高的要求。该基准测试包含 119 个任务，覆盖 20 个领域，通过问题驱动、专家探索和工程集成三种模式全面考察智能体。实验结果表明，当前最先进的模型在处理此类任务时仍显吃力，成功率不足半数。通过深入的失败分析，本文揭示了智能体在科学抽象、系统集成和知识泛化方面的短板。特别值得注意的是，论文通过消融实验发现，单纯增加科学背景知识若缺乏精准的对齐，反而可能误导智能体。这一发现为未来开发更智能、更可靠的科学编程助手提供了重要的理论依据和实验支撑。总体而言，SWE-bench Science 不仅是一个测试集，更是对 AI for Science 领域中“软件即仪器”这一范式的深度反思。**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：agent, reasoning, reinforcement-learning, deep-learning
-- 论文/报告：5 篇
+- 方法：agent, reasoning, reinforcement-learning, optimization, deep-learning
+- 论文/报告：8 篇
 - OPD-V: Visual On-Policy Self-Distillation with Modality Balance
 - AgentOPSD: Recursive Self-Distillation for Agentic Reinforcement Learning
 - ML-for-ML
 - Simple-OPD: Demystifying Warm-up for On-policy Distillation
 - Trajectory-Relative Hindsight Distillation for Agentic Reinforcement Learning
+- Learning Hierarchical Skill Policies with Offline Quality-Diversity Reinforcement Learning
+- Towards Quantifying Benchmark Optimization in ASR Models
+- Evidence Before Expansion: Reuse, Spawn, or Defer in Lifelong Expert Pools
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1931,3 +2170,42 @@ Idea Search 的核心组件是“思想库（Idea Bank）”。该框架首先�
 [https://arxiv.org/pdf/2608.07371](https://arxiv.org/pdf/2608.07371)
 
 - **本文提出了 TRIAL（Trajectory-Relative Hindsight Distillation），一种用于智能体强化学习的事后蒸馏框架。论文的出发点是：现有的智能体 RL 方法（如 GRPO）使用结果奖励，但多回合 rollout 中事后信号丰富且分配不明确。TRIAL 设计了统一的回合对齐评分协议，对每个决策回合提取结果视图，并在普通和事后条件下评估同一响应，利用有符号对数概率差提供 token 级方向和强度，并在轨迹上联合归一化回合级幅度，使分配乘数的合格 token 加权均值为 1。这种方法既保留了密集事后监督的优势，又通过轨迹相对的归一化实现了更合理的信用分配。训练时使用事后视角，部署时保留普通策略，无额外推理成本。实验在 WebShop 和 ALFWorld 上用两种骨干网络进行，TRIAL 在所有八种组合下优于 GRPO，并在六种组合下达到最佳或并列最佳；在 WebShop 上使用 Qwen3-1.7B 时，成功率和任务分数分别从 56.4% 提升到 75.2% 和从 78.7% 提升到 85.7%。消融实验证明了轨迹相对回合分配的额外增益。总体而言，TRIAL 提供了一种新颖的、可训练部署分离的事后奖励分配机制，为 agentic RL 中的密集监督提供了新的设计视角。**
+
+<!-- paperflow:0d7b2be84f513de1 -->
+## Learning Hierarchical Skill Policies with Offline Quality-Diversity Reinforcement Learning
+
+[[Deep Reading - Aug 2026/Learning Hierarchical Skill Policies with Offline Quality-Diversity Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19684](https://arxiv.org/pdf/2608.19684)
+
+- **这篇论文关注的是离线到在线强化学习中的层级技能策略学习问题。传统两阶段方案先离线提取低层技能，再在线训练高层策略；其中低层技能通常由轨迹 VAE 等无监督模型从离线数据中学习。QDOS 针对该范式的核心缺陷展开：无监督技能提取对数据质量敏感，一旦离线数据中混有大量次优或无关行为，技能空间就会受到污染，后续高层策略也难以学到好行为。
+为解决此问题，论文提出 QDOS 统一框架。其关键技术包括：一是 Advantage-Weighted Quality-Diversity 预训练目标，在技能提取和多样性目标中引入每个轨迹片段的估计优势作为权重，使模型优先从高价值片段学习，同时保持行为多样性；二是双数据集复用策略，让离线数据既参与技能预训练，又通过伪标签填充在线回放缓冲区，使在线阶段从一开始就能利用丰富的离线经验做 off-policy 学习。整体架构上，QDOS 形成“低层多样化技能 + 高层任务决策”的层级策略，利用时间抽象降低任务视野长度，缓解稀疏奖励下的长视野规划困难。
+实验方面，论文在四个挑战性稀疏奖励领域评估 QDOS，包括 antmaze（四足蚂蚁迷宫导航）、antsoccer、kitchen（厨房操作）和 humanoidmaze（人形迷宫运动）。这些任务覆盖结构化操作和非结构化运动两类场景，具备长视野规划和精确控制需求。结果表明 QDOS 显著优于强基线，尤其是以 SUPE 为代表的基于轨迹技能但不做优势加权的方法，能够加速探索并提高最终回报。
+总体来看，QDOS 的贡献是把 Quality-Diversity 思想从静态离线发现扩展到 offline-to-online 训练，并通过优势加权解决了“数据质量参差时该学什么技能”的关键问题。论文的实践意义在于：即使离线数据集不是精心筛选的高质量数据，也能自动提取多样且高价值的技能，从而提升后续在线学习的效率。
+需要指出的是，由于本次检索到的 PDF 语义片段主要覆盖摘要、引言、结论和部分方法/实验设置，未包含完整实验数值表格、学习曲线、消融结果和超参数分析，因此上述总结中的定量结论主要转述论文自我报告，细节需...**
+
+<!-- paperflow:cee1fbd123e90b53 -->
+## Towards Quantifying Benchmark Optimization in ASR Models
+
+[[Deep Reading - Aug 2026/Towards Quantifying Benchmark Optimization in ASR Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19936](https://arxiv.org/pdf/2608.19936)
+
+- **这篇论文深入探讨了 ASR 模型中一个被长期忽视的问题：基准测试优化（Benchmark Optimization）。作者认为，当前 ASR 模型在公共数据集上的优异表现，部分归功于模型学习到了基准测试的特定模式，而非真正的语音理解能力。为了证明这一点，研究团队设计了三类巧妙的行为探测实验：首先是“参考文本不一致”探测，利用基准测试中的转录错误，发现高性能模型往往会“顺从”错误而非纠正它；其次是“掩码数字恢复”，证明模型在缺乏音频证据时仍能精准预测参考文本；最后是“正字法切换”，展示模型如何根据环境调整拼写习惯。研究进一步揭示，这种行为是由特定的声学线索（如说话人音色）触发的，并且可以通过线性引导等手段进行因果干预。论文最后呼吁科研界重新审视现有的评估范式，警惕那些“高分低能”的基准优化模型，并提倡开发更具泛化性和忠实度的 ASR 系统。这不仅是对 ASR 领域的一次警示，也为大模型时代的评估可信度提供了重要的理论和实验支撑。**
+
+<!-- paperflow:e39149dbe6a35ff9 -->
+## Evidence Before Expansion: Reuse, Spawn, or Defer in Lifelong Expert Pools
+
+[[Deep Reading - Aug 2026/Evidence Before Expansion-Reuse, Spawn, or Defer in Lifelong Expert Pools|Deep Reading]]
+
+[https://arxiv.org/pdf/2608.19888](https://arxiv.org/pdf/2608.19888)
+
+- **这篇论文研究终身学习系统中专家池的在线管理问题，核心目标是让系统在每个新批次做出可靠的三选一决策：复用现有专家（reuse）、新建专家（spawn）、或暂不决定（defer）。论文的核心论断是：不确定性不应被当作必须立即消除的麻烦，而应被形式化为一个有统计意义的动作。作者构建了一个完整的决策层，包含三个层面：
+
+**论证主线**：现有方法（如SEMA、DDM、ADWIN、CAT等）都是“一轴”决策——要么只看输入新颖性，要么只看损失跳变，因此无法同时区分“输入分布变化”与“条件分布变化”。更关键的是，它们都缺乏“等待”这一动作。本文从统计决策理论出发，将reuse/spawn转化为两个单边序贯假设检验，并用无差别区[τ,3τ]定义了defer区域：当两个检验的证据均不充分时，系统应继续收集数据。这使“等待”成为一种有严格概率语义的行为，而非启发式。
+
+**技术主线**：为了在逐点数据上累积证据，作者提出使用赌e-process（betting e-process）。每个专家维护一个基于逐点损失差增量的e-process，增量由可预测判别器（在数据点到达前冻结）打分。理论上，作者证明了该过程对可观测替代散度具有有限时间anytime有效性，并给出了向总体量的无条件单边转移，其中松弛量由判别器的超额风险控制。由于单个无窗口过程在概念切换后误复用率高达0.5，作者进一步设计了“重启e-detector”：一组无窗口超鞅以几何间隔重启，从而在终身anytime有效性内提供有界记忆recency。系统层面，通过近期损失界对专家进行shortlist，控制判别器调用成本。
+
+**实验主线**：评测覆盖多个基准策略（single、spawn-always、input-novelty、loss-jump、exchange score、CPD-family gate、CJSD gate）和多条流（四状态合成流、重发性合成流、Electricity真实流）。关键结果包括：
+- 在重发性流上，CJSD门控仅需13个专家，而其他方法需要18–52个，说明正确识别重发概念可显著降低池膨胀。
+-...**
