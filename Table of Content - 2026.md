@@ -14,3 +14,5 @@
 [[Daily Note - Jul 2026]]
 # Daily Note - Aug 2026
 [[Daily Note - Aug 2026]]
+# Daily Note - Sept 2026
+[[Daily Note - Sept 2026]]
