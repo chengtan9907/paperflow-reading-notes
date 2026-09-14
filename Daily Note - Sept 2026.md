@@ -231,8 +231,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：language, audio
-- 论文/报告：7 篇
+- 方法：generation, language, audio
+- 论文/报告：9 篇
 - Do Large Language Models Capture the Diversity in their Training Data?
 - From Rollouts to Recipes: Self-Contained Post-Training for LLMs
 - StudentSim: Training LLM-based Student Simulators
@@ -240,6 +240,7 @@
 - SLATE: Are AI-Generated Slides Educationally Effective? A Benchmark for Language Teaching Quality and Learner Knowledge Acquisition
 - From Citations to Contributions: LLM-Assisted Credit Scoring of Research Articles
 - Qwen-Audio-3.0-ASR Technical Report
+- Beyond Generation and Accuracy: Diagnosing and Enhancing Visual Chain-of-Thought for Geometry Problem Solving
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -326,13 +327,37 @@
 
 总的来说，Qwen-Audio-3.0-ASR 不仅是一个强大的学术模型，更是一个高度成熟的工业级解决方案，为语音识别技术从“听见”到“听懂”并“精准表达”的跨越提供了重要参考。**
 
+<!-- paperflow:bacd2916c3fcd494 -->
+## Beyond Generation and Accuracy: Diagnosing and Enhancing Visual Chain-of-Thought for Geometry Problem Solving
+
+[[Deep Reading - Sept 2026/Beyond Generation and Accuracy-Diagnosing and Enhancing Visual Chain-of-Thought for Geometry Pro|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12606](https://arxiv.org/pdf/2609.12606)
+
+- **本文针对多模态大模型在解决复杂几何问题时的局限性，提出了一套完整的诊断与增强方案。研究的核心在于揭示并缩小“自主性鸿沟”，即模型在自主生成视觉辅助线并利用其进行推理时的能力缺陷。
+
+首先，作者构建了 **GeoVAD-Bench**，这是首个针对视觉思维链（VCoT）轨迹进行细粒度诊断的基准。它不只关注最终答案，而是通过感知、辅助质量、利用率、演绎推理和正确性五个维度，配合 No-Aux/Auto-Aux/GT-Aux 三种干预模式，精准定位模型在哪个环节“掉链子”。诊断结果显示，模型普遍存在感知不准、画线不忠实以及视觉信息利用率低的问题。
+
+针对这些问题，作者开发了 **GeoWeave-8B** 模型。该模型的成功归功于两点：一是**高质量的数据管线**，通过合成和增强手段，产生了大量包含几何感知、图形编辑指令和交织推理过程的训练数据；二是**渐进式训练框架**，特别是引入了多模态强化学习（RL），将诊断维度的表现作为奖励，迫使模型在推理过程中真正“看图说话”。
+
+实验结果令人振奋：GeoWeave-8B 在几何准确率上实现了 25.3% 的大幅提升，并且在过程诊断指标上全面超越了同类模型。更重要的是，该研究证明了通过细粒度的过程干预和针对性训练，可以显著增强大模型在高度专业化领域的逻辑推理能力。这为未来开发更智能的 AI 教育助手或科学发现工具提供了重要的理论依据和技术路径。**
+
+<!-- paperflow:0435b0b0cea65b0c -->
+## SteerDuplex: Steerable Duplex Speech Dialogue Models
+
+[[Deep Reading - Sept 2026/SteerDuplex-Steerable Duplex Speech Dialogue Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12623](https://arxiv.org/pdf/2609.12623)
+
+- **本文针对全双工语音对话模型在可控性方面的缺失，系统性地提出了解决方案。作者首先定义了语音可控性的分类体系，并构建了 STEERBENCH 基准用于定量评估。通过在 Moshi 模型基础上进行大规模 SFT 和创新的两阶段混合奖励 RL，STEERDUPLEX 模型在语气、人格、语速等维度的控制力上取得了突破性进展，显著优于现有开源模型。实验不仅证明了方法的有效性，还深入探讨了全双工交互中特有的“时机-内容”权衡问题，指出了未来优化方向。该研究为构建更自然、更具表现力的人机语音交互系统奠定了重要基础。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
 - 方法：agent, generation, reasoning, multimodal-reasoning, gui-agent, stat-ml, stat-me
-- 论文/报告：12 篇
+- 论文/报告：15 篇
 - InSight: A Benchmark for Agentic Claim Verification in Interactive Visualizations
 - PaperCompiler: Faithful Paper-to-Code Generation via Repository-Level Specification Compilation
 - Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives
@@ -516,18 +541,74 @@ xDailyBench 是一篇基准构建型论文：它主张现有 LLM benchmark 与�
 3. 实验主线
 实验在 ALFWorld 与 SkillsBench 两个基准上展开。第一条实验线是反事实暴露比较，观察不同接口对任务成功率与渲染上下文成本的影响；第二条实验线是比较“把整个技能库全部注入”与“紧凑的 top-k 暴露”；第三条实验线是在 ALFWorld 上用 replay 数据训练暴露选择策略，并与 oracle 比较。评价指标同时包含任务成功率与渲染上下文成本，体现作者把成本视为一等公民。...**
 
+<!-- paperflow:a6d697b6f377c20b -->
+## One Skill Does Not Fit All: Automatic Discovery and Taxonomy-Guided Routing of Frame-Selection Skills for Long-Video Question Answering
+
+[[Deep Reading - Sept 2026/One Skill Does Not Fit All-Automatic Discovery and Taxonomy-Guided Routing of Frame-Selection Sk|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12517](https://arxiv.org/pdf/2609.12517)
+
+- **1. 论文要解决的问题：长视频问答（LVQA）需要在小时级视频上、在有限视觉 token 预算内定位决定性证据。穷举帧不可行，因此帧选择实际上是推理管线中的「证据获取策略」。现有免训练方法普遍对所有问题使用同一个帧选择策略，但论文的分析显示，帧选择策略的相对有效性会随语义类别（semantic category）与 benchmark 变化：不同问题所需证据可能只是短暂出现、可能跨远距离片段反复出现、也可能依赖事件的整体演化，这三类需求对采样密度与时间覆盖的要求互相冲突。因此「一个技能适配所有问题」的假设不成立，需要按问题自适应的证据获取。
+
+2. 二阶挑战：即便承认需要自适应，实践上也有约束——最强固定技能只能靠标注识别，而目标 benchmark 上通常既没有答案标注，也不应使用目标视频。因此论文的目标是：在不接触目标视频与目标答案、不更新任何模型权重的条件下，为每道目标问题选择一个合适的帧选择策略。
+
+3. 方法主线（AutoSkill，三阶段 + 推理）：
+ - Stage 1，自动技能发现：从一个小的带标注源池出发，LLM agent 迭代地提出、实现、评估、精炼可执行的帧选择技能，最终形成一个紧凑的、彼此互补的技能工具箱。反馈来自技能实际执行的结果，而非离线先验。
+ - Stage 2，目标域适配：仅使用目标 benchmark 的无标注问题与选项文本，诱导一个源域与目标域共享的语义分类法；同时把标注源样例重写成目标 benchmark 的查询风格，保留原有的视频 grounding 与答案标签。这一阶段完全不使用目标视频与目标答案。
+ - Stage 3，类别到技能的映射：在重写后的源样例上估计「语义类别 → 技能效用」的映射，并把技能的执行历史蒸馏为可复用的路由依据。
+ - 推理：每道题先归类，再分配一个技能；该技能选出帧，帧只进入冻结视频 MLLM 的一次推理，不做多轮重选。
+
+4. 实验主线：在五个长视频 benchmark split 上评测，答题器为冻结的 Qwen2.5-VL-7B 与 Qwen3.5-4B，对比对象为固定技能的免训练基线。结果...**
+
+<!-- paperflow:25d2e5427b3c2aa0 -->
+## Online Video Agent Harness for Long Video Understanding
+
+[[Deep Reading - Sept 2026/Online Video Agent Harness for Long Video Understanding|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12818](https://arxiv.org/pdf/2609.12818)
+
+- **## 一、论文要解决的问题与论证主线
+
+论文从长视频理解的一个结构性困难出发：与 query 相关的证据在时间轴上稀疏分布，类似“视觉大海捞针”；而主流的两条应对路线各有硬伤。第一条是密集帧打包——把大量帧塞进单个 VLM 上下文，摘要明确指出这会带来 context rot 与高成本。第二条是已有视频 agent 普遍采用的 query-agnostic 离线预处理与临时拼凑的工具集，摘要指出这既可能错过 query 特有的细节，也浪费计算。Introduction 片段进一步把“统一降采样”的两点缺陷写清：可能错过关键证据帧，同时引入大量无关帧。
+
+论证主线因此是：如果证据获取可以在推理时依据 query 动态进行，就不必在不知道 query 的情况下预先决定保留哪些内容；如果感知能力由专门的工具承担，编排器就不必是强视觉模型，上下文也就不必承载全部像素级信息。摘要给出的最终结论是：长视频理解能力可以由“渐进式 agentic 证据搜寻”涌现，而不必来自把整段视频放进单一上下文。**
+
+<!-- paperflow:4b06d0073bc1a474 -->
+## LifeMem: Enabling Lifelong Experience Reuse for LLM Agents
+
+[[Deep Reading - Sept 2026/LifeMem-Enabling Lifelong Experience Reuse for LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12655](https://arxiv.org/pdf/2609.12655)
+
+- **一、论文要解决的论证主线
+
+论文以“LLM Agent 应该在一生中持续适应”为价值前提。作者指出，现有 memory-based Agent 在两点上失效：一是难以把可复用经验迁移到新环境；二是经验累积后出现灾难性遗忘。进一步，论文在 Introduction 中给出了一个更具体的失败机制：如果直接在无组织的记忆池上蒸馏高层技能，不相关轨迹会把跨环境噪声带进技能，得到的技能既粗糙又不具代表性，无法指导新任务，反而造成性能下降（Figure 1）。因此论文主张的不是“要不要记忆”，而是“记忆必须先结构化再抽象”。LifeMem 就是针对这一诊断提出的框架。
+
+二、技术主线
+
+LifeMem 把 Agent 记忆建模为一个动态组件：初始化一次，随新经验增量更新，推理时被查询（Method 片段）。它分为两个阶段：
+- 学习阶段：Agent 在各环境中执行任务并累积交互轨迹，框架依据轨迹背后的底层工作流（underlying workflows）做聚类，再从每个结构化簇中抽取可复用技能，形成结构化技能记忆；而不是在混杂池上直接蒸馏。
+- 推理阶段：面对新任务，Agent 召回相关技能与相关轨迹（前者提供高层流程指导，后者提供具体示例），用于引导动作选择。
+论文强调这一设计能实现“无动作空间干扰”的经验复用（Introduction 片段），即跨环境迁移不会因为动作空间、工具集合、观测格式不同而失效。此外，分析部分显示在记忆内对结构相似的轨迹做巩固（合并）能进一步提升性能，暗示记忆的信噪比与规模控制是收益来源之一。
+
+三、实验主线
+
+作者在 10 个环境、13k+ 任务上验证方法，覆盖 5 个广泛使用的 Agent 场景家族（Introduction 片段列举了 embodied action、tool utilization、web 等方向），并额外新标注 2k 条交互轨迹，连同数据集与代码开源于 https://github.com/BITHLP/LifeMem。评测围绕两个目标展开：在已学任务上是否减少遗忘，以及在新任务/新环境上是否获得更好的跨任务迁移。进一步分析给出...**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：generation, reasoning, vision, multimodal-reasoning, stat-ml, stat-me
-- 论文/报告：5 篇
+- 论文/报告：7 篇
 - Blending Concepts: Benchmarking Visual Metaphor Generation in Text-to-Image Models
 - Thinking in Pictures: A Systematic Benchmark for Reasoning-driven Image Generation
 - VidaForge: Open Research Infrastructure for Video Pretraining Data Recipes
 - VoT: Vision-of-Thought for Unified Multimodal Representation Alignment
 - Reason Through the Latent! Making Latent Visual Reasoning Necessary
+- VideoTok4D: A 4D-Aware Video Tokenizer for Compact World Representation
+- ProactiveBench: Can Streaming Video Models Really Interact Like Humans?
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -592,16 +673,35 @@ xDailyBench 是一篇基准构建型论文：它主张现有 LLM benchmark 与�
 **实验主线**：
 在 $V^*$、MMVP 等多个极具挑战性的视觉基准上，CVRR 展示了其在受限接口下的鲁棒性。实验不仅关注准确率，还深入探讨了循环深度、信息瓶颈以及模型对视觉证据的敏感度。总的来说，这项工作为多模态大模型的隐式推理提供了新的范式，强调了“因果必要性”在构建可靠 AI 系统中的重要性。**
 
+<!-- paperflow:c3de79a9ba280411 -->
+## VideoTok4D: A 4D-Aware Video Tokenizer for Compact World Representation
+
+[[Deep Reading - Sept 2026/VideoTok4D-A 4D-Aware Video Tokenizer for Compact World Representation|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12874](https://arxiv.org/pdf/2609.12874)
+
+- **本文提出了 VIDEOTok4D，这是一种旨在解决视频建模中“以观测为中心”偏差的创新 4D 感知视频 Tokenizer。作者指出，传统的视频 Tokenizer 将视频视为 2D 图像序列，忽略了其背后的 3D 物理世界，导致在处理动态新视角合成和高效存储时存在局限。VIDEOTok4D 的核心贡献在于其时空解耦架构，通过空间分支提取静态背景 Token，通过时间分支提取动态物体 Token。为了解决动态场景中的视角一致性问题，引入了轨迹感知动态注意力机制，利用运动轨迹对齐特征，补偿相机运动带来的干扰。此外，作者在这一紧凑的 Token 空间上构建了 Co4DGEN 扩散模型，实现了高效的 4D 场景生成。实验结果令人印象深刻：在动态新视角合成任务中，VIDEOTok4D 不仅达到了 SOTA 水平，还将存储开销从数百 MB 降低到了 KB 级别（压缩比提升 4 个数量级）。这一工作为构建高效、具备物理常识的 4D 世界模型奠定了基础，展示了从 2D 像素建模向 4D 场景建模转变的巨大潜力。**
+
+<!-- paperflow:b9f62cec8c1a1147 -->
+## ProactiveBench: Can Streaming Video Models Really Interact Like Humans?
+
+[[Deep Reading - Sept 2026/ProactiveBench-Can Streaming Video Models Really Interact Like Humans|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12658](https://arxiv.org/pdf/2609.12658)
+
+- **本文提出了 ProactiveBench，这是一个旨在填补流式视频理解中“主动交互”评估空白的基准测试。研究的核心逻辑在于：真正的智能体不应只是被动地回答问题，而应学会在流式环境中自主决策响应时机。论文通过设计六个维度的子任务，系统地考察了模型在处理常驻请求时的响应精度、沉默质量以及对重复信息的抑制能力。实验结果揭示了一个重要的技术现状：当前的多模态模型普遍存在“早发响应”的缺陷，即在证据不足时过度触发，这反映了模型在时间因果性和决策耐心方面的不足。ProactiveBench 为未来开发更具类人交互特征的流式 AI 助手提供了标准化的评测框架和数据支持，强调了时间决策在多模态智能体研究中的核心地位。**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：vision
-- 论文/报告：3 篇
+- 方法：vision, reinforcement-learning, deep-learning
+- 论文/报告：4 篇
 - Verify Before You Distill: Prompt-Level Teacher Gating for On-Policy Distillation
 - You Are What You Read: Misalignment via In-Context Persona Induction
 - DataFlex-RL: An Evaluation Platform for RLVR Data Policies
+- EvoRS: On-Policy Self-Evolution of Reward Systems for Open-Ended Reinforcement Learning
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -651,6 +751,15 @@ DataFlex-RL 的论证起点是一个方法论质疑：RLVR 领域近年来提出
 三、实验主线与关键数字
 1. 均匀采样 GRPO 相对未训练 checkpoint 提升 7.76 个百分点——说明训练 headroom 充足，负结果不是“学不动”导致的假阴性。
 2. 8 种 rollout 选择/重加权方法中，没有任何一个相对均匀采样的配对 95% 置...**
+
+<!-- paperflow:b8449b8936b7dbf2 -->
+## EvoRS: On-Policy Self-Evolution of Reward Systems for Open-Ended Reinforcement Learning
+
+[[Deep Reading - Sept 2026/EvoRS-On-Policy Self-Evolution of Reward Systems for Open-Ended Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.12459](https://arxiv.org/pdf/2609.12459)
+
+- **本文提出了 EvoRS 框架，旨在解决开放式强化学习中静态奖励系统失效的顽疾。作者指出，策略与奖励之间存在一种“猫鼠游戏”：策略总是在寻找奖励函数的漏洞。为了应对这一挑战，EvoRS 将奖励系统定义为可动态演进的 Reward-DAG，并利用智能体设计器根据策略的实时表现进行在线诊断和结构优化。实验结果令人振奋，EvoRS 不仅在写作和角色扮演任务中显著提升了模型生成的最终质量，更重要的是，它展示了一种能够自我修正、自我进化的评价范式。这种范式有效地缓解了奖励作弊问题，并在策略提升的过程中始终保持了奖励信号的有效性和区分度。该研究为构建长期的、开放式的自主学习系统提供了重要的技术支撑，证明了“评价的进化”与“能力的进化”同等重要。**
 
 # AI for Education
 
