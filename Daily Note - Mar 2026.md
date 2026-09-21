@@ -7,7 +7,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Daily Note - Mar 2026
-- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, optimization
 - 论文/报告：27 篇
 - Reason to Contrast: A Cascaded Multimodal Retrieval Framework【Retrieval, Meta】
 - Keyword search is all you need: Achieving RAG-Level Performance without vector databases using agentic tool use【Retrieval, Amazon】
@@ -587,7 +587,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-March-2026-317e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Generation
-- 方法：agent, generation, language, reasoning, optimization, multimodal-reasoning, gui-agent, cross-modal
+- 方法：agent, generation, language, reasoning, optimization, multimodal-reasoning, cross-modal, gui-agent
 - 论文/报告：18 篇
 - Helios: Real Real-Time Long Video Generation Model【ByteDance】
 - InfinityStory: Unlimited Video Generation with World Consistency and Character-Aware Shot Transitions【Adobe】

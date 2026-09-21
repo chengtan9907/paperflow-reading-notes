@@ -111,7 +111,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-April-2026-337e8c0e89c58
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Reasoning
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, retrieval
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
 - 论文/报告：26 篇
 - AutoGraph-R1: End-to-End Reinforcement Learning for Knowledge Graph Construction【Microsoft】
 - Therefore I am. I Think

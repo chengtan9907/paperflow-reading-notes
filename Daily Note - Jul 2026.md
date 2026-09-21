@@ -2711,7 +2711,7 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：agent, generation, reinforcement-learning, optimization, deep-learning
+- 方法：agent, generation, reinforcement-learning, optimization, audio, deep-learning
 - 论文/报告：7 篇
 - Denser $\neq$ Better: Limits of On-Policy Self-Distillation for Continual Post-Training
 - The Optimal Sample Complexity of Learning Autoregressive Chain-of-Thought

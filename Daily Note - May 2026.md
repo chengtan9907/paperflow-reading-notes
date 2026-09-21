@@ -483,7 +483,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-May-2026-358e8c0e89c580e
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Data
-- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, multimodal-learning, multimodal-reasoning
+- 方法：generation, language, vision-language-model, reasoning, vision, multimodal-learning, retrieval, multimodal-reasoning
 - 论文/报告：15 篇
 - S^3-R1: Learning to Retrieve and Answer Step-by-Step with Synthetic Data【Google DeepMind】
 - ⭐Diagnosing Capability Gaps in Fine-Tuning Data【Microsoft】

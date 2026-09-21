@@ -1115,7 +1115,7 @@ source: https://luminous-mat-781.notion.site/Daily-Note-January-2026-2dee8c0e89c
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science
-- 方法：agent, language, bio-molecular, cross-modal, bioinformatics, protein-language-model
+- 方法：agent, language, bio-molecular, cross-modal, protein-language-model, bioinformatics
 - 论文/报告：7 篇
 - SeedFold: Scaling Biomolecular Structure Prediction【ByteDance Seed】
 - SeedProteo: Accurate De Novo All-Atom Design of Protein Binders【ByteDance Seed】

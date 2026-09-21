@@ -3,7 +3,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：On-Policy Distillation & Post-Training
-- 方法：reasoning, vision, reinforcement-learning, retrieval, multimodal-learning, multimodal-reasoning, deep-learning
+- 方法：reasoning, vision, reinforcement-learning, multimodal-learning, retrieval, multimodal-reasoning, deep-learning
 - 论文/报告：12 篇
 - Dense Supervision, Sparse Updates: On the Sparsity and Geometry of On-Policy Distillation
 - Learning to Reason by Analogy via Retrieval-Augmented Reinforcement Fine-Tuning
@@ -424,7 +424,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：World Models, Generation & Audio
-- 方法：agent, generation, gui-agent, stat-ml, stat-me
+- 方法：agent, generation, audio, gui-agent, stat-ml, stat-me
 - 论文/报告：7 篇
 - dots.tts Technical Report【RedNote】
 - MetaWorld: Scaling Multi-Agent Video World Model from Single-view Video Data【World Model】
@@ -626,7 +626,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Skills, Harness & Tooling
-- 方法：agent, generation, language, vision-language-model, vision, reinforcement-learning, retrieval, optimization
+- 方法：agent, generation, language, vision-language-model, vision, reinforcement-learning, optimization, multimodal-learning
 - 论文/报告：25 篇
 - 🤔EvoTrainer: Co-Evolving LLM Policies and Training Harnesses for Autonomous Agentic Reinforcement Learning【Research, Tongyi】
 - AutoLab: Can Frontier Models Solve Long-Horizon Auto Research and Engineering Tasks?【Research】
@@ -2293,7 +2293,7 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval, optimization
+- 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, optimization, multimodal-learning
 - 论文/报告：27 篇
 - Text-Vision Co-Instructed Image Editing
 - Timage: A Generative Text-in-Image Paradigm for Fine-Tuning Vision-Language Models
