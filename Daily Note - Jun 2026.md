@@ -3,7 +3,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：On-Policy Distillation & Post-Training
-- 方法：reasoning, vision, reinforcement-learning, multimodal-learning, retrieval, multimodal-reasoning, deep-learning
+- 方法：reasoning, vision, reinforcement-learning, retrieval, multimodal-learning, multimodal-reasoning, deep-learning
 - 论文/报告：12 篇
 - Dense Supervision, Sparse Updates: On the Sparsity and Geometry of On-Policy Distillation
 - Learning to Reason by Analogy via Retrieval-Augmented Reinforcement Fine-Tuning
@@ -626,7 +626,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Agent Skills, Harness & Tooling
-- 方法：agent, generation, language, vision-language-model, vision, reinforcement-learning, optimization, multimodal-learning
+- 方法：agent, generation, language, vision-language-model, vision, reinforcement-learning, retrieval, optimization
 - 论文/报告：25 篇
 - 🤔EvoTrainer: Co-Evolving LLM Policies and Training Harnesses for Autonomous Agentic Reinforcement Learning【Research, Tongyi】
 - AutoLab: Can Frontier Models Solve Long-Horizon Auto Research and Engineering Tasks?【Research】
@@ -1128,7 +1128,7 @@ PAT 的核心在于“推理缩放”。科学论文的验证需要极高的逻�
 ## PaperFlow Summary
 - 概念：Language Models
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
-- 论文/报告：45 篇
+- 论文/报告：46 篇
 - Exploring Extrinsic and Intrinsic Properties for Effective Reasoning with Code Interpreter
 - Revisiting the Systematicity in Negation in the Era of In-Context Learning
 - Efficiently Representing Algorithms With Chain-of-Thought Transformers
@@ -1602,6 +1602,18 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 [https://arxiv.org/pdf/2606.32008v1](https://arxiv.org/pdf/2606.32008v1)
 
 - **论文针对机械可解释性（MI）中一个未被充分审视的假设——开放模型的MI发现可迁移至闭源模型——提出了系统验证框架“代理保真度”。作者指出，当前MI方法（如电路分析、SAEs）需要完全模型内部访问，但最具研究价值的前沿模型（如GPT-4、Gemini Ultra）通常只提供有限API（如对数概率）。因此，研究者常使用开放模型作为代理来研究闭源模型的行为。本文定义了三个层次的保真度：预测保真度（输出一致性）、归因保真度（输入重要性相似性）和表示保真度（内部表示相似性），并特别关注跨层次关系。通过在11个模型（Llama 2/3、Qwen 2、GPT 3.5、Gemini Pro）上的二分类实验，作者得到两个核心结果：（1）预测保真度显著高估归因保真度，即模型在答案上一致时，它们对输入特征的依赖可能完全不同；（2）出现“访问-有效性反转”：从开放模型内部获得的白盒信号（如注意力）在模型间高度稳定，但作为归因代理的效果不如仅依赖API的黑盒输入消融方法。这意味着，开放的内部表征并不能自动带来更好的归因可靠性。论文挑战了MI社区关于跨模型泛化的常见假设，并强调需要直接在解释层面验证迁移性，而非仅依赖预测一致性。附录提供了任务细节、模型配置、实验结果表格和代码链接。**
+
+<!-- paperflow:daaf6d20b2fe2e8e -->
+## Latent Visual Diffusion Reasoning with Monte Carlo Tree Search
+
+[[Deep Reading - Jun 2026/Latent Visual Diffusion Reasoning with Monte Carlo Tree Search|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27988](https://arxiv.org/pdf/2606.27988)
+
+- **论文的论证主线是：细粒度技能评估不能只给分数，还必须给出可检验的视觉推理过程；而帧级推理标注不可得，因此推理只能在潜在空间中隐式发生，再通过结构化搜索显式化。围绕这一主线，作者提出 LVDR（Latent Visual Diffusion Reasoning），把评分与推理轨迹作为同一框架的两个输出。
+一、问题与动机。论文从动作识别与技能评估的区分切入：前者问“是什么动作”，后者问“动作执行得如何”。技能评估需要把低层运动动态、生物力学协调与高层评价结果连成逐步推理链条，这在高利害场景（运动员训练、外科教育、自主机器人技能获取）中既要求准确性，也要求透明性和信任。现有 AQA 模型虽然量化精度不断进步，但仍是黑箱；帧级推理标注又几乎无法获取，导致无法直接监督“推理过程”。
+二、技术路线。LVDR 有两个核心组件。第一是潜在视觉推理扩散模块：给定 T 帧视频，模型在潜在推理空间中学习时间推理状态的 denoising 过程，得到一系列潜在推理嵌入，捕捉从输入视频到最终判断的逐步推理状态；随后由 score-prediction 模块产出预测分数。第二是关键点引导的 MCTS：潜在嵌入序列仍是隐式的，MCTS 在潜在推理空间中进行选择、扩展、模拟/rollout、回传的结构化搜索，把最影响最终预测的推理步骤提取为显式视觉 grounding。最终输出不仅是分数 ŝ，还有逐时间戳的关键点注意力模式 H={H1,...,HT}，用关键点颜色深浅表示注意力水平。这种设计把“生成式推理演化”和“搜索式推理取舍”结合起来。
+三、实验主线。论文在四个数据集上验证：EgoExo4D（篮球、足球、攀岩运动技能）、JIGSAWS（机器人手术技能）、FitnessAQA（健身技能，按动作类别报告 F1）、Cataract-101（白内障手术技能）。指标包括 Spearman Rank Correlation、相对 L2 距离、F1、Acc。基线覆盖领域专用 AQA（MAGR、MAGR++、FineParser）和通用视频大模型（LLaVA-Video、Gemini 2.5、GPT-4o、Qwe...**
 
 # AI Agents
 
@@ -2293,7 +2305,7 @@ We evaluate MiniOpt models on diverse optimization benchmarks spanning multiple 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, optimization, multimodal-learning
+- 方法：ai-for-science, generation, language, vision-language-model, reasoning, vision, retrieval, optimization
 - 论文/报告：27 篇
 - Text-Vision Co-Instructed Image Editing
 - Timage: A Generative Text-in-Image Paradigm for Fine-Tuning Vision-Language Models
@@ -2571,14 +2583,14 @@ historical context. Rather than selecting frames before generation, CaR concaten
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：deep-learning, cross-modal, stat-ml, stat-me
+- 方法：deep-learning
 - 论文/报告：6 篇
 - Learning Process Rewards via Success Visitation Matching for Efficient RL
-- What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
 - On-Policy Self-Distillation with Sampled Demonstrations Reduces Output Diversity
 - Data Augmentation: A Fourier Analysis Perspective
 - All you need is log
 - Learning from Reliable Latent Prompts for Visual Recognition with Missing Modalities
+- What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -2590,21 +2602,6 @@ historical context. Rather than selecting frames before generation, CaR concaten
 [https://arxiv.org/pdf/2606.23640](https://arxiv.org/pdf/2606.23640)
 
 - **本文提出成功访问匹配（SVM）过程奖励方法，用于解决稀疏奖励强化学习中的信用分配问题。核心思想是通过训练一个判别器来区分成功与失败历史轨迹的状态-动作分布，然后以其输出作为密集过程奖励。该方法无需额外人工知识，且理论上保证最优策略不变。在机器人控制策略微调任务上，SVM在模拟和真实环境中均显著加速了RL收敛，相比仅使用稀疏结果奖励有大幅提升。实验还分析了成功/失败轨迹对性能的影响。本文的主要贡献包括提出SVM方法、提供理论保证、在机器人操作任务上验证有效性，并展示了自动化奖励塑形的潜力。局限包括依赖历史轨迹的质量、可能需要预训练策略收集起始数据，以及尚未在极端稀疏奖励任务中测试。**
-
-<!-- paperflow:07ada5b610e5c63d -->
-## What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
-
-[[Deep Reading - Jun 2026/What Shapes Emergent Misalignment-Insights from Training Dynamics, Model Priors, and Data|Deep Reading]]
-
-[https://arxiv.org/pdf/2606.20814](https://arxiv.org/pdf/2606.20814)
-
-- **We study EM and its variability directly through the components of fine-tuning: training dynamics, model priors, and data.
-
-Emergent misalignment (EM) is a phenomenon in which models generalize with narrow fine-tuning, leading to broad (yet uneven) misalignment across evaluation questions. We study EM and its variability directly through the components of fine-tuning: training dynamics, model priors, and data.
-
-directly: (1) training dynamics, (2) model “priors”, and (3) data. We explain each angle in more detail below, connecting related works and our proposals.
-
-ing learning schedules for one narrow fine-tuning, we did not find meaningful local minima that yielded significantly better alignment scores at comparable or lower training loss. \- Model “priors”: Our comparisons found that while most misaligned models have statistically different mean and standard deviations from the pre-tra...**
 
 <!-- paperflow:4a86e5fdda34a88e -->
 ## On-Policy Self-Distillation with Sampled Demonstrations Reduces Output Diversity
@@ -2641,6 +2638,19 @@ ing learning schedules for one narrow fine-tuning, we did not find meaningful lo
 [https://arxiv.org/pdf/2606.30597](https://arxiv.org/pdf/2606.30597)
 
 - **本文针对多模态识别中的模态缺失问题，提出了一种名为LLP（学习可靠隐式提示）的新范式。与现有依赖于实例级特征动态生成提示的方法不同，LLP通过学习输入无关的可训练隐式提示作为稳定模态先验，从而避免不可靠输入带来的不稳定。具体方法包括为每个模态学习一组潜在锚点，并通过双锚诱导机制生成提示，用于跨模态交互和缺失模态补偿。在三个基准数据集上，LLP在不同缺失率（包括极端90%）下均取得最先进结果，消融和鲁棒性实验进一步验证了其有效性。主要贡献包括：1）提出潜在先验驱动的提示学习范式；2）设计模态特定潜在锚点和双锚诱导机制；3）全面实验证明鲁棒性和泛化能力。**
+
+<!-- paperflow:07ada5b610e5c63d -->
+## What Shapes Emergent Misalignment? Insights from Training Dynamics, Model Priors, and Data
+
+[[Deep Reading - Jun 2026/What Shapes Emergent Misalignment-Insights from Training Dynamics, Model Priors, and Data|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.20814v1](https://arxiv.org/pdf/2606.20814v1)
+
+- **本文针对“突现错位”（emergent misalignment, EM）现象做系统实证研究。EM 指窄域微调（如仅在一个危险域上让模型输出有害内容）后，模型在广泛评测问题上出现广泛但不均匀的错位——既不是完全局限于训练域，也不是在所有问题上均匀恶化。作者提出一个组织框架：沿微调的三要素——训练动态、模型先验、数据——分别考察 EM 的来源、边界与可预测性。
+训练动态方面，作者在多数据集、多模型家族上拟合域内最终平均损失与域外对齐分数，发现二者的总体关系较弱（饱和拟合 R² 不高）；通过不同学习调度诱导替代局部最优也未找到“相近或更低训练损失同时更好对齐分数”的强运行，说明 EM 的广度不能由训练收敛程度简单解释，也不容易被调度技巧系统性规避。
+模型先验方面，作者对比微调前（预训练与原始 instruct）与错位模型的评测分数分布：多数运行在 Wilcoxon signed-rank 检验下显示均值/标准差的显著差异；Pearson 相关在 General User（n=1,414）与 Harmfulness（n=320）问题上 60%-85% 运行显著，Initial EM 问题（n=24）则因小样本低比例。更重要的是，仅使用微调前模型的评测提示激活即可预测微调后的细粒度对齐分数，但预测力中等（R² 约 0.2），说明模型先验携带可观的 EM 信号但并非全部。
+数据/激活位移方面，作者对训练提示与评测提示计算微调前后的激活位移，用 PCA 子空间分析发现：两类提示的激活位移有中等偏高的子空间重叠与余弦相似度，且投影分数明显高于随机向量对照，排除了高维空间的平凡重叠；在 last_prompt_token 激活度量下，训练—评测子空间重叠与位移相似性存在正相关。这些结果共同构成一个叙事：窄域微调产生的错位行为，其“方向”在很大程度上由模型先验表征与训练数据共同预置，因此可以在微调前部分预测；但“程度”与“不均匀性”仍受训练动态与具体数据影响，不能被训练损失或调度简单控制。
+论文的价值在于把 EM 从现象学观察推进到“可拆解、可预测、可对照”的实证层面，核心发现包括一个负...**
 
 # AI Research
 
@@ -2707,28 +2717,13 @@ ing learning schedules for one narrow fine-tuning, we did not find meaningful lo
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, vision, retrieval, deep-learning, gui-agent, math-pr, math-st
+- 方法：agent, retrieval, deep-learning, gui-agent, math-pr, math-st
 - 论文/报告：3 篇
-- Learning to Reason with Curriculum II: Compositional Generalization
 - SABER-Math: Automated Benchmark for Information Retrieval Evaluation in Mathematics
 - GUICrafter: Weakly-Supervised GUI Agent Leveraging Massive Unannotated Screenshots
+- Learning to Reason with Curriculum II: Compositional Generalization
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
-
-<!-- paperflow:45516b2a6b228fec -->
-## Learning to Reason with Curriculum II: Compositional Generalization
-
-[[Deep Reading - Jun 2026/Learning to Reason with Curriculum II-Compositional Generalization|Deep Reading]]
-
-[https://arxiv.org/pdf/2606.27721](https://arxiv.org/pdf/2606.27721)
-
-- **We study this question through the canonical problem of learning to simulate semiautomata (predicting the outcome of $T$ steps of sequential computation), a model that captures…
-
-Jun Compositional generalization—the ability to solve complex problems by combining solutions to simpler sub-problems—is a fundamental capability of both natural and artificial… However, the theoretical underpinnings of compositional generalization remain poorly understood: when and why does decomposing a problem into parts yield more efficient learning…
-
-This work asks how curriculum and composition let a learner solve problems far beyond the reach of its base capabilities—a mechanism widely credited for the success of modern… Adopting semiautomaton simulation as a testbed, our results show that composition combined with curriculum can achieve superpolynomial reductions in supervision and computational…
-
-There,...**
 
 <!-- paperflow:84de9a4dde841644 -->
 ## SABER-Math: Automated Benchmark for Information Retrieval Evaluation in Mathematics
@@ -2748,3 +2743,18 @@ There,...**
 [https://arxiv.org/pdf/2606.29705](https://arxiv.org/pdf/2606.29705)
 
 - **该论文针对 GUI 代理数据稀缺问题，提出 GUICrafter 弱监督框架。核心贡献是：1) 提出一种利用大规模未标注截图进行弱监督预训练的方法，通过自动从交互信号中生成元任务和动作，免除了人工标注；2) 设计两阶段课程学习框架（弱监督预训练 + 强化学习校准），逐步提升模型能力；3) 构建了对应的数据集。实验表明，GUICrafter 在多个基准上仅使用 0.1% 的标注数据即可达到与 UI-TARS 相当的性能，且优于 GUI-R1。该工作展示了弱监督范式在 GUI 代理领域的潜力，为降低数据成本提供了新路径。**
+
+<!-- paperflow:45516b2a6b228fec -->
+## Learning to Reason with Curriculum II: Compositional Generalization
+
+[[Deep Reading - Jun 2026/Learning to Reason with Curriculum II-Compositional Generalization|Deep Reading]]
+
+[https://arxiv.org/pdf/2606.27721](https://arxiv.org/pdf/2606.27721)
+
+- **本文是 Rajaraman 等人系列工作的第二部分（Part II），目标是为组合泛化——即通过组合简单子问题的解来解决复杂问题——建立严格的学习理论。论文以学习模拟半自动机（semiautomaton simulation）为规范测试平台：给定初始状态和长度 T 的输入序列，预测 T 步顺序计算后的状态；这个任务能捕捉状态追踪、正则语言识别和模运算等顺序计算，并因半自动机可编码分支程序而具备良好的下界基础。
+
+论证主线：论文首先指出，实践经验表明思维链和课程学习（特别是自课程）对推理模型的组合泛化至关重要，但理论上不知道课程何时、为何、以多大程度降低学习成本。为回答这个问题，论文提出基于递归分解的 autocurriculum 方法：把长序列分解成短块，先学习短块转移模型，再把块模型组合成全长模型，从而把学习瓶颈从全长 T 转移到块长 B。
+
+技术主线：论文在两个后训练设定下分析该方法。设定 I（interactive SFT, iSFT）中，学习者有交互式 oracle 提供中间状态反馈；课程方法把监督复杂度降到 2^{O(√log T)}（亚多项式），突破直接模拟的 Ω(T) token 下界。设定 II（RLVR）中，学习者只有预训练参考模型 π_ref 和结果验证器，没有中间状态标签；课程方法通过 guess-and-check（用当前模型猜测中间状态、用验证器筛选）生成伪标签，把对 π_ref 的覆盖要求从全长 T 降到块长 B ≪ T，指数级弱化预训练负担。下界部分利用 Barrington 定理（半自动机编码分支程序）和 Kearns-Valiant 密码学假设论证直接方法的内在困难。
+
+实验/证明主线：论文以定理、下界和命题的形式给出结果，包括 Section 3.4 的正式下界与直接方法对比、Theorem 3.4 的 T 依赖上界（其最优性在 Discussion 6.2.1 被追问）、以及 Proposition 6.1（forward KL 目标下组合依然成立，用 KL 链式法则证明）。讨论部分还系统列出了简化假设（马尔可夫性、mistake...**

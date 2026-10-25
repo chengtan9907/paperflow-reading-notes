@@ -828,21 +828,6 @@ GRPO等策略更新层级的改进主要关注如何利用最终奖励进行策�
 
 论文也坦诚指出了局限性：结果依赖于一系列固定设计选择（如特定教师、编码器、检索k值、去重阈值），未做敏感性分析；跨模型迁移的结论需要更多模型对验证；抽象本身的质量和多样性也有待进一步研究。尽管如此，本工作为LLM的自我学习、经验利用和持续改进提供了新的视角，并展示了一种简单有效的实现方式。**
 
-<!-- paperflow:56520e74a0951497 -->
-## When Reasoning Narrows the Move: Diversity Collapse in LLM Game Play
-
-[[Deep Reading - Jul 2026/When Reasoning Narrows the Move-Diversity Collapse in LLM Game Play|Deep Reading]]
-
-[https://arxiv.org/pdf/2607.19523](https://arxiv.org/pdf/2607.19523)
-
-- **We study this question in a controlled suite of deterministic board games based on tic-tac-toe variants, where optimal actions are exactly computable and diversity can be…
-
-Supervised fine-tuning (SFT) is widely used to adapt large language models to downstream tasks, but its effect on behavioral diversity in sequential decision-making remains under-explored. We study this question in a controlled suite of deterministic board games based on tic-tac-toe variants, where optimal actions are exactly computable and diversity can be measured directly.
-
-Supervised fine-tuning (SFT) is widely used to adapt large language models to downstream tasks, but its effect on behavioral diversity in sequential decision-making remains under-explored.
-
-Across state-level evaluation, arena gameplay, and training trajectories, we find that reasoning-mode generation frequently suppresses action diversity witho...**
-
 <!-- paperflow:9205a32d75c07ae8 -->
 ## Rewarding Better Thinking for LLM Preference Alignment
 
@@ -950,13 +935,28 @@ Across state-level evaluation, arena gameplay, and training trajectories, we fin
 
 - **本文以语言模型的语义空间为研究对象，系统考察了语义关系在该空间中的几何表征。作者从三个核心问题展开：(1) 关系项（与目标词具有特定关系的词汇）是否在语义空间中占据特定的区域，且不同关系的区域是否彼此分离？(2) 语义空间是否体现了关系的代数性质——对称性、不对称性和传递性？(3) 在关系表征中，目标词的词汇信息与上下文信息哪个贡献更大？为回答这些问题，论文覆盖了六种基础语义关系：上下位（hypernymy/hyponymy）、整体部分（holonymy/meronymy）、同义（synonymy）和反义（antonymy），并选取三类现代语言模型：因果模型 LLaMA、掩码模型 ModernBERT、扩散模型 LLaDA。实验方法论：第一层用线性分类器检验区域可分性，发现非对称关系的关系项区域相对清晰，而同义/反义区域高度重叠；第二层通过构造对称 / 传递性测试三元组检验属性编码，结果表明非对称关系的属性编码中等，长距离传递性普遍缺失；第三层通过词汇/上下文置换实验揭示模型架构对信息源的依赖差异：因果语言模型更依赖词汇信息，而掩码/扩散模型更依赖上下文。此外，简单词嵌入基线在反义任务上反而胜过所有神经网络模型，暗示当代 LM 的上下文机制可能削弱了反义关系的纯净表征。主要贡献：(1) 首次在统一框架下系统评估六种语义关系在因果、掩码、扩散三类 LM 中的关系几何；(2) 揭示了关系特性（对称 vs 非对称）与几何可表征性之间的关联；(3) 发现了模型架构对信息源偏好的系统差异。论文最后指出，语义空间的关系几何并非对所有关系均匀成立，对分布假设学习语义关系的能力提出了质疑。讨论中承认了局限：仅测试三种模型、六种关系，且分析限于欧几里得空间的线性分类，未探索非线性结构。**
 
+<!-- paperflow:56520e74a0951497 -->
+## When Reasoning Narrows the Move: Diversity Collapse in LLM Game Play
+
+[[Deep Reading - Jul 2026/When Reasoning Narrows the Move-Diversity Collapse in LLM Game Play|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.19523v1](https://arxiv.org/pdf/2607.19523v1)
+
+- **论文《When Reasoning Narrows the Move: Diversity Collapse in LLM Game Play》研究监督微调（SFT）如何影响大语言模型在顺序决策任务中的行为多样性。核心动机是：SFT被广泛用于将LLM适配到下游任务，但其训练目标——拟合示范数据的经验分布——可能导致模型过度复现训练中出现的模式，从而在决策场景中压缩动作分布，削弱探索性。由于多样性是探索的基础，这种压缩可能使LLM在未见状态或分布变化时失去适应性。论文在现有文献基础上提出了一个尚未被系统回答的问题：SFT是否会导致LLM在决策任务中出现“多样性崩溃”？推理模式是否加剧这种崩溃？如果存在，这种崩溃是否可以通过改变监督信号的构造方式来缓解？
+
+为了回答这些问题，论文构建了受控实验环境：一组确定性棋盘游戏（普通井字棋oTTT、立方井字棋cTTT、双井字棋dTTT、方形井字棋sTTT）。这些游戏具有可精确计算的最优动作，使得研究者能够对准确性和多样性进行无偏测量。实验采用2×2设计构建SFT数据集：监督目标分为单目标（single-target，每个状态仅一个示范动作）和动作增强（action-augmented，每个状态标注所有最优动作）；推理内容分为无推理和带推理（在动作前生成简短解释）。这样形成的四种数据集用于微调LLM，并在多个层面评估。
+
+评估协议包含三个独立但互补的层面。第一，状态级策略评估：从训练状态池和100个随机自博弈生成的新状态中，对每个状态采样N=8次动作预测，计算动作准确率和动作熵。第二，竞技场对局评估：让不同配置的策略相互博弈，计算Elo评分和轨迹熵，以测度策略在交互过程中展现的行为多样性。第三，训练轨迹评估：沿SFT训练过程的checkpoint节点追踪准确率和多样性的变化，以观察崩溃是否在训练早期发生。该设计允许论文区分“精确度提升必然压缩多样性”这一朴素权衡与“超出必要程度的过度集中”现象。
+
+主要结果有三点。其一，标准SFT在提高动作准确率的同时通常导致动作多样性过早崩溃：熵的下降比准确率饱和发生得更早、更极端。其二，在推理模式下...**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
-- 论文/报告：113 篇
+- 论文/报告：114 篇
 - AgenticSTS: A Bounded-Memory Testbed for Long-Horizon LLM Agents
 - PACE: A Proxy for Agentic Capability Evaluation
 - SkillFuzz: Fuzzing Skill Composition for Implicit Intents Discovery in Open Skill Marketplaces
@@ -2185,6 +2185,18 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 
 - **本文是一篇立场论文，旨在挑战现有生成式AI工具在设计构思中默认追求消除摩擦的假设。作者回顾了设计领域的反思性行动概念，指出理性思辨（rationale）的构建是设计过程的核心，尤其在群体协作中至关重要。当前AI工具倾向于通过快速生成和低代价筛选来减少摩擦，但这也减少了设计者必须明确阐述理由的机会。作者提出'AI作为摩擦剂'的重新定位，即通过设计结构化停顿来邀请设计者反思、阐述和分享其理由，从而更好地支持个体和群体的构思过程。论文还讨论了摩擦作为元认知支架的可能性，并列出若干开放问题以指导未来研究。整体上，该文为AI in design ideation领域提供了一个新的观点框架。**
 
+<!-- paperflow:3713ac81aadcc1e6 -->
+## Git-Assistant: Planning-Based Support for Updating Git Repositories
+
+[[Deep Reading - Jul 2026/Git-Assistant-Planning-Based Support for Updating Git Repositories|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09224](https://arxiv.org/pdf/2607.09224)
+
+- **论文围绕“如何让非专家也能安全地完成复杂 git 操作”这一问题展开。论证主线如下：git 是现代协作开发的基石，但它的命令行接口与分布式模型让用户必须记忆命令序列并理解仓库状态；现有工具（可视化 git graph、IDE 插件）和 CI/CD 自动化都不能根据高层自然语言请求构造完整的命令序列。LLM 虽然擅长意图理解，但直接生成命令缺乏对仓库状态的正式推理，容易产生不可应用或不安全的序列。因此，作者提出 Git-Assistant：将 LLM 与自动规划结合，用 LLM 把自然语言请求转成形式化目标，用基于 PDDL 的规划器在仓库状态空间上求解可执行的命令序列，从而兼顾了语义灵活性与正确性保证。
+技术主线上，论文为 git 操作建立了 PDDL 领域模型：每个命令被定义为一个动作，含有参数、前提条件和效果；例如创建分支动作需要满足相应的前提，并改变仓库状态。LLM 在流程中负责从请求中提取目标映射（如要提交的具体文件列表）和参数（如分支名 feature-ui），然后规划器负责搜索从当前状态到目标的动作序列。论文设置了两种系统变体——仅 LLM 直接输出命令（LLM-only）和 LLM+规划器（planning-augmented / Hybrid-planner），以便量化规划模块的贡献。
+实验主线上，作者提出了一种系统性评估协议：在合成 git 环境中，由人工预先构建正确的命令序列作为 ground truth；在随机化 git 环境中，自动生成仓库状态与任务，使评估可复现。比较的指标包括正确性（是否达成目标、命令是否可应用）和生成计划的总时间。论文还比较了两种 LLM：o4-mini 与 GPT-4o。结果显示，在将用户意图映射为规划目标这一语义环节，GPT-4o 显著优于 o4-mini；而 Hybrid-planner 的失败案例并非源于错误的 git 命令，说明规划校验有效保证了命令层面的合法性。示例还表明，冲突场景（如 stash pop）仍需要人工介入。
+总体而言，这篇文章的价值在于：一是证明了 LLM 与经典自动规划可以在软件工程助手任务上互...**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
@@ -2241,7 +2253,7 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
-- 论文/报告：46 篇
+- 论文/报告：47 篇
 - Optimizing Visual Generative Models via Distribution-wise Rewards
 - Visually Grounded Self-Reflection for Vision-Language Models via Reinforcement Learning
 - ESC: Emotional Self-Correction for Reliable Vision-Language Models
@@ -2360,23 +2372,6 @@ ResearchArena是一个模块化的红蓝队对抗框架，涵盖四个具有代�
 [https://arxiv.org/pdf/2607.06560](https://arxiv.org/pdf/2607.06560)
 
 - **本文提出了一种新的计算机视觉范式——统一多模态生成，将所有视觉任务统一到文本和图像生成空间中。通过自然语言指令和视觉提示，模型无需任务专用架构即可执行检测、分割、深度估计等多种任务。作者构建了SenseNova-Vision语料库，将现有视觉标注转换为指令-响应格式，并基于预训练多模态模型进行训练。实验表明单一模型在多个视觉任务上达到专业水平，展示了这种范式的可扩展性和统一性。论文贡献包括：提出统一框架、构建大规模语料库、验证模型有效性。**
-
-<!-- paperflow:660ff5ea3aa8b9be -->
-## UI2App: Benchmarking Visual Interaction Inference in Executable Web Application Generation
-
-[[Deep Reading - Jul 2026/UI2App-Benchmarking Visual Interaction Inference in Executable Web Application Generation|Deep Reading]]
-
-[https://arxiv.org/pdf/2607.06306](https://arxiv.org/pdf/2607.06306)
-
-- **Large language models (LLMs) have demonstrated growing competence in web page generation.
-
-Large language models (LLMs) have demonstrated growing competence in web page generation. However, existing text-driven approaches rely on complex prompts that impose substantial demands on users and offer limited expressivity for page layout and cross-page visual…
-
-In this paper, we introduced UI2App, the first benchmark to measure interaction inference: recovering application behavior from image-only multi-page screenshots, with no textual… Each artifact is scored along four dimensions (executability, navigation reachability, visual fidelity, and IIS), with IIS grounded in the interaction taxonomy that tiers…
-
-UI2App is the first benchmark targeting interaction inference rather than specification-following from image-only input. \- End-to-end evaluation protocol and IIS taxonomy.
-
-主要贡献包括：In this...**
 
 <!-- paperflow:79dcdecc1a973c65 -->
 ## A Definition and Roadmap for World Models
@@ -2705,6 +2700,34 @@ UI2App is the first benchmark targeting interaction inference rather than specif
 [https://arxiv.org/pdf/2607.27066v1](https://arxiv.org/pdf/2607.27066v1)
 
 - **本文针对科学插图质量评估这一同行评审中的关键任务，指出现有通用方法（IQA、CLIP、LLM）均无法有效捕捉插图与手稿声明的对齐关系。作者首先构建了一个包含 3,857 张来自同行评审会议论文插图的标注数据集，每张插图在清晰度、相关性、信息量、结构四个维度上由人工评分，并按论文划分以防止数据泄露。然后提出 SciFigAlign 框架，采用 CLIP 和 SciBERT 作为多模态编码器，通过逐模态跨模态注意力对齐视觉与文本表示，使用 CubeMLP 融合输出四维分数。训练联合使用 SmoothL1 回归损失和页内排序 Hinge 损失，后者强制同一论文内高质量插图排序更高。输入中包含手稿上下文（标题、引用段落、论文摘要/引言），引用段落通过去噪提高信噪比。实验结果显示，SciFigAlign 在测试集上达到宏 MAE 0.3524、页内配对准确率 81.64%，比最佳 LLM 评判基线误差降低 59%，比线性探针降低 60%。消融实验证实每个输入组件和损失函数均贡献明显。错误分析揭示了模型在密集多面板图、OCR 表格和视觉稀疏图上的不足。本文的主要贡献包括：新标注数据集、端到端多模态评分框架、与手稿证据对齐的评分方法、以及显著优于现有方法的实证结果。**
+
+<!-- paperflow:660ff5ea3aa8b9be -->
+## UI2App: Benchmarking Visual Interaction Inference in Executable Web Application Generation
+
+[[Deep Reading - Jul 2026/UI2App-Benchmarking Visual Interaction Inference in Executable Web Application Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.06306v2](https://arxiv.org/pdf/2607.06306v2)
+
+- **UI2App 论文针对现有 screenshot-to-code 基准只关注视觉保真度、而交互生成基准又提供额外行为指导的问题，提出了一个专门评估“交互推断”能力的基准。核心思想是：仅给模型一组静态截图（每个截图对应应用的一个路由或视觉状态），要求模型推断出应用的行为逻辑并生成可运行的 Web 应用，不提供任何行为规范或演示。
+
+论文首先回顾了相关研究，指出文本驱动开发范式依赖详细提示，难以精确表达视觉需求；图像到网页生成范式虽更贴近设计师工作流，但现有基准只衡量视觉相似度，不评估应用是否真正可用。MRWeb 等扩展到了多页面，但仍将 UI 生成视为静态渲染问题。因此，从静态截图推断交互行为的能力尚未被系统评估。
+
+UI2App 的任务定义非常简洁：输入仅为一组截图（M=3–14，平均 6.3），输出为可运行的 Web 应用。数据集包含 600 张截图，组织为 95 个状态连贯的集合，每个集合对应一个多路由应用。这些应用覆盖了从简单页面跳转到复杂跨路由状态持久化的交互类型。
+
+评估流水线包括三个维度：可执行性（EXEC@1、EXEC@3）、视觉保真度（VFS，通过 DOM-to-DOM 相似度计算）和交互推断（IIS）。IIS 是论文的核心贡献之一，它通过交互分类法捕捉状态逻辑复杂度，评估功能正确性和状态管理，并且不要求匹配单一参考实现，而是认可任何有效实现。这种设计更贴近真实开发场景，也避免了过度约束模型。
+
+实验部分，论文评估了六个前沿视觉语言模型：Claude Sonnet 4.6、Kimi K2.5、GPT-5.4、Gemini 3.1 Pro Preview、Qwen3.5-397B-A17B 和 GLM-4.6V。所有模型通过官方 API 在统一协议下生成，主实验每个应用-模型对生成一次。为了验证自动评分（GPT-6 Luna）的可靠性，在 45 个应用子集上进行了人类标注和三次独立生成，并报告了评估者一致性和重复生成结果。此外，还评估了四个 Qwen2.5-VL 检查点以研究缩放趋势。
+
+主要结果令人惊讶：视觉保真度与交互实现之间存在显著脱节。Gemini...**
+
+<!-- paperflow:213285afb3907297 -->
+## OmniMapBench: Benchmarking Visual-Centric Reasoning on Diverse Map Documents
+
+[[Deep Reading - Jul 2026/OmniMapBench-Benchmarking Visual-Centric Reasoning on Diverse Map Documents|Deep Reading]]
+
+[https://arxiv.org/pdf/2607.09068](https://arxiv.org/pdf/2607.09068)
+
+- **论文围绕‘视觉中心推理（visual-centric reasoning）’这一核心命题展开，针对现有文档理解基准的普遍缺陷——视觉内容可被文本还原、模型不真正看图像也能高分——提出 OmniMapBench 基准和 VDI 指标。论证主线如下：第一，指出问题：许多 benchmark 的题目（如 DocVQA 中的表格阅读、情感判断）本质上依赖文本内容而非图像结构，导致 LVLM 的分数不能反映真实视觉理解能力。第二，选择地图作为测试域：地图是视觉信息密度极高且不可文本化的文档类型，包含拓扑关系、符号系统、路线、方位、尺度等真正需要图像才能回答的信息；基准覆盖 9 类共 1,603 张地图文档，从基础地形图、虚构虚拟世界到遥感影像。第三，质量控制：初始 2,882 个候选 QA 对经两个独立团队的严格交叉验证，最终保留 2,096 对，确保正确性和质量。第四，能力分层：题目按感知、单步空间推理、多步视觉推理分层，形成从低到高的能力探测谱系。第五，方法贡献：提出 VDI——用问题无关描述替换图像后准确率的下降幅度——作为 benchmark 层面的文本可约性度量，并设计了带 token budget 的系统评测协议（Algorithm 1），让模型在不同描述长度下作答，绘制视觉依赖衰减曲线。第六，实证发现：OmniMapBench 的 VDI 衰减显著慢于 AI2D、MMBench 等基准，在 kmax=1024 时仍达 0.338（所有基准最高），DSI 也验证了高视觉依赖；25 个 LVLM 的最佳成绩仅 75.03%（Gemini-3.1-Pro），开源 Qwen3.5 系列表现超过多数闭源模型，显示当前模型在视觉中心推理上仍有明显短板。第七，意义与展望：数据集、指标与协议共同构成评估地图文档视觉中心推理的原则性框架，旨在推动 LVLM 从‘用文本线索答题’走向‘真正感知-推理整合’。整体而言，这是一篇以基准建设+元评测指标为核心的系统性工作，兼具数据集贡献（2,096 QA / 1,603 图 / 9 类）、方法贡献（VDI）与实证贡献（25 模型全面评测）。**
 
 # Machine Learning
 

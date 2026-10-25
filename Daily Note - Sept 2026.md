@@ -231,8 +231,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, generation, language, reasoning, optimization, multimodal-reasoning, audio, math-pr
-- 论文/报告：19 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：28 篇
 - Do Large Language Models Capture the Diversity in their Training Data?
 - From Rollouts to Recipes: Self-Contained Post-Training for LLMs
 - StudentSim: Training LLM-based Student Simulators
@@ -473,13 +473,139 @@
 
 - **本论文针对大语言模型在复杂推理任务中的自改进问题，提出了一种创新的递归自蒸馏框架。传统的策略内自蒸馏（OPSD）通过冻结一个拥有 Ground Truth 特权的教师模型来指导学生，虽然保证了训练稳定，但限制了教师模型吸收新知识的能力，且容易导致模型输出变得冗长和过度自我批判。为了打破这一僵局，本文提出了动态共演化（DCE）与自我精炼简洁学习（SRCL）相结合的方法。DCE 允许特权教师模型在多轮递归训练中与学生同步演化，从而提供更高质量的 Token 级监督；SRCL 则通过让模型在自身策略内响应的简短、已验证的重写版本上进行训练，有效压缩了推理长度。在 Qwen3-8B 等模型及四个竞赛级数学基准（如 MATH、AIME）上的实验表明，DCE+SRCL 取得了突破性的进展，不仅在 Average@12 指标上超越 OPSD 达 35.62 个百分点，还成功将输出长度降低了 7.80%，实现了推理准确率与计算效率的双重提升。**
 
+<!-- paperflow:5ab194db08b769cf -->
+## Unbiased Top-$k$ Estimation for On-Policy Distillation
+
+[[Deep Reading - Sept 2026/Unbiased Top-$k$ Estimation for On-Policy Distillation|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.34447v2](https://arxiv.org/pdf/2609.34447v2)
+
+- **论文的研究主线是 LLM 后训练中 on-policy distillation（OPD）的梯度估计方法，其论证-技术-实验三条主线如下。
+
+论证主线：OPD 已成为前沿 LLM 后训练的重要组件，因为它用学生自身 rollout 最小化与教师的反向 KL 散度，能缓解 off-policy 蒸馏的暴露偏差并有效迁移推理能力。但反向 KL 梯度的估计陷入三难：只采一个 token（ST-OPD）便宜却监督弱；全词表（FV-OPD）监督完整却成本不可承受；中间的 top-k（TK-OPD）虽然兼顾监督与成本，却因丢弃 top-k 之外的概率质量而引入偏置，损失精度。论文的判断是：这个偏置不是必须接受的代价，因为学生 rollout 的采样 token 恰好按被丢弃的尾部分布抽取，可以在期望上把质量“找回来”。这一论证把问题从“选择监督的丰富度”重构为“在有偏的稀疏监督上做统计校正”，从而把无偏性重新放回低成本估计器的可达范围。
+
+技术主线：论文先形式化 OPD 框架，再定义 TT-OPD 估计器：对选定的 S_k^t（top-k 集合）精确计算 token 级梯度贡献，同时把学生 rollout 采样到的 token y_t 作为尾部校正项纳入；然后证明定理 4.1，即 E_{y_t∼p_t}[∇θ L_TT^t(θ)] = ∇θ L_FV^t(θ)，无偏性证明的关键是词表概率归一化恒等式 Σ_v ∇θ p_θ(v) = ∇θ 1 = 0。由此 TT-OPD 同时继承 ST-OPD 与 FV-OPD 的无偏性，保留 TK-OPD 的低成本与丰富监督，并宣称兼容其他 OPD 改进。
+
+实验主线：在数学推理基准（AIME24/25/26、AMC、MATH、Minerva、Olympiad 及平均分）与代码生成任务（教师为 Qwen3-8B-Base-GRPO-Code）上验证；生成配置为 temperature 0.6、top-p 0.95、top-k 20、最大长度 32,768 tokens。结果以 Finding 形式总结：Finding 1 是 TT-OPD 在不同学...**
+
+<!-- paperflow:f5d5fef7458d842c -->
+## On the Off-Policy Teacher in On-Policy Distillation
+
+[[Deep Reading - Sept 2026/On the Off-Policy Teacher in On-Policy Distillation|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38360v1](https://arxiv.org/pdf/2609.38360v1)
+
+- **To address this issue, we propose Student-COnditioned Updates of the Teacher (SCOUT), a co-training framework that adapts the teacher to student-generated prefixes.
+
+tion from this prefix and is optimized using an outcome reward. The student, in turn, is trained with dense OPD over its full trajectory using the evolving teacher as supervision.
+
+own in the figure, SCOUT is a combination of standard OPD and teacher-side RL training. πϕ is synchronized after its update to provide supervision for the next OPD training steps.
+
+Appendix B.3 and Appendix C provides full evaluation details, complete per-run results, and significance tests against the standard OPD baseline. We first test whether the gains from teacher adaptation persist as the teacher scales.
+
+主要贡献包括：own in the figure, SCOUT is a combination of standard OPD and teacher-side RL training.；πϕ is synchronized after its update to prov...**
+
+<!-- paperflow:34482e1233399eb7 -->
+## Provable Test-Time Scaling for Beam Search in LLM Reasoning
+
+[[Deep Reading - Sept 2026/Provable Test-Time Scaling for Beam Search in LLM Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38672v1](https://arxiv.org/pdf/2609.38672v1)
+
+- **论文围绕“beam search测试时缩放”这个前沿问题，给出了首个系统性的理论分析，并据此设计了新算法。论证主线从经验现象出发：测试时计算在LLM推理中效果显著，但主流序列级方法（BoN、多数投票等）在长序列和困难问题上需要指数级增长的样本，且易受不完美验证器影响；而beam search通过逐步剪枝减轻了复合错误，在工程中表现出高效率，但缺乏理论支撑。技术主线分四步。第一步，建立通用框架：把beam search建模为逐步采样-打分-剪枝过程，中间分数采用模型内部对数似然累积，外部奖励模型只作用于最终候选集。引入token级覆盖系数C*(x)量化困难程度。第二步，给出负面结果（Theorem 1）：普通vanilla beam search需要Ω(C*(x)²)样本才能保证最优响应以固定精度存活，证明通过构造一个最优路径以常数概率被剪掉的硬实例完成。这个二次依赖揭示了内在的低效：当最优token在某个前缀出现概率不高时，它可能被其他高似然但次优的动作挤出beam，要抵消这种挤出需要二次覆盖。第三步，设计正面算法CF-Beam：在每一步先做置信过滤，仅保留概率不低于β_t的动作，再取top-b；置信过滤的作用是把预算集中在“有可能成为最优前缀”的动作上，减少无效候选的干扰。在前缀竞争性假设（即最优前缀具备足够概率优势）下，Theorem 2把充分覆盖依赖从C*²降为近线性（固定horizon、gap和目标精度）。第四步，导出遗憾上界：regret由罕见失败事件概率与奖励噪声×路径级覆盖系数构成；罕见失败项随逐步采样增加收敛到零，因此长期看主要误差来自外部奖励估计误差。这个分解清晰地分离了搜索误差与验证器噪声。与序列级方法对比是关键理论卖点：BoN和Best-of-Majority的覆盖系数随L指数增长，因为需要整条轨迹级别的成功；CF-Beam的搜索诱导项由token级覆盖系数控制，随L多项式增长，因此从理论上证明了beam search在长程推理上的基础优势。实验主线使用合成LLM模拟器和噪声奖励模型，将难度参数化为每rollout成功概率p∈{0.01,0.05,...**
+
+<!-- paperflow:257d7484b7a53dde -->
+## Framing the Narrative: Ideological Mimicry in Large Language Models
+
+[[Deep Reading - Sept 2026/Framing the Narrative-Ideological Mimicry in Large Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38256v2](https://arxiv.org/pdf/2609.38256v2)
+
+- **论文的论证主线：现有 LLM 政治倾向评测把立场当作固定属性（标准化、中性提示词下测一个值），但真实用户通过术语、假设和个人背景传递政治信号；如果模型条件化于这些信号，就会产生 ideological mimicry——表达立场向交互信号方向移动。作者由此提出新问题：政治立场是否 interaction-dependent，并提出把模型政治行为刻画为“基线立场 + 条件敏感性”；这具有社会后果：相同模型给对立观点的用户提供系统性不同的信息版本，可能强化信息茧房与极化。
+技术主线：构建 Poli-SHIFT 数据集与评测框架，覆盖美英澳 10 个争议话题（23 个 topic–country cells），对 7 个开源权重 LLM 做三组操纵：H1 争议术语、H2 政治价值前提、H3 用户传记（意识形态、种族、性别、年龄、教育），并在 MCQ 五点量表与 open-text（LLM-as-a-judge 打分）两种格式下 elicitation；统计上用配对 t 检验（23 cells）与 OLS 回归（控制 topic/country），多次生成做稳健性；研究在 OSF 预注册。
+实验主线：三组假设均获支持。术语操纵在所有 7 模型 × 2 格式 = 14 个比较中都显著；MCQ 效应量 +0.51（Qwen 3.6 27B）到 +1.55（DeepSeek V4 Flash），open-text 从 +0.23 到 +0.91；16.9% 匹配比较中术语更换反转模型支持的阵营。明确陈述的用户意识形态系统性拉动回答。模型间异质性明显；open-text 效应与测量路径不同但 judge 打分可靠；多次生成稳健。
+结论与含义：政治立场不是 LLM 固定属性；审计应测“立场如何随语境移动”；对个性化 AI 而言，输出对用户既有信念的迎合可能制造系统性分化的信息环境。附注：论文使用生成式 AI 工具编辑润色文本，作者声明对最终内容负责。**
+
+<!-- paperflow:4c2552b8eaf219da -->
+## Unlocking the Critic: Reward-Free Policy Optimization for LLM Post-Training
+
+[[Deep Reading - Sept 2026/Unlocking the Critic-Reward-Free Policy Optimization for LLM Post-Training|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37119v1](https://arxiv.org/pdf/2609.37119v1)
+
+- **We revisit this trend and show that a pretrained critic’s ability to predict future outcomes can make it a valuable asset for efficient long-horizon reasoning.
+
+Reinforcement learning is now the dominant recipe for turning a pretrained language model into a reasoner (Guo et al., 2025; Grattafiori et al., 2024;
+
+th directions and at every batch size we tried; at 8 updates over 256 rollouts, 12 of 15 did.
+
+policy entropy declines gradually from 0.32 to 0.21–0.22 by step 300, against 0.25 for supervised PPO, neither collapsing nor drifting upward; Averaged over four suites, the zero-label checkpoint reaches 41.1% pass@1 against 41.8% for supervised PPO, 41.3% for the half-labeled arm and 40.0% for the shared initial…
+
+主要贡献包括：th directions and at every batch size we tried;；at 8 updates over 256 rollouts, 12 of 15 did.；policy entropy declines gradually from 0.32 to 0.21–0.22 by step 300, agai...**
+
+<!-- paperflow:2d65186005db07e7 -->
+## Dr. OPD: Learning What to Follow for Optimal On-Policy Distillation of Large Language Models
+
+[[Deep Reading - Sept 2026/Dr. OPD-Learning What to Follow for Optimal On-Policy Distillation of Large Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38025v1](https://arxiv.org/pdf/2609.38025v1)
+
+- **Motivated by this observation, we introduce Dr.
+
+On-policy distillation (OPD) has become an important post-training approach for transferring capabilities from a stronger teacher to a student model that is cheaper to deploy or… Unlike outcome-reward reinforcement learning methods like RLOO and GRPO (Ahmadian et al., 2024;
+
+in on DeepMath-103K (He et al., 2026). The dataset provides difficulty labels.
+
+n in Table 2, vanilla OPD already brings the student close to or even beyond the teacher, leaving limited room for further gains by simply mimicking the teacher. OPD still achieves the best average performance for both setups, improving over vanilla OPD by 2.3 and 3.0 points, respectively.
+
+主要贡献包括：in on DeepMath-103K (He et al., 2026).；The dataset provides difficulty labels.；n in Table 2, vanilla OPD already brings the student close to or even beyond the teacher, leaving limited room for fu...**
+
+<!-- paperflow:28e0ad71fbc26a68 -->
+## Explore Broadly, Reason Sharply: Push Small Models toward the Frontier via Sampling
+
+[[Deep Reading - Sept 2026/Explore Broadly, Reason Sharply-Push Small Models toward the Frontier via Sampling|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38104v1](https://arxiv.org/pdf/2609.38104v1)
+
+- **To resolve this trade-off, we introduce \textbf{Parallel Power Tempering (PPT)}, instantiating power-sharpened LLM sampling via parallel tempering.
+
+butions explore a broader range of alternative reasoning paths, but may also generate noisy or lower-quality responses that are unsuitable as final outputs (Troshin et al., 2025). Thus, power-sharpened LLM sampling faces a central exploration–exploitation trade-off: the sampler must explore diverse reasoning trajectories while still exploiting the…
+
+Crucially, this truncation would hinder PPT’s ability to explore, as shortened records transferred to lower power rung would retain their restricted generation budget. To remove this one-way truncation, we maintain a fixed horizon 𝑇, through deterministic post-EOS padding ⊥, allowing suffix proposals starting at or before EOS to regenerate up…
+
+To test whether Table 4 | Compute-matched Qwen3-8B a...**
+
+<!-- paperflow:60afe6343f848792 -->
+## Learning What to Remember: Long-horizon Counterfactual Memory Optimization
+
+[[Deep Reading - Sept 2026/Learning What to Remember-Long-horizon Counterfactual Memory Optimization|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37930v1](https://arxiv.org/pdf/2609.37930v1)
+
+- **论文研究的核心问题是：语言模型在有界持久记忆下如何学习"该记住什么"。作者把这个问题重新表述为信用分配问题——记忆改写的价值可能延迟出现，且最终效用可能大部分继承自已有的记忆状态，因此"记忆状态是否有用"回答不了"这次改写贡献了多少"。现有记忆系统（检索式、显式管理、学习式策略）都没有直接度量改写的增量下游价值，这是论文要填补的空白。
+
+论证主线：在流式输入设定下，可学习 writer πθ 在每个时间步用新输入和旧记忆生成新记忆（|mt|≤B），固定 reader E 用记忆回答下游查询。定义状态效用 Ft,j=Eξ[U(ŷt,j,yj)] 后，论文指出该量混淆继承与贡献，因此对每个改写定义 Memory Gain：MGt=Σ_{j=t}^N (Ft,j−Ft−1,j)，把同一改写相对前一记忆状态在所有剩余下游目标上的效用差累计起来。这个信用被证明是精确 potential-shaped 的：它保持事实策略目标不变，只把学习信号重新分配到产生下游效用的改写上。作者据此把"学习什么该记住"操作化为"优化每个改写的边际贡献"。
+
+技术主线：为了让延迟效用变成可计算的稠密监督，论文选择文档级信息抽取作为测试平台，把文档级 micro-F1 构造成加性一阶 surrogate，gold label 分配到最早可观察 chunk，使反事实效用差逐 chunk 可算；在 held-out 轨迹上 surrogate 与精确 F1 变化高度一致（Spearman ρ=0.988），验证了替代目标的保真度。reader 固定使反事实比较只需对相邻记忆状态重复采样同一 reader，从而把"如果没做这次改写会怎样"的对照变成可操作的估计。
+
+实验主线：在 SciREX 上训练两个任务（salient clustering 与二元关系抽取），文档按 1,024-token 分块、记忆上限 256 tokens，与 direct readout 类 baseline（Direct Readout、R1-RE Dai et al.）等三组方法对比；在 AIPAN-10K 隐私政策语料上做零训...**
+
+<!-- paperflow:33979f40b17a0ba0 -->
+## PolyOCR-Venus: Unified OCR Foundation Models for Text-Centric Visual Intelligence
+
+[[Deep Reading - Sept 2026/PolyOCR-Venus-Unified OCR Foundation Models for Text-Centric Visual Intelligence|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37712v1](https://arxiv.org/pdf/2609.37712v1)
+
+- **论文的论证主线：OCR 从传统文本转录走向文本中心视觉智能，现有专用 OCR 系统和 MLLM 都难以同时平衡识别、解析与推理，因此需要一个统一的 OCR 基础模型范式。技术主线：1) 数据引擎把真实资源、可控合成、模型辅助标注整合为质量验证的大规模 OCR 监督；2) 共享指令跟随框架统一建模场景文本理解、文档解析、信息抽取、结构化内容恢复、多语言转换与 OCR 推理；3) CGPO 将 verifier 基 GRPO 与 on-policy distillation 结合，用教师可靠性 cT(x) 和师生能力差距 cT(x)-cS(x) 计算样本级蒸馏权重 α(x)，动态分配教师监督，改善异构 OCR 任务上的 RL 与知识迁移，防止灾难性遗忘。实验主线：在 OCRBench v2.1、CC-OCR、自建 KIE Benchmark、OmniDocBench v1.6、MDPBench 上以统一评估协议评测 PolyOCR-2B/9B 与多语言变体 2.7B，覆盖文本感知、空间定位理解、结构化文档分析、信息抽取、OCR 推理；PolyOCR 达到 SOTA 或高度竞争性能，2.7B 在 MDPBench 五个汇总指标上超越 OCR 专用模型。论文同时贡献 OCRBench v2.1 修订基准。整体结论是 PolyOCR 建立了统一建模范式，下一目标是继续强化细粒度文本感知、定位与识别并推进语义理解。信息缺口：检索证据未包含完整数值表、消融实验细节和完整 baseline 列表；作者机构未在元数据中提供。**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
-- 论文/报告：54 篇
+- 论文/报告：71 篇
 - InSight: A Benchmark for Agentic Claim Verification in Interactive Visualizations
 - PaperCompiler: Faithful Paper-to-Code Generation via Repository-Level Specification Compilation
 - Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives
@@ -1264,18 +1390,247 @@ HiCoMER 由三个组件串成流水线：(1) Hierarchical Memory Conflict Update
 - **## 一、论文要解决的问题
 短视频内容消费的普及催生了对「一键创作」的需求。视觉模板是这一需求的核心载体：用户上传图片、套用预设效果，即可得到个性化内容。然而模板的**生产端**仍是人力密集的——创作者需要准备素材（图像、贴纸、滤镜、转场等），并把各类工具按正确顺序与参数编排成可执行的效果链。论文把这一落差定义为待解决的核心问题：如何把自然语言意图自动转换成「可复用、可在客户端执行」的视觉模板。**
 
+<!-- paperflow:146a2c684902afed -->
+## KUPAS MASTER: Distilling the Tacit Expertise of Master Practitioners into Agent-Ready Experience Corpora
+
+[[Deep Reading - Sept 2026/KUPAS MASTER-Distilling the Tacit Expertise of Master Practitioners into Agent-Ready Experience|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37673v1](https://arxiv.org/pdf/2609.37673v1)
+
+- **We introduce KUPAS MASTER, an experience engineering platform built around nine-layer cognitive corpus construction.
+
+dation models and agents for hypothesis testing and research automation [2]. Together, these initiatives highlight a shared priority: making domain knowledge usable by AI systems.
+
+s and best practices to organize wage evidence, compensation calculations, reasons for detour to collect a child after work, the evidence needed, and the order of mediation steps. Item A: Base model B: Raw-corpus RAG C: KUPAS MASTER Approach General analysis and an Cites work injury insurance Calls the mediation assessment evidence checklist.
+
+gether with the evidence that triggered them. A topic change alone is not a state change.
+
+主要贡献包括：s and best practices to organize wage evidence, compensation calculations, reasons for detour to collect a child after work, the evidence needed, and the ord...**
+
+<!-- paperflow:3ebcad5883466a1c -->
+## RLTL;DR: Self-improvement by Internalizing Self-generated Feedback
+
+[[Deep Reading - Sept 2026/RLTL;DR-Self-improvement by Internalizing Self-generated Feedback|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37633v1](https://arxiv.org/pdf/2609.37633v1)
+
+- **这篇 arXiv 预印本（Kirchhof 等人，编号 2609.37633v1，2026-09-29）研究一个具体且尖锐的问题：当任务难到当前策略在 128 次尝试内一次都成功不了（Pass@128=0）、又没有教师模型或示例解时，RLVR/GRPO 完全学不动，自改进循环无法启动。作者把这一现象归因于“学习信号饥饿”——没有成功 rollout 就没有可被正向放大的奖励信号。
+
+论文的解法是 RLTL;DR，由两个相互配合的技术组成。第一个技术针对探索：把传统的并行 i.i.d. rollout 改成顺序 rollout，每次失败后把验证器的输出交给策略，让它自己写一条高层 TL;DR insight（如“记得给搜索结果分页”），下一条尝试以任务加全部历史 insight 为条件；顺序累积 insight 直到找到解。消融显示顺序累积优于只用最新一条 insight，且收益集中在前 5 条。第二个技术针对学习信号：允许对上下文中的 insight token 反向传播，把 task→insight 的映射直接内化进参数；作者特意对比发现，让策略基于尝试做自我批判不如直接从 instruction 预测 insight 有效。训练目标为 GRPO 与 insight 上的 SFT（LSFT）的混合，默认权重 λ=0.5；前四个消融 run 显示 LSFT 是性能的驱动因素。
+
+实验在 SAPI、Appworld、Leetcode 三个 benchmark 上、用 Qwen 3.5 9B Thinking 策略、训练任务按 Pass@128=0 筛选后进行。结果呈现清晰的层级：标准 GRPO 与 SGE 都停滞在 0–1% Pass@1；RLTL;DR 在训练中 insight 在上下文时达到 14–31%，关键的是 eval 不给 insight 仍有 12–13%，说明内化确实发生；SAPI 的滚动 eval（每个任务被看到一次、评测在反传前）显示内化能泛化到新任务。训练完成后的 heldout eval（Table 1）中，RLTL;DR 在 SAPI 上达 91...**
+
+<!-- paperflow:57e46129a60b13aa -->
+## EngiWorld: What Can Frontier Agents Deliver in Professional Engineering Environments?
+
+[[Deep Reading - Sept 2026/EngiWorld-What Can Frontier Agents Deliver in Professional Engineering Environments|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37686v1](https://arxiv.org/pdf/2609.37686v1)
+
+- **We present EngiWorld, the first benchmark structured around the complete design loop: 1,301 expert-curated tasks spanning 6 engineering domains (CAD, CAE, CAM, BIM, EDA, and 3D…
+
+(Jimenez et al., 2023; Huang et al., 2024), web interaction (Deng et al., 2023;
+
+ntains the diagonal GUIDE lines and lacks the eight required windows. Subsequent attempts to launch FreeCAD do not advance the workflow, which ends with FAIL.
+
+At the task level, increasing resolution benefits Kimi on eleven tasks without losses, whereas GPT gains on ten and loses on ten. Higher visual fidelity thus improves average performance, but its benefit depends on the model and does not apply uniformly across tasks.
+
+主要贡献包括：ntains the diagonal GUIDE lines and lacks the eight required windows.；Subsequent attempts to launch FreeCAD do not advance the workflow, which ends with FAIL.；At the task level, increasing resolution bene...**
+
+<!-- paperflow:051670822edcaf83 -->
+## SelfSearch: Reward-Free Search for Self-Improving Agents
+
+[[Deep Reading - Sept 2026/SelfSearch-Reward-Free Search for Self-Improving Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37968v2](https://arxiv.org/pdf/2609.37968v2)
+
+- **Existing approaches use this ability to search for improved agents through repeated downstream evaluation, which incurs substantial costs and ties the search to the evaluated…
+
+ix model– benchmark settings. Individual agents improve success by up to 11.2 percentage points on TerminalBench 2.1, 6.7 on SWE-bench Multilingual, and 5.0 on SWE-bench Verified.
+
+ng agents: Open-ended self-improvement via experience sharing, 2026. URL https://arxiv.org/abs/2602.04837.
+
+ask SWE-bench development set to guide ten revisions. For each baseline, we select the candidate with the highest development score, breaking ties in favor of the latest revision.
+
+主要贡献包括：ng agents: Open-ended self-improvement via experience sharing, 2026.；URL https://arxiv.org/abs/2602.04837.；ask SWE-bench development set to guide ten revisions.。
+
+需要注意的边界包括：We observe both direct reuse of tools and further refinement as subsequen...**
+
+<!-- paperflow:fb05ca3cc0b6c205 -->
+## HybridCUA: Learning to Orchestrate GUI and CLI for Computer-Use Agents
+
+[[Deep Reading - Sept 2026/HybridCUA-Learning to Orchestrate GUI and CLI for Computer-Use Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38008v1](https://arxiv.org/pdf/2609.38008v1)
+
+- **HybridCUA 是一篇关于 computer-use agent（CUA）交互范式的预印本工作，核心主张是：下一代 CUA 不应只在 GUI 内点击按键，也不应依赖每应用定制的 API，而应把 GUI 的通用视觉交互与 CLI 的可编程效率结合起来，让模型学会在两者之间动态编排。
+
+论文从现有 CUA 的两条技术路线切入：纯 GUI 方法（如 OpenCUA、EvoCUA 等）靠 MLLM 把屏幕截图映射为低层点击/按键动作，优点是无需针对应用定制，缺点是长序列执行慢、错误级联；GUI+API 方法（如 ToolCUA、AutoGLM-OS-9B、UltraCUA 等）通过调用应用级工具大幅提速，但每个应用都要单独造工具，无法规模化。编程智能体（如 Claude Code、OpenClaw）的成功让作者看到 CLI 作为第三条路的价值——CLI 随操作系统自带，可以把长 GUI 流程压缩为单条命令，且不牺牲通用性。但论文的实证观察表明，单纯给 MLLM 暴露 shell 反而有害：四个代表模型在 OSWorld 上掉 2.5–11.5 个百分点，且它们很少真正使用 CLI（最低仅 0.15% 的步骤）。这说明瓶颈不在“有没有 CLI”，而在“模型不知道何时、如何使用 CLI”。
+
+针对这一瓶颈，论文提出完整的解决方案，包括数据与训练两部分。在数据侧，作者设计了一条数据构建流水线，产出三类轨迹：纯 GUI、纯 CLI、以及 GUI 与 CLI 交错的混合轨迹；这些轨迹把界面选择与命令执行锚定在具体的 GUI 上下文中（例如 VLC 播放器自身的状态操作必须留在 GUI，批量快照可以用 cvlc 命令行），共计约 5,000 条混合轨迹，并另有 3,000 个可验证奖励的 RLVR 任务，合称 HybridCUA-8K。在训练侧，论文采用两阶段框架：先在全部三类轨迹上做监督微调（2 epochs）作为 warm-up，再用 GRPO 在线强化学习在 RLVR 任务上训练。关键的 CLI-aware 奖励包含轨迹层系数 λCLI=0.1 与步骤层系数 λexec=0.3，...**
+
+<!-- paperflow:c1cec0533e697e39 -->
+## Self-Evolving Harness on Multiple Tasks with the Agent as Its Own Optimizer
+
+[[Deep Reading - Sept 2026/Self-Evolving Harness on Multiple Tasks with the Agent as Its Own Optimizer|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38372v1](https://arxiv.org/pdf/2609.38372v1)
+
+- **As models grow stronger, recent work has begun to let agents improve their own harnesses, a line of work known as self-evolving harnesses.
+
+oposer it reads the complete run records of the previous batch and edits the harness directly (Figure 1). Both roles use the same frozen model and the same version of the harness.
+
+It tells the proposer that the modified harness will be evaluated on unseen tasks and on entirely different benchmarks, so it should look for improvements that generalize; that it may add or delete files and introduce any component;
+
+ied, APEX-Agents, and Claw-Eval. Even excluding BrowseComp-Plus, the average of Iteration 5 over the other four benchmarks (65.56) exceeds those of Seed (63.76) and Codex (64.97).
+
+主要贡献包括：It tells the proposer that the modified harness will be evaluated on unseen tasks and on entirely different benchmarks, so it should look for improvements th...**
+
 <!-- paperflow:d15cc04a2cb8a19e -->
 ## ToolSearcher: Optimizing Tool Selection at Scale via Reinforcement Learning
 
 [[Deep Reading - Sept 2026/ToolSearcher-Optimizing Tool Selection at Scale via Reinforcement Learning|Deep Reading]]
 
-[https://arxiv.org/pdf/2609.30906](https://arxiv.org/pdf/2609.30906)
+[https://arxiv.org/pdf/2609.30906.pdf](https://arxiv.org/pdf/2609.30906.pdf)
 
-- **一、问题定位。论文从一个能力落差出发：LLM 在自然语言处理上表现优异，却难以与外部环境交互；工具学习是把 LLM 拓展为可执行 agent 的路径，而工具选择是工具使用成功的前置条件。已有工作通常假设工具集较小或预先定义，因此大规模工具选择长期未被充分研究。真实工具仓库的工具数量庞大且类型多样，在上下文长度约束下，模型很难有效完成搜索、区分与组合三件事。作者据此把大规模工具选择界定为 agentic RL 的一个新挑战，并给出一个关键判断：面向知识库问答（KBQA）的现有 RL 方法不足以胜任，因为这些方法的奖励只对齐「答案正确」，而工具选择还必须考虑工具之间的兼容性。
+- **这篇文章针对大规模工具库中的工具选择问题，提出并验证了一个名为 ToolSearcher 的强化学习框架。全文的论证主线、技术主线和实验主线可以概括如下：
 
-二、方法主线。论文提出 ToolSearcher，一个用于有效多轮搜索与细粒度优化的 RL 框架，包含三项设计。其一是类别约束的工具区分（category-constrained tool discrimination），目标是提升模型区分功能相似工具的能力——合理推断其做法是在类别粒度上组织候选与难负例，使模型不仅要选对功能类别，还要在类别内部选对具体工具。其二是事件级搜索建模（event-level search modeling），在多轮搜索过程中显式优化对目标工具的发现，把「某一步搜索命中目标工具」当作可单独奖励的事件，而非只依赖轨迹末端的整体成败。其三是轨迹对齐的信用分配（trajectory-aligned credit allocation），为「搜索—选择」过程的不同阶段提供细粒度奖励信号，缓解长轨迹下的奖励稀疏与归因错配。三者的分工可概括为：类别约束解决「区分不开」，事件建模解决「搜不到」，信用分配解决「学不动」。共同前提是存在可多轮调用的搜索接口，且工具具备可用的类别信息。
+一、论证主线：
+论文从 LLM 无法直接与外部环境交互这一痛点出发，说明工具学习是让 LLM 成为 actionable agent 的关键路径。工具学习包含选择、调用、响应生成三个阶段，但已有研究过度聚焦于调用阶段，导致工具选择成为被忽视的瓶颈。现实中的工具仓库（PyPI、npm、HuggingFace）已经达到百万级且功能高度重叠，上下文长度限制决定了不可能把所有工具文档一次性喂给模型，搜索因此成为不可回避的前置操作。作者进一步指出，大规模工具选择不只是“检索+选择”的简单拼接，还需要考虑工具之间的兼容性（接口的输入约束和输出模式匹配），这使得它可以被看作一个全新的智能体强化学习挑战。已有的 RL 方法主要为知识问答设计，只优化最终答案，没有显式建模工具搜索过程，因而在不牺牲最终选择质量的前提下很难提升搜索能力。由此，论文提出需要专门的 RL 框架来联合优化搜索与选择。
 
-三、实验主线。论文在大规模工具选择基准上做了实验，评测设置包含迭代搜索与复杂工具组合两类困难场景，对比对象是一组强基线，结论是 ToolSearcher 持续优于这些基线。摘要未披露数据集名称、工具库规模、baseline 列表、指标定义与任何数值，也未提到消融规模、训练算法与模型底座，因此实验的强度与可复...**
+二、技术主线：
+ToolSearcher 由三个关键设计组成。第一是类别约束工具区分（Category-Constrained Tool Discrimination）：引入工具类别的约束信息，迫使 LLM 在功能相近的工具之间做精细差异判别，缓解大规模库中的混淆问题。第二是事件级搜索建模（Event-Level Search Modeling）：把多轮搜索轨迹切分为“搜索事件”，并为每个事件给出是否发现目标工具的奖励信号，从而显式地引导模型学习“如何找到目标工具”。第三是轨迹对齐信用分配（Trajectory-Aligned Credit Allocation）：在整条搜索-选择轨迹上对齐奖励与优化目标，为搜索阶段和最终决策阶段分配不同的细粒度优势估计，避免把最终结果的成功或失败粗糙地归因到所有步骤。在实现上，系统包含一个搜索引擎，选用了 Qwen3-Embedding-0.6B 作为检索器，多轮方法下每轮取回 top-5 个候选工具，并设...**
+
+<!-- paperflow:51a26a4f957756e0 -->
+## EpiCon: Collective Agent Learning through Co-Evolving Multimodal Memory
+
+[[Deep Reading - Sept 2026/EpiCon-Collective Agent Learning through Co-Evolving Multimodal Memory|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37923v1.pdf](https://arxiv.org/pdf/2609.37923v1.pdf)
+
+- **背景与问题：多智能体系统（MAS）在解决复杂任务时会产生大量执行经验，包括解题步骤、失败模式和关键证据。EpiCon 的目标是让这些经验不仅能服务当前系统，还能被其他 harness/backbone 组合复用，并在复用过程中继续积累，从而实现“集体学习”，同时完全不更新宿主模型参数。
+
+方法：EpiCon 由专用记忆 harness、一个 Memory Controller Cθ 和一个 Tree Self-Organizer Sϕ 组成，后两者都是独立训练的 2B 模型。控制器在单道题内部联合更新文本指导与视觉证据，并选择性保留视觉记忆；组织器维护一个跨问题、跨系统的持久经验库 B，把被接受的 lessons 和 revisions 层次化整合，并在新问题上检索经验与规则。维护过程写成 B(k+1) = Sϕ(B(k), Uk)。训练监督从 MAS 轨迹构造，例如使用 CAMEL 采集轨迹生成更新、教训和树操作监督。宿主 MAS 的编排和 backbone 参数保持不动。
+
+实验：在 11 个基准、4 类多模态任务域上，用两套 MAS harness（Codex、DeepSeek-Harness）和多组 backbone（Qwen3.8-27B、Gemma4-31B、GPT-5.6-Luna）评测。Baselines 包括 No Memory、Mem0、Cognee、A-Mem、Agent-KB。主比较中，各记忆方法使用 1,000 道与评估集不相交的 construction questions 构建自己的 bank；评估时被测试 MAS 单次求解并使用冻结 bank，以检验历史经验复用。另有共享至多 5 次尝试预算、视觉记忆冻结/演进的设置。实验还单独统计记忆操作的时间与 token 成本。
+
+关键结果：冻结 bank 即使只配合单次求解也能提升其他系统；另一套 harness 使用原始系统的 bank 后又能反向贡献，把原始系统的宏观平均分提高 2.6 分；在 4 种宿主配置下，EpiCon 相对 No Memory 的宏观平均分提升为 1.7–4.9 分；相...**
+
+<!-- paperflow:50cf9a295dc14c16 -->
+## Prompt2Skill: Unsupervised Skill Optimization From Natural Language Instructions
+
+[[Deep Reading - Sept 2026/Prompt2Skill-Unsupervised Skill Optimization From Natural Language Instructions|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38593v1.pdf](https://arxiv.org/pdf/2609.38593v1.pdf)
+
+- **Prompt2Skill 的论证主线是：技能（skill）作为 LLM 推理时的外部工件能提升专业领域表现，但存在三个现实障碍——专家编写成本高、技能未针对具体模型优化、新任务超出既有技能库。现有自动技能优化依赖 curated 训练集，不满足“新任务早期无训练数据”的场景。因此作者提出只依赖自然语言任务描述的技能构建框架：由任务描述推导任务规格，Data Agent 通过检索/适配/生成构建代理数据，Skill Agent 基于执行反馈做反思编辑，并用 fresh batches 上的统计筛选门控更新。技术主线上，框架是典型的双代理闭环：数据代理负责“造题”，技能代理负责“改技能”，统计筛选负责“把关”，三者形成类似 AutoML 的自动化循环，但交付物是冻结模型的技能文档而非模型权重。实验主线上，论文在问答（SearchQA、SQuAD）、阅读理解、电子表格操作（SpreadsheetBench）、数学推理四个领域、五个模型（含 Qwen3-8B 等开源与前沿模型）上验证，共 19 个模型-基准组合：平均绝对提升 10.8 分，相对直接提示提升 36.1%，相对现成技能提升 83.0%，说明任务描述单独即可引导有效的技能构建。附录展示了技能内容示例（Zebra 谜题的约束传播规则表、SearchQA/SQuAD 的选择策略与常见陷阱），以及把 Prompt2Skill 视为 NLP AutoML 任务特化途径的讨论。论文还包含 AI Use Disclosure，声明使用了生成式 AI 辅助头脑风暴、部分代码实现和理论证明草拟。需要注意：摘要里的 10.8 与结论里的 36.1%/83.0% 是两套口径（前者是绝对分提升，后者是相对提升，且后者按 19 个组合平均），不能混读。**
+
+<!-- paperflow:8b157dd65114a2f1 -->
+## Context Language Models
+
+[[Deep Reading - Sept 2026/Context Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37725v1.pdf](https://arxiv.org/pdf/2609.37725v1.pdf)
+
+- **论文提出并系统研究了 Context Language Model（CLM）这一新范式。核心论点是：上下文管理应当从外部 harness 的控制转移到 LM 的内在行为，让模型自己决定在上下文中保留什么、丢弃什么以及如何组织信息。
+
+论证主线：作者首先指出现有上下文管理方法（人工 harness、离线优化、受限工具集）都受限于人类先验，无法产生超出人工设计的策略。借鉴 Sutton 的 Bitter Lesson，他们认为应该让 LM 自由地搜索和学习上下文管理策略。为此，他们将 CLM 形式化为 c_{t+1} = f_CLM_θ(c_t)，即上下文可以经过任意函数变换，而标准 LM 只能追加 token。实现上，上下文被镜像成一个文件，模型可以对该文件进行不受限的编辑。这种设计遵循 less-is-more 原则，harness 层尽可能少地硬编码。
+
+技术主线包含三个层次：（1）零样本 CLM：直接用现有 LM 通过提示转换，无需训练即可工作；（2）技能进化：通过自然语言指令的 skill-optimization loop 进化上下文管理策略，使之在 held-out 任务上超越初始点并扩展 Pareto 前沿；（3）在线强化学习：用 RL 直接优化 CLM 参数，使上下文管理成为可参数化学习的技能。系统层面，论文提出 Suffix Cache Reuse（SCR）来应对上下文中间编辑导致的缓存失效问题，并引入 prefix-reuse FLOPs 作为公平的计算开销指标。
+
+实验主线覆盖从单智能体到多智能体的多种长期任务：编码（TerminalBench 2.1、TBLite）、深度研究（BrowseComp-Plus）、开放发现（多个数学难题）、EdgeBench 单仓库优化、24 小时多仓库 agent-swarm。在所有任务上，零样本 CLM 以更少的计算量达到了超越或匹敌最强基线的性能：BCP 上相对提升 11.4%、FLOPs 减少 21.5%；EdgeBench 上分数高 5%、FLOPs 少 59%；agent-swarm 上改进提升 65%。技...**
+
+<!-- paperflow:c95e20a5efcc4d7c -->
+## MetaPersona: Task-Grounded Synthetic Populations from Empirical Social Science
+
+[[Deep Reading - Sept 2026/MetaPersona-Task-Grounded Synthetic Populations from Empirical Social Science|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38392v1.pdf](https://arxiv.org/pdf/2609.38392v1.pdf)
+
+- **论文针对 LLM 社会模拟中 persona 生成的冷启动问题，提出了一个以实证社会科学证据为根基的合成人群生成框架。作者首先指出现有 persona 生成方法（包括从普查边际采样、LLM 自由文本传记、社交媒体叙事挖掘）虽然在丰富性和分布对齐上不断改进，但始终没有回答一个更根本的问题：到底应该选择哪些属性来定义 persona，以及这些属性之间的依赖结构和取值分布是什么。这种“默认设计而非证据设计”导致合成人群在人口构成、潜在心理属性和依赖关系上失真，而模拟时的提示工程无法修复这一缺陷。为了把 persona 生成变成一门有经验根基的科学，作者构建了 METAPERSONA-DB——一个由 11,638 项实证人类主体研究组成的数据集，通过人工注释提取变量级的关系（例如“经济不安全与制度信任低相关”）、任务相关变量和总体统计。该数据集以文献关系和效应路径为核心，为后续生成提供了结构化证据源。在此基础上，论文提出 METAPERSONA 框架：给定目标任务，先检索相关文献证据，构建 persona 依赖图，再依据实证先验对人口统计、潜在属性与行为结果联合采样，最终生成一组可用于 LLM 模拟的合成 persona。框架的关键贡献在于把属性选择从启发式转换为证据检索，把属性赋值从自由生成转换为分布约束。实验部分，作者在错误信息信念、AI 工具态度和收入再分配支持三个下游任务上，与三个基线和三个前沿模型进行了系统对比。结果因任务和模型而异：METAPERSONA 在错误信息信念和 AI 工具态度任务上表现突出，在收入再分配任务上结果混合，并在 ISSP 收入再分配数据上与所有方法收敛、无显著优势。论文由此得出结论：忠实于目标人群的合成人群生成不能仅依靠更丰富的描述或更强的生成模型，而需要把任务相关的实证知识显式地编码进 persona 的结构中；但该方法也面临证据库偏置、效应覆盖不全以及任务依赖性强等局限。整体上，MetaPersona 为计算社会科学中的模拟研究提供了一个可复现、可审计的新基线，并示范了如何将数十年的二手实证研究转化为面向生成任务的结构化知识。**
+
+<!-- paperflow:38b1e103e522bc2c -->
+## Thinking Before Thinking: Scaling Agentic Inference Through Meta-Reasoning
+
+[[Deep Reading - Sept 2026/Thinking Before Thinking-Scaling Agentic Inference Through Meta-Reasoning|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38147v1.pdf](https://arxiv.org/pdf/2609.38147v1.pdf)
+
+- **论文的论证主线是：随着 agent 在单个问题上消耗越来越多的模型调用，这些调用中有相当大一部分是'下一步做什么'的决策；随着运行变长，控制执行本身成为一项独立任务。一个数学 agent 持有一个主论证看似合理但核心引理未验证的候选证明时，可以选择尝试引理、派第二个 worker 检查已有论证、或放弃当前思路；每个选项都消耗计算，选错可能浪费整个运行。作者将这种能力定位为 metacognitive control——评估自身进展并据此决定下一步——并指出它与产生下一步（proof step / code）的 object-level 能力是不同能力。现有 agent 往往把控制决策与 object-level 工作交错，在单个步骤中基于累积历史做控制决策（ReAct、Reflexion 等系列），缺少显式、结构化的控制过程；错误判断的代价不只是计算本身，还可能让失败路径存活整个运行、或丢弃已经找到的正确答案。技术主线是 agentic meta-reasoning harness：worker 与 controller 分离。Worker 承担任务计算（bash 访问、多轮、并行）；controller 在每个决策点整合运行成果、探索选项、在剩余预算下评估每个选项价值（HIGH/MEDIUM/LOW_VALUE）、从持久记忆携带上下文分派工作。决策之间 controller 只保留紧凑 run account 而不是重放完整历史；所有产出记录为 artifact graph（节点是 artifact，边表示一个 artifact 作为另一个的上下文），memory 是控制动作表面，controller 能把综合 note 或 stable fact 写入 memory pool 供未来使用。实验主线是四个 benchmark（ProgramBench 程序重建、抽象推理、多领域长 horizon 推理、证明生成）× 三个前沿模型（GPT-5.5、Opus 4.8 等），对比生产 coding agent（Codex、Claude Code）、研究 harness 与同...**
+
+<!-- paperflow:0beb49198250fe4a -->
+## Hermes: Learning Contextual Reasoning Unlocks Test-Time Scaling
+
+[[Deep Reading - Sept 2026/Hermes-Learning Contextual Reasoning Unlocks Test-Time Scaling|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38332v1.pdf](https://arxiv.org/pdf/2609.38332v1.pdf)
+
+- **这篇论文针对测试时扩展的核心操作问题展开：当推理计算预算从单上下文扩展到多上下文时，谁来决定新上下文如何生成、哪些旧信息如何保留？作者将模型在这种跨上下文协调中的决策能力命名为“上下文推理”（contextual reasoning），与传统的“数学推理”（in-context reasoning）区分开来。数学推理是在给定上下文内逐步推导出答案；上下文推理则是在多个上下文之间规划、分配和复用信息。论文的核心主张是：上下文推理不应由外部 harness 硬编码，而应是模型本身可学习、可调用的能力。
+
+技术上，论文提出 Hermes 作为一族简单、可配置的 harness，通过在两个维度上逐步增加模型控制权来构造谱系：一是 delegation（委托），即主 agent 在需要时可以启动子 agent，把当前推理状态交给子 agent 在独立上下文中继续，并且子 agent 也能递归再委托，直到最大深度 D；二是 digestion（消化），即把先前上下文的信息压缩或摘要后带入新的上下文。Hermes 的不同配置对应着从 harness 完全控制（例如固定树结构）到模型完全自主（模型可自由决定是否委托、何时委托、委托给谁）的中间状态。为了让模型习得这种控制能力，作者提出 Hermes-Learn 两阶段训练框架：第一阶段学习 delegation 决策，第二阶段或同时学习 digestion 策略。由于 digestion 通过下游结果进行学习存在跨上下文的信用分配困难，论文明确将学习重点放在 delegation 上。
+
+实验部分，作者在 AIME 和 HMMT 等数学竞赛基准上构建评估套件，比较不同规模模型在不同 Hermes 配置下性能随推理计算扩展的曲线。主要发现是：前沿模型能够利用 Hermes 提供的灵活性，实现与额外计算量匹配的性能提升；而较小的开源模型即使把灵活性给到它们，也不懂得使用，形成明显的上下文推理差距。Hermes-Learn 训练填补了这一差距，使得小模型学会根据问题难度和当前进度动态决定是否扩展上下文、是否委托子 agent。训练后的收益跨基...**
+
+<!-- paperflow:f6daf11996fa0fe3 -->
+## LoLBench: Evaluating Coding Agents with Long-Horizon Proposals on Large Software Systems
+
+[[Deep Reading - Sept 2026/LoLBench-Evaluating Coding Agents with Long-Horizon Proposals on Large Software Systems|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37143v1.pdf](https://arxiv.org/pdf/2609.37143v1.pdf)
+
+- **论文提出 LoLBench，一个面向大型软件系统的编码智能体基准，核心创新是把评测从“详细规格→实现”扩展到“用户意图/高层设计（增强提案）→规格推导→实现”的完整流程。基准包含 100 个任务，覆盖 29 个真实软件系统、5 个领域、8 种编程语言；每个任务提供人工撰写的平均约 5000 词的增强提案，软件系统平均 240 万行源码，参考实现 PR 平均改动约 5500 行。评测使用 Harbor 沙箱、禁用公网、6 小时限制，对 6 个最新模型（DeepSeek V4 Flash、Opus 5、Kimi K3、GPT-5.6 Sol、GLM-5.2、MiniMax M3）和 5 个 scaffold（Claude Code、Codex、OpenCode、Pi、mini-SWE-agent）组成的 28 个 agent 组合进行系统评测。结果显示最佳 agent 仅解决 14% 任务、F2P 最高 52.7%，说明从长提案到大型仓库实现的端到端能力仍然很弱。失败分析把失败归因到需求理解、任务规划、代码定位、代码编辑、代码验证五个阶段，发现不完整的代码定位是最主要瓶颈；在 API 规格之外提供参考实现导出的文件树，解决率提升 16–22 个百分点（2.4–17 倍），最高达 34%，验证了定位信息的因果作用。论文还发现 agent 在规格输入上显著优于抽象提案输入，说明感知能力是关键短板；模型与 scaffold 交互明显，部分模型在某些 scaffold 下所有语言解决率为 0%。论文的结论是：在大型软件系统的实际模块化开发中，感知（grounding 用户意图与高层设计）和实现（从规格到正确代码编辑）都仍是编码智能体的核心挑战，现有基准因直接给出规格而低估了感知难度。论文同时承认评测只覆盖 F2P/P2P，不评估可读性、可维护性和设计约定一致性。**
+
+<!-- paperflow:2ff0a67df0bc15c1 -->
+## CollabFlow: Recursive Self-Improvement of Agent Collaboration
+
+[[Deep Reading - Sept 2026/CollabFlow-Recursive Self-Improvement of Agent Collaboration|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38662v1](https://arxiv.org/pdf/2609.38662v1)
+
+- **CollabFlow 的核心主张是：让智能体协作本身成为递归自改进（RSI）的对象，而不是把协作视为固定模板。论文首先指出现有 LLM 多智能体系统虽然满足 RSI 的表层形式（智能体互相改进答案，每次交换留下执行结果），但协作结构在算子层面就被预定义，拓扑学习方法保留逐字消息而传播错误，奖励最大化训练则让系统坍缩到少数团队，因此“系统从自身结果改进协作方式”这一循环是开环的。
+技术主线上，CollabFlow 由三层组成。第一层是可训练的 Collab-Director πθ，每轮根据任务构造一个完整智能体团队，团队空间被约束为合法协作图。第二层是证据条件通信协议：协作图的每条边携带消息采纳规则——接收方只在发送方证据强度 ℓi 比自己的 ℓj 超过裕度 Δ 时采纳对方的异议，否则保留己见或按规则修订；这样 director 不仅学到谁参与协作，还学到谁向谁通信、在什么证据条件下听谁的。第三层是跨轮次的 Collaborative Trajectory Balance（CTB）：这是一个基于流的训练目标，把团队构造顺序视为轨迹，每个团队只在其构造顺序上计一次 credit，目标分布是与团队奖励成比例的分布 qc ∝ r̃β，流方程 Z ∏ pF = R̃β ∏ bG 显示前向流被配平到奖励幂次与边界项的乘积；论文同时证明自生成目标在轮次之间的移动距离有一个随记录累积而收缩的界，且该界对任意实现计数和任意选择团队的历史策略成立。
+实验主线上，论文用六个研究问题（RQ1–RQ6）验证有效性、OOD 泛化、跨执行器泛化、范式与组件贡献、团队级目标贡献和递归贡献。设置包括六个 IID 训练数据集和六个 OOD 留出数据集（每集 128 项，AIME 2026 为 30 项），主执行器为 Qwen3.5，另用 GPT-5.6-Luna、GLM、DeepSeek V4.1 验证冻结执行器迁移；基线涵盖 SFT、GRPO、AFlow、Agent+RL、FlowSteer、Evolving SkillFlow、SkillRL。结果是：IID 上每个数据集每个指标都排名第一，平均超最强...**
+
+<!-- paperflow:bbbb43643ddc8769 -->
+## AREX-2: Advancing Self-Improving Agents through Long-Horizon Reflective Tasks
+
+[[Deep Reading - Sept 2026/AREX-2-Advancing Self-Improving Agents through Long-Horizon Reflective Tasks|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38288v1](https://arxiv.org/pdf/2609.38288v1)
+
+- **一、论证主线：论文从一个观察出发——难题靠「尝试-度量-修订」的循环解决，但现有系统把循环实现在 scaffold 中，模型只是循环里的单次尝试生成器。论文主张把循环移入模型内部，并把这种能力命名为 self-improvement：给定更多轮次，agent 依靠自己的判断把轮次变成更好的解。作者把该能力分解为 reflection（每轮增益大）与 long-horizon execution（正增益轮数多），并给出形式化刻画：轨迹 τ=(y0,f0,...,yn,fn)，历史最优 st=max S(yk)，每轮期望增益 rt=E[st−st−1]，有效水平 T*≤T 为 rt>0 的轮数。形式化的意义在于把「自改进」从口号变成可测的量：总改进等于各轮增益之和，预算增长是否有用取决于 T* 是否长。\n\n二、技术主线：既然 reflection 与 long-horizon execution 无法从成品答案中学到，就需要记录工作过程的轨迹数据。论文选择 ML 工程与算法编程两个领域合成数据，理由是反馈无歧义、可奖励持续迭代，并假设两个能力领域无关，可在这些便于监督的场景中学会。技术上分三步：从 GitHub 仓库和在线评测构建环境（只有通过执行与验证的环境才保留）；让 agent 在多轮中改进方案，按需获取 operational knowledge、检索任务特定信息（排除任务本身材料以防泄漏），失败与回退保留在 context 中，loss 施加在失败/回退之后的决策上，从而教会模型从错误状态恢复；训练时明确告知 agent 预算（轮次数与 wall-clock 时间，量级为数小时与数百次工具调用），因为「知道预算是如何工作的前提」。基座为 Qwen3.8-27B。\n\n三、实验主线：六个基准、四种能力——Frontier-CS（算法编程）、MLE-bench Lite（ML 工程）、BrowseComp/HLE/GAIA/DeepSearchQA（深度研究与 agentic reasoning）。结果：MLE-Lite 81.8、Frontier-CS 70....**
+
+<!-- paperflow:086b3bb78629b23a -->
+## AgentBug-Smith: Automatically Reproducing Real-World Harness Bugs in Agentic Systems
+
+[[Deep Reading - Sept 2026/AgentBug-Smith-Automatically Reproducing Real-World Harness Bugs in Agentic Systems|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37864v1](https://arxiv.org/pdf/2609.37864v1)
+
+- **这篇论文围绕“agentic systems 中的 harness bug”展开，提出了一套自动化发现、复现、基准化和知识复用的完整方案。
+
+一、论证主线
+论文首先指出，LLM agents 正在成为新的软件范式，而 agentic systems 通常由 backbone LLM 和外围 harness 组成。harness 承担上下文管理、安全护栏、编排、工具集成等关键职能，代码规模可达 20 万行，其复杂度已经使其成为系统失败的重要来源。同时，近年 harness engineering、self-evolving harnesses 和 recursive self-improvement 等研究方向表明，harness 本身可以从静态支撑层演化为决定 agent 能力的关键组件，因此 harness 的质量和缺陷修复能力至关重要。
+
+然而，harness bugs 与普通软件缺陷不同，它们涉及 LLM 调用、工具交互、状态恢复、token 计费、消息序列化等 agent 特有机制，导致现有面向通用软件设计的 bug 复现技术难以奏效；SOTA 软件智能体在修复这类缺陷时也表现有限。更现实的问题是，现有 benchmark 中可执行的 harness bugs 数量少且固定，构建它们需要数百小时的人工劳动，无法跟上真实 bug 持续涌现的速度。因此，论文认为需要一种自动化的、可持续的机制，把真实世界中的 agent 失败转化为可复现的评测实例和可复用的修复知识。
+
+二、技术主线
+为填补这一缺口，论文提出 AGENTBUG-SMITH。它是一个多智能体系统，旨在无需人工干预的情况下完成 harness bug 的持续发现与复现。其流水线包含三个主要环节：
+1. 持续识别：从开源 agentic systems 的 GitHub issues 等来源自动筛选与 harness bug 相关的 issue，使用成本较低的模型（如 GPT-4.1-mini）以支持大规模持续运行。
+2. 环境构造：针对识别出的 issue 自动构建执行环境，并且强调被测函数不能被 moc...**
+
+<!-- paperflow:e4ae0096f8b492f1 -->
+## Video-RSI: Recursive Self-Improvement of Video Understanding Agents via Harness Evolution
+
+[[Deep Reading - Sept 2026/Video-RSI-Recursive Self-Improvement of Video Understanding Agents via Harness Evolution|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37950v1](https://arxiv.org/pdf/2609.37950v1)
+
+- **Video-RSI 研究的问题是：视频理解智能体如何在不修改模型权重的前提下，改进自己获取证据的方式。论文的核心观察是，视频理解智能体的行为由可执行的 harness 支配——harness 控制智能体观察什么（哪些帧、哪些工具）、如何处理观察（transcript、OCR、记忆）以及如何使用证据推理；因此 harness 的质量直接决定答案准确率和视觉成本。作者指出，仅依赖执行轨迹进行自我改进存在根本缺陷：轨迹只包含当前 harness 所获取的证据，无法区分相互竞争的失败解释——比如“模型根本没有看到关键事件”和“看到了但表征/使用不当”，这两种失败需要完全不同的修复。
+
+针对这个问题，Video-RSI 提出一个递归自改进框架：同一个冻结权重的语言模型同时担任 Solver（回答视频问题）和 Editor（诊断失败、修订 harness）。每轮进化中，Solver 在训练问题（216 个 LVBench 问题）上执行当前 harness 并产生轨迹；Editor 检查轨迹、发现失败后，主动重访原始训练视频来检验失败解释——如果调查发现事件未被覆盖，则修订时间覆盖；如果事件已被观察但使用不当，则检查证据的表征和使用。这种 active video investigation 为代码修改提供了超出轨迹的证据基础。随后 Editor 提出候选修订，并在一个视频不重叠的私有 development set（72 个问题）上进行选择；cost-aware 选择规则（Eq. 3，α=0.1, β=0.2, ϵ=1/|Dg|）同时考虑答案准确率和视觉成本，允许 cost-reduction 分支至多减少一个正确答案。整个进化过程进行 20 轮修订尝试，最终被接受的 harness 冻结用于主评估。
+
+实验在四个长视频理解基准（Video-MME、LongVideoBench、EgoSchema、MLVU）上进行，对比 MLLM、视频智能体模型和 harness 自改进方法；作者用相同模型复现了 VideoSeek 和 VideoHarness-RSI。主要结果显示：进化后的 h...**
 
 # Computer Vision
 
@@ -1283,7 +1638,7 @@ HiCoMER 由三个组件串成流水线：(1) Hierarchical Memory Conflict Update
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, vision, reinforcement-learning
-- 论文/报告：19 篇
+- 论文/报告：23 篇
 - Blending Concepts: Benchmarking Visual Metaphor Generation in Text-to-Image Models
 - Thinking in Pictures: A Systematic Benchmark for Reasoning-driven Image Generation
 - VidaForge: Open Research Infrastructure for Video Pretraining Data Recipes
@@ -1556,18 +1911,63 @@ Visual Jev 关注的不是“如何让视觉语言模型更聪明”，而是一
 四、技术主线
 整体流程可归纳为：以某一模态为锚生成 rollout → 冻结另一模态塔，在锁定轨迹上优化目标塔 → 按模态动力学调节目标函数与扰动强度 → 用更干净的信号更新策略。这条主线把「多目标耦合优化」拆成「分时单目标优化」，以牺牲部分联合搜索空间换取归因清晰度...**
 
+<!-- paperflow:1b161a7a051d0080 -->
+## Are In-Context Images Worth 10 Dimensions?
+
+[[Deep Reading - Sept 2026/Are In-Context Images Worth 10 Dimensions|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.37659v1](https://arxiv.org/pdf/2609.37659v1)
+
+- **论文以“上下文图像是否值得 10 个维度”为问题切入，系统研究了 LVLM 中少样本上下文图像分类所依赖的线性表征的形成机制。全文论证主线为：先指出 induction circuit 依赖的线性表征如何构建是一个未解问题，再提出 SDG（跨任务共享的低维判别几何）的概念并验证其存在与必要性，然后通过理论证明（线性自注意力可做主成分投影式降维，每层实现一步梯度下降）和实验验证（早期层降维、特定注意力头剪枝效应）解释其形成机制，最后讨论局限与未来方向。技术主线上，作者构建了线性非因果自注意力回路的理论模型，利用满秩初始化和行列式动力学证明误差收敛。实验主线上，作者在多种图像任务上测量跨层线性可分性维度需求、执行 SDG 维度消融、识别并剪除 2% 匹配理论 OV 回路的注意力头，从正反两方面证实 LVLM 早期层以类似机制降维。结论强调，这种机制不是从输入视觉 token 到文本 token 的简单线性传递，而是一个主动的、有结构性的压缩过程。**
+
+<!-- paperflow:13d0e6fc209de21b -->
+## What to Attend, What to Keep: Skill-Conditioned Visuotactile Representation with Progress-Guided Event Memory
+
+[[Deep Reading - Sept 2026/What to Attend, What to Keep-Skill-Conditioned Visuotactile Representation with Progress-Guided|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38494v1](https://arxiv.org/pdf/2609.38494v1)
+
+- **该论文研究机器人操作中视觉和触觉模态在原始技能层面的组合方式。核心观察是：不同操作阶段需要不同模态的主导，视觉引导伸展和定位，触觉通过时间演化决定抓取、对齐和接触；不同技能也有不同的时序尺度需求，如灯泡扭转需要理解触觉读数的时间演化，瓶盖滑动检测依赖短暂的滑动事件；类似技能也可产生不同的触觉模式。现有方法采用固定时间窗口和统一融合结构，无法表达这些差异，且短窗口会遗漏早期事件。作者提出 SKILLFORMER：技能条件化表示，查询技能条件化模态特定短期观测 token 的融合，并关注保留最近 K 个已执行技能终端观测的稀疏事件记忆。技能进度评估在三个接触丰富任务上表明，该方法降低滑动检测延迟 87%、扭转完成延迟 67.5%、盲搜索进度误差 92%，且增益集中在完成由接触或任务历史定义的地方。结论是观测形成本身而非仅策略架构是多模态表征的核心挑战。**
+
+<!-- paperflow:b5a7024de3025653 -->
+## LoopVL: Recurrent Visual Intelligence
+
+[[Deep Reading - Sept 2026/LoopVL-Recurrent Visual Intelligence|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38426v1](https://arxiv.org/pdf/2609.38426v1)
+
+- **LoopVL 是第一个系统研究 Loop Transformer（循环 Transformer）能否有效迁移到视觉-语言模型的工作。论文的出发点是一个明确空白：尽管循环架构在语言模型领域已经复兴——从 Universal Transformer 到循环深度 LLM 再到分层推理模型——但已有研究几乎都集中在纯语言任务上，循环计算对视觉 token 演化的作用、对多模态理解的影响都没有被直接验证。LoopVL 的架构把 Module-Loop 与 Model-Loop 结合在一起：共享模块被反复施加到统一的视觉-语言隐状态上，使模型的有效计算深度远大于物理层数，而参数不按深度比例增长。与常见的 VLM 视觉 token 处理方式（如一次性投影后固定、或早期重要性筛选后删除）不同，LoopVL 让视觉 token 在每轮循环中持续参与计算并演化：编码器特征最初描述局部图像块，经过多轮共享模块处理后逐步形成与问题相关的全局证据。训练上，LoopVL 从零开始，顺序经过语言预训练、多模态预训练（使用 OneVision-1.5 Mid-Training-85M 等数据，包含一般视觉问答、文本丰富图像、图表、数学和短答案任务）和后训练（重点为数学推理），数据准备包含问题文本去重和长响应过滤。评测上，模型在 16 个 benchmark family、展开后 23 个评分行上对比了多组紧凑 VLM，结果显示 LoopVL-1B 在多模态理解和视觉推理上超过规模相近甚至更大的非循环模型，在幻觉、图表理解和科学推理上也保持竞争力；显式 CoT 在数学与推理任务上略有帮助或持平，但在可直接作答的短答案任务上反而降低准确率。机制分析是论文的另一主线：论文定义了 Visual Aha Moments 现象——跨循环轮次间视觉注意力发生明显迁移与集中；通过改变反向传播路径（selective backpropagation）和移除 visual anchor/query-conditioned visual gate 的从零预训练对照，证明该现象对训练细节稳健；注意力熵分析显示第二循环周期熵更...**
+
+<!-- paperflow:a6c92e55ce09274c -->
+## LEGO-OPD: Factorized Teacher Composition for Multimodal On-Policy Distillation
+
+[[Deep Reading - Sept 2026/LEGO-OPD-Factorized Teacher Composition for Multimodal On-Policy Distillation|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.00333v1](https://arxiv.org/pdf/2610.00333v1)
+
+- ****问题主线**：多模态 on-policy distillation（OPD）需要在学生自生成前缀上蒸馏教师预测，以同时提升视觉接地与语言推理。但现有两类方法都有结构性缺陷：多教师方法（LLM+VLM）直接组合完整预测分布，把每个教师的语言先验与接地信号纠缠在一起，无法独立迁移互补优势；增强视觉监督的方法虽改善感知，却可能过度强调视觉证据、扭曲语言先验并损害推理。由此引出核心需求：一个能分别控制语言推理与视觉接地、并能按解码前缀自适应调节视觉贡献的蒸馏框架。
+
+**技术主线**：LEGO-OPD 给出三段式方案。
+- 第一，广义贝叶斯形式化：给定先验分布 p0、有限证据分数 s 与证据尺度 α，最优更新为 q*_α = argmax{αE[s] − D_KL(q‖p0)}，闭式解 q*_α(v) ∝ p0(v) exp{αs(v)}，把“先验+加权证据”统一进指数族框架。
+- 第二，因子化教师组合：语言专家 πL（Qwen3-4B-2507）提供语言先验 qL,t；接地专家 πV（Qwen3-VL-4B）不提供完整预测分布，而是提供其有图/无图 logit 差 zIV,t − z0V,t 作为视觉似然残差；组合教师为 qT,t = softmax(zL,t + α_t(zIV,t − z0V,t))（logit 空间与概率空间等价，因分支 log-normalizer 在 softmax 中抵消）。α=0 时退化为纯语言教师，从而语言推理与视觉接地被解耦控制。
+- 第三，源参考自适应校准：α_t 由 grounding expert 自身的图像诱导预测偏移（有图 vs 无图分布差异）作为前缀相关参考确定，通过局部 KL 近似得到闭式系数（Eq. (13)），以防止视觉监督不足或过度；近似的可靠性用数值 KL-matching 参考评估。
+- 学生训练：冻结教师，在固定学生采样前缀上最小化 reverse-KL OPD 目标 Eq. (3)；并给出学生预测的因子化解释（p0θ,t = πθ(·|∅,h_t)）以揭示两个因子的贡献。
+
+**实验主线**：学生 Qwen3-...**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：vision, reinforcement-learning, deep-learning
-- 论文/报告：5 篇
+- 方法：vision, reinforcement-learning, audio, deep-learning
+- 论文/报告：6 篇
 - Verify Before You Distill: Prompt-Level Teacher Gating for On-Policy Distillation
 - You Are What You Read: Misalignment via In-Context Persona Induction
 - DataFlex-RL: An Evaluation Platform for RLVR Data Policies
 - EvoRS: On-Policy Self-Evolution of Reward Systems for Open-Ended Reinforcement Learning
 - MOPD-Router: Rethinking Teacher Routing in Multi-Teacher On-Policy Distillation
+- HelixWorld: A Real-time Interactive Audio-Visual World Model
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1640,18 +2040,36 @@ DataFlex-RL 的论证起点是一个方法论质疑：RLVR 领域近年来提出
 
 在实验验证阶段，论文在强对弱、同尺寸蒸馏以及有无领域标签的四种交叉场景下进行了系统评测。实验结果表明，ExpertAlign 在所有设置下均显著优于现有的均值聚合和硬路由基线。特别是在有标签数据下，不使用标签的 ExpertAlign 反超了使用标签的标准 MOPD，有力地证明了 Token 级别跨领域互补监督的存在和价值。该研究为大语言模型的能力融合与高效蒸馏提供了一种全新的范式。**
 
+<!-- paperflow:4362681290e32ab5 -->
+## HelixWorld: A Real-time Interactive Audio-Visual World Model
+
+[[Deep Reading - Sept 2026/HelixWorld-A Real-time Interactive Audio-Visual World Model|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38123v1](https://arxiv.org/pdf/2609.38123v1)
+
+- **HelixWorld 的核心主张是：世界模拟本质上是多感官的，真实物理交互既产生视觉也产生承载关键信息的声音（如表面材质、接触力、屏幕外事件），因此一个真正的交互式世界模型必须让视觉场景与空间立体声在用户控制下共同演化。然而现有交互式世界模型几乎全部静默，只处理视觉渲染和控制，忽略声学维度；即便最近有工作尝试把音频引入世界模型（EchoWM），也无法在动态相机运动下实现精细的空间声学对齐。本文正是针对这一缺口，提出一个同时满足“交互控制”、“空间声学对齐”和“实时流式生成”三个属性的音视频世界模型——HelixWorld。
+
+论文首先指出直接改造现有模型会遇到三重阻碍：级联视频到音频方法无法访问相机轨迹和用户动作，声音对自我运动不敏感，且串行延迟不能满足实时性；双向音视频基础模型缺少外部控制接口，难以接受用户输入；而把这些模型强行变成因果自回归 rollout 会导致严重的误差累积和训练不稳定。因此，HelixWorld 设计了专门的解决方案，包含数据、训练和评估三个部分。
+
+在数据层面，作者构建了高保真空间音视频数据集，特点是包含真实立体声和度量相机位姿，可以同时提供连续动态、真实声学条件和同步控制信号。数据整理采用“计算优先”（compute-prioritized）的策略，以确保训练样本的有效性和多样性。
+
+在训练层面，HelixWorld 采用两阶段方案。第一阶段训练双向教师模型：模型同时接收连续 6-DoF 相机轨迹和离散用户动作作为控制信号。连续相机位姿通过 PRoPE（投影相对位置编码）注入，用投影矩阵 Pt = diag(Kf,t,1)Wt 变换视觉注意力 query/key，使注意力机制感知相机几何；离散动作使用 81 类词表（9×9 网格的平移与视角旋转速度分箱），动作索引嵌入后与扩散时间步嵌入相加，再通过 AdaLN-Zero 调制注入视频分支。两条控制通路都进入视频分支，并通过跨模态注意力传播到音频分支。为防止直接全量训练不收敛，论文采用渐进式训练：先训练控制相关模块，再加入视频分支联合训练，最后进行完整音视频联合训练。第二阶段把教师模型蒸馏为少...**
+
 # AI for Education
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, ai-for-science, language, vision-language-model, vision, reinforcement-learning, vision-language, deep-learning
-- 论文/报告：5 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, science-discovery, vision, reinforcement-learning
+- 论文/报告：8 篇
 - Mapping the Emerging Social Science of Large Language Models
 - Elastic Horizon: Discovering the Effective Interaction Frontier in Agentic Reinforcement Learning
 - MUSE: Benchmarking Large Vision-Language Models on Multi-Modal Understanding in Situated Education
 - ProgramDistill: From Interactive Web Apps to Verifiable Reference-Guided SWE Tasks
 - Self-Play Pretraining with Zero Data
+- MILO: Automated Harness Discovery via Orchestrated Multi-Agent Evolution
+- Cognitive Skills in the Age of AI: Computing Students and Experts Perceptions
+- OmniTaskonomy: When Does Visual Generation Improve Visual Understanding?
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1721,15 +2139,60 @@ MUSE 的核心技术贡献在于其解耦式的数据生成范式。通过将复
 
 - **这篇论文挑战了“预训练必须依赖人类数据”的传统范式，提出了一种名为“零数据自我博弈预训练”的新框架。该框架的核心思想是利用通用图灵机（UTM）作为无限的程序空间，通过生成器和学习器的对抗与协作来自动挖掘有价值的训练数据。生成器利用强化学习在程序空间中搜索，旨在产生能够最大化学习器知识获取的序列，从而构建出一套自发的、由易到难的课程。实验结果极具启发性：在完全不接触任何自然语言的情况下，该模型在自然语言基准测试上的表现随计算量稳步提升，并自发形成了处理复杂逻辑和上下文信息的能力。这一工作不仅为解决数据枯竭问题提供了新思路，也从计算理论的角度揭示了语言建模与通用计算结构之间的深层联系，是迈向自主学习通用人工智能的重要一步。**
 
+<!-- paperflow:ed3a5702f4bbd406 -->
+## MILO: Automated Harness Discovery via Orchestrated Multi-Agent Evolution
+
+[[Deep Reading - Sept 2026/MILO-Automated Harness Discovery via Orchestrated Multi-Agent Evolution|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38349v1](https://arxiv.org/pdf/2609.38349v1)
+
+- **In this paper, we present MILO (Meta-evolutionary Island Orchestration), a framework for automated harness discovery that co-evolves the harness and its own search strategy.
+
+ite the whole harness (Self-Harness, Meta-Harness) but inherit the exploitation bias of their fixed LLM mutators. Second, sample-efficient search: such exploration is also costly.
+
+trated Multi-Agent Evolution Listing 18 · Third autocorrelation inequality prior best 1.4508066 →ours 1.4488860 Best optimizer discovered by MILO (excerpt of the 574-line program; construction on 25,600 grid points): the log-sum-exp objective and its FFT gradient (val_grad), the fixed-iteration melt ladder (run_path), and the chain of warm-floor hops that…
+
+n workspace/skills/. Mirrors what A-Evolve’s ‘AgentWorkspace.list_skills‘ considers a skill: a subdir of ‘skills/‘ (excluding ‘_‘-prefixed like ‘_drafts‘) containing a ‘SKILL.md‘.
+
+主要贡...**
+
+<!-- paperflow:e5db36860d2afaac -->
+## Cognitive Skills in the Age of AI: Computing Students and Experts Perceptions
+
+[[Deep Reading - Sept 2026/Cognitive Skills in the Age of AI-Computing Students and Experts Perceptions|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.31272.pdf](https://arxiv.org/pdf/2609.31272.pdf)
+
+- **论文以 AI 全面融入计算工作流为背景，提出了一个面向未来的教育问题：计算专业学生是否在为 AI-rich 时代的认知劳动做好准备？作者认为，AI 系统已从语法纠错等常规任务扩展到数据分析、逻辑推理、知识保留、抽象思维、系统思维和问题分解等高阶认知任务，许多过去由学生独立完成的认知活动现在可以被 AI 辅助甚至替代。与此同时，认证与教育机构长期强调批判性思维等技能的教育必要性，这种强调是否仍然成立，需要实证检验。
+
+为回答这一问题，作者采用混合方法研究，收集计算专业学生与计算专家/教师对认知技能重要性的感知。参与者被要求在不同时间框架下评估技能的重要性：过去被锚定在 2015 年（GenAI 工具尚不可用），现在对应当前环境，未来对应 AI-rich 环境。检索片段显示样本为 17 名学生与 4 名专家，组间不均衡；研究者在评分前提供了技能定义以建立共同理解；量化部分使用重复测量方差分析比较学生与专家评分；质性部分通过访谈收集理由，并使用双编码者主题分析，计算编码者间信度。
+
+核心发现是：多数认知技能在未来 AI-rich 环境中的重要性被认为会下降，但批判性思维仍然重要。这一结果既符合“认知卸载”的直觉，也提出了值得深究的张力：如果 AI 可以承担推理、分析和问题分解，为什么批判性思维没有被同样降权？可能的解释方向是，AI 输出仍需人类验证、纠错和判断，因此批判性思维成为人机协同中的关键人类技能。访谈还收集了重要性变化的原因以及未来计算学生如何准备的建议，但这些具体内容在本次材料中不完整。
+
+论文的贡献不在于提供客观认知能力测量，而在于系统记录利益相关者的感知差异与时间趋势，为课程设计和教育政策提供经验依据。其局限也很明显：样本小且不均衡，专家仅 4 人；研究对象是感知而非实际能力；未来情境是假设性的；统计细节和质性主题在本文资料中缺失。总体而言，这是一项问题意识明确、方法规范的探索性研究，适合作为 AI 时代计算教育讨论的起点，但结论需要更大样本和客观测量来支撑。**
+
+<!-- paperflow:391a74fa928d68c3 -->
+## OmniTaskonomy: When Does Visual Generation Improve Visual Understanding?
+
+[[Deep Reading - Sept 2026/OmniTaskonomy-When Does Visual Generation Improve Visual Understanding|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.38079v1](https://arxiv.org/pdf/2609.38079v1)
+
+- **这篇论文围绕一个看似简单但此前缺乏系统答案的问题展开：视觉生成到底能不能帮助视觉理解，以及这种帮助何时出现、由什么决定。作者首先指出现有研究的不对称现象：大量工作证明视觉理解能改善视觉生成，但视觉生成对视觉理解的帮助却长期不明确，甚至被认为贡献有限。这一观点与直觉矛盾，因为图像生成本质上需要模型掌握物体外观、空间关系、几何结构和物体性等密集的视觉知识，而这些知识恰恰也是识别、计数、空间推理和 3D 感知等理解任务所需要的。
+为回答这个问题，论文采用统一多模态模型（omni model）作为研究平台。其理由是，只有在同一个模型里同时支持图像生成与图像理解，才能公平比较两种监督的迁移效果。研究的第一条主线是受控任务对：作者设计成对的 I2I 生成任务与 I2T 理解任务，让它们表达同一个底层视觉问题，只是输出模态不同（像素还是文本）。在这样的受控条件下，I2I 训练后再进行 I2T 微调，确实能带来下游理解性能的提升，而且 I2I 数据量越大提升越明显；当 I2T 数据有限时，这种提升尤其有价值。
+第二条主线是任务空间的系统化。作者提出 OmniTaskonomy，一个覆盖 19 个 I2I 生成任务和 25 个 I2T 理解能力的统一分类体系，并在此基础上测量所有任务对之间的迁移，得到一张任务迁移图谱。这张图谱最重要的特征是选择性：并不是所有生成任务都能帮助所有理解任务。有些迁移符合直觉，例如深度预测帮助度量 3D 推理、物体指向帮助计数、拼图重建帮助 2D 排序；有些则出人意料，例如 2.5D 分割提升类别识别、Z-depth 预测提升定位。更有价值的是，图谱中同时存在负迁移，说明某些生成任务可能损害特定理解能力，训练课程不能无差别堆叠生成任务。
+第三条主线是迁移机制的探索。论文提出用梯度对齐来解释迁移：测量 I2I 目标和 I2T 目标是否在相同参数上诱导出方向一致或互补的更新。结果显示，在受控设置下对齐最强的参数集中在理解分支的 pre-attention RMSNorm 层；逐层分析也发现了这一聚集模式。更重要的是，论文观察到梯度对齐强度与跨任务迁移收益之间存在正...**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Research
 - 方法：vision
-- 论文/报告：2 篇
+- 论文/报告：3 篇
 - The Emerging AI Paper-Review Arms Race: Adversarial Co-Evolution in Scholarly Publishing
 - GitScholar: A Dataset for Predicting AI Research Impact from GitHub Engagement
+- One-Step Next-Latent Prediction Is Not a World Model
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1768,6 +2231,23 @@ MUSE 的核心技术贡献在于其解耦式的数据生成范式。通过将复
 第一步是资源构建：把每篇 AI arXiv 论文与其对应的 GitHub 仓库对齐。摘要未披露链接算法（推测可能混合 arXiv ID 抽取、README/论文中的仓库 URL 匹配、第三方索引与名称模糊匹配等），也未说明是一对一还是多对多关系、是否包含第三方复现仓库；这些细节直接决定数据集的语义与噪声水平。
 第二步是信号特征化：将仓库侧的互动行为（论文称 GitHub engagement / reactions）转化为可用的早期特征。摘要未给出特征清单，合理推断包含 star、fork、issue、PR、贡献者、活跃度及其随时间的增长速率等，并可能需要按仓库年龄做归一化。
 第三步是任务与评估：把问题构造成早期的学术影响力预测（摘要中出现“early prediction precision”），以学术侧信息构成的强 baseline...**
+
+<!-- paperflow:c9784a4163c9095c -->
+## One-Step Next-Latent Prediction Is Not a World Model
+
+[[Deep Reading - Sept 2026/One-Step Next-Latent Prediction Is Not a World Model|Deep Reading]]
+
+[https://arxiv.org/pdf/2609.36227v1.pdf](https://arxiv.org/pdf/2609.36227v1.pdf)
+
+- **论文《One-Step Next-Latent Prediction Is Not a World Model》对当前流行的“下一潜在预测”范式进行了批判性理论分析，并指出该范式不能自动提供世界模型的展开能力。
+
+文章起始以LeNEPA等近期工作为靶子——这些方法用因果Transformer在时间序列上做一步式下一潜在token回归，并用isotropy penalty（例如SIGReg）替代stop-gradient来防止表示坍缩，报告指标多集中于表示质量或一步MSE。本文提出，如果把这些模型当作世界模型使用，就必须面对开环展开（open-loop rollout）的考验。
+
+理论部分有三个主要分支。第一，对于线性高斯马尔可夫隐变量，一步回归得到条件均值A和残差协方差Σ，二者共同决定全部horizon的条件分布。如果只保留均值并做确定性展开，开环误差等于“残差账单”：trace(Σ + AΣA^T + ... + A^{K-1}Σ(A^{K-1})^T)。该误差随K单调增加，即使一步拟合完全精确也无法避免。第二，当条件均值是非线性函数时，组合迭代不一定是多步条件均值，因此误差累积没有简单修正。第三，当观测是马尔可夫状态的非单射映射（如只旋转的某个坐标）时，任何无记忆的预测器都不能确定未来，但有限窗口（例如8个时间步）可以近似恢复状态信息，这为LeNEPA的causal window提供了理论支撑。
+
+此外，论文证明isotropy penalty是嵌入边际的函数，对转移参数的偏导数为零。这意味着它无法在不同转移动力学之间做选择，只能防止表示坍缩本身。进一步，定理6解释了为什么实验中对λ的宽泛变化不敏感。
+
+实验部分在三个合成任务上验证理论：AR(1)标量自回归、隐藏平面旋转、以及带isotropy惩罚的线性编码器+过渡。AR(1)结果显示一步MSE=0.998，而16步开环误差=5.10，完全匹配解析“残差账单”；即使采用8步展开训练目标，16步误差依然是5.073，说明并非优化不足。隐藏旋转实验中，单标量无记忆预测的16步误差为0.778，而8步窗口的误差降至0.0...**
 
 # AI for Science
 
