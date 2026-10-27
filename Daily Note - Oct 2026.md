@@ -134,8 +134,8 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, ai-for-science, generation, language, reasoning, science-discovery, reinforcement-learning, retrieval
-- 论文/报告：52 篇
+- 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
+- 论文/报告：65 篇
 - Do LLMs Learn from Rewards in Context? : Rethinking the role of reward in In-Context Reinforcement Learning
 - AgentGarten: Code Worlds for Evolving Agents
 - MiMo-V2.6: Scaling Reinforcement Learning Towards Self-Improvement
@@ -826,13 +826,197 @@ EvoForesight 由 PROMETHEUS、BRANCHUS、ATHENA 构成。PROMETHEUS 是 living d
 三、方法：LLM 作为一次性的语料调试器
 论文提出第三条路。LLM 只用一次，用途不是打标签而是调试。具体形态：一个工具使用型 agent 在只读、带预算的 API 后探索语料（检视预算 300 次，每次返回 400 字符视图），提出关于缺陷的假设并用工具验证，最终把每条发现编译成一个可执行 selector——形如布尔查询，可含语言识别字段、域名模式与否定条件（片段中的一个实例是 langdetect='cs' AND lingua_top='cs' OR domai...**
 
+<!-- paperflow:05e9683eca60ba5e -->
+## RSI-Opt: Recursive Self-Improvement Optimizer Agents For Model Training
+
+[[Deep Reading - Oct 2026/RSI-Opt-Recursive Self-Improvement Optimizer Agents For Model Training|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32026](https://arxiv.org/pdf/2610.32026)
+
+- **1. 问题与动机。论文从传统训练的一个现实痛点出发：优化器与学习率调度通常在训练前选定，但其效果依赖架构、数据和训练动力学；换配方往往要反复实验和人工干预。LLM coding agent 提供了一种新的适应方式：它可以在训练中读取 loss 与诊断信息，编辑优化器程序。但固定 agent policy 不会跨运行积累经验，每次训练都从同一提示词开始，无法把“上次哪些改动有效、哪些是假象”带入下一次。RSI-Opt 要解决的就是这个“跨运行递归自我改进”的问题。
+2. 方法主线。RSI-Opt 把 optimizer-agent policy 显式表示成四元组：prompt、playbook、library、decision cadence。外层 meta-agent 从 archive 中采样父代，根据既往运行证据重写策略，生成 4 个 child；child 通过模板、Python 解析和大小检查后，在训练套件与种子上评估，再进入 archive。archive 既保存历史策略，也为父代采样和最终选择提供分数。内层 in-run agent 在固定的模型、数据、loss、batch size 和 update budget 下，按计划在 20 个左右的决策点检查 loss history 与 analyst 报告，编辑 coder（接收梯度并原地更新参数）和 analyst（只读诊断）；新 updater 先短试运行，异常则回滚。最终评估指标对 in-run agent 隐藏，训练在 agent 决策时暂停，因此延迟影响墙钟但不影响更新次数。
+3. 实验主线。作者运行 5 代、每代 4 个 child，共 21 个 policy，没有 invalid policy。训练套件包括 ResNet-18/CIFAR-10、WikiText-2 + Adam/step decay、OPAL noisy-label CIFAR-10（10% 错误标签）。评估使用 fresh seeds（最终表多为 3 seeds，static 为 5 seeds），并覆盖 held-out...**
+
+<!-- paperflow:8db6e2c723c418d5 -->
+## ImageRSI: Verification-Driven Recursive Self-Improvement for Agentic Image Generation
+
+[[Deep Reading - Oct 2026/ImageRSI-Verification-Driven Recursive Self-Improvement for Agentic Image Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32120](https://arxiv.org/pdf/2610.32120)
+
+- **一、论文要解决的问题
+论文从一类具体失败出发：复杂 text-to-image 请求经常在事实知识、精确文字渲染、物体计数、属性绑定、空间关系上出错，而且请求中的约束常常是隐式的（如“带标注的日食示意图”隐含月球位于日地与地球之间、三者共线、标签清晰）。现有 agentic 系统用“生成—检查—改 prompt—重生成”的回路可以修好单张图，但论文指出三个使“修复”无法转化为“学习”的噪声源：随机生成可能碰巧变好；冗余轨迹会高估证据；裁判错误会强化错误诊断。同时，固定 prompt 的 benchmark 只能测最终输出质量，无法回答 agent 是否随跨任务经验积累而变强。
+
+二、方法主线
+ImageRSI 的做法是把生成器冻结，把改进全部放在外层条件空间，并组织成三个互相咬合的组件。
+1. 任务内验证—修复：解析请求得到约束集，检索相关经验与（必要时）外部知识，生成图像，然后按 Alignment、Faithfulness、Quality、Aesthetic、Physics 五个维度打分；每个维度不只给分，还给基于证据的理由，使缺陷可定位；缺陷反馈再驱动 targeted repair，即针对被定位的问题修改条件，而不是笼统重画。
+2. 跨任务经验库：修复过程留下的轨迹被抽象为候选经验；候选经验不直接入库，而要先经过配对 A/B 验证（paired validation trials），以抵消随机采样的运气；通过后才被准入。每条经验记录规则本身、观察到的效果与副作用、支撑轨迹、配对试验与准入状态，并携带适用条件以约束其后续被选中时的作用范围；积累的结果用于经验的修订、合并或退役。
+3. 裁判自进化：把累积的“图像—判断”记录（每个维度含分数与证据理由）用于裁判的监督微调，再用 GRPO 强化；更新后的裁判在重新投入打分之前必须先通过评估，形成门控，防止退化裁判污染经验库。
+这三者不是并列模块，而是对同一组失效模式的逐条回应：随机性→配对验证；冗余轨迹→证据强度控制与合并退役；裁判错误→自进化 + 复用前评估；单次修复不可迁移→经验库 + 适用条件。
+
+三、实验主线...**
+
+<!-- paperflow:16591e397b200643 -->
+## SCI-AGENT-EXAM: Benchmarking Agents on Scientific Research Tasks
+
+[[Deep Reading - Oct 2026/SCI-AGENT-EXAM-Benchmarking Agents on Scientific Research Tasks|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32441](https://arxiv.org/pdf/2610.32441)
+
+- **论文的主线可以概括为“从碎片化能力评测转向工作流评测”。作者首先指出，LLM 智能体已能参与文献调研、代码编写、数据分析、假设生成和报告撰写，但现有基准通常只覆盖选定的科学能力或任务类型，无法系统回答“智能体在真实科研工作流中到底强在哪、弱在哪、是否稳定”。为此，论文提出 SCI-AGENT-EXAM：一个 workflow-oriented benchmark，包含 120 个专家策划任务，覆盖 11 个科学领域和 Scientific Workflow Task Taxonomy（SWTT）定义的 7 类研究任务。每个任务都同时要求可执行产物（代码、脚本等）和文本产物（报告、解释等），并把科学目标、执行环境、可见资源以及依赖、schema、单位和中间结果的正确传播纳入任务设定。评测上，论文没有用单一精确匹配，而是设计 hybrid protocol：可执行产物用确定性程序化验证，文本产物用 calibrated、expert-validated 的 LLM-based judge；前者保证可运行、可检查，后者处理开放式论证。论文进一步把评测从最终结果扩展到执行过程，沿 trajectory 分析进度与解稳定性，并观察 early completion、dip、recovery、efficiency 等模式，从而区分“偶然做对”和“稳定做对”。实验对 10 个前沿 LLM agents 进行多轮运行。主结果中，GPT-6 Astra 总分 80.9 最高，但仅 26.0% 的运行超过 0.95 成功阈值；不同任务类型或领域的能力剖面不同，执行效率与稳定性差异显著。检索片段还显示 harness 敏感：同一模型在 codex 与 claude-code 下分数可差 14.3 分；程序化回归比科学正确性错误更易恢复；End-to-End Analysis 的 early-completion 为 36.2% 并与最高 dip 相关，但具体归属需核对原表。论文的贡献在于把“任务分类—双产物—混合评分—轨迹诊断”组织成一套可复用的评测范式，而不只是增加一个数据集；它揭示了平均...**
+
+<!-- paperflow:751fae010c2e4e22 -->
+## PersonaScienceBench: Evaluating Scientific Agents with Diverse Simulated Researchers
+
+[[Deep Reading - Oct 2026/PersonaScienceBench-Evaluating Scientific Agents with Diverse Simulated Researchers|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32106](https://arxiv.org/pdf/2610.32106)
+
+- **这篇论文的主线可以概括为：科学 agent 已经能承担大量科研工作流，但现有评测默认任务说明完整、协作者固定，忽略了真实科研中研究者持有的隐性上下文与偏好；因此需要一个新的 benchmark，在固定任务目标与评分的前提下，只改变模拟研究者 persona，考察 agent 能否通过对话完成协作。
+
+一、问题与动机。论文从科学工作的协作性出发：语言模型 agent 会搜索文献、提出假设、编写和执行分析代码、组装报告；科学 benchmark 也从回忆/推理题转向真实研究中的可执行分析任务。但论文指出，这些能力并不能消除对人类协作的需求。样本为何排除、协变量是否与批次混杂、实验室使用哪种归一化、运行时是否允许某条分析路径，这些信息可能不在数据目录里。研究者可能详细解释，也可能只回答字面问题，甚至记错细节。于是 agent 的科学产出取决于它如何咨询研究者。现有交互式 benchmark 测试 escalation、clarification 和 tool-agent-user interaction，却通常把协作者固定；服务领域的 persona 模拟器改变用户行为，但不覆盖科学工作流。由此形成评估缺口：只测最终分数，无法区分有效协作与碰巧同分。
+
+二、方法与 benchmark 设计。PersonaScienceBench 包含 200 个任务，来自五个科学 benchmark，覆盖四个科学领域；任务目标与 grading 固定。每个任务配对一个模拟研究者，研究者按 persona profile 提供上下文和反馈；actor 只能通过对话接触研究者偏好。论文使用四个 profile 覆盖对比鲜明的研究者属性，而不是代表真实分布；profile 卡包含人口学、社会经济带、方言/语域、人生阶段、重大生活事件、文化背景、家庭结构以及 BFI-2 人格维度等。讨论中还出现 persona 127，作为额外的英语 profile 用于 BixBench 案例。交互是单 actor、单研究者的 bounded episode；actor 可以提问、请求澄清、提出分析方案，并在运行...**
+
+<!-- paperflow:486bde7687bf6905 -->
+## HarnessMM: Recursive Self-Improvement for Harness Token Efficiency
+
+[[Deep Reading - Oct 2026/HarnessMM-Recursive Self-Improvement for Harness Token Efficiency|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32813](https://arxiv.org/pdf/2610.32813)
+
+- **一、研究问题与动机
+论文关注 agent harness 中一类特定但普遍的低效：工具反馈之后，harness 会再次调用模型的推理能力，即使上一次调用已经确定了下一步动作。典型 agent 循环是「推理—选工具—执行—观察—再推理」，其中「再推理」并不总是必要的；如果先前的决策已经足够具体，并且工具回执没有改变其适用条件，那么再次推理就是重复计算。论文把这类重复回调视为 harness token 效率的主要浪费来源，并试图在 actor 权重固定的前提下，通过复用「已解决决策」来绕过冗余推理。
+
+二、核心概念与技术路线
+论文提出 HarnessMM，包含四个关键构件。第一是可执行决策图（EDG）：存储精确动作、字面参数、因果依赖和公开守卫，使决策可以被持久化、检查和复用。第二是受保护决策复用（GDR）：从观察到的工具回执中激活持久化决策；只有当回执满足守卫时，才认为决策仍然适用。第三是经认证的回调替换（CCS）：通过原生接口执行存储的动作，并记录对已注册慢回调的移除，使替换可审计、可核算。第四是递归自我改进（RSI）：从训练反馈中迭代优化配套 harness 配置，并用验证集选择部署配置。运行时由一个控制器在模型—工具边界决定是否复用决策；遇到新的语义决策、不受支持的证据或选择器弃权时，回退到原始 actor。
+
+三、替换悖论
+论文提出「替换悖论」作为核算框架：计算被节省，只有当被消除的推理成本超过新增的决策作者化、候选选择和失败恢复成本时才成立。这个视角解释了为什么「增加一个选择器」并不自动带来净收益——选择器可能只是增加了开销，而原始慢回调仍然存在。替换悖论把注意力从「复用率」转移到「净成本」，要求系统同时优化复用收益和复用开销。
+
+四、实验证据
+摘要报告 MBPP 消融结果：HarnessMM 比单次使用动作图成本低 26.91%，比保留回调成本低 19.52%。这两个数字表明，在该实验设置下，持久化决策复用与回调替换确实带来了成本下降。摘要还提到一个示例，把语义不确定性与执行不确定性分离：模型负责语义决策，回执和守卫负责执行适用性。这一设计原则可能是 GDR...**
+
+<!-- paperflow:29eafe6bcfb690a9 -->
+## Lifelong Context Adaptation through Bidirectional Memory-Skill Learning
+
+[[Deep Reading - Oct 2026/Lifelong Context Adaptation through Bidirectional Memory-Skill Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32295](https://arxiv.org/pdf/2610.32295)
+
+- **论文的主线不是训练更大的模型，而是把终身适应外置为一套可维护的外部状态。问题设定是：LLM 智能体在持续任务流中工作，交互历史不断增长，但每次决策只有有界上下文；模型参数冻结，不能靠梯度更新吸收新经验。外部记忆可以保存过去的事实与证据，却不会自动告诉智能体如何行动；技能可以保存可复用程序，却可能遗漏当前任务所需的具体事实、实体和约束。论文把这一互补性上升为双向学习问题：记忆中的重复经验支持技能创建与修订，技能引导的交互又产生新记忆，检索出的事实与学到的技能共同构成上下文。MEMCRYST 的解决思路是让记忆记录保持内容稳定，把任务结果转化为对“实际被服务记录”的未来检索影响力，而不是用 LLM 重写记忆；同时，从反复出现的经验中合成候选技能，在新上下文中审计后再替换旧技能。这样，系统在不更新基础模型的情况下，同时获得事实证据、行动程序和在线信用分配。实验上，摘要称跨十个设置评估，片段可见具身控制、长文档和 ALFWorld 等场景；结果表报告 MEMCRYST 在 955 个任务上 709 个成功（74.24%），远高于 ReAct 的 72/955（7.54%）和 MSCE 的 157/957（16.41%），ExpeL 在 serving 注入 insights 时为 44.8%。片段还显示 MEM 与 CRYST 的拆分比较，以及 collection 与 serving 的区分，支持“记忆提供事实、技能提供程序、服务时检索决定经验能否用上”的解释。论文的贡献可以概括为：把终身上下文适应形式化为记忆—技能双向学习；提出冻结模型上的外部状态框架；设计不改写内容的检索影响力更新；设计带独立审计的技能修订；并通过多设置实验与拆分分析展示双向耦合的必要性。边界也很清楚：可见文本存在严重断行、页眉和参考文献混入，检索阈值、权重更新公式、u 的语义、十个设置的完整清单、955/957 任务表的列定义都需要回原文核验；此外，记忆规模、审计成本、稀疏奖励下的信用分配、不可回答子集的表现、以及开放世界和非重复任务上的泛化，仍是需要重点检查的薄弱处。**
+
+<!-- paperflow:774ba3be1c5cc4e1 -->
+## SearchHorizonBench: A Benchmark for Search Value in AI Agents
+
+[[Deep Reading - Oct 2026/SearchHorizonBench-A Benchmark for Search Value in AI Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.34714](https://arxiv.org/pdf/2610.34714)
+
+- **一、问题与动机：
+论文关注 agentic search 中的停止/继续决策：智能体在每一轮都可以选择再搜一次，或基于当前公共历史直接回答。额外搜索可能补全缺失实体/关系，但消耗 token、时间与金钱。现有评估多衡量检索相关性或端到端成功率，无法回答“在这个历史点，再搜一次的期望奖励增量是多少”。答案成功概率只能刻画问题难度，不能替代搜索的边际价值。
+
+二、基准设计：
+SearchHorizonBench 把 search value 定义为同一公共历史下，继续搜索与直接回答的期望奖励差。数据包含 3,168 个问题、45,632 次执行。核心设计是配对续写与重复执行：对同一 (q,h)，分别采样 search 与 answer 两条续写，并重复多次，以分离期望搜索增益与生成噪声。actor 负责完成续写，forecaster 只根据公共历史/公共信号预测结果，从而把执行能力与预测能力解耦。资源还包含可复用历史、冻结预测器/评估配置、以及 Test-400 真实搜索诊断面板。
+
+三、评估协议：
+主评估在 1,632 个 held-out 问题上进行。预测任务分为 action-success prediction（每个续写的正确概率）与 gain prediction（两条续写的成功率之差）。指标包括 Brier 误差、校准、gain 方差解释率、decision utility、matched-configuration learning curves。决策效用按参考 token 价格计算：预测净增益为正则搜索，否则直接回答；与最佳常数动作（总是搜/总是不搜）比较。评分采用 reference-equivalence：固定答案串加语义判断，空答案与显式区间单独处理；评审面板一致性用于控制标注噪声。
+
+四、主要发现：
+1）历史校准把 Brier 误差降低 16.2%，但改善集中在 success-level 信息；2）search gain 的标准差为 21.4 个百分点，受测历史估计器只能解释 <2% 的 gain 方差；3）匹配配置学习曲线显示，gain pred...**
+
+<!-- paperflow:466fd137ac26cc34 -->
+## Infinity Machine: a self-improving AI agent for research
+
+[[Deep Reading - Oct 2026/Infinity Machine-a self-improving AI agent for research|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.35579](https://arxiv.org/pdf/2610.35579)
+
+- **一、论证主线
+
+论文的出发点是一个很具体的观察：LLM 已经能写出并运行相当规模的程序，agent 也能在一个任务上连续工作一小时以上；但要把这种能力变成「发现」，还差两块拼图——一是判别真伪的机制，二是把学到的东西留下来的机制。FunSearch 与 AlphaEvolve 解决了前者（把进化搜索锚定在自动评测上，让执行过滤模型的错误），STOP、Darwin Gödel Machine、Hyperagents、AIDE2 指向后者（让被进化的对象变成 agent 自身，通向递归自我改进）。Infinity Machine 的主张是：这两件事可以、也应该在同一个系统里做，而且做法不是「程序进化引擎 + 固定 harness」，而是「以研究者式 agent 运行为单位 + harness 本身受控自我修改」。
+
+二、技术主线：三环、一模式、一内核
+
+发现循环维护一个带分数的解档案，每个候选由一次完整 agent 运行产出：Deep Agents 驱动的模型在全新沙箱里拿到 shell 与文件系统，最多工作一小时，读任务说明与父代解，自写自跑搜索代码，交付解与 lab notebook。编目模式面向没有标量目标函数的场景，用 referee 代替 metric，在真实数据里找「没人编目过的东西」。自我改进循环允许系统重写自己的 prompt、工具、技能、记忆与 meta agent。自主模式则把这些串成一条无人流水线：自选问题 → 自写 verifier → 内核标定 → 对抗 agent 审计（含 exploit replay，审计方会写 exploit 文件去攻击评测）→ 常规发现循环开跑 → 一个从未见过 verifier 的 agent 在断网条件下盲复核 → 最终 agent 写报告。这条流水线的要害在于：它把「agent 提议的 evaluator 需要人类批准」这个通常的保险丝，换成了机器检查。
+
+支撑这些循环的是一个可编辑 genome：prompt、工具、技能、有证据支撑的 playbook（按 ID 可编辑的条目，被某次运行检索后按该次结果被确认或削弱...**
+
+<!-- paperflow:05ae7d02b1976403 -->
+## Auto-Research Arena: Benchmarking and Advancing Auto-Research in Language Modeling
+
+[[Deep Reading - Oct 2026/Auto-Research Arena-Benchmarking and Advancing Auto-Research in Language Modeling|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.35866](https://arxiv.org/pdf/2610.35866)
+
+- **论文的主线是：自主研究系统已经能迭代提出想法、写程序、跑实验，但现有 benchmark 既不足以公平比较这些 harness，也不足以支持广泛的想法发现；Arena 用共享语言模型预训练环境中的多目标设定同时解决这两个问题。作者先把研究过程形式化为 harness 在可执行程序空间 P 中搜索 p，p 可改模型架构、优化器、训练 schedule 和推理实现；每个目标 j 最小化资源指标 Target_j(p)，同时受共享质量阈值 tau、目标特定资源上限 b_j 和正确性约束。关键设计是把 admissibility 与 improvement 分开：质量和资源约束决定结果是否合格，选定 target 只在合格结果之间衡量进展。这样不同目标可以奖励不同改进，又不会允许候选靠牺牲质量换取效率。Arena 定义了九条质量约束效率目标：总参数、数据消耗、优化器更新、训练 FLOPs、峰值内存、训练时间、live-state memory、decode latency、long-prompt latency，覆盖模型、数据、训练和推理生命周期。共享环境提供任务说明、参考程序、评估器和预算；harness 从参考程序出发，提出代码修改、提交候选、观察结果、决定下一步；每次搜索 100 个 charged experiments，GPU 一开始执行就计费，失败也计费；Arena 记录所有实验，并独立报告满足质量、资源、正确性要求的最佳候选，而不看 harness 最后保留哪个程序。作者给出两个参考 harness：Sequential Search 单程序、单修改、接受可采纳改进；Beam Search 最多四程序、每个两修改再选 frontier；两者都用累积历史（含失败）条件化提议。实验上，Arena 在语言模型预训练中评估多个 harness 和两个基础模型，用 Elo 榜呈现差异；片段可见 AutoScientists 1729.4、Sequential Search 1687.6、Arbor 1632.4、GEAR 1622.4。结果显示 harness 在不同目标上...**
+
+<!-- paperflow:30fb33000cafcacc -->
+## StreamVibe: Proactive Video Agents for Evolving User Intent
+
+[[Deep Reading - Oct 2026/StreamVibe-Proactive Video Agents for Evolving User Intent|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.34662](https://arxiv.org/pdf/2610.34662)
+
+- **一、论文的论证主线
+论文从主动交互范式切入：视觉语言模型正从离线内容理解走向真实流中的持续主动协助，但现有主动交互方法大多面向显式查询和孤立单轮请求，例如“进球时通知我”。这类设定假设用户意图事先明确、稳定，且响应可以在单点判断。作者认为真实开放场景不满足这三个假设，并提出三类挑战：隐式意图需要从持续观察中推断；任务相关状态会因先前交互而改变，长历史不等于最新状态；用户意图会随交互演化。由此，论文把问题重构为“在流中持续判断何时响应、响应什么，并随意图和环境更新”的策略问题。
+
+二、技术主线
+作者提出 StreamVibe 三层框架。第一层是 StreamVibe-Bench：覆盖显式意图、隐式意图和动态意图，并提供 pointwise 与 trajectory 两种评测。pointwise 在 gold history 下评价局部决策，trajectory 让模型用自生成历史跑完整流，以检验误差累积和持续一致性；指标包括响应时机与内容质量，使用 ±2 s 容差和 Content F1 等。第二层是 StreamVibe-VL：一个主动流式策略模型，先用 adaptive streaming SFT 学习在线响应行为，再用 localized trajectory RL 优化轨迹级结果。第三层是 StreamVibe-Harness：维护活跃意图 A_t 和任务状态 P_t，近期信息细粒度保留，较旧内容压缩但保留任务相关实体、动作、约束和状态变化，从而减少过时、冗余和状态不一致的响应。
+
+三、实验主线
+论文用三个 RQ 组织实验。RQ1 问 StreamVibe-VL 能否在意图感知主动交互中超过强基线；RQ2 问当前主动代理在持续交互中有哪些失败模式；RQ3 问 Harness 相对端到端策略还有什么额外增益。评测覆盖 StreamVibe-Bench、General Timing、EgoProactive、IPIBench 四个主动交互套件，以及 MVBench、Video-MME、OVO-Bench、OVBench 四个通用视频理解套件。基线包括 Gemini-3...**
+
+<!-- paperflow:d6167501b84cfaf7 -->
+## Joint Latent Reasoning and Observation for Agentic Video Understanding
+
+[[Deep Reading - Oct 2026/Joint Latent Reasoning and Observation for Agentic Video Understanding|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.35229.pdf](https://arxiv.org/pdf/2610.35229.pdf)
+
+- **论文的主线可以概括为：把“视频 agent 如何看、如何想、如何再去看”从大模型教师蒸馏到小模型时，不能只蒸馏文本推理链，还必须蒸馏观察接口本身。
+
+1. 问题：长视频中只有少量帧与问题相关，agentic video 系统用多轮工具调用选择证据。小模型要学会的不只是答题，还包括“下一步看哪里”。难点在于每次 observation 有双重用途：既支撑当前答案，又指导后续采集。文本 caption 能描述当前可见内容，却可能漏掉搜索所需的线索；而且文本接口离散、不可微，最终答案和动作的监督难以直接训练 observer。
+
+2. 方法：LARVA 让 reasoner 产生 latent reasoning block，决定工具调用或最终答案；observer 把选中的帧编码成紧凑 latent tokens，与时间戳一起进入上下文。与文本通信不同，observer 不写 caption，而是传递连续表示。训练时 reasoner 预测教师动作，执行教师动作得到帧，再让 observer 编码并进入下一轮；推理时 reasoner 自选动作，最多 8 轮。主配置每个推理/观察块 8 个 latent tokens。
+
+3. 训练目标：action supervision 让每一轮动作对齐教师；answer supervision 监督最终答案；observation reconstruction 从 latent tokens 重建文本观察，防止视觉信息丢失；CoT-distribution alignment 用冻结的文本 CoT 学生约束推理分布。最关键的是联合优化：action 和 answer 的梯度穿过 latent interface 回传 observer，使 observer 学会传递“对下游决策有用”的信息，而不是仅生成可读描述。数据为 20,000 条过滤后的教师轨迹，来自 Video-Marathon、VideoHolmes 训练集和 LongVideo-Reason；教师 reasoner 是 DeepSeek-V4.1-Flash，教师 obs...**
+
+<!-- paperflow:2623cdfe658239e9 -->
+## Self-Evolution Reasoner: Continuous Optimization via Policy-Intrinsic Exploration and Exploitation
+
+[[Deep Reading - Oct 2026/Self-Evolution Reasoner-Continuous Optimization via Policy-Intrinsic Exploration and Exploitatio|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.34137.pdf](https://arxiv.org/pdf/2610.34137.pdf)
+
+- **论文的主线可以概括为：现有推理后训练范式都卡在“策略自己采不到正确解”这一探索瓶颈上，SEPO 用训练期标签把瓶颈绕开，再把绕开瓶颈获得的能力内化回无标签策略。
+1. 问题界定。RLVR 用可验证奖励做策略优化，GRPO 等组内方法在数学、代码、逻辑等域有效；但奖励是标量且稀疏，组内全错时没有优势信号，组内全对时也缺少区分度。On-policy self-distillation 用正确 rollout 构造 self-teacher，提供更稠密的 token 级监督，但仍要求先采到正确 rollout；如果策略失败，教师上下文无从构造，优化停滞。外部专家示范可以救急，但 off-policy 分布错配使“学会”不等于“内化”，且外部数据覆盖决定上限。
+2. 方法主线。SEPO 把 ground-truth 标签当作 privileged hint：给定问题 x 与标签 y，从当前策略 π_θ(·|x,y) 采样推理轨迹。标签条件降低了不确定性，使策略更容易生成正确推理，这就是 policy-intrinsic exploration。随后把 π_θ(·|x,y) 作为 stop-gradient 的自教师，把无标签策略 π_θ(·|x) 作为学生，在刚采出的轨迹上做 on-policy distillation，把“带标签才能产生的解”蒸馏成“无标签也能产生的能力”。学生变强后，下一轮可以在标签条件下探索更难的问题，教师同步演化，形成持续循环。
+3. 理论论证。论文给出优势改进下界：A(π^{n+1}) ≥ A(π^n) + Δ_n − O(√ε_JSD)。直观上，标签条件教师带来的探索收益 Δ_n 必须大于蒸馏分布误差，学生才会提升。这个式子把“探索失败”和“利用不足”放在同一个框架里：没有 Δ_n 就没有新知识，ε 太大则新知识内化不了。该结论是论文框架下的充分条件式论证，实际成立依赖教师条件分布、JSD 误差界与策略类假设。
+4. 实验主线。任务覆盖 SciKnowEval L3 的科学问答（化学、物理、生物、材料）、ToolAlpaca 的工具调用规划、Syn...**
+
+<!-- paperflow:7f203b8e860c6a55 -->
+## Work Agents: Systems, Capabilities, and Optimization
+
+[[Deep Reading - Oct 2026/Work Agents-Systems, Capabilities, and Optimization|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.35845v1](https://arxiv.org/pdf/2610.35845v1)
+
+- **【论证主线】论文从一个经验观察出发：基础模型的推理、规划与工具使用能力正在把 agent 的职责从「短、窄、一次性任务」推向「需要维持总体目标、协调多个阶段并把工作做到完成」的更大委托；Codex、Claude Code 一类系统已能支持多日、跨会话的工作，并接管了部分结果评估与反馈驱动修订。与此同时，recursive self-improvement 让「能力提升本身」也进入了 agent 可承担的工作范围。作者由此指出一个结构性错位：真实工作的正确性依赖「相关文件、记录、应用中的证据」与「先前动作建立的状态」，而现有研究缺少一套统一语言来描述「agent 如何可靠完成被委托的工作」。于是本文不做新方法，而是提供一套以工作为中心、系统级的分析装置，并把已有文献重排进这套装置。
+【技术主线：四层框架】
+第一层是定义：work agent = 基础模型（决策核心）+ runtime harness（组织观察与动作执行）+ 有状态数字工作区，交付可验证结果。这个三元定义把「模型不足」与「harness 不足」在概念上分离。
+第二层是工作条件：work persistence（责任跨阶段、跨会话被携带的程度）与 work openness（目标是给定还是在执行中被发现）构成两维坐标；并据此按任务范围与组织方式把数字工作分为五种形态（从返回答案、产出制品、施加状态变更，到编排工作流与持续委托）。
+第三层是能力：识别可靠执行所需的五类核心能力族（可见章节痕迹指向规划与协调、长历史与证据访问、动作接口与工具/技能使用、状态维护、验证与修正等；确切枚举需回原文核对）。
+第四层是优化：模型优化沿 pre-training → mid-training → post-training 展开，其关键变量是监督粒度（监督决策 / 轨迹 / 产物 / 早前尝试，对应示范、执行奖励、教师指导、累积反馈四类信号）；harness 优化覆盖工具与技能表示、动作接口、证据可达性、状态保留与验证；二者还需联合优化，因为模型与工作同时变化。
+【实验主线（本文为综述，无自建实验）】论文的实证性劳动体现在三...**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：generation, language, reasoning, retrieval, machine-learning, multimodal-learning, multimodal-reasoning, deep-learning
-- 论文/报告：21 篇
+- 方法：generation, language, vision-language-model, reasoning, vision, retrieval, machine-learning, multimodal-learning
+- 论文/报告：23 篇
 - UniData: Universal Multimodal Instruction Generation Pipeline
 - Rethinking Contrastive Loss in CLIP Post-training: A Complementary Framework with Frozen Text Encoder
 - Learning to Retrieve: Internalizing Memory Retrieval for Video World Models
@@ -1099,16 +1283,49 @@ AEON 的核心技术路线是：把 4D Gaussian Splatting（4DGS）作为基础�
 
 - **这篇论文的主线可以概括为：视频自监督学习长期在“补全观察”与“预测未来”之间摇摆，VANE 试图把后者做成一个统一、可扩展的表示学习目标。① 动机与问题。作者认为，人类通过观看世界演化形成内部世界模型，视频的时间顺序天然提供无需标注的监督；但主流视频预训练并没有真正利用“接下来会发生什么”。Masked video models 遮挡时空 patch 并重建像素；V-JEPA 系列遮挡部分视频并预测被遮挡区域的表示；两者都是 contextual recovery，模型在补全周围上下文，而不是从过去推断未来。Autoregressive 方法虽然按时间顺序预测下一个 token，但逐 token 决策带来累积误差，且论文认为其表示质量仍不如 joint-embedding。由此，作者提出重访未来预测的“空间”与“粒度”：在哪个空间预测、以什么单位预测。② 方法。VANE 在冻结语义 tokenizer 的嵌入空间中做 next-frame prediction。给定视频 x1…xN，因果编码器只总结 x≤t，状态预测器推断整个下一帧的语义表示；目标由冻结的 DINOv2 ViT-L 提供，损失为 patch-level L1。冻结 tokenizer 的目的是防止目标空间与编码器共适应、把任务变简单。为弥补语义目标丢失的空间细节，模型增加轻量辅助生成解码器，以预测表示为条件重建未来帧 patch。图像没有时间顺序，作者构造 local-to-global 裁剪序列，让同一编码器从早期裁剪预测新揭示区域，把“下一帧”变成“下一裁剪”，从而统一图像与视频预训练。③ 训练。主模型为 1B ViT-g 编码器 + 冻结 DINOv2 ViT-L；数据为 VISTA 混合语料（ImageNet-21K、SA-1B、SSv2、K710、HowTo100M 加额外检索与类平衡数据）；四阶段：16 帧 256×256 warm-up/base、64 帧 long-video post-training、384×384 high-res cooldown；前两阶段约 26.6k GPU-...**
 
+<!-- paperflow:cab21c802c33ec69 -->
+## SyncPro: Synchronous Reasoning and Responding for Proactive Streaming Video Understanding
+
+[[Deep Reading - Oct 2026/SyncPro-Synchronous Reasoning and Responding for Proactive Streaming Video Understanding|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32132](https://arxiv.org/pdf/2610.32132)
+
+- **To address these challenges, we introduce SyncPro, a synchronous dual-stream framework with specialized generation paths for evidence tracking and user-facing responses.
+
+Response Respond when supported by available evidence, without evolving evidence. follows the instruction only upon triggering.
+
+ner Visual Keep？ (72.8%) Adapted (27.2%) Target Speak predict (abilitykeeppreserved) 12 189,403 13.52M speak history visual history clips at keep (at time ƽօ gain) ǘօ (info ǘօ) B.
+
+ndix F illustrates selective updates and separate or joint branch activation. General video understanding.
+
+主要贡献包括：ner Visual Keep？；(72.8%) Adapted (27.2%) Target Speak predict (abilitykeeppreserved) 12 189,403 13.52M speak history visual history clips at keep (at time ƽօ gain) ǘօ (info ǘօ) B.；ndix F illustrates selective updates and separate or joint branch activation.。
+
+需要注意的边界包括：nthesis and revision, response rec...**
+
+<!-- paperflow:6831a1b550e7d4e1 -->
+## More Memory, Better Videos? A Controlled Study of Visual Memory in Long-Video Generation
+
+[[Deep Reading - Oct 2026/More Memory, Better Videos-A Controlled Study of Visual Memory in Long-Video Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.35001](https://arxiv.org/pdf/2610.35001)
+
+- **论文从一个直觉上几乎不言自明的前提出发：长视频生成器如果能够访问过去的历史帧，就应该能减少角色和场景的身份漂移，让后续视频更一致。作者没有直接接受这个前提，而是提出一个反例式问题：一张图可以忠实于过去，却对现在来说是错的。角色可能换装、死亡、离场，场景可能迁移，故事状态可能改变；如果记忆系统仍然把旧外观当作当前身份的依据，那么“更多记忆”未必让视频更好，反而可能让错误更一致、更顽固。论文的核心贡献，是把这一隐含假设变成可检验的命题，并设计一套诊断工具来分离“历史忠实性”与“当前故事正确性”。
+
+为了回答这个问题，论文构建 VMem-Bench，把它拆成两条轨道。Track-A 在生成之前考察参考选择：使用 92 部真实影片、16,548 个片段，测量系统会选择哪些历史参考，从而避免生成器质量对结论的混淆。Track-B 则比较不同记忆策略在生成结果上的因果效应：使用 30 个按因果状态变化构造的故事、2,824 个片段，固定同一个 V-5B 五秒视频生成器，比较四种检索策略，并加入无记忆控制与金标准 last-seen 控制。片段还显示 Track-B 包含 120 条场景位置记录，所有 30 个故事覆盖九个压力族；探针以 Required/Forbidden 实体、last-seen 位置和提示词指称方式组织。这样的设计让论文能够同时观察“系统选了什么参考”“生成器用了没有”“当前故事是否正确”“是否生成了不该出现的实体”。
+
+论文报告的核心经验事实是一个清晰的张力：检索把实体召回从 0.559 提升到 0.628–0.693，并提高与过去外观的相似度，说明记忆确实能让当前实体更容易出现；但实体精确率从 0.977 降到 0.915–0.938，禁用实体规避从 0.968 降到 0.845–0.898，说明记忆也把旧外观、错误实体或不该出现的东西带进了当前视频。论文进一步指出，检索可能强化已经过时的外观：当故事改变角色外观后，旧参考仍然被检索，生成结果就会“忠实于历史、错误于现在”。这类错误不会被“与过去相似”指标惩罚，反而可能被奖励，因此最终视频一致性和检索相关性都...**
+
 # Machine Learning
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Machine Learning
-- 方法：generation, reasoning, deep-learning, math-pr, math-st
-- 论文/报告：3 篇
+- 方法：generation, reasoning, optimization, deep-learning, stat-ml, stat-me, math-pr, math-st
+- 论文/报告：4 篇
 - UXBench Pro: Benchmarking Personalized User Experience in Multi-Turn Dialogue Interactions
 - A Fisher-Geometric View of Multi-Teacher On-Policy Distillation
 - Ask to Distill: Learning to Synthesize Data for On-Policy Distillation
+- Contextual Decision Making: Predictive or Generative
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1143,13 +1360,30 @@ AEON 的核心技术路线是：把 4D Gaussian Splatting（4DGS）作为基础�
 
 - **论文围绕 on-policy distillation 的数据效率问题提出“学会提问”的框架。核心动机是一个反直觉观察：OPD 用极少量训练问题即可成功，说明问题本身是分布知识转移的载体，问题质量而非数量决定蒸馏上限。论文由此提出两个问题：如何评估问题价值，以及如何学习生成更好问题。方法层面，论文定义支持感知评分 s，综合 teacher–student 分歧 δ 与学生熵/可及性 ω，并以 KL-filter（δ>τ）保证被选问题同时满足 teachable 与 reachable；同时用 GRPO 风格奖励训练 synthesizer q，使其学会生成能最大化有效监督的问题。理论部分给出 Proposition B.1 的 compatible-disagreement coverage 保证，说明评分与可教分歧之间的下界关系。实验在数学推理与代码任务上进行：验证分歧对学习价值的预测力（Spearman ρ=0.90）、评分分桶准确率差异、五分位学习收益以及六个基准的平均表现。结果显示优化后的合成问题能暴露更密集的监督信号，无需更长轨迹。训练协议细节包括学习率 1e-6、熵/KL 系数 0.01/0.005、rollout temperature 1.0、60 步训练、20,000 原始问题分 10 shard 生成。论文也明确 AMC23 与 LiveCodeBench 作为 checkpoint 选择基准而非 held-out 评估的边界。总体而言，该工作把蒸馏中的数据选择从启发式过滤升级为可学习的合成与评分闭环，为 OPD 的数据效率研究提供了一个系统性框架。**
 
+<!-- paperflow:f33a7dad0a811404 -->
+## Contextual Decision Making: Predictive or Generative
+
+[[Deep Reading - Oct 2026/Contextual Decision Making-Predictive or Generative|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32584](https://arxiv.org/pdf/2610.32584)
+
+- **We study when each approach is preferable by examining how the choice of learning target affects statistical accuracy and optimization tractability.
+
+sfers and 𝑝∈R𝑑𝑦+ unmet demand. The incidence matrix 𝐴∈R𝑑𝑦×|A| has entries 1 at an arc’s origin and −1 at its destination, so 𝐴𝑓is net outflow and 𝑧−𝐴𝑓is inventory after transfers.
+
+> 𝐶𝐴𝑛−1/2𝜆 𝑛 −𝑑4𝑠 √︁ log𝑛 𝑋1:𝑛 ≤1 2𝑛−𝐴 for every realization 𝑋1:𝑛∈E𝑛(𝑡𝑛) and all sufficiently large 𝑛. Together with Equation (EC.4), this proves the two assertions of Lemma EC.1.
+
+and let P and Q be two probability measures on Y. 𝑧∈Z 𝑧∈Z Then both minimizers are unique, and 𝑧∗Q(𝑥0) −𝑧∗P(𝑥0) ≤2𝐺 (EC.50) 𝜇TV(Q,P), where TV denotes the total variation distance.
+
+主要贡献包括：> 𝐶𝐴𝑛−1/2𝜆 𝑛 −𝑑4𝑠 √︁ log𝑛 𝑋1:𝑛 ≤1 2𝑛−𝐴 for every realization 𝑋1:𝑛∈E𝑛(𝑡𝑛) and all sufficiently large 𝑛.；Together with Equation (EC.4), this proves the two assertions of Lemma EC.1.；and let P and Q be...**
+
 # Language Models
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：agent, language, reasoning, retrieval, optimization, gui-agent, stat-ml, stat-me
-- 论文/报告：7 篇
+- 方法：agent, language, reasoning, retrieval, optimization, machine-learning, gui-agent, deep-learning
+- 论文/报告：11 篇
 - Generalized Proximal Policy Optimization: Unifying LLM RL Algorithms from the Perspective of Divergence
 - Depth Memory
 - Where and Why Search-Augmented LLMs Fail When Reasoning over Rapidly Evolving Knowledge
@@ -1157,6 +1391,7 @@ AEON 的核心技术路线是：把 4D Gaussian Splatting（4DGS）作为基础�
 - MemT-1.0: Towards Memory-Native Evolution
 - ProVe: Proposer-Verifier Decoding
 - LongZero: Enhancing Long-Context Reasoning in LLMs from Zero Data
+- Tampered ML: Evaluating LLM Judgment of Machine Learning Research
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1250,6 +1485,52 @@ We compare against five decoding baselines: standard autoregressive (AR) decodin
 - **## 一、论文要解决的问题
 LongZero 的出发点是一个很具体的资源约束：要做长上下文推理的强化学习，训练数据必须同时是长的、多样的、有挑战性的、可验证的。现实中这四条几乎不可能同时满足——人工标注长上下文多跳题代价极高；自然文本虽长但不携带可验证问题，数量也不足以支撑需要大量 rollout 的 RL；现有合成路线要么依赖 HotpotQA 一类外部语料（规模与难度上限被锁死、存在领域偏置），要么依赖更强教师模型（随着学生变强，教师越来越难找，形成能力天花板倒挂）。而近期兴起的「零数据 RL」（模型从自己提出的任务中学习）在短上下文任务上已经证明有效，但尚无工作把它推到长上下文尺度。论文的判断是：短上下文零数据 RL 的成功不能直接平移，因为长上下文引入了两个新难点——问题与证据必须联合生成且证据要真的散落在长文里；以及「太难」与「题目本身是坏的」在通过率上不可区分。**
 
+<!-- paperflow:bf0a3c4c8a76c591 -->
+## Tampered ML: Evaluating LLM Judgment of Machine Learning Research
+
+[[Deep Reading - Oct 2026/Tampered ML-Evaluating LLM Judgment of Machine Learning Research|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32114](https://arxiv.org/pdf/2610.32114)
+
+- **以下按「论证主线 — 技术主线 — 实验主线 — 结论与边界」四段复述，尽量保留摘要给出的原话级信息，并明确标出哪些是我补的推断。
+
+一、论证主线。论文的起点是一个议程性判断：加速 AI alignment 进展的一条路径，是把 alignment 研究的一部分自动化。而 alignment 研究的日常内容并不是「在固定 benchmark 上把指标刷高」，而是做一系列科学判断 —— 决定跑哪些实验、怎么度量成功、如何建模某个失败模式。这些决策的正确性无法用可验证的分数监督，因此要自动化它们，系统就必须能在「难以监督的研究任务」上可靠工作。论文把这种可靠性具体化为两项可操作的能力：(a) 识别研究提案里的缺陷；(b) 判断一个被提出的实验是否真的支持它想支持的结论。接着论文指出评测上的根本困难，这构成它的问题定义：真实世界里两份独立提出的实验会在许多方法论维度上同时不同，「哪个整体更健全」缺乏清晰真值；更麻烦的是设计选择的合理性是角色依赖的 —— 同一个做法在不同实验语境里可能是缺陷也可能是正解。因此不能直接去标注「真实提案对」，必须人为构造可控的比较。
+
+二、技术主线。解法是把「方法论健全性」压成一个受控的单变量二选一判别。构造流程是：先从一篇已发表的机器学习论文出发，把它的实验重构为一份实验提案（保留动机、设计、对照、度量、分析计划等可评审要素）；然后对这份提案做最小编辑，注入恰好一个定向的方法论缺陷，得到一个反事实版本；两者配对构成一个 item，共 1,858 对。评测时模型必须指出两个提案中哪一个在方法论上更健全，且同一对要以两种呈现顺序各测一次 —— 这个「双向」设计是方法上的关键，因为单顺序评测无法区分「真的做了判断」与「按位置先验猜」。为了给基准的构念效度背书，论文在一个分层抽样的子集上做人类验证，估计 86% 的 item 是有效的（95% CI: 81–91%），即绝大多数配对确实满足「反事实版本因注入缺陷而更不健全」。
+
+三、实验主线。实验做的是对前沿模型的评测，主指标是二选一准确率。摘要给出的核心数字是：前沿模型显著高于随机猜测，但离可靠很远，最...**
+
+<!-- paperflow:3263835ea386e8e1 -->
+## Context or Knowledge: How LLMs Attribute Their Own Answers
+
+[[Deep Reading - Oct 2026/Context or Knowledge-How LLMs Attribute Their Own Answers|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32109](https://arxiv.org/pdf/2610.32109)
+
+- **论文研究一个看似简单但机制上未被回答的问题：当 LLM 已经给出答案，随后被问「你用了文档还是自己的知识」时，它凭什么给出这个来源报告？作者首先做一个关键概念区分：文档是否支持答案，不等于模型报告答案来自哪里。前者是文本支持性判断，后者是关于自身计算过程的因果声明。在 RAG 场景中，同一答案可能同时被检索文档和参数知识支持；当文档与模型知识冲突时，来源报告对用户判断可信度很重要。但已有归因评估主要看生成内容是否被上下文支持，解释 faithfulness 研究则表明模型的口头解释不一定反映真实计算。论文选择 KV cache 作为切入点：生成过程中历史 token 留下的 keys/values 构成后续 token 可读取的工作记忆；同一问题在不同文档条件下可能获得不同缓存状态。作者把干预精确放在答案生成之后、来源问题之前，从而在答案固定、文档固定的条件下操纵缓存，观察报告是否改变。实验使用四个 7B–32B 模型和受控事实任务，示例包括法国首都、加拿大首都等；文档条件包括支持性文档与无关文档，部分实验扩展到 DynamicQA 条目。第一组结果是强负结果：改变或移除文档对应的 KV cache 从不改变来源报告。这说明报告不是简单读取文档缓存中的内容标记。第二组结果是强正结果：在问题与答案 token 相同的 eligible run 之间移植 Q+A cache，报告会跟随 donor，而 recipient 的文档保持不变。检索片段显示 joint Q+A transplants 在 16 个 model–direction cells 中使 97.2–100% 的报告跟随 donor；模板任务上接近 universal，DynamicQA 上略弱。第三组结果把移植效应定位到 keys/values 沿拟合方向的分量：复制这些分量几乎重现报告变化，固定这些分量几乎阻止报告变化；value-only transplant 在多数情况下能创建报告，移除时 keys 与 values 一起更有效；question-only transplant 也能产生报告但依赖模...**
+
+<!-- paperflow:55ee63e1c9b95f98 -->
+## Reasoning Patterns for Efficient AI Coding: An Empirical Study
+
+[[Deep Reading - Oct 2026/Reasoning Patterns for Efficient AI Coding-An Empirical Study|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.34943.pdf](https://arxiv.org/pdf/2610.34943.pdf)
+
+- **1. 论文定位与问题。这篇论文是一篇实证研究，而不是提出一个新模型。它关注大型推理模型（LRM）在 AI 编码中的“推理过程”：LRM 不再直接给答案，而是先生成一系列中间步骤，再给出代码或结论。对代码生成、代码执行推理、程序调试、代码翻译这类任务，中间步骤可能帮助模型分解问题，但也可能造成冗长、重复和漂移。论文要回答三个问题：不同编码任务是否形成可复现的任务级推理结构；动作层面哪些转移与有效/无效推理相关；这些模式能否用于推理时诊断与控制。
+2. 研究设计。作者选择四个代表性任务：LiveCodeBench v4–v6 的代码生成（442 例）、CodeSense 输入–输出预测子集的代码执行推理（382 例）、DebugBench 的程序调试（500 例）以及代码翻译（规模未在证据中给出）。模型为 R1-0528 与 R1-Qwen3-8B。每条推理轨迹先做有效性判定，再映射到统一的 reasoning-action taxonomy，转成离散动作序列；然后用规模指标（推理 token 数、动作数）和结构指标（转移频率、转移熵、连续重复度）刻画行为；最后挖掘任务级一般模式和动作级正负模式。
+3. RQ1：任务级模式。论文为每个任务识别出一个一般模式。代码生成是“设计到实现”：模型先理解问题，再做方案设计、实现规划和验证，R1-0528 的签名是 PU→SD→VV→SD→IP→VV，并在 IP 与 VV 之间频繁往返；R1-Qwen3-8B 保持同样骨架但加入元推理。代码执行推理是“状态追踪”：模型模拟程序状态并验证中间结果，R1-0528 走紧凑的 PU→VV→MR，转移熵 1.690 为四任务最低；R1-Qwen3-8B 走更长的 PU→VV→MR→VV。程序调试是“证据–修复–复检”：R1-0528 较早进入验证并反复 IP↔VV（PU→VV→IP→VV→CC→VV），R1-Qwen3-8B 更频繁回到 SD（PU→SD→VV→SD→IP→CC→VV→CC）。代码翻译是“语义映射”：先建立源语言与目标语言的对应关系，再进入实现。任务内与跨任务支持率的巨大差距（代...**
+
+<!-- paperflow:89ae10f20ebe6077 -->
+## Streaming Recurrent Memory
+
+[[Deep Reading - Oct 2026/Streaming Recurrent Memory|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.34833v1](https://arxiv.org/pdf/2610.34833v1)
+
+- **1. 动机与问题：论文从自然智能的连续学习出发：文本、音频、视频和传感器运动经验以流的形式到达，带宽可能很高，行为要在反馈到达后尽快适应，甚至反馈延迟。现代深度学习的主流做法是先把数据存成数据集，再随机采样、批量训练，或用 replay buffer 和长上下文保留过去；这些做法在内存和算力紧张、数据率高的部署场景中可能不现实。论文因此研究一个更严格的 streaming learning 约束：每个样本只到达一次，学习器不存储原始经验、不做 replay、不保留上下文，只维护一个循环状态，并从中学习预测或控制。核心问题是：这样的流式学习器能否维持一个对未来有用的状态，并在延迟反馈下完成信用分配？
+2. 方法主线：作者提出 Streaming Recurrent Memory（SRM）。论文给出的设计准则包括：信息应能被写入并在以后检索，且写入机制不需要完全学习；recurrence 应结构化以降低学习成本；部分状态应对输入顺序敏感。SRM 的 recurrence 被设计为能按内容或时间回忆过去、跟踪经过步数、组合依赖输入顺序的变换。摘要的关键思想是“固定输入如何写入循环状态，学习如何从状态读出”：存储结构是强结构化/固定的，读出投影是学习的。这样做的目的是让 one-step BPTT 足以训练，而不需要沿长序列反传。结果部分还提供了架构线索：SRM 与 GLA 一样是带输入相关对角门控的线性注意力单元，并与 KDA 一样使用 1D convolution；这说明它属于线性注意力/门控循环家族，但额外强调内容、时间和顺序三类记忆。
+3. 实验主线：论文先在自建的十项诊断任务上评估 SRM，考察初始化时的记忆能力、one-step BPTT 梯度的可靠性以及最终流式学习表现；诊断中还比较 full BPTT，并用 RTRL 作为参照。随后在 Multi-Query Associative Recall 上测试关联回忆，在 TinyStories 上做字节级在线语言建模，在关联 T-Maze 上做带延迟标量奖励的流式强化学习，最后对 SRM 组件做消融。所有学习器都在无...**
+
 # AI for Science
 
 <!-- paperflow-topic-summary:start -->
@@ -1310,12 +1591,14 @@ EvoBelief 将环境知识外部化为可证伪假设库。环境被形式化为�
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Education
-- 方法：agent, generation, machine-learning, deep-learning
-- 论文/报告：4 篇
+- 方法：agent, generation, language, machine-learning, multimodal-learning, deep-learning, cross-modal
+- 论文/报告：6 篇
 - RSIgen: Reciprocal Self-Improvement for Agentic Visual Generation
 - The Agentic Scientist: Orchestrating Coding Agents for Automated Scientific (Co-)Discovery
 - IQuest-Q1: Advancing Foundation Capabilities for Agentic CLI Systems
 - WeVisOne-VL: Unified Visual Perception from Objects to Pixels
+- On-Policy Self-Training: Data-Free Self-Improvement in Large Language Models
+- VibeVideoBench:Evaluating Multimodal Agents on Code-Driven Video Generation
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1370,3 +1653,37 @@ ntrusted reference material. - SAE Bench is the evaluation and custom-SAE refere
 二、技术主线。WeVisOne-VL 的核心是把视觉任务写成结构化的 next-token 预测。对象级输出使用专用坐标 token 表示点、框和实例；像素级输出则通过一个特殊 <OBJ> token，把每个被定位的实例连接到轻量像素解码器，生成实例级 mask 或 alpha matte。这个设计的要点是分工：VLM 负责语义理解、任务解析和实例身份，像素解码器负责高分辨率、连续的像素预测。相比让语言模型直接生成 mask 或 alpha，这种桥接更符合两类模型的能力边界；相比为每个任务接独立头，它又保留了统一接口。论文覆盖检测、指代定位、计数、OCR、指代分割和抠图，输出粒度从点到框、mask、alpha matte。
 
 三、训练主线。训练分为三阶段课程 SFT，随后是混合任务 RL。第一阶段是任务对齐，合理推断是让模型学会不同任务的输入输出格式和坐标 token；第二阶段聚焦高分辨率密集感知，对应 Dense200、VisDrone 这类小目标、密集实例场景；第三阶段是像素级优化，建立 <OBJ> token 与像素解码器的连接。Method 片段显示，像素级阶段会先初始化解码器，并出现 alternating 字样，暗示可能存在交替优化，但具体细节未完整给出。抠图还有专门的解码器微调：冻结 VLM，使用 130M 抠图样本训练 100K 步，专门学习连续 alpha 预测。数据方面，论文...**
+
+<!-- paperflow:4358de104d33323f -->
+## On-Policy Self-Training: Data-Free Self-Improvement in Large Language Models
+
+[[Deep Reading - Oct 2026/On-Policy Self-Training-Data-Free Self-Improvement in Large Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.32770](https://arxiv.org/pdf/2610.32770)
+
+- **We find that self-distillation on fully synthetic privileged information enables a model to improve across multiple domains while retaining its capabilities on domains it is not…
+
+removes the need for a stronger teacher by constructing teacher and student from the same parameters under asymmetric conditioning (Zhao et al., 2026a; Shenfeld et al., 2026a).
+
+ication first estimates whether a sample is well-formed, and the consensus gate then approximates whether it is informative for the current student. Pseudo-Verification.
+
+Even without any MMLU topics, MMLU improves by 5.1 points, so part of the gain is not specific to the seeded domain. ‡Our re-implementation.
+
+主要贡献包括：ication first estimates whether a sample is well-formed, and the consensus gate then approximates whether it is informative for the current student.；Pseudo-Verification.；Even without any MMLU topics, MMLU improves by 5.1 p...**
+
+<!-- paperflow:1d39b3e67d38c65a -->
+## VibeVideoBench:Evaluating Multimodal Agents on Code-Driven Video Generation
+
+[[Deep Reading - Oct 2026/VibeVideoBench-Evaluating Multimodal Agents on Code-Driven Video Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.35864](https://arxiv.org/pdf/2610.35864)
+
+- **一、论证主线。论文从一个具体矛盾出发：扩散视频模型能生成视觉上惊人的片段，却不能可靠呈现精确公式、正确图表、规则一致的游戏，或与屏幕事件同步的旁白。这些恰是教育、数据叙事、游戏和科学传播等场景的核心要求。作者提出另一条路线：多模态智能体写代码逐帧渲染、合成声音，把视频生成变成可编程、可检查、可局部修复的软件交付。由此，评测对象从“生成模型的采样质量”转为“智能体能否在真实工具链中端到端交付一个满足要求的视频”。
+
+二、基准设计。VibeVideoBench 包含 239 个中英文自包含任务，覆盖 12 个类别，从数据故事、音乐驱动短片到课堂讲解和论文解读；检索片段还可见游戏重建、角色表演、空间导览、活动邀请、互动模型与结构尺度探索、时间跨度与身份情绪变化等任务族。每个任务要求智能体在其原生 harness 中、沙箱内于一小时内交付带声音的成品 MP4。任务设计强调自包含与可交付，既给内容要求，也给交付规格。
+
+三、评测架构。评测是分层且基于证据的。第一层是交付规格程序检查：文件是否存在、能否解码到结尾、分辨率、帧率、时长、帧数、音频是否存在等；这些检查不看内容。第二层是约 1.3 万条任务特定评分规约，每条都追溯到它所执行的任务要求，用于判断公式、图表、规则、旁白、同步等是否正确。第三层是五个按任务锚定的质量维度，由三个 VLM 评审面板打分。论文还用盲测人类偏好验证评审，并分析面板间一致性与面板偏差。检索片段出现 L1/L2/L3 标签，但片段不足以唯一还原层级定义，需回原文核对。
+
+四、数据构造。片段显示候选池涉及 ActivityNet 来源、约 50 万级候选、26 个内容方向、词法召回、LLM 初筛与细读、956 到 322 的筛选，以及两名标注者“至少一人保留且无人丢弃”的人工决策，最终 84 个保留，占 200 个候选的 42%。这些数字的具体口径需核对，但说明任务经过多阶段筛选和人工判断，而非简单拼凑。
+
+五、实验主线。论文评测九个前沿 agent 系统，共 2,151 次评分 rollout；2,151 恰为 9×239，合理推断每个系统在每个任务上运...**
