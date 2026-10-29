@@ -135,7 +135,7 @@
 ## PaperFlow Summary
 - 概念：AI Agents
 - 方法：agent, ai-for-science, generation, language, vision-language-model, reasoning, science-discovery, vision
-- 论文/报告：65 篇
+- 论文/报告：69 篇
 - Do LLMs Learn from Rewards in Context? : Rethinking the role of reward in In-Context Reinforcement Learning
 - AgentGarten: Code Worlds for Evolving Agents
 - MiMo-V2.6: Scaling Reinforcement Learning Towards Self-Improvement
@@ -1010,13 +1010,72 @@ SearchHorizonBench 把 search value 定义为同一公共历史下，继续搜�
 第四层是优化：模型优化沿 pre-training → mid-training → post-training 展开，其关键变量是监督粒度（监督决策 / 轨迹 / 产物 / 早前尝试，对应示范、执行奖励、教师指导、累积反馈四类信号）；harness 优化覆盖工具与技能表示、动作接口、证据可达性、状态保留与验证；二者还需联合优化，因为模型与工作同时变化。
 【实验主线（本文为综述，无自建实验）】论文的实证性劳动体现在三...**
 
+<!-- paperflow:eca20315d58ae652 -->
+## MLE-World: Predicting Machine Learning Experiment Outcomes with a Learned World Model
+
+[[Deep Reading - Oct 2026/MLE-World-Predicting Machine Learning Experiment Outcomes with a Learned World Model|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.37175](https://arxiv.org/pdf/2610.37175)
+
+- **## 一、论证主线
+
+论文的立论从 agent 的工作循环开始：AI 研究 agent 会反复写程序、执行、读终端输出、再修订（Jiang et al., 2025；Nam et al., 2026）。问题在于这个反馈环的每一次迭代都要真实训练+评估一个模型，耗时从分钟到小时，于是执行时间成为 agent 探索能力的上限（Toledo et al., 2026；Hambardzumyan et al., 2026；Yang et al., 2026a）。
+
+作者随后逐一排除已有方案：剪枝（Liu et al., 2025；Toledo et al., 2026）与执行前排序（Zheng et al., 2026；Foster et al., 2026）能减少执行次数，但**单次执行成本不变**；性能预测器（Kulibaba et al., 2025）只输出分数，不输出终端日志。两者共同的问题是：它们只能回答「跑不跑」，不能回答「跑了会怎样」，因此无法为 agent 提供可据以调试的反馈。
+
+由此得到论文的核心主张：应当为 MLE 训练一个**世界模型**——把「任务」视为环境、「候选程序」视为动作、「终端输出」视为观测（这一类比直接借自 model-based RL：Ha & Schmidhuber, 2018；Hafner et al., 2019；Janner et al., 2019）。一旦执行结果可被一次推理预测，test-time scaling（TTS）就从「被预算锁死」变成「可负担」，因为扩展的边际成本从训练 run 降到推理调用（TTS 的两条轴参见 Brown et al., 2024；Snell et al., 2024）。在此基础上，论文进一步承认预测必然有错，于是引入置信度与 gating，把「替代执行」降级为「选择性替代执行」，形成完整的风险-收益闭环。**
+
+<!-- paperflow:5feb3314189173a0 -->
+## PerceptRL: Making Visual Perception Rewardable in MLLMs from Answers to Interactions
+
+[[Deep Reading - Oct 2026/PerceptRL-Making Visual Perception Rewardable in MLLMs from Answers to Interactions|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.37471](https://arxiv.org/pdf/2610.37471)
+
+- **—Fine-grained visual perception remains a bottleneck during post-training of multimodal large language models (MLLMs), where models first perceive images and then reason over the…
+
+age on RealWorldCounting 14,109 9,783 Counting. Performance remains task-dependent: Gemini-3Color 3,710 377 Specialized Spatial 3,965 1,150 Flash leads on MMStar, BLINK, and ERQA.
+
+hich the reward then scores; no pre-collected trajectory is scale each coordinate by the corresponding image diused as a supervision target.
+
+corresponding block. We also update the #target records 1 to contain (b∗t,k, dt,k) and retain them as a comment on the ¯G = X Gt.
+
+主要贡献包括：hich the reward then scores;；no pre-collected trajectory is scale each coordinate by the corresponding image diused as a supervision target.；corresponding block.。
+
+需要注意的边界包括：onal caption errors.；This format produces questions with unambiguous over the catego...**
+
+<!-- paperflow:c72f4287b63f31bf -->
+## Vision-Language Agents Can Learn in Their Own Latent Worlds
+
+[[Deep Reading - Oct 2026/Vision-Language Agents Can Learn in Their Own Latent Worlds|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.36925](https://arxiv.org/pdf/2610.36925)
+
+- **论文的主论证可以概括为一个反问：如果 VLM 已经内化了大量世界知识，为什么还要把它当作静态感知器，另建一个昂贵的生成式模拟器？DWELL 的回答是，把 VLM 本身改造成潜空间中的递归转移算子，让它在自己的表示空间里预测动作后果，并让同一套表示同时服务于世界模型、价值估计和策略。
+一、问题主线。论文从“智能体需要从自身经验持续学习”出发，指出模型无关 RL 的环境交互成本是扩展瓶颈；同时，预训练 VLM 虽有丰富世界知识，却难以在动态、部分可观测环境中直接转化为持续改进的策略。生成式世界模型可以生成想象轨迹，但逐步重建观测计算昂贵，且像素级保真未必对控制有用。论文因此提出：世界模型不应追求重建未来，而应预测对动作有用的未来。
+二、技术主线。DWELL 把在线交互建模为 POMDP，智能体基于历史维护信念并选择动作。模型在 VLM 潜空间中递归更新信念，区分利用当前信息的后验推断与无反馈时的先验预测；两者都是确定性潜表示，避免显式观测重建。同一个 VLM 以共享表示接口同时承担世界模型、价值估计和策略，形成“预测—评估—行动”的闭环。训练时，真实交互用于精炼世界模型、奖励模型和策略；当反馈缺失时，智能体在潜空间中进行想象 rollout，用预测的未来状态评估动作并改进策略。论文强调，DWELL 的关键不只是学到一个潜动力学模型，而是让预测出的潜状态能够被 VLM 策略直接使用。
+三、实验主线。论文在 SOKOBAN、FROZENLAKE、NAVIGATION、PRIMITIVESKILL 和 EB-ALFRED 五个交互式视觉环境上评测，覆盖离散规划、第一人称导航、视觉操作和长时程组合任务。所有可训练方法统一使用 Qwen2.5-VL-3B，并在相同环境反馈和交互预算下比较；主指标为成功率，报告三个种子的均值和标准差。基线包括 PPO、LE World Model、生成式世界模型以及 off-the-shelf VLMs。效率方面统计 world-model updates、imagined rollouts 和 policy/value optimization 的...**
+
+<!-- paperflow:49180c4c24bc285e -->
+## RubricAtlas: Mining Type-Level Rubrics from Expert Reports to Evaluate Deep Research Agents
+
+[[Deep Reading - Oct 2026/RubricAtlas-Mining Type-Level Rubrics from Expert Reports to Evaluate Deep Research Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.36878](https://arxiv.org/pdf/2610.36878)
+
+- **【论文主线】RubricAtlas 关注 deep research agents 生成的长篇分析报告如何评价。论文的出发点是：这类 agent 通过多步 Web 搜索把检索信息综合成报告，评价不能只问“相关事实在不在”，还要问“报告交付了哪些分析、这些分析是否构成完整结构”。现有主流做法是 query-specific binary rubrics：为每个 query 单独写要求，逐条判断满足/不满足。它把要求显式化，但以 checklist 为中心会突出任务特定细节，令报告整体分析结构得不到充分检查。作者的关键判断是：问题不在于二元判定，而在于判定能否揭示细节共同支撑了哪些分析、哪些仍不完整。
+
+【方法主线】RubricAtlas 把评价组织为 analytical questions，再用细粒度检查点规定每个分析应交付什么；问题只规定“分析什么”，不规定答案。为了让标准不依赖单个 query 或单份参考报告，作者从同一研究类型下不同对象的专家报告中挖掘反复出现的要求。Research type 被定义为一个 research-question family。框架形成四层结构：Research Type → Analytical Question → Required Result（Target）→ Binary Checkpoint。Checkpoint 链接到报告段落，使判定可追溯到证据；Completeness 与 argument validity 分开评估，前者看必需分析是否交付，后者看论证是否成立。论文用 3,079 份中文金融研究报告构建 RubricAtlas，覆盖 99 个研究类型。摘要还给出一个操作化例子：某个问题问“哪些能力给公司带来优势”，一个 required result 是“同行比较”，其 checkpoints 再细化比较维度。
+
+【实验主线】论文的实证分为 rubric 构建与元评估。构建层面报告了语料规模与类型覆盖。元评估包括：1）Reference-report selection：比较/选择参考报告，摘要片段显示单份报告覆盖有...**
+
 # Computer Vision
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
 - 方法：generation, language, vision-language-model, reasoning, vision, retrieval, machine-learning, multimodal-learning
-- 论文/报告：23 篇
+- 论文/报告：25 篇
 - UniData: Universal Multimodal Instruction Generation Pipeline
 - Rethinking Contrastive Loss in CLIP Post-training: A Complementary Framework with Frozen Text Encoder
 - Learning to Retrieve: Internalizing Memory Retrieval for Video World Models
@@ -1314,6 +1373,30 @@ ndix F illustrates selective updates and separate or joint branch activation. Ge
 为了回答这个问题，论文构建 VMem-Bench，把它拆成两条轨道。Track-A 在生成之前考察参考选择：使用 92 部真实影片、16,548 个片段，测量系统会选择哪些历史参考，从而避免生成器质量对结论的混淆。Track-B 则比较不同记忆策略在生成结果上的因果效应：使用 30 个按因果状态变化构造的故事、2,824 个片段，固定同一个 V-5B 五秒视频生成器，比较四种检索策略，并加入无记忆控制与金标准 last-seen 控制。片段还显示 Track-B 包含 120 条场景位置记录，所有 30 个故事覆盖九个压力族；探针以 Required/Forbidden 实体、last-seen 位置和提示词指称方式组织。这样的设计让论文能够同时观察“系统选了什么参考”“生成器用了没有”“当前故事是否正确”“是否生成了不该出现的实体”。
 
 论文报告的核心经验事实是一个清晰的张力：检索把实体召回从 0.559 提升到 0.628–0.693，并提高与过去外观的相似度，说明记忆确实能让当前实体更容易出现；但实体精确率从 0.977 降到 0.915–0.938，禁用实体规避从 0.968 降到 0.845–0.898，说明记忆也把旧外观、错误实体或不该出现的东西带进了当前视频。论文进一步指出，检索可能强化已经过时的外观：当故事改变角色外观后，旧参考仍然被检索，生成结果就会“忠实于历史、错误于现在”。这类错误不会被“与过去相似”指标惩罚，反而可能被奖励，因此最终视频一致性和检索相关性都...**
+
+<!-- paperflow:2b683a3c5cae2ab6 -->
+## ReferStream: Interactive Subject Injection for Streaming Video Generation
+
+[[Deep Reading - Oct 2026/ReferStream-Interactive Subject Injection for Streaming Video Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.37566](https://arxiv.org/pdf/2610.37566)
+
+- **【1. 问题与设定】论文研究流式视频生成中的交互式主体注入：视频已经开始生成后，用户才提交新的视觉参考，系统必须在下一个 chunk 边界把参考主体融入当前场景，同时不修改已经输出的帧、不破坏已经建立的主体和场景。典型场景是用户先看到包含雨伞的大堂，再上传一张猫的照片，并要求猫从右侧进入；参考只规定猫的外观，系统还要决定它如何以合适尺度、位置和光照融入当前视频，并保留雨伞。多个参考可以在不同时间到达，指令也会演化。
+【2. 与已有方法的关键差异】自回归视频扩散可以逐 chunk 生成并依赖 cached history，LongLive/LongLive2 支持生成中改文本，Anchor Forcing 改进了 prompt 变化下的记忆连续性；Phantom、VACE、HOMIE 等视觉参考方法可以控制主体外观，AlcheMinT 还能指定参考主体的时间区间。但这些方法大多假设参考在生成前已经给定，或者以离线方式统一规划。ReferStream 把参考到达时间作为一等约束：新信息只能在到达之后影响生成，已输出内容不可回改。
+【3. 两个核心困难】第一，参考图像是在独立尺度、姿态和背景下描绘主体的，独立编码只提供外观，不提供如何融入当前场景的引导；直接拼接容易产生尺度错误、外观复制和场景冲突。第二，流式生成依赖持久 cache 维持长程一致性；把参考特征长期写入全局记忆会干扰既有主体，造成漂移、重复或遗忘，但完全不留影响又无法让新主体延续。
+【4. 方法总览】ReferStream 是一个免训练框架，冻结 LongLive2-5B，只改参考条件路径和部分全局 cache 条目。它把用户交互建模为事件 e_j = (k_j, R_j, B_j, p^e_j, c^e_j)，在 chunk 边界应用。每个事件包含参考列表、目标框、事件指令和 cut flag；目标框可以显式给出，也可以由 layout 默认解析。核心组件是 Joint Latent 与 Cache Restoration。
+【5. Joint Latent】Joint Latent 先取最新干净场景 lat...**
+
+<!-- paperflow:558a22dfede9cf51 -->
+## Live-OPSD: On-Policy Self-Distillation for Proactive Streaming Large Video Models
+
+[[Deep Reading - Oct 2026/Live-OPSD-On-Policy Self-Distillation for Proactive Streaming Large Video Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2610.36959](https://arxiv.org/pdf/2610.36959)
+
+- **这篇论文要解决的是流式多模态助手中的「主动性」训练问题。在连续到达的音视频流里，一个好的助手不仅要答得对，还要在正确的时刻开口：证据不足时保持沉默，事件发生时及时响应。作者把这类系统的输出刻画为「决策（speak/silence）+ 续写内容」的复合体，并指出该任务的三类典型失败——过早开口、应说未说、决策正确但内容失当。
+论文的论证主线是：现有监督微调之所以修不好这三类错误，根因在于监督发生的位置。SFT 在人工标注的助手轮次前缀上优化参考续写，而策略推理时走的是自己产生的前缀；一旦策略提前开口或在应沉默处说了半句，它就会进入一个从未被标注、也从未被纠正的状态。作者把这一错配称为 response-level gap，并强调随策略演化，需要被纠正的续写分布也在漂移，而标注前缀是静止的。他们也据此区分了自己与同期工作（StreamPro 的 CB-Stream Loss、AURA 的 Silent-Speech Balanced Loss）：后者虽然重新加权以缓解沉默/发声不平衡，但目标仍绑定在标注动作与标注前缀上，仍是 off-policy 的。
+技术主线是「用训练期特权信息给策略自己的输出打稠密标签」。Live-OPSD 分两步：学生先仅凭流式上下文自回归生成一段续写（其中包含决策位置与响应内容）；随后同一模型的副本在附带特权 hint（描述当下是否存在足以支持响应的证据）的条件下，对这段学生自己走过的续写逐 token 重新打分，得到教师分布。学生最小化自己的分布与该教师分布之间的散度，梯度只经学生 logits 回传，教师端 stop-gradient。散度方向被显式处理：作者用 β-JS 的两端极限定位 forward KL 与 reverse KL，并坚持把它们实现为两个独立目标，而不是直接取 JSD 端点数值。第二个组件是 Decision-Aware Selection（DAS）：因为流中沉默步远多于响应步，均匀采样会让优化塌向「一直沉默」的退化解；DAS 按响应决策分配更新预算，并配合教师打分对候选样本排序，把更新集中在决策有信息量的位置。整套流程建立...**
 
 # Machine Learning
 
