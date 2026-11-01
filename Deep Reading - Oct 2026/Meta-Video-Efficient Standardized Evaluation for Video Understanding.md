@@ -3,204 +3,123 @@ user_id: "cheng tan"
 paper_id: 16232
 arxiv_id: "2610.18535v1"
 title: "Meta-Video: Efficient Standardized Evaluation for Video Understanding"
+institution: "根据作者列表与致谢推断，核心单位为德国图宾根 AI 中心/图宾根大学（Soumya Shamarao Jahagirdar、Anna Kukleva、Hilde Kuehne 等），合作方可能包括 IBM Research（Samuel Thomas、Brian Kingsbury、Rogerio Feris）与 MIT CSAIL（James Glass）；PDF 未提供完整单位列表，需以原文首页为准。"
 publish_date: "2026-10-13"
-pdf_path: "/Users/mario/Downloads/Projects/PaperFlow/data/exports/Daily Note 2026/arXiv - Oct 2026/2610.18535v1.pdf"
-pdf_url: "https://arxiv.org/pdf/2610.18535v1"
-generation_provider: "heuristic"
-generation_model: "PaperFlow template"
+pdf_path: "/Users/mario/Downloads/Projects/PaperFlow/data/exports/pdf/Daily Note 2026/arXiv - Oct 2026/2610.18535v1.pdf"
+pdf_url: "https://arxiv.org/pdf/2610.18535v1.pdf"
+generation_provider: "openai-compatible"
+generation_model: "deepseek-v4-flash"
 response_language: "zh"
 report_version: "2026-06-17-v6"
 daily_note_path: "/Users/mario/Downloads/Projects/PaperFlow/data/exports/Daily Note 2026/Daily Note - Oct 2026.md"
-saved_at: "2026-10-18T02:13:19"
+saved_at: "2026-11-02T01:08:34"
 ---
 # Meta-Video: Efficient Standardized Evaluation for Video Understanding
 
-> ★★★★☆ 推荐阅读 · 模型 heuristic/PaperFlow template
+> ★★☆☆☆ 按需阅读 · 模型 openai-compatible/deepseek-v4-flash
 
-🏷 关键词：video understanding · benchmark samples · qwen2 vl-7b · standardized evaluation · claim improvements · benchmarks · across · meta-video
+🏷 关键词：video understanding · benchmark evaluation · evaluation protocol · frame sampling
 
 ## 一句话总结
 
-Oct Video understanding benchmarks are the primary yardstick for measuring 13 progressto claim improvements.in video-languageThemodeling,reported benchmarkand a…
+论文把视频理解基准评测中的隐藏配置变量（帧数、帧采样、输入模态与布局、prompt、后端与解码参数）作为核心问题，实证显示同一 checkpoint 仅因评测配置即可产生最高 19.5 个百分点的准确率差异，进而构建了 1,000 题、791 个视频的 Meta-Video 精简基准，并发布覆盖 5 个模型、7 个基准的标准化评测协议与参考分数，以在保持模型排序的同时把全帧数扫描的推理成本降低约 5 倍。
 
 ## 摘要
 
-> Oct Video understanding benchmarks are the primary yardstick for measuring
-> 13 progressto claim improvements.in video-languageThemodeling,reported benchmarkand a growingscoresbodyin oftheseworkworks,relieshowever,on them
-> are almost always produced by frameworks (e.g., lmms eval) used as black boxes:
-> certain evaluation choices like frame sampling, preprocessing, and input format-
-> ting are inherited from preset defaults and seldom inspected carefully. We show
-> these unexamined choices are a major source of variance. Even for the same model
-> checkpoint, evaluation configuration alone can shift accuracy by up to 19.5pp.
-> Hence, it is unclear whether reported gains reflect genuine improvements in ca-[cs.CV] pability or differences in evaluation setup. Moreover, many benchmark samples
-> offer little evidence of visual capability, since they can be answered without the
-> video, and the full suites are expensive to evaluate. We address these issues in two
-> parts. First, we curate existing suites for discriminability and efficiency, producing
-> Meta-Video, a balanced 1,000-question benchmark over 791 videos spanning di-
-> verse tasks and durations, which largely preserves model rankings, at 5× inference
-> speedup for a full-frame count sweep experiment (4-128 frames). Second, we es-
-> tablish a standardized evaluation protocol by sweeping the configuration space to
-> isolate choices that measurably affect results, distill them into best practices and
-> reporting standards, and release reproducible reference scores across five mod-
-> els and seven benchmarks. We hope that the proposed evaluation framework and
-> the Meta-Video benchmark will support video understanding research by provid-
-> ing a reproducible and efficient foundation to measure progress in a reliable way.
-> Project page: https://soumyasj.github.io/meta-video/arXiv:2610.18535v1 1 Introduction
-> Benchmarks measure progress in video understanding, with researchers often using benchmark
-> scores to claim improvements over prior methods or base models. Such claims assume that scores for
-> the same checkpoint on the same benchmark are fairly comparable across evaluations and papers. We
-> find that they are not. Table 1 compares scores reported in recent papers for two widely used check-
-> points, Qwen2.5-VL-7B [5] and Qwen3-VL-8B-Instruct [4], across 11 video benchmarks. Several
-> methods report gains over the Qwen2.5-VL-7B baseline that fall below our reproduction of the same
-> baseline. When we evaluate these methods under identical settings, they don’t improve consistently
-> over the baseline across varying frame counts. We see that reported performance varies substantially
-> across papers by up to 19.5pp on VideoMME on the same checkpoint. These differences far ex-
-> ceed the 2–5pp gains commonly showcased by these same papers over the base model. This makes
-> it hard to tell whether an apparent gain claimed in these prior works, stems from a real capability
-> improvement in the model, a difference in evaluation configuration, or both.
-> Preprint.
-> Table 1: Performance reported for the Qwen2.5-VL-7B and Qwen3-VL-8B backbone. across
-> general video understanding and video reasoning benchmarks. Max ∆denotes the range of scores
-> for each benchmark, differing by up to 19.5pp despite identical model weights. Ours (reproduced)
-> are reported for 128 frames setting.
-> General Video Understanding Video Reasoning
-> Model VideoMME TempCompass MVBench LongVideoBench LVBench VideoMMMU MMVUmcq MMVUval VSIBench SciVideoBench VideoMathQA Minerva
-> Base model: Qwen2.5-VL-7B
-> Qwen2.5-VL-7B [5] 65.1 71.7 69.6 56.0 45.3 47.4 – 50.1 – – – –
-> VideoRFT [59] 52.8-12.3 69.2-2.5 59.4-10.2 56.0 45.3 47.4 61.3 – 31.8 – – –
-> Videochat-R1.5 [67] 64.4-0.7 – 67.4-2.2 – – 46.7-0.7 – – – – – –
-> Open-o3-video [45] 62.4-2.7 – – – – 51.2+3.8 – – – – – –
-> Video-R2 [42] 66.1+1.0 74.2+2.5 68.1-1.5 61.3+5.3 – 50.3+2.9 67.4 – 37.7 16.4 26.7 35.3
-> Viss-R1 [17] 56.6-8.5 72.6+0.9 59.0-10.6 – – 48.1+0.7 60.0 – 30.1 – – –
-> Rethinking CoT [77] 55.5-9.6 – 63.2-6.4 52.5-3.5 34.2-11.1 – 63.4 – – – – –
-> STORM [34] 55.4-9.7 69.9-1.8 60.5-9.1 – – – – – – – – –
-> CoVER [60] 63.1-2.0 – – 56.0 42.0-3.3 – – – – – – –
-> Video-VER [39] 59.2-5.9 73.7+2.0 63.6-6.0 – – 47.3-0.1 64.2 – 32.3 – – –
-> Video-TwG [7] 46.6-18.5 – – – – 44.4-3.0 – – – – – –
-> SDRL [58] 56.5-8.6 72.5+0.8 63.3-6.3 – – 48.4+1.0 65.4 – 29.1 – – –
-> Video-ToC [53] 59.6-5.5 72.9+1.2 59.2-10.4 – – 50.4+3.0 60.0 – 31.4 – – –
-> VidBridge-R1 [9] 59.4-5.7 – 58.7-10.9 50.6-5.4 – – – – – – – –
-> TW-GRPO [12] 56.5-8.6 72.5+0.8 63.3-6.3 – – – 65.4 – – – – –
-> VideoAuto-R1 [35] 66.0+0.9 – 67.1-2.5 60.9+4.9 – 52.7+5.3 – – – – – –
-> MOSS-ChatV [54] 59.7-5.4 72.2+0.5 67.1-2.5 – – 48.1+0.7 – – – – – –
-> STRIVE [3] 57.8-7.3 72.8+1.1 – – – 48.6+1.2 – – 34.3 – – –
-> RLER [71] 65.1 69.2-2.5 67.5-2.1 56.0 42.0-3.3 47.4 – – 37.4 – – –
-> VideoKR [22] 65.1 – 66.3-3.3 60.9+4.9 – 51.1+3.7 – 55.7 – 28.1 – –
-> AdaThinkV [55] 66.0+0.9 – 67.1-2.5 60.9+4.9 – 54.7+7.3 66.2 – – 27.9 29.8 –
-> Max ∆ 19.5 5.0 10.9 10.7 11.1 10.3 7.4 5.6 8.6 11.7 3.1 0.0
-> Ours (Reproduced) 65.6+0.5 73.4+1.7 68.0-1.6 60.2+4.2 42.1-3.2 38.8-8.6 64.6 51.9+1.8 38.3 27.9 26.9 35.3
-> Base model: Qwen3-VL-8B-Instruct
-> Qwen3-VL-8B-Instruct [4] 71.4 – 68.7 – 58.0 65.3 – 58.7 – – – –
-> LLaVA-OneVision-2 [2] 71.4 74.3 69.0+0.3 68.0 58.0 – – – – – – –
-> VSeek [24] 63.7-7.7 – – 54.5 38.7-19.3 – – – – – – –
-> OneThinker [20] 63.3-8.1 – – 61.7 – 63.3-2.0 – – – – – –
-> VideoKR [22] 68.2-3.2 – 67.9-0.8 61.6 – 61.8-3.5 – 59.6 – 33.4 – –
-> InternVideo3 [68] 71.4 – – 62.4 58.0 – – – – – – –
-> AdaThinkV [55] 72.5+1.1 – 69.4+0.7 67.6 – 61.0-4.3 69.9 – – 33.1 30.7 –
-> Max ∆ 9.2 – 1.5 13.5 19.3 4.3 – 0.9 – 0.3 – –
-> Ours (Reproduced) 69.2-2.2 74.2 69.2+0.5 63.6 46.5-11.5 56.6-8.7 69.1 58.7 59.7 34.5 31.6 36.0
-> This shows that video evaluation can be especially sensitive to eval configuration. For example,
-> Frame sampling determines which events are visible to a model. Which Video decoder is used,
-> how Number of frames and Frame resolution are set determine the detail and temporal structure
-> visible to the model. Further, the Input modality (input a video file or sequence of frames) and
-> text Prompt can also affect performance. Yet, papers use evaluation frameworks like lmms eval
-> as black boxes, leaving such details underspecified. Additionally, the quality of benchmark samples
-> can affect the value and cost of evaluation. Some benchmark samples can be answered without even
-> seeing the video. Further, because model rankings can differ across benchmarks, robust comparisons
-> demand aggregating evaluations on multiple datasets, with very large inference costs. As such, a
-> reliable evaluation supporting fast model development calls for 1 a clean set of benchmark samples,
-> 2 low evaluation cost while preserving ranking, and 3 a standardized evaluation protocol.
-> To address 1 and 2 , we introduce Meta-Video (Sec. 3), a compact video understanding bench-
-> mark of 1,000 questions over 791 videos, balanced across source datasets and spanning diverse tasks
-> and durations. We construct it by filtering out low-quality samples to further improve evaluation fi-
-> delity and computational efficiency [28, 23]. Specifically, we remove questions solvable without
-> the video, since these cannot measure video understanding. Meta-Video largely preserves model
-> rankings over its source benchmarks, separates models more sharply, and requires 5× less infer-
-> ence compute than the reference benchmarks for a full sweep over frame counts, which is the most
-> expensive evaluation setting (Table 2(b)). To tackle 3 , we identify key parameters in video evalu-
-> ation pipelines and systematically measure their effects on performance (Sec. 4). We find that input
-> representation and inference backend substantially change scores. In particular, switching between
-> vLLM and Hugging Face while keeping their respective default settings can change performance by
-> more than 5pp, with gains decreasing once the defaults are fixed. Further, we show that extracted
-> .jpg frames yield higher scores when few frames are sampled, while .mp4 input performs better
-> with larger frame budgets. We observe that how many frames and which frames (frame sampling)
-> the model sees is one of the largest, most consistent factors influencing performance. Our system-
-> atic evaluation identifies the major impact factors and proposes a concise way to compile them in
-> the form of evaluation cards to allow for a better, transparent, and reproducible practice in video
-> understanding benchmarking.
-> 2
-> Together, our contributions are: (1) We introduce Meta-Video, a compact, balanced benchmark that
-> preserves ranking trends across its source benchmarks (reliability), uses one-fifth of the inference
-> compute for a full frame-count sweep (efficiency), and makes differences between models clearer
-> (discriminability). (2) We examine the current state of video understanding evaluation and show that
-> variation in often unspecified evaluation protocols can explain substantial discrepancies in reported
-> scores. (3) We release a revised evaluation suite and an extensive set of reference configurations
-> to improve reproducibility and support future comparisons. We hope our findings and standardized
-> evaluation protocols offer a transparent and less costly way to evaluate video understanding, in a
-> reliable manner.
+> 视频理解 benchmark 是衡量视频语言模型进展的主要标尺，但很多报告分数由 lmms eval 等框架以黑盒方式产出，帧采样、预处理和输入格式等选择沿用默认值，很少被审视。作者指出这些未检查的选择是显著方差来源：同一模型 checkpoint 仅改变评测配置，准确率可相差最多 19.5 个百分点，因此分数提升可能来自评测设置而非能力提升。与此同时，许多 benchmark 样本无需看视频即可作答，完整套件评测成本又很高。论文分两部分应对：第一，对现有套件按可判别性和效率进行筛选与平衡，构建 Meta-Video——覆盖 791 个视频、1,000 个问题、跨多样任务与时长的基准，并在 4–128 帧全帧数扫描实验中取得约 5 倍推理加速，同时大体保持模型排序；第二，通过扫描配置空间隔离对结果有可测影响的选项，提炼最佳实践与报告标准，并发布 5 个模型、7 个基准的可复现参考分数。作者希望该框架与基准为视频理解研究提供可复现、高效的进展度量基础。
 
 Q1: 这篇论文试图解决什么问题？
 
-ier inputs each modality can attend to under causal attention, resulting in prompt patterns such as T-V-T or V-T-V. We evaluate these choices in Section 5.2.
+【核心问题】论文要解决的不是“再提出一个视频理解数据集”，而是视频理解基准分数作为能力证据的效度危机：同一模型 checkpoint 仅因评测配置不同，准确率可相差最多 19.5 个百分点，导致论文报告的提升可能来自帧采样、预处理、输入格式、prompt、后端或解码参数，而不是模型能力。
+【子问题一：黑盒默认值】视频理解 benchmark 是衡量进展的主要标尺，但研究者通常把 lmms eval 等评测框架当作黑盒，帧采样方式、预处理、输入格式化等选择继承自 preset defaults，极少被系统检查。由于不同论文可能采用不同默认值，跨论文分数不可直接比较，甚至同一模型在不同代码路径下也不可比。
+【子问题二：题目本身缺少视觉证据】许多 benchmark 问题可以在不看视频的情况下答对，作者用黑帧替代视频帧输入进行探测，发现模型仍能取得不可忽略的准确率。这类题目测量的是语言先验、选项偏置或数据集伪影，而不是视觉理解，构成构念效度（construct validity）问题。
+【子问题三：评测成本】完整套件规模大、视频长、推理昂贵，阻碍快速迭代；作者提到 Video-MME 有 2,700 题等大规模设置，全量评测耗时，因而需要可判别、低成本但仍能保留模型排序的子集。
+【为什么不是普通工程问题】配置选择并非只带来均匀噪声，而可能改变模型间相对排序：在低帧数下占优的模型，在高帧数下可能被反超；某些模型在 32 帧达到峰值后继续加帧反而下降。若评测不控制帧预算和输入格式，所谓 SOTA 可能只是配置更有利。
+【隐含假设】论文挑战的隐含假设是“同一 benchmark 上的分数天然可比”“默认配置是中性的”“更多帧必然更好”“benchmark 题目必然需要视觉信息”。这些假设在实证中都不稳健。
+【论文目标】一是构建一个平衡、紧凑、对模型有判别力且保留排序的 Meta-Video；二是建立标准化评测协议，把影响结果的配置显式化，提炼最佳实践和报告标准，并给出跨模型、跨基准的可复现参考分数。
+【边界】论文主要处理多项选择式视频理解评测与开放权重 4B–8B 模型；对开放生成、人评、统计显著性、跨评测框架移植等问题的覆盖仍有限，原文证据中未看到完整解决方案。
 
 Q2: 有哪些相关研究？
 
-当前自动解析没有稳定提取出 Related Work 的完整脉络。可先从论文引言、相关工作章节和引用线索核对它主要对比了哪些方法。
-
-从当前证据可见，论文的定位至少包括：Qwen2.5-VL-7B Datasets Meta-V (short / medium / long) RUNTIME Inference backend HF Batch size 1 (.mp4;；.jpg with vt);；The Qwen models gain most between 4 and 32 frames.。
+论文把相关工作放在四条脉络中。
+1) 通用视频理解模型：Qwen2.5-VL、InternVL、LLaVA-OneVision、PerceptionLM、Molmo、LLaVA-Next-Interleave 等开放权重 VLM 能接收多帧输入并执行视频理解；后续工作让这些模型解释和推理动态视觉内容；近期视频推理模型进一步强调跨帧序列的时间与因果推理。论文的评测对象正是这一类模型，但只选了 Qwen2.5-VL-7B、Qwen3-VL-4B/8B-Instruct、InternVL3.5-4B/8B 五个开放模型。
+2) 视频理解基准：VideoMME、LongVideoBench、MVBench、LVBench 等覆盖通用视频理解；VideoMMMU、VideoMathQA、SciVideoBench、VideoReasonBench、VCRBench、TempCompass、MMVU、MLVU、Minerva、EgoSchema 等覆盖推理、科学、数学、时间理解、多模态理解等。论文指出这些基准有两大限制：许多问题不看视觉信息也能答对；完整套件规模大、评测极耗时，不利于快速迭代。
+3) 评测有效性：Answer-Matching 把多项选择改成生成式设置；MM-Bench 使用 circular evaluation；VMCBench 等尝试自动化 benchmark 构建或评估。论文与这些工作的区别在于，它不只改变答案匹配方式，而是系统扫描帧数、输入布局、prompt、后端等配置，并把配置本身作为方差来源来研究。
+4) 高效评测与子集构建：已有工作关注 benchmark 压缩、子集选择或更便宜的评测，但论文强调“判别性”和“效率”并重，且要求子集大体保持原基准的模型排序；同时用全帧数扫描验证子集是否还能复现配置敏感性。
+5) 评测框架与可复现性：论文基于 lmms eval 构建开放评测框架，试图把模型、数据、运行时、输入、prompt 等记录成 evaluation card。与只报告单一 accuracy 的惯例相比，这一路线更接近测量学中的“操作化定义”：分数必须连同配置一起报告。
+6) 与本文最直接的区别：现有基准论文通常关注新任务或更大规模，本文关注“已有基准的测量质量”；现有评测框架通常提供默认配置，本文把默认配置当作需要被消融和报告的对象。相关工作的缺口是：缺少同时做到低成本、保留排序、覆盖多模型多基准并公开参考分数的标准化评测。
 
 Q3: 论文如何解决这个问题？
 
-Qwen2.5-VL-7B Datasets Meta-V (short / medium / long) RUNTIME Inference backend HF Batch size 1 (.mp4; .jpg with vt);
+论文的解法可以概括为“先修尺子，再定量法”，分为基准构建与评测协议两部分。
+1. 构建 Meta-Video：作者从现有视频理解套件中筛选和平衡样本，目标是得到一个 1,000 题、791 个视频的紧凑基准，覆盖多样任务和视频时长。具体做法包括：从 Video-MME、LongVideoBench、TempCompass、MMVU、LVBench、MLVU、VSI-Bench 等源基准汇合题目；按源基准的主要类别采样，保证每个来源的主类别在子集中出现；控制短、中、长视频的配比；去除极长视频，证据显示 LVBench 和 Video-MME 中不少于 60 分钟的视频被移除；用黑帧/无视觉输入探测可盲答题目，将其视为低判别性样本并降低或剔除。最后一步在原文中更像筛选原则，具体阈值和剔除比例需要查 Appendix，属于合理推断。
+2. 定义 evaluation card：论文把评测拆成可记录的字段，包括 SCOPE（模型与数据集）、RUNTIME（推理后端、batch size）、INPUT（输入模态 .mp4 或 .jpg、帧数、帧采样方式、分辨率、最大帧数）、PROMPT（模板、视觉与文本 token 的排列，如 TVT 或 VTV）、DECODING（温度、最大 token 数）等。这样做的目的不是增加复杂度，而是让每个分数都能追溯到配置。
+3. 扫描配置空间：作者在 4、8、16、32、64、128 帧上做全帧数 sweep；比较 .mp4 与 .jpg 帧输入；比较 TVT 与 VTV 等输入布局；比较默认 prompt、think step-by-step prompt、只输出单字母的 prompt；比较 HuggingFace 后端与不同 batch size；并考察分辨率、温度等参数。
+4. 提炼最佳实践与报告标准：论文不是简单公布“最佳配置”，而是隔离出对结果有可测影响的选项，给出推荐设置和报告模板，使不同论文的分数更可比。
+5. 发布参考分数：在五个模型、七个基准上给出可复现参考分数，并把原始论文报告分数与统一协议下的分数并列，帮助识别“配置红利”。
+6. 效率设计：Meta-Video 的目标之一是让全帧数扫描的推理成本下降约 5 倍；这使研究者能在多个帧预算下评估模型，而不是只报告单点分数。该加速来自更少的题目和视频，同时要求子集仍能保持模型排序。
+7. 方法性质：这不是新的模型架构，而是评测基础设施与测量方法；核心贡献是“把评测配置变成实验变量”，并用实证说明其重要性。
 
 Q4: 论文做了哪些实验？
 
-The Qwen models gain most between 4 and 32 frames. InternVL3.5-8B gains only 0.2 points from 64 to 128 frames, while InternVL3.5-4B peaks at 45.5 with 32 frames and falls to 43.9 at 128.
+1) 评测对象：五个开放多模态模型——Qwen2.5-VL-7B、Qwen3-VL-4B-Instruct、Qwen3-VL-8B-Instruct、InternVL3.5-4B、InternVL3.5-8B；每个 InternVL3.5 帧被编码为一个 tile。
+2) 评测基准：七个源基准——Video-MME、LongVideoBench、TempCompass、MMVU、LVBench、MLVU、VSI-Bench，加上 Meta-Video。Video-MME 有 2,700 题；Meta-Video 为 1,000 题、791 个视频，并按 short/medium/long 分层报告。
+3) 主实验：在 4、8、16、32、64、128 帧上做统一 sweep，控制后端、分辨率、温度等设置，比较模型在不同帧预算下的表现；同时报告原始论文中的分数，便于对照。
+4) 配置消融：比较输入模态 .mp4 与 .jpg 帧；比较 TVT、VTV 等视觉/文本 token 排列；比较默认 prompt、think step-by-step prompt、单字母输出 prompt；比较 HuggingFace 后端、batch size（随帧数从 16 降到 1）、分辨率、温度等。
+5) 盲测实验：把视频帧替换为黑帧，测试模型在完全没有视觉 token 信息时的准确率，用 Table 8 和 Figure 4 比较“盲模型”与只看 4 帧的同一模型，识别可盲答题目。
+6) 效率实验：报告全帧数扫描的推理加速，摘要给出约 5 倍；并比较 Meta-Video 与完整基准上的模型排序和分数趋势。
+7) 参考分数：论文发布五个模型、七个基准的 reference scores，并给出完整 evaluation card（Table 11 一类），记录 backend、batch size、输入模态、帧数、采样方式等。
+8) 现象验证：在 Video-MME 上，统一协议下的结果与原始报告相近；最佳配置在 Video-MME、LongVideoBench、TempCompass、MMVU 上超过原始报告分数；在 LVBench 上，Qwen3-VL-4B 比原始报告低 12.4 个百分点，说明跨论文比较存在明显配置差异。
+9) 实验边界：主要覆盖多项选择/答案匹配式任务和 4B–8B 开放模型；没有覆盖闭源大模型、开放生成评测、音频/字幕模态、超长视频（不少于 60 分钟被移除）以及跨评测框架的版本漂移。
 
 Q5: 发现了什么实验现象？
 
-The Qwen models gain most between 4 and 32 frames. InternVL3.5-8B gains only 0.2 points from 64 to 128 frames, while InternVL3.5-4B peaks at 45.5 with 32 frames and falls to 43.9 at 128.
+【现象一：配置方差极大】同一 checkpoint 仅改变评测配置，准确率最高可移动 19.5 个百分点。这不是随机噪声，而是足以颠倒模型排名的系统偏差；因此论文的核心论点是“分数必须和配置一起报告”。
+【现象二：不看视频也能答对】用黑帧替代真实帧后，模型仍能取得不可忽略的准确率；部分 benchmark 题目由语言先验、选项偏置或数据集伪影即可解决。论文据此认为这类样本对视觉能力判别性低，是 benchmark 噪声来源。
+【现象三：帧数收益高度模型相关】Qwen 系列模型在 4 到 32 帧之间收益最大；InternVL3.5-8B 从 64 到 128 帧只提升 0.2 个百分点；InternVL3.5-4B 在 32 帧达到 45.5 的峰值，到 128 帧反而降到 43.9。这说明“更多帧更好”不成立，帧预算与模型容量、帧编码方式强相关。
+【现象四：排名随帧预算反转】Qwen3-VL-4B 在 64 帧时反超 InternVL3.5-8B；在 128 帧设置下，Qwen3-VL 在 4B 和 7–8B 两个区间都取得最佳表现。也就是说，模型比较必须明确帧预算，否则“谁更强”没有唯一答案。
+【现象五：prompt 与布局能造成反直觉退化】证据片段显示，在 64 帧设置下，默认 TVT prompt 的平均分约为 39.1；要求 think step-by-step 并给 1024 token 预算的 P1 变体降到约 28.3，比默认低 8.8 个百分点；VTV 布局约为 36.4，比默认低 2.1 个百分点；只输出单字母的 prompt 约为 37.1。更“鼓励推理”的 prompt 反而显著变差，说明评测协议中的语言模板不是中性包装。
+【现象六：Meta-Video 能保留趋势但会压缩绝对差异】Meta-Video 在 1,000 题规模下大体保持原基准的模型排序，并在全帧数扫描上带来约 5 倍推理加速；但证据也提示，某些模型/配置在 Meta-Video 上会更早达到峰值后回落，说明子集对配置敏感性的复现仍有边界，不能把子集分数直接等同于完整基准分数。
+【现象七：原始报告分数存在系统性偏差】统一协议下，最佳配置在 Video-MME、LongVideoBench、TempCompass、MMVU 上超过原始论文报告值；在 LVBench 上 Qwen3-VL-4B 比原始报告低 12.4 个百分点。这既可能来自配置差异，也可能来自实现细节，说明“复现”需要完整 evaluation card。
+【现象八：效率与判别力的张力】Meta-Video 用更少题目换取速度，但 1,000 题对很小的能力差异可能不够敏感；论文主要用排序保持来论证子集有效性，证据中未看到完整的置信区间或显著性检验，因此小分数差距的解释需要谨慎。
 
 Q6: 有什么可以进一步探索的点？
 
-- Vishaal Udandarao was supported by a Google PhD Fellowship in Machine Intelligence.
-- The authors gratefully acknowledge the Gauss Centre for Supercomputing e.V.
-- We propose Meta-Video, a compact video understanding benchmark that is an efficient and reliable version of the source benchmarks.
-- 优先核对语义命中的全文片段：Abstract / Method。
-- 先看 Introduction，确认论文到底在补哪一块空白。
-- 再看 Method / Approach，把核心模块、训练目标和输入输出关系理清。
-- 重点看 Experiments / Results，确认提升来自哪里，以及 baseline 是否公平。
+1) 把 evaluation card 变成社区标准：将模型、数据、后端、batch size、输入模态、帧数、采样、分辨率、prompt、布局、温度、最大 token 数等字段结构化，并要求论文附录或项目页提交；可进一步做机器可读的 schema 和自动校验。
+2) 建立跨框架一致性：本文主要基于 lmms eval；未来可在多个评测框架之间做同一 checkpoint 的对照，量化框架版本、预处理库、视频解码器、颜色空间等带来的残余方差。
+3) 自适应帧分配：当前主要是均匀采样；可研究按视频时长、运动量、事件密度、问题类型动态分配帧预算，并把帧预算作为模型报告的一部分。
+4) 统计严谨性：为 1,000 题子集给出置信区间、bootstrap 方差、配对显著性检验和最小可检测效应，避免把小差距解释为能力差异；也可研究分层采样下的方差缩减。
+5) 超越多项选择：把标准化协议扩展到开放生成、 temporal grounding、视频问答、视频推理链、视频 agent 任务，并设计人评与自动指标的组合。
+6) 长视频与流式视频：本文移除了不少于 60 分钟的视频；未来需要覆盖超长视频、流式输入、记忆检索和事件级定位的评测，避免只看短片段。
+7) 反污染与动态基准：研究可自动生成、定期刷新、带私有保留集的视频 benchmark，降低训练数据泄漏和题目记忆的影响。
+8) 与 agent 评测结合：视频理解模型越来越多被用作 agent 的感知前端；可把工具调用、多轮交互、环境反馈纳入评测，测量“感知—推理—行动”链条，而不是单轮答题。
+9) 科学应用：在 AI for science 场景中，视频理解可用于实验记录、手术视频、显微镜动态过程、机器人实验操作；这些场景的评测需要领域专家、隐私约束和长尾分布，不能直接套用通用 benchmark。
+10) 评测经济学：研究在固定算力预算下如何分配“模型数×基准数×帧数×prompt 变体”的实验设计，用主动实验设计或方差分析减少扫描成本。
 
 Q7: 总结一下论文的主要内容
 
-Oct Video understanding benchmarks are the primary yardstick for measuring 13 progressto claim improvements.in video-languageThemodeling,reported benchmarkand a…
-
-ier inputs each modality can attend to under causal attention, resulting in prompt patterns such as T-V-T or V-T-V. We evaluate these choices in Section 5.2.
-
-Qwen2.5-VL-7B Datasets Meta-V (short / medium / long) RUNTIME Inference backend HF Batch size 1 (.mp4; .jpg with vt);
-
-The Qwen models gain most between 4 and 32 frames. InternVL3.5-8B gains only 0.2 points from 64 to 128 frames, while InternVL3.5-4B peaks at 45.5 with 32 frames and falls to 43.9 at 128.
-
-主要贡献包括：Qwen2.5-VL-7B Datasets Meta-V (short / medium / long) RUNTIME Inference backend HF Batch size 1 (.mp4;；.jpg with vt);；The Qwen models gain most between 4 and 32 frames.。
-
-需要注意的边界包括：Vishaal Udandarao was supported by a Google PhD Fellowship in Machine Intelligence.；The authors gratefully acknowledge the Gauss Centre for Supercomputing e.V.；We propose Meta-Video, a compact video understanding benchmark that is an efficient and reliable version of the source benchmarks.。
-
-与用户画像的关系：从全文语义检索命中的片段看，相关信息主要落在 Abstract / Method 部分。；它不一定和你当前最核心的 智能体 完全同题，但方法设计和评测组织值得借鉴。；如果你更看重系统性工作，可以重点看它如何组织任务设定、实验协议和整体框架。。
+论文的主论证链条是：视频理解 benchmark 被当作衡量进展的主要标尺，但研究者通常通过 lmms eval 等框架以黑盒方式获得分数，帧采样、预处理、输入格式、prompt、后端和解码参数等评测选择沿用默认值，极少被检查；这些未检查的选择不是小噪声，而是足以改变结论的系统方差。作者给出一个醒目的量级：同一模型 checkpoint 仅改变评测配置，准确率可相差最多 19.5 个百分点。由此产生两个怀疑：论文报告的提升究竟来自模型能力，还是来自更有利的评测设置；以及 benchmark 分数是否真的测量了视觉理解。
+论文进一步指出，许多 benchmark 样本本身缺少视觉证据：把视频帧替换为黑帧后，模型仍能答对相当一部分题目，说明这些题目可由语言先验、选项偏置或数据集伪影解决；同时，完整套件规模大、视频长、评测昂贵，不利于快速迭代。问题因此被拆成三个可操作目标：提高题目的视觉判别性、降低评测成本、让分数可复现且可比较。
+解法分两部分。第一部分是 Meta-Video：作者从 Video-MME、LongVideoBench、TempCompass、MMVU、LVBench、MLVU、VSI-Bench 等现有套件中筛选和平衡样本，移除不少于 60 分钟的极长视频，按源基准的主要类别和短/中/长时长分层采样，并用黑帧盲测识别低判别性题目，最终得到 1,000 题、791 个视频的紧凑基准。该基准覆盖多样任务和时长，目标是在大幅降低评测成本的同时大体保持原基准的模型排序；摘要报告在全帧数扫描（4–128 帧）上带来约 5 倍推理加速。
+第二部分是标准化评测协议：作者把评测拆成模型、数据、运行时、输入、prompt、解码等字段，形成 evaluation card；在 4、8、16、32、64、128 帧上做 sweep，比较 .mp4 与 .jpg 输入、TVT/VTV 布局、默认/think step-by-step/单字母 prompt、HuggingFace 后端与 batch size、分辨率和温度等配置；隔离出对结果有可测影响的选项，提炼最佳实践与报告标准，并发布五个模型、七个基准的参考分数。五个模型是 Qwen2.5-VL-7B、Qwen3-VL-4B-Instruct、Qwen3-VL-8B-Instruct、InternVL3.5-4B、InternVL3.5-8B。
+实验主线包括：统一协议下的多模型多基准比较、帧预算 sweep、输入布局与 prompt 消融、黑帧盲测、Meta-Video 与完整基准的排序一致性、以及效率测量。关键发现是：帧数收益高度模型相关，Qwen 系列在 4–32 帧收益最大，InternVL3.5-8B 从 64 到 128 帧只提升 0.2 个百分点，InternVL3.5-4B 在 32 帧达到 45.5 后到 128 帧降至 43.9；Qwen3-VL-4B 在 64 帧反超 InternVL3.5-8B；更“鼓励推理”的 think step-by-step prompt 反而比默认低 8.8 个百分点；VTV 布局比 TVT 低约 2.1 个百分点。统一协议下的最佳配置在四个基准上超过原始报告分数，而 Qwen3-VL-4B 在 LVBench 上比原始报告低 12.4 个百分点，说明跨论文比较受配置强烈影响。
+论文的贡献可以概括为：第一，量化并公开了视频理解评测中的隐藏配置方差；第二，构建了 1,000 题、791 个视频的 Meta-Video，兼顾判别性、效率与排序保持；第三，提出 evaluation card 和标准化报告协议，把评测配置变成一等公民；第四，发布五个模型、七个基准的参考分数，提供可复现基线；第五，给出帧数、输入布局、prompt、后端等配置的实证趋势，提醒社区“更多帧不一定更好”“推理 prompt 不一定更好”。
+论文的局限也较明显：模型和基准覆盖仍限于开放 4B–8B 模型与七个基准；多项选择/答案匹配式评测为主；移除超长视频；1,000 题子集对微小差异的统计功效有限；评测协议主要绑定 lmms eval，跨框架一致性未完全解决；benchmark 污染和开放生成评测也未覆盖。总体而言，这是一篇测量学导向的系统性工作：它不提出新模型，而是试图修复视频理解领域“分数不可比”的基础设施问题。
 
 ## 推荐指数
 
-★★★★☆（4/5）
-- 推荐理由：从全文语义检索命中的片段看，相关信息主要落在 Abstract / Method 部分。
+★★☆☆☆（2/5）
+- 推荐理由：对 agent 评测的迁移：论文把“评测配置”当作一等公民，这与 agent 评测中工具版本、最大步数、环境随机种子、prompt 模板等隐藏变量高度同构；可直接借用 evaluation card 和配置扫描思路。
 
 ## 基本信息
 
 - 作者：Soumya Shamarao Jahagirdar, Anna Kukleva, Vishaal Udandarao, Samuel Thomas, Brian Kingsbury, Rogerio Feris, James R. Glass. Ameya Prabhu, Hilde Kuehne
-- 机构：未提供
+- 机构：根据作者列表与致谢推断，核心单位为德国图宾根 AI 中心/图宾根大学（Soumya Shamarao Jahagirdar、Anna Kukleva、Hilde Kuehne 等），合作方可能包括 IBM Research（Samuel Thomas、Brian Kingsbury、Rogerio Feris）与 MIT CSAIL（James Glass）；PDF 未提供完整单位列表，需以原文首页为准。
 - 来源：arxiv
-- 主题/分类：cs.CV
+- 主题/分类：未知
 - 日期：2026-10-13
-- 推荐级别：**推荐阅读**
+- 推荐级别：**按需阅读**
 - 解析来源：PDF 全文
-- 生成模型：heuristic / PaperFlow template
+- 生成模型：openai-compatible / deepseek-v4-flash
 - arXiv ID：`2610.18535v1`
-- 解析说明：本报告已结合 PDF 全文结构做自动提炼。 已结合全文切块语义检索证据生成。 当前精读正文已将用户兴趣 embedding 检索链路作为主要证据排序信号之一。 生成式精读补充本次未返回，当前内容仍按精读模板基于已拿到的摘要、元数据和可用 PDF 片段生成。
+- 解析说明：本报告已结合 PDF 全文结构做自动提炼。 已结合全文切块语义检索证据生成。 当前精读正文已将用户兴趣 embedding 检索链路作为主要证据排序信号之一。 本次生成优先使用了 PDF 语义检索命中的 Introduction、Method、Results 与 Conclusion 片段，并与摘要和章节文本交叉校准；页眉、表格残片和 OCR 乱码未作为事实依据。
