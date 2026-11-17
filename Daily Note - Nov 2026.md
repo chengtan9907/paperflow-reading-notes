@@ -663,10 +663,11 @@ HyInv 是一个 1.96M 参数的主链条件图网络，编码器-解码器架构
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：audio
-- 论文/报告：2 篇
+- 方法：language, audio
+- 论文/报告：3 篇
 - SCorPion: A Strategic, Controllable and Personified Conversational Companion
 - Hy ASR 3.0 Technical Report
+- Folding Language Models into Themselves
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -699,13 +700,26 @@ Hy ASR 3.0 由音频编码器、音频适配器、LLM 解码器和音频条件�
 四、实验设计
 公开基准覆盖 AISHELL-1、AISHELL-2、AliMeeting、WenetSpeech、FLEURS、Common Voice、SpeechIO、LibriSpeech、GigaSpeech、TED-LIUM 3、VoxPopuli、MLS、WenetSpeech-Yue、KeSpeech；对比系统包括 Qwen3 ASR Flash、FunASR Flash、Doubao ASR 2.0、Seed 2.0 Lite、StepAudio 3 ASR Max 和 Hy ASR 3.0 Preview。指标包括 CER/WE...**
 
+<!-- paperflow:0d7e5366a8eda6ff -->
+## Folding Language Models into Themselves
+
+[[Deep Reading - Nov 2026/Folding Language Models into Themselves|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.18113](https://arxiv.org/pdf/2611.18113)
+
+- **【论证主线】
+论文从一个成本观察出发：获得紧凑语言模型的标准路径是知识蒸馏，但学生从随机初始化开始，必须用海量数据重新学习教师权重里早已编码的内容，因此连最小尺寸的开源模型也要在万亿级 token 上训练。作者把这句话翻转成一个设计原则：既然答案已经在教师权重里，为什么不直接把学生搭在教师权重之上？在这一原则下，论文逐一排除替代方案——整层剪枝虽最省参数，却丢掉被删层的计算，模型“失去大部分生成能力”；保留深度的权重共享（Bae et al. [3]、Liu et al. [4]）方向正确但保真度不足。Concertina 因此被定位为“保留深度 + 从教师权重出发 + 用极小代价补回层间差异”的组合。全文的论证链条是：相邻层在功能上冗余（尽管权重差异接近满秩）→ 因此一个共享 block 加低秩步修正可逼近多层 → 折叠保持深度 → 深度承载多步推理 → 因此折叠模型能保住截断模型丢掉的能力 → 加之起点已在教师附近，蒸馏只需“激活技能”而非“重建知识” → 因此 22B token 足够，而从头训练需要千倍数据。
+
+【技术主线】
+方法分四层递进。(1) 折叠：把 L 层切成 L/N 组相邻层，每组替换为一个单层架构的共享 block，连续执行 N 次；第 t 次执行占据原组第 t 层的位置，输入输出串接，因此模型总深度不变，而每组只存约一层规模的线性权重。每个线性映射保留一个共享权重 W0 供全部 N 步共用。(2) 逐 step 低秩修正：由于单一 W0 无法复现 N 个不同层，第 k 步使用 W_k = W0 + B_kA_k，B_k ∈ R^{d_out×r}、A_k ∈ R^{r×d_in}；修正从它所替换的原层初始化，使折叠模型初始即接近教师，这是“无需大规模重训”的技术支点。(3) 逐 token 门控：门控 g_k 依赖 token 表示 x 与 loop step t，对各步修正加权混合，使同一组共享参数对不同 token 呈现不同的“层身份”，缓解 N 步同构的表达力限制。(4) 训练：共享权重也参与训练，从“某一层的副本”移向“服务整组所有步骤的...**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, reasoning, optimization, deep-learning, stat-ml, stat-me
-- 论文/报告：7 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
+- 论文/报告：15 篇
 - Learning to Interact and Direct: Co-Evolving Video Director Agents
 - Towards Self-Evolving Narrative Systems: Real-Time Adaptation and Long-Term Optimization with LLMs
 - Think or Remember: The Exchange Rate of Agentic Inference
@@ -713,6 +727,7 @@ Hy ASR 3.0 由音频编码器、音频适配器、LLM 解码器和音频条件�
 - ARE-bench: Benchmarking Agents' Research Ability in Real-World Researcher Sessions and Workspaces
 - Prior-as-Skill: Remember Outside and Read Inside with On-Policy Self-Distillation for Self-Evolving VLM Agents
 - WordInferBench: Can Agents Infer How to Edit from Word Document Context?
+- OCTAVE: A Capability-Resolved Benchmark for End-to-End HTML5 Game Generation
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -816,32 +831,117 @@ LIT 的关键是协同演化。早期版本虽能用元工程师根据任务轨�
 
 五、实验与发现：论文在隔离环境中评测多个 agent 系统，可见片段列出 Human、Claude Code（Sonnet 4.6）、Codex（GPT-5.4）、Kimi CLI（Kimi K2.6）、GLM 5.2 等。实验揭示的主要现象包括：智能体在上下文推断式编辑上存在明显能力缺口；参照式条件可能因程序化复制属性而变得相对可操作，但仍受定位与执行约束；定位不是唯一瓶颈，即使提供 explicit property...**
 
-# Computer Vision
+<!-- paperflow:af46ed1e680b0bac -->
+## OCTAVE: A Capability-Resolved Benchmark for End-to-End HTML5 Game Generation
 
-<!-- paperflow-topic-summary:start -->
-## PaperFlow Summary
-- 概念：Computer Vision
-- 方法：agent
-- 论文/报告：1 篇
-- CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models
-- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
-<!-- paperflow-topic-summary:end -->
+[[Deep Reading - Nov 2026/OCTAVE-A Capability-Resolved Benchmark for End-to-End HTML5 Game Generation|Deep Reading]]
 
-<!-- paperflow:1d093b31d444f65e -->
-## CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models
+[https://arxiv.org/pdf/2611.17681](https://arxiv.org/pdf/2611.17681)
 
-[[Deep Reading - Nov 2026/CoCode-World-Shared 3D Proxy Representation for Multi-Player World Models|Deep Reading]]
+- **一、问题定位。OCTAVE 关注的是端到端 HTML5 游戏生成的评测方法。完整游戏生成不是单函数补全，而是长周期、多能力耦合的系统工程：智能体要同时处理游戏规则、交互、状态转换、渲染、场景和资源，任何一个环节失败都可能让最终游戏不可玩。现有编程基准从 HumanEval/MBPP 的函数级测试，走到 RepoBench 的仓库级补全、SWE-bench 的 issue 修复，再到 Commit0、PaperBench、NL2Repo-Bench 的从零构建完整软件/仓库，系统集成范围不断扩大；但游戏生成还有实时交互、渲染和游戏感等额外维度。论文指出，若只报告一个游戏级 aggregate score，就无法判断智能体实现了哪些能力、哪些需求未满足，也无法区分项目交付失败与需求实现失败。因此它提出 capability-resolved benchmark，把评测单位下沉到需求级。
+二、基准构造。OCTAVE 包含 180 个任务、1,800 条 Evaluation Requirements，任务来自三类来源：真实玩家请求、商业机制重建、人类专家设计；覆盖 PC Web、Mobile Web、2D 和 3D。真实玩家请求经过 extraction、cleaning 和 provenance 流程，从原始玩家 prompt 转成可追踪候选任务；商业机制重建围绕已有商业游戏机制；专家设计由人类专家编写。每个任务有一份 Game Specification，智能体从空工作区开始，不获得预置游戏逻辑或任务特定代码。需求按八个 Capability Dimensions 组织，可确认的维度包括 C1 Core Rules、C2 AI/NPC、C3 Numerical Design 与 Feedback and Game Feel；完整维度名称需回原文核对。需求分为 Completeness 与 Richness：Completeness 评估公开说明的核心实现，Richness 评估隐藏的、更深的系统关系；相应也有 public/hidden requirements 的区分。...**
 
-[https://arxiv.org/pdf/2611.15602v1](https://arxiv.org/pdf/2611.15602v1)
+<!-- paperflow:91adee71541aad57 -->
+## Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent
 
-- **一、论文要解决的问题
-CoCode-World 关注多人生成式世界模型中的跨视角一致性：两名玩家在同一场景中各有相机，看到的遮挡和朝向不同，但生成画面必须对共享角色、物体和场景结构给出一致解释。现有两条路线各有缺口：一条是在学习到的 latent 空间做 joint denoising、cross-agent attention 或 shared representation，优点是端到端，缺点是空间控制不直接；另一条是显式状态/世界表示，把世界演化与视角合成分开，但部分方法依赖精细、场景特定的地图几何，限制场景多样性。论文要补的空白是：能否用粗粒度、可编程的 3D proxy 作为结构与视频渲染器之间的共享接口，让视频模型补足外观细节，同时保持跨视角一致。
+[[Deep Reading - Nov 2026/Gamer-A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent|Deep Reading]]
 
-二、方法主线
-方法把问题拆成“结构”和“外观”两个条件。结构由共享 3D proxy 提供：用地图几何 M、每个玩家可见的实体状态 E_t(p) 和相机参数 C_t(p) 投影出相机特定 proxy，P_t(p)=R(M, E_t(p), C_t(p))，指定场景布局、运动与遮挡。外观由 RGB 参考 I 提供，指定角色和场景的长相。生成时，把两名玩家的 proxy 视频、外观参考和目标视频按固定左-右布局拼成一个画布，交给预训练视频 Transformer（片段中称 H3 transformer / Video DiT）联合去噪两路目标视角；跨视角通信依赖模型原生 attention 在单一生成分支内完成，而不是额外设计 cross-agent 模块；主干冻结，用 LoRA 适配 proxy 遵循和成对外观对应。解码后去掉 padding，裁成两段玩家视频。这个设计的核心是把“多人一致性”从隐空间协调转为共享空间布局 + 共享上下文 + 配对监督。
+[https://arxiv.org/pdf/2611.18397](https://arxiv.org/pdf/2611.18397)
 
-三、数据与训练
-作者通过 private FiveM server 采集双人 GTA V gameplay，对每个客户端记录 RGB、相机参数、玩家与附近实体的身份和位姿，并导出同一坐标系下的静态地图几何；地图与持久实体 ID 用于跨相机关联同一场景。动态观测保留...**
+- **一、论文定位
+Gamer 是一篇系统性的 agent 论文，而不是单点算法论文。它要回答的问题是：能否用同一个 VLA 基础模型，在 2D 图形界面和复杂 3D 游戏里完成长程、实时、多阶段的任务？论文的答案是把“数据—预训练—指令微调—多轮 RL—推理服务”做成一条完整管线，并用跨游戏基准和 HSR 长程任务来验证。
+
+二、问题背景
+多模态大模型正在从静态输入处理器变成交互式 agent；VLA 被视为通往具身智能的路径。但真实物理世界的试错成本高、环境不可控，难以大规模 scaling。现代大型游戏提供了折中：既有复杂视觉、3D 布局和多阶段任务，又有可重复、可验证的环境。论文因此把游戏作为通用 agent 的 testbed，并强调设备级键鼠接口、无特权状态、无游戏引擎修改。
+
+三、技术路线
+Gamer 的端到端架构把感知、记忆管理和多步推理耦合起来。动作空间是键盘鼠标；为跨游戏复用，论文把语义动作映射到共享表示，使用随机键位重映射降低对具体按键的依赖，并用 repeat-aware loss decay 对时间上持续/重复的动作降权。训练分三段：
+1. 大规模继续预训练（CPT）：数万小时设备级键鼠轨迹，覆盖模拟游戏与具身环境，学习跨物理/虚拟域的环境动态；在 Dense 与 MoE 骨干上评估，并用 120 个配置做 GameScaling。
+2. 稀疏思考指令微调（SFT）：多级指令覆盖局部操作、中间子目标和长任务序列；sparse-thinking 减少冗余推理计算，同时保留复杂决策所需推理。
+3. 稳定的多轮强化学习（RL）：针对有限上下文窗口、rollout 误差累积和稀疏奖励；用环境侧任务验证提供奖励，并从实时环境收集在线 rollout。
+记忆方面，系统维护长期记忆 Mt，在任务阶段变化、子目标完成、旧交互即将离开活跃上下文时更新，以支撑无界上下文执行。部署方面，云边推理引擎与 Streaming-vLLM 支持大量模拟环境并发、低延迟在线推理，并减少延迟对 RL 的偏差。
+
+四、实验主线
+论文的评测分三层：
+1. GameScaling：120...**
+
+<!-- paperflow:28f151aaccea72ac -->
+## ModHarness-RL: Recasting Harnesses as Learnable and Evolving Programs for Agentic RL
+
+[[Deep Reading - Nov 2026/ModHarness-RL-Recasting Harnesses as Learnable and Evolving Programs for Agentic RL|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.18533](https://arxiv.org/pdf/2611.18533)
+
+- **一、论文定位与问题。MODHARNESS-RL 研究的是 agentic RL 中常被当作工程细节的 harness：模型与外部环境之间的脚手架，决定模型看到哪些交互历史、以什么形式看到、在行为偏离时收到什么引导。论文指出，现有 agentic RL 通常在特定任务上手写 harness，并在训练全程固定；但有效 harness 依赖任务、数据、模型和上下文预算，而且会随模型训练而变化。于是论文提出两个问题：harness 能否从数据中学习？能否与模型一起演化？
+二、方法主线。论文把一次交互记录为结构化 STATE，一组带类型的块；把 harness 的两个核心功能写成作用在这些块上的程序。COMPRESSION 负责把累积历史组装成模型上下文；STEERING 在行为偏离时提供引导。训练时，系统从近期轨迹提出候选程序，先执行验证，再在过去轨迹上回放，以估计候选对失败的影响；回放不需要模型调用，因此可以廉价地跟踪失败随训练步的变化。COMPRESSION 只学一次，STEERING 随 policy 演化；论文用 GRPO 优化策略（检索片段提到），但完整目标与调度需回原文。
+三、实验主线。论文在三个环境上评估：CodeSearch（SWE-Smith 训练，SWE-Bench Lite/Verified/Pro 评估，file/module/entity 平均 F1）、BIRD SQL（BIRD train 训练，dev 评估）、ALFWorld（training games 训练，seen/unseen 评估）。模型覆盖 Qwen3-4B、Qwen3-8B、Qwen2.5-1.5B、Qwen2.5-7B，每个环境在 context-limited 与 context-sufficient 两种预算下测试。实验臂包括 Base harness、+COMPRESSION、+STEERING、full MODHARNESS-RL；基线覆盖 memory、skills、prompts、harness evolution（EvolveR）以及 GPT-based compac...**
+
+<!-- paperflow:2e491a2b2c9a9abb -->
+## Vision-as-a-Tool: Visual Harness for Multimodal Agentic Coding
+
+[[Deep Reading - Nov 2026/Vision-as-a-Tool-Visual Harness for Multimodal Agentic Coding|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.17797](https://arxiv.org/pdf/2611.17797)
+
+- **1. 论文定位：这篇论文不是提出一个新的多模态大模型，而是提出一种系统架构和范式——Vision-as-a-Tool（VaaT），并把其实例化为 VHarness。它要解决的是「多模态 agentic coding 中，视觉推理如何被组织」的问题。作者的核心判断是：把视觉能力耦合在 agent 内部，会形成结构性瓶颈；把视觉解读外包给可调用的 MLLM，可以解耦感知与推理，让 text-only 和 multimodal agent 都受益。
+
+2. 问题链条：多模态 coding agent 需要在执行中分析视觉观察、评估生成产物。现有 Thinking-with-Images 依赖 agent 的内在视觉；agent 看不出来的错误，代码层面无法纠正。纯文本 agent 没有原生视觉，无法独立完成视觉 grounded 任务。既有 visual tool-use 虽然提供裁剪、缩放、检测等工具，但工具只是「处理图像」，最终仍要 agent 自己看，因此没有解除内部感知瓶颈。与此同时，现有 benchmark 分数饱和，轻量开源模型也能 near-ceiling，难以区分真正的感知能力。论文用这三重问题——架构耦合、text-only 缺口、评测饱和——建立动机。
+
+3. 方法与技术主线：VaaT 把通用 MLLM 重构为 callable external utility。工具输入图像和问题，输出文本化的视觉分析；agent 不再需要自己「看」，而是调用外部服务「替自己看」。VHarness 是统一 harness：目标图像、代码工作区、渲染环境、视觉工具集、agent 循环。Agent 在写或改代码、使用内在视觉（若可用）、调用外部工具之间动态选择，而不是走固定流水线。摘要说框架由五项工具驱动；片段可辨认的包括渲染执行、图像 Read、Canny 边缘检测、外部 MLLM 查询，第五项需回原文核对。任务实例覆盖 Image-to-HTML、Image-to-SVG、Image-to-3D。3D 任务生成 Blender 5.0 Python 脚本，使用 bpy、b...**
+
+<!-- paperflow:1bbbc5eee1d42e38 -->
+## AutoRL: A Multi-Agent System towards Autonomous Reinforcement Learning
+
+[[Deep Reading - Nov 2026/AutoRL-A Multi-Agent System towards Autonomous Reinforcement Learning|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.17790](https://arxiv.org/pdf/2611.17790)
+
+- **一、愿景与问题。论文从递归自我改进（RSI）出发，认为通向超级智能的一条重要路径是让 AI 系统承担完整训练流水线并迭代优化自身。RL 在后训练中负责把奖励反馈转化为可泛化能力，因此是 RSI 闭环的关键环节；但 RL 训练动态不稳定、需要持续监督，分布式执行还会带来数值与工程故障，使自动化非常困难。
+二、现有范式的不足。静态 RL 配方在训练前固定配置，无法应对训练中的退化、停滞或实现错误；通用 agent 虽能提出研究想法，却缺少 RL 专用监测、过程级证据与安全干预机制。论文强调 AutoRL 不是「先做研究、再启动训练」的分离流程，而是把过程级监督与研究嵌入正在运行的训练。
+三、系统设计。AutoRL 包含三类 RL 专用角色。Perceptor 跟踪训练动态、rollout、评估与效率，在异常、退化或停滞时触发 deliberation。三类互补 Proposer 基于共享证据与检查诊断问题，生成并修订候选干预；CPU-only tests 用于低成本验证候选。Orchestrator 审核建议与证据，通过在线热更新或基于 checkpoint 的恢复来应用变更，并支持回滚。整体形成「监测—诊断—提案—验证—审核—应用—继续监测」的闭环。
+四、实验设计。论文在四个设置上训练：Qwen3-1.7B 与 Qwen3-4B 使用 DAPO-Math-17K 的 17,390 个数学题；LongCat-Flash-Lite 使用 9,340 个私有数学题与 700+ 个 repository-level SWE 任务。Qwen 模型在九个基准上评测：AIME 2024/2025、HMMT 2025、Beyond AIME、IMO-AnswerBench、MMLU-Pro、GPQA-Diamond、MBPP、LiveCodeBench v6 Hard。对照包括静态 RL 配方（GRPO）与 native general agent（Codex），二者共享初始模型、数据与评估设置；另用 GLM-5.2 替换 GPT-6.1 检查监督模型依赖性。
+五、主要发现。Qwen3-...**
+
+<!-- paperflow:3e42af30d9232e39 -->
+## WebArena-Pro: A Heterogeneous, Multimodal, Reproducible Benchmark for Web Agents
+
+[[Deep Reading - Nov 2026/WebArena-Pro-A Heterogeneous, Multimodal, Reproducible Benchmark for Web Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.17955](https://arxiv.org/pdf/2611.17955)
+
+- **WebArena-Pro 是一篇基准论文，核心论证主线是：Web agent 的应用面已经扩展到异构应用、多媒体内容和有状态工作流，但可复现评测仍停留在少数应用、文本/视觉两种模态，导致能力测量与现实工作脱节。作者不是提出新模型，而是构建一个更广覆盖、可复现、多模态的测量基础设施。
+
+第一，问题定义。现有自托管基准应用少、软件类别窄；真实网站基准覆盖广但页面和数据漂移，运行间不可比；音频/视频在网页任务中普遍缺位。论文要同时解决覆盖、复现和多模态三个缺口，并把“异构性”作为评测变量。
+
+第二，基准构成。WebArena-Pro 包含 300 个任务，覆盖 20 个自托管 Web 应用和 6 个领域类别。从引言可辨识的应用包括 Slack、Gmail、X/Twitter、Dropbox、Google Drive、Notion、1Password、Google Flight、Airbnb、Spotify、Figma、Google Photos、YouTube、PowerBI、Pipedrive、Mint、Handshake、LMS、Zendesk、Salesforce；类别覆盖通信、生产力、旅行、设计与媒体、业务运营、分析。任务跨不同界面惯例、数据模型和工作流，既有单站点也有跨站点。
+
+第三，任务构造。作者通过专用标注接口写题；候选任务先由 LLM-based agent 试跑，第一次就成功的题被 triage 丢弃；通过筛选的任务由第二标注者在真实应用上复核，确认可执行、最终确定 rubric，并做发布前人工验证。这个流程同时控制难度、有效性和可评分性。
+
+第四，多模态观察与动作。基准把音频和视频作为核心观察，与文本、视觉并列；动作空间提供 transcribe()、extract_frames()、watch()、listen()，分别用于转写、固定帧率抽帧、观看和聆听媒体。网页观察以 accessibility tree 为主，配合视觉信息；agent 必须主动决定何时读取媒体。
+
+第五，执行与复现。每个任务在容器隔离中运行，任务间 reset 环境，支持并行评测，避...**
+
+<!-- paperflow:6f4538319e22f4f6 -->
+## CarryOn: Learning What to Keep in Context for Long-Horizon LLM Agents
+
+[[Deep Reading - Nov 2026/CarryOn-Learning What to Keep in Context for Long-Horizon LLM Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.17808](https://arxiv.org/pdf/2611.17808)
+
+- **一、问题意识：论文从长程 LLM Agent 的“上下文成本-信息精度”矛盾出发。多步工具调用让观察、工具返回和中间结果不断累积，Actor 每一步重复处理历史，成本随交互长度上升；但后续动作可能依赖很多步之前的精确细节。Figure 1 的 Venmo 任务是全文的典型例子：Agent 需要先找到同事、检查并充值余额、再逐个转账并写备注；第 9 步得到的同事记录要到第 33 步才用得上。若保留全历史，输入成本高且噪声大；若摘要或剪枝，像“7 位同事”“余额 140 美元”“备注 For Lunch”这样的字段可能被丢掉，导致任务失败。论文因此把目标从“压缩上下文”改写为“在预算内保留与当前决策相关且足够精确的信息”。
+二、方法主线：CarryOn 采用 Actor 与上下文管理器分离的架构。Actor 维护一个紧凑控制状态，记录任务进度、待办子目标、关键变量和下一步；证据管理器从原始观察中抽取细粒度证据单元，并为每个单元保留来源引用。每一步的 Actor 输入由任务查询、紧凑状态、工作证据集和回召证据集组装而成（片段给出 X_t = Compose(q, m_t, W_t, R_t)）。学习到的选择器根据当前状态给候选证据打分，自适应保留策略在预算内决定保留或淘汰；被省略的证据不是永久删除，而是可以在后续步骤通过 temporary evidence expansion 重新进入上下文。这样，压缩变成可逆的缓存替换，而不是一次性有损摘要。
+三、训练信号：片段显示选择器使用离线状态标注与证据引用训练；标注 schema 比 Actor 的有界状态更丰富。另一个重要监督是“后续 API 调用是否复用某个证据单元”：如果后续动作的参数用到了早先观察中的值，该单元就被视为有用。完整方法还包含 next-action training；消融中的 ranking only 去掉了 next-action training 与 temporary evidence expansion。论文强调上下文管理不需要额外 LLM 调用，选择或剪枝由本地轻量模型完成，但本地 token 仍计...**
+
+<!-- paperflow:ba9885ef02d3f623 -->
+## WeightBench: Evaluating Language Models as Weight-Space Programmers
+
+[[Deep Reading - Nov 2026/WeightBench-Evaluating Language Models as Weight-Space Programmers|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.18553](https://arxiv.org/pdf/2611.18553)
+
+- **1. 论文的出发点：传统深度学习把权重看作训练的输出，而不是可直接阅读或编程的对象。近期三条线索改变了这一图景：模型编辑（Meng et al., 2022）表明定向修改权重可以改变特定行为；Tracr（Lindner et al., 2023）表明 Transformer 权重可以由符号程序编译得到；Takehi et al. (2026) 进一步展示 LLM 可以识别网络被训练做什么、修复失败网络、从零构造可工作网络，且无需梯度下降。作者把这一能力称为 Weight-Space Programming（WSP），并指出已有工作只是“存在性演示”，还没有回答可靠性、跨任务泛化、模型间比较等问题。
+2. 论文的核心主张：要推进 WSP，必须先有可复现、抗作弊的 benchmark。WeightBench 因此被提出：42 个注册任务（40 个 specification tasks 加 2 个 synthetic knob tasks），五条轨道——reading、fixing、writing、recognizing impossible edits、data-free compression；被操作网络从 2K 参数控制策略到 7B 参数语言模型。这个设计把“权重可编程”拆成多种可测能力，而不是只测单一编辑任务。
+3. 评测框架：WeightBench 的关键不是任务数量，而是执行约束。所有任务在严格、无特权的 OS 级沙箱中运行；agent 只能访问任务 public artifacts 和 workdir，不能访问宿主文件系统；被禁止使用 transformers、vllm 等模型执行库；网络被锁定；若需要行为反馈，则通过受控的 headless adapter 执行，并计入预算。基准约束并观察 access、compute、edits，任务在严格预算内评分；对 reading 或从零构建任务设 u_edit=0；达到 turn cap 的提交判 0；基础设施故障另有处理。guard 会主动触发 runtime rules，记录 blocked import、bl...**
 
 # AI Research
 
@@ -883,3 +983,50 @@ Augmented 与 simulated data 可能放大偏见，同时让数据集看起来更
 【技术主线】方法可以重建为四步：第一，把原始图像与创意图像编码为双曲表征 h 与 h̃；第二，取风格 logits z_s，经可学习 MLP g 和 sigmoid 得到 α=σ(g(z_s))；第三，用 ||h|| ≤ (1−α)/√κ 约束表征半径；第四，用双曲测地距离 D_nov=d_H(h,h̃) 度量新颖性。适当性则被定义为依赖新颖度的判断：偏离越大，“合理”的标准越从字面相似转向概念可解释性。这个技术路线的关键不是某个生成模块，而是“用风格信号控制几何自由度”的评价几何。
 【论证逻辑】论文的论证依赖三个假设：双曲空间能表达层级化、概念性的视觉语义；测地距离能区分结构化偏离与随机偏离；风格信号能指示创作应获得多大的偏离预算。若这三个假设成立，自适应半径就能比固定半径更贴近人类对“合理创意”的判断。反之，若嵌入没有学到层级语义，双曲距离可能只是欧氏距离的变形；若风格 logits 不可靠，α 会把数据集偏置带入评分。
 【实验主线与证据状态】提供的检索证据没有 Experiments 章节，也没有数据集、baseline、指标、消融或数值。因此不能确认论文是否真的验证了上述论证，也不能报告任何性能结论。最需要核对的是：任务是否确为线稿/...**
+
+# Computer Vision
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：Computer Vision
+- 方法：agent, language, vision-language-model, vision, vision-language
+- 论文/报告：2 篇
+- CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models
+- OmniScore-Bench: Evaluating Vision-Language Models on Musical Score Reading
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
+<!-- paperflow:1d093b31d444f65e -->
+## CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models
+
+[[Deep Reading - Nov 2026/CoCode-World-Shared 3D Proxy Representation for Multi-Player World Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.15602v1](https://arxiv.org/pdf/2611.15602v1)
+
+- **一、论文要解决的问题
+CoCode-World 关注多人生成式世界模型中的跨视角一致性：两名玩家在同一场景中各有相机，看到的遮挡和朝向不同，但生成画面必须对共享角色、物体和场景结构给出一致解释。现有两条路线各有缺口：一条是在学习到的 latent 空间做 joint denoising、cross-agent attention 或 shared representation，优点是端到端，缺点是空间控制不直接；另一条是显式状态/世界表示，把世界演化与视角合成分开，但部分方法依赖精细、场景特定的地图几何，限制场景多样性。论文要补的空白是：能否用粗粒度、可编程的 3D proxy 作为结构与视频渲染器之间的共享接口，让视频模型补足外观细节，同时保持跨视角一致。
+
+二、方法主线
+方法把问题拆成“结构”和“外观”两个条件。结构由共享 3D proxy 提供：用地图几何 M、每个玩家可见的实体状态 E_t(p) 和相机参数 C_t(p) 投影出相机特定 proxy，P_t(p)=R(M, E_t(p), C_t(p))，指定场景布局、运动与遮挡。外观由 RGB 参考 I 提供，指定角色和场景的长相。生成时，把两名玩家的 proxy 视频、外观参考和目标视频按固定左-右布局拼成一个画布，交给预训练视频 Transformer（片段中称 H3 transformer / Video DiT）联合去噪两路目标视角；跨视角通信依赖模型原生 attention 在单一生成分支内完成，而不是额外设计 cross-agent 模块；主干冻结，用 LoRA 适配 proxy 遵循和成对外观对应。解码后去掉 padding，裁成两段玩家视频。这个设计的核心是把“多人一致性”从隐空间协调转为共享空间布局 + 共享上下文 + 配对监督。
+
+三、数据与训练
+作者通过 private FiveM server 采集双人 GTA V gameplay，对每个客户端记录 RGB、相机参数、玩家与附近实体的身份和位姿，并导出同一坐标系下的静态地图几何；地图与持久实体 ID 用于跨相机关联同一场景。动态观测保留...**
+
+<!-- paperflow:dbd77b1192f90ca8 -->
+## OmniScore-Bench: Evaluating Vision-Language Models on Musical Score Reading
+
+[[Deep Reading - Nov 2026/OmniScore-Bench-Evaluating Vision-Language Models on Musical Score Reading|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.17870](https://arxiv.org/pdf/2611.17870)
+
+- **一、论证主线
+论文的起点是一个看起来已经被解决的问题：VLM 能够就乐谱回答问题。作者把这个表面能力拆成三层——识别记谱符号、恢复乐谱结构、解释音乐含义——并主张这三层需要分开评测。随后给出归因论证：既有 OMR 资源建立的是检测与转录两类测量，而「单一的转录分数无法揭示一个 VLM 乐谱阅读器的强项与瓶颈」。这条论证被两个具体现象加固：MSU-Bench 已经报告了视觉输入下的定位错误与幻觉，说明整谱级答案本身不可靠；而一个 score-level 的答案无法区分失败发生在「定位记谱符号」「关联音乐对象」「解释音乐后果」中的哪一环。
+
+二、技术主线（评测即方法）
+作者没有提出新模型，而是把方法论创新放在评测单元上。组织原则是「让每一个被请求的操作单独可观测」。落地为三件套：每道题显式声明 visible scope（可见范围），携带 reference annotations（参考标注）作为判分锚点，规定 answer schema（答案模式）使自动判分可行。操作阶梯从低到高为：符号题（要类别与坐标）→ 关系题（哪些被识别出的对象彼此相关）→ 结构/转录 → 音乐一致性 → 证据链接问答。规模为 3,000 道题、6 个 aspect、24 个 task subtype。
+
+三、实验主线
+评测 12 个 VLM。scope 分 excerpt / single-page / multipage 三档并分别报告，因此「谁是转录第一」必须绑定 scope 陈述。核心发现有三条：其一，模型呈现 operation-specific capability profiles，即读谱能力不是单因子；其二，转录领先者在三档 scope 上不同，没有全局最强；其三，模型熟练度取决于操作类型与所需表征。除主实验外，论文设置了三组受控分析：乐谱图像的作用、辅助给定信息（auxiliary givens）的作用、以及不同细节层级问题的作用——这三组分析的功能是把「真的在读谱」与「靠先验/上下文猜」区分开。
+
+四、与先行工作的关系
+论文把资源谱系铺得很清楚：DeepScoresV2（musi...**

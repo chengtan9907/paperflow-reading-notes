@@ -130,7 +130,7 @@
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Multimodal Models & Visual Reasoning
-- 方法：language, vision-language-model, reasoning, vision, optimization, multimodal-reasoning, vision-language, cross-modal
+- 方法：language, vision-language-model, reasoning, vision, optimization, vision-language, multimodal-reasoning, cross-modal
 - 论文/报告：8 篇
 - PRISM: Synergizing Vision Foundation Models via Self-organized Expert Specialization
 - Representation Forcing for Bottleneck-Free Unified Multimodal Models【Unified Model, ByteDance Seed】
