@@ -575,11 +575,13 @@ Noura 把 LLM 规划与可执行个人规范配对。规范由公共临床指南
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI for Science & Biology
-- 方法：protein-folding
-- 论文/报告：3 篇
+- 方法：agent, ai-for-science, optimization, protein-folding
+- 论文/报告：5 篇
 - Are Scaling Laws of Universal MLIPs Universal?
 - HyInv Technical Report
 - HyPLM Technical Report
+- SkillBuffBench: Measuring What Agent Skills Contribute across Harnesses, Models, Skill Access Modes and Memory
+- Colombo: A Frontier-to-Frontier Autoresearch System for Oracle-Based Optimization
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -627,6 +629,34 @@ HyInv 是一个 1.96M 参数的主链条件图网络，编码器-解码器架构
 
 评测是论文最有价值的部分之一：29 个模型（28 个公开 checkpoint + HyPLM-Flash）、13 个模型家族、32 项任务，全部走同一套 BF16 评测代码；零样本分数来自 MLM head，监督任务在冻结表征上做线性探针，并从六个相对深度中按验证集选最佳层；置信区间用 assa...**
 
+<!-- paperflow:851f7b76dafd0d4c -->
+## SkillBuffBench: Measuring What Agent Skills Contribute across Harnesses, Models, Skill Access Modes and Memory
+
+[[Deep Reading - Nov 2026/SkillBuffBench-Measuring What Agent Skills Contribute across Harnesses, Models, Skill Access Mod|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22017v1](https://arxiv.org/pdf/2611.22017v1)
+
+- **【一、论文要解决的问题】
+论文的出发点是“Agent Skills 的收益缺乏可信证据”。Skill 被定义为以文件形式打包、编码过程性知识、可被 coding agent 按需发现并加载的包；作者指出这类包如今已由每一个主流 agent harness 随附交付。但支撑“它们有用”的证据几乎全部来自两种理想化设定：正确的 Skill 被人工为任务挑好，且 agent 从空白状态起步。作者认为这两条在部署中都不成立：真实 agent 要从“机器上恰好装了什么库”里自己挑，而且常常带着此前工作的 memory 继续干活。这意味着既有证据存在系统性向上偏置，并且 Skill 的贡献与 harness 脚手架、模型能力的贡献纠缠在一起，无法归因。
+
+【二、技术路线：把 Skill 访问做成因子，而不是把 Skill 当作功能演示】
+论文提出 SkillBuffBench，一个基准加一套配对评测协议。核心设计是把“Skill 访问方式”设为三水平因子：无 Skill、精选 Skill（人工为任务指定，构成上界）、从已安装 Skill 库自动调用（构成可部署值）。两者的差就是路由损失。第二因子是 memory，两水平（M0 关闭，每次运行都是新 agent、新会话；M1 开启）。第三、第四因子是 harness（Ginkley／BraneMatrix、Codex／OpenAI、Claude Code／Anthropic、OpenCode，共 4 个）与 model（一个所有 harness 共享的模型池，当前 11 个，包含 Anthropic、Google、OpenAI 的前沿闭源模型与中国厂商的前沿开放权重模型）。四者做全因子交叉，每个模型都在每个 harness 下运行，因此“配置”被定义为 (harness, model) 对，配置内部只变 Skill 与 memory。所有支撑三个研究问题的比较都在 task、harness、model 上配对，这是该协议相对普通排行榜式基准的主要方法差异。
+
+【三、任务、Skill 与评分】
+任务由领域专家贡献，并连同专家自己使用的...**
+
+<!-- paperflow:2417e2e5a9fc2786 -->
+## Colombo: A Frontier-to-Frontier Autoresearch System for Oracle-Based Optimization
+
+[[Deep Reading - Nov 2026/Colombo-A Frontier-to-Frontier Autoresearch System for Oracle-Based Optimization|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23080v1](https://arxiv.org/pdf/2611.23080v1)
+
+- **1）论文定位：Colombo 是一篇系统/立场型技术报告，目标不是提出单个优化算法，而是提出一个“frontier-to-frontier”的自组织 AI 研究者架构，并把 oracle-based optimization 作为首个可严格验证的试验场。PDF 页眉出现“ZERO Lab”，但作者单位未在检索证据中确认；元数据标注 arXiv 2026-11-17，晚于当前日期，引用前应核对版本与时间戳。
+2）问题背景：Introduction 从 Popper、Kuhn、Lakatos 的科学哲学传统出发，把科学进步描述为猜想、反驳、范式变化与研究纲领更新的递归过程；随后把这一叙事接到 AI for Science 与 agentic research systems 上，指出机器已能参与蛋白质结构预测、材料发现、算法发现与数学构造，也能组织问题形成、研究与验证，但仍缺少一个能持续维护 frontier、把未解 gap 变成研究 programme 并自我更新的系统。
+3）对象层问题：在 oracle-based optimization 中，核心问题是——在规定的信息接口下，一个 problem class 能被多高效地求解，以及任何 admissible algorithm 都绕不开的成本是多少。可达上界与不可避下界之间的差距定义 frontier；Atlas 记录这些 setting 与当前知识状态。片段中的 Complexity Bracket 把 setting、参数、资源预算、可允许算法集合与性能度量组织成可比较对象：资源预算 n 内的算法集合 A_s(n) 包含所有满足对所有实例成本上确界不超过 n 的过程，性能度量不必通过 oracle 可观测。
+4）系统架构：Colombo 由多个模块组成。Complexity Atlas 是 living map，记录 setting、上界、下界、证明状态与来源；Self-Organization 把未解 gap 转成自适应 research programme，协调猜想、数学探究与再规划；Brain 做 prog...**
+
 # Foundation AI & AGI
 
 <!-- paperflow-topic-summary:start -->
@@ -663,11 +693,12 @@ HyInv 是一个 1.96M 参数的主链条件图网络，编码器-解码器架构
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：language, audio
-- 论文/报告：3 篇
+- 方法：language, audio, stat-ml, stat-me
+- 论文/报告：4 篇
 - SCorPion: A Strategic, Controllable and Personified Conversational Companion
 - Hy ASR 3.0 Technical Report
 - Folding Language Models into Themselves
+- Latent Bridge: Asking for Help Without Words
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -713,13 +744,28 @@ Hy ASR 3.0 由音频编码器、音频适配器、LLM 解码器和音频条件�
 【技术主线】
 方法分四层递进。(1) 折叠：把 L 层切成 L/N 组相邻层，每组替换为一个单层架构的共享 block，连续执行 N 次；第 t 次执行占据原组第 t 层的位置，输入输出串接，因此模型总深度不变，而每组只存约一层规模的线性权重。每个线性映射保留一个共享权重 W0 供全部 N 步共用。(2) 逐 step 低秩修正：由于单一 W0 无法复现 N 个不同层，第 k 步使用 W_k = W0 + B_kA_k，B_k ∈ R^{d_out×r}、A_k ∈ R^{r×d_in}；修正从它所替换的原层初始化，使折叠模型初始即接近教师，这是“无需大规模重训”的技术支点。(3) 逐 token 门控：门控 g_k 依赖 token 表示 x 与 loop step t，对各步修正加权混合，使同一组共享参数对不同 token 呈现不同的“层身份”，缓解 N 步同构的表达力限制。(4) 训练：共享权重也参与训练，从“某一层的副本”移向“服务整组所有步骤的...**
 
+<!-- paperflow:56ca290a8c14f055 -->
+## Latent Bridge: Asking for Help Without Words
+
+[[Deep Reading - Nov 2026/Latent Bridge-Asking for Help Without Words|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.21301v1](https://arxiv.org/pdf/2611.21301v1)
+
+- **一｜问题与动机主线
+论文从一个具体而尖锐的成本观察出发：当前多模型协作几乎都以自然语言为通信协议（Du et al., 2023；Wu et al., 2023；Wang et al., 2024a），大模型先生成中间响应，小模型再据此生成答案。问题在于，最终答案由小模型产出，系统却必须承担大模型逐 token 解码中间响应的延迟——decode 是串行的、受显存带宽约束的、随响应长度增长的成本（Patel et al., 2024；Zhong et al., 2024），而这段中间文本还要被 receiver 重新 prefill 一次。在 frontier 模型位于云端、小模型位于边缘设备的典型部署下，这个成本被网络传输进一步放大。
+由此论文提炼出核心问句：大模型能否在不做自回归解码的前提下改善小模型的生成？这一问句建立在一个成本不对称之上——prefill 并行处理全部输入、compute-bound、硬件利用率高；decode 一次一个 token、必须串行。因此「让大模型只读不写」在成本结构上是一个量级的折扣。论文的答案是把通信从文本层下沉到表征层，并用「大模型只 prefill、小模型全解码」的固定分工把这条经济学原则落到架构上。
+
+二｜方法与技术主线
+POND 由三部分组成：冻结的 sender、可训练的 bridge、被联合微调的 receiver。形式化写作 p(y|x) = Π_t p(y_t | x, y_<t, M_t)，其中 M_t 是第 t 步可见的 latent memory。
+bridge 的工作分两步：先把 sender 最后一层 hidden states 压缩成一条跨层共享的 latent message（配置中出现 d_b = 2048 这类量级），再由 layer-specific adapters 展开成每一层可用的额外 KV 条目。共享 message 控制参数量并保证跨层一致，层特定 adapter 吸收不同层的语义与维度差异。receiver 把这些 latent KV 当作自注意力中的额外可见条目，生成仍全部由自己完成...**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, multimodal-learning
-- 论文/报告：15 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
+- 论文/报告：21 篇
 - Learning to Interact and Direct: Co-Evolving Video Director Agents
 - Towards Self-Evolving Narrative Systems: Real-Time Adaptation and Long-Term Optimization with LLMs
 - Think or Remember: The Exchange Rate of Agentic Inference
@@ -943,6 +989,105 @@ Gamer 的端到端架构把感知、记忆管理和多步推理耦合起来。�
 2. 论文的核心主张：要推进 WSP，必须先有可复现、抗作弊的 benchmark。WeightBench 因此被提出：42 个注册任务（40 个 specification tasks 加 2 个 synthetic knob tasks），五条轨道——reading、fixing、writing、recognizing impossible edits、data-free compression；被操作网络从 2K 参数控制策略到 7B 参数语言模型。这个设计把“权重可编程”拆成多种可测能力，而不是只测单一编辑任务。
 3. 评测框架：WeightBench 的关键不是任务数量，而是执行约束。所有任务在严格、无特权的 OS 级沙箱中运行；agent 只能访问任务 public artifacts 和 workdir，不能访问宿主文件系统；被禁止使用 transformers、vllm 等模型执行库；网络被锁定；若需要行为反馈，则通过受控的 headless adapter 执行，并计入预算。基准约束并观察 access、compute、edits，任务在严格预算内评分；对 reading 或从零构建任务设 u_edit=0；达到 turn cap 的提交判 0；基础设施故障另有处理。guard 会主动触发 runtime rules，记录 blocked import、bl...**
 
+<!-- paperflow:58583a416aa7c086 -->
+## Worldviews in Large Language Models
+
+[[Deep Reading - Nov 2026/Worldviews in Large Language Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22670v1](https://arxiv.org/pdf/2611.22670v1)
+
+- **（一）问题意识：从 persona 到 worldview
+论文从一个概念区分开始。当前 LLM 对齐研究习惯用 persona 描述模型：预训练学到人格分布，后训练选择并精炼出“Assistant”人格；不同人格导致不同行为，因此 persona 成为对齐的核心抓手。但作者认为，persona 可能只是表面层。更深一层是世界观：模型对实在是什么、世界如何运作、知识如何获得、人性是否可信、行动是否有效的基本假设。论文借用 Koltko-Rivera 的世界观心理学，把世界观放在靠近动机核心的位置：冲动经过世界观，再经过 agentic core、persona 与文化要求，最后形成行为。Figure 1A 用“有人对我不公平，要不要再给一次机会”的例子说明：同一个 Assistant persona，若世界观是“世界危险、人性自私”，就会建议自我保护；若世界观是“人性可信”，就会建议宽容。这个例子是概念性的，但它点出了论文的核心主张：只调 persona 可能不够深。
+（二）研究设计：把 LLM 当受试总体
+作者把八个 LLM 视为一个受试总体，施测两套来自人类心理学的世界观问卷。题目覆盖知识来源（直觉、占卜、启示、虚无等）、最高意识状态（自我至上/自我超越）、真理的普遍性/相对性、真理的完整/部分可获得性、真理获取的排他/普遍性、世界公正性（公正/不公/随机）、外部力量对人类福祉的善意/敌意/中性、人类行动效能、政治经济公正等。回答形式包括 select one 与 select all that apply。模型回答与人类常模比较，并在模型间比较。论文还做了三类干预：系统提示诱发不同身份；沉思式提示；模型间多轮对话（self-play）。安全评估至少包括 XSTest，并校正过拒答，以避免“更安全”只是“更爱拒答”。对话实验用 whole-transcript judge 与 14-message trajectory judge 评估安全性与 spiritual bliss 吸引子。
+（三）主要发现：共享的黯淡、后训练的副作用、可塑性与对话吸引子
+第一，模型共享许...**
+
+<!-- paperflow:a6381c62f8a5f3fc -->
+## How Web Research Agents Interpret User Priorities
+
+[[Deep Reading - Nov 2026/How Web Research Agents Interpret User Priorities|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22989v1](https://arxiv.org/pdf/2611.22989v1)
+
+- **这篇论文是一篇审计式实证研究，而不是提出新 agent 架构的系统论文。它的中心论点是：web research agent 收到用户 priority 后，真正的困难不在于“是否提到这个 priority”，而在于“把 priority 操作化成什么判断标准”。用户说“特别关注 growth”或“特别关注 resilience”，只指定了注意力对象，没有指定度量、时间窗口、风险调整和权衡规则；agent 必须自行补全这些 criteria，而不同补全方式可能支持不同结论。论文借用决策分析中“关注什么”与“如何判断”的区分，把这一解释鸿沟作为研究对象。
+
+技术主线是“固定任务 + 操纵 priority + 重复采样 + 多层日志 + 报告编码 + 统计检验”。作者让两个分别基于 OpenAI 与 Anthropic 模型的 web research agent 完成同一任务：把 Microsoft 与 Alphabet 作为企业进行比较。提示分 growth、resilience、无 priority 三组；每个 agent 每个条件运行 6 次，共 36 次，其中 24 份报告带 priority。分析材料覆盖最终报告、搜索查询、返回来源和引用来源。作者检查报告是否聚焦 priority、使用哪些 criteria、最终偏向哪家公司，并用条件标签置换检验比较搜索与来源指标；两条件比较涉及 12 次运行，置换 5,000 次。
+
+实验主线可以概括为“报告层分叉、行为层相对稳定”。报告层最醒目的结果是：24 份 priority 报告中有 21 份聚焦了 priority，但 criteria 并不一致。growth 条件下，OpenAI 报告把风险或可预测性纳入公司排序，偏向 Microsoft；Anthropic 报告以增长速度或增长拐点判断 growth，偏向 Alphabet。也就是说，同一个 priority 下，两个 agent 不仅理由不同，最终公司排序也相反。resilience 条件下，多数报告认为 Microsoft 更有韧性，但 criteria...**
+
+<!-- paperflow:7a31411b02eae51a -->
+## ARISE: Practical Self-Evolving Memory for Accurate and Cost-Efficient Enterprise Agents
+
+[[Deep Reading - Nov 2026/ARISE-Practical Self-Evolving Memory for Accurate and Cost-Efficient Enterprise Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23588v1](https://arxiv.org/pdf/2611.23588v1)
+
+- **一、论文定位
+ARISE 是一篇面向企业部署的智能体记忆架构论文，核心主张是：在不更新模型权重、工具或工作流逻辑的前提下，智能体可以通过“失败归因—微观记忆—宏观规则—留出验证”的闭环实现自我演化，从而同时满足准确率和成本约束。论文不是提出新的基础模型，也不是提出新的工具调用算法，而是提出一套可运行、可审计、模型无关的记忆更新流程。
+
+二、问题背景
+企业 LLM 智能体处于动态环境：基础模型快速迭代，业务流程频繁更新，部署方要求准确率和成本可控。传统做法要么重训/微调模型（成本高、周期长），要么重写提示/工作流（需要工程投入），要么依赖静态记忆（无法从失败中学习）。ARISE 试图填补的空白是：能否让智能体在部署后从自己的失败中学习，并把学习结果沉淀为可检索、可验证、可维护的记忆资产。
+
+三、方法主线
+ARISE 的循环包括：（1）在训练任务上执行智能体，收集失败轨迹；（2）用部署模型自身或教师模型做失败归因，提出修正；（3）把修正保存为可检索的 micro memory；（4）将一批微观修正 consolidate 为 macro rules；（5）在留出集上验证候选规则，只有准确率上升才接纳；（6）部署时检索规则/记忆，不改权重、工具或工作流。教师设置使用 Claude Opus 4.6 做归因与 consolidation；自归因设置使用部署模型本身。方法的关键不是“反思”本身，而是把反思结果分层、批处理、验证门控，避免噪声记忆直接污染部署。
+
+四、实验主线
+论文在 SOP-Bench（11 个企业流程域）与 τ2-bench（3 个多轮域）上评估 5 个模型：Qwen3-32B、DeepSeek v3.2、Haiku 4.5、Sonnet 4.6、Opus 4.6。对照包括 Base、ExpeL、Reflexion、GEPA、ARISE-Self、ARISE-Teacher。指标包括 accuracy、∆Tok、∆Calls、∆Cost；Overall 按 11:3 加权，使用 equal-domain averages，ARISE 数值为三次运行平均。评估协议...**
+
+<!-- paperflow:74b6db7a54eac8e3 -->
+## RSI-Prime: Training Models to Train Models
+
+[[Deep Reading - Nov 2026/RSI-Prime-Training Models to Train Models|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23138v1](https://arxiv.org/pdf/2611.23138v1)
+
+- **一、论文定位
+RSI-Prime 是一篇「数据 + 监督信号」取向的工作，不提出新的训练算法，也不提出新的 agent 框架，而是把「LLM 自己会训练模型」这项能力当作可训练对象。全文论证可以拆成四步：(1) 现状——执行框架、数据构造、训练算法三条线都在快速产出工具；(2) 缺口——工具多不等于会用，agent 必须能针对任务需求选择训练方案，并依据实验反馈迭代调整；(3) 假设——这种「选择 + 调整」的能力可以从真实训练实验中学习，前提是把「哪些步骤的哪些行为值得学」标注出来；(4) 验证——用 350 条轨迹、决策级质量标注与 loss masking 训练 GLM-5.3，在 PostTrainBench 上取得 31.95% 的整体相对提升。
+
+二、问题主线
+作者把 RSI 的门槛设在「模型从被训练转向会训练」这一能力转变上。关键洞察是：一条真实实验轨迹里，对任务成功至关重要的步骤，其具体行为未必值得模仿（例如为了排查环境问题而临时改配置）。因此轨迹级 SFT 会把噪声当正样本，而正确做法是把监督下推到「决策」这一粒度。这个判断是全文的逻辑支点，也解释了为什么本文的核心资产是标注而不是模型。
+
+三、数据主线
+RSI-Prime 含 350 条完整实验轨迹，跨 7 个任务类别，保留规划、训练、评估、迭代改进的完整闭环。轨迹被切分为决策点，动作体系分两级：20 个二级动作类型，归并为 5 个一级类别（数据准备、模型训练与诊断、运行时支持、组合与交付，以及被显式省略的 Other）。每个决策点带质量判定（合格/不合格）。被判定为不合格的内容在训练时被屏蔽，规模为 12,094 条未链接消息、956,754 个 target token。为验证标注可靠性，作者对 400 条决策记录做了不放回随机抽样的人工审计，覆盖决策识别、动作分类、质量评估三项（审计结论的具体数值在可见证据中缺失）。
+
+四、方法主线
+方法只有一句话可以概括：同源数据、同一 SFT 目标，唯一改变的是损失计算的位置——Decision SFT 只在合格决策的 token 上回传梯度，Full SF...**
+
+<!-- paperflow:f49d5af17fc5877c -->
+## ForecastGym: A Live, Controlled, and Replayable Benchmark for Forecasting Agents
+
+[[Deep Reading - Nov 2026/ForecastGym-A Live, Controlled, and Replayable Benchmark for Forecasting Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23045v1](https://arxiv.org/pdf/2611.23045v1)
+
+- **ForecastGym 论文的主线可以概括为：先把“LLM 预测智能体”的评测问题从模型能力问题转化为证据控制问题，再搭建一个实时采集、冻结回放、来源感知的基准，最后用泄漏审计与冻结证据实验给出经验发现。
+
+第一，问题诊断。论文指出，基于 LLM 的预测智能体会搜索网页并基于检索内容推理；它的表现同时取决于模型和证据。若每个系统在评测时自行实时搜索，模型比较就混入了检索策略差异；若用回溯式检索，日期过滤和历史快照又可能把结果之后的信息泄漏进来。摘要明确提到两类泄漏机制：日期过滤可能放入 t 之后更新的内容，历史页面快照可能因今天的索引和排序而被选择。因此，仅保存旧内容不足以重建“当时可见的证据”。
+
+第二，基准设计。ForecastGym 遵循四条原则：Live、Controlled、Replayable、Source-Aware。它在预测市场问题仍开放时每两天采集一次四个商业搜索 API 的返回；每个问题在每个采集时点形成一个 evidence state；结果揭晓后离线重放这些冻结状态，让不同模型、记忆策略和搜索来源在相同证据获取策略下比较。首版规模为 150 个问题、614 个证据状态、约 131k 条搜索结果，问题来自 Polymarket 与 Kalshi 等公开预测市场。论文还使用 query-planning LLM 生成查询与追问，并以 coverage rating 选择 Tavily 作为主 provider；片段可读出 Tavily 与 Exa 在覆盖率、相关性、日期元数据和价格上的差异。
+
+第三，泄漏审计。论文在结果结算后用相同查询重查，发现即使施加其测试的日期过滤，仍有高达 92% 的问题返回几乎直接陈述结果的内容；日期过滤能降低但不能消除泄漏，且不同 provider 都受影响。这个结果直接说明：很多历史回测的高分可能来自答案泄漏，而不是预测能力。
+
+第四，冻结证据上的预测实验。所有被测 LLM 在总体准确率上都落后于市场基准。这个结论不是“模型一无是处”，因为条件分析显示：当证据明确指向结果时，模型可以接近市场甚至更好；差距集中在证据不足、...**
+
+<!-- paperflow:f0b62335cac1d009 -->
+## EvoSkill-S1: Evolving Reusable Skills with Genetic-Inspired Operators
+
+[[Deep Reading - Nov 2026/EvoSkill-S1-Evolving Reusable Skills with Genetic-Inspired Operators|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22610v1](https://arxiv.org/pdf/2611.22610v1)
+
+- **1. 论文定位：EvoSkill-S1 是一篇关于 LLM 智能体技能库自进化的框架论文。它的核心主张不是“再做一个更强的求解器”，而是改变技能库的维护方式：把可复用技能本身当作进化对象，用遗传启发算子在技能层面搜索，并用下游任务奖励训练一个技能进化器。
+
+2. 问题链：作者先指出技能库对复杂推理和代码生成有价值，因为许多问题受益于可复用的问题解决经验，而非孤立的一次性生成。但现有方法多通过 rollout 驱动累积和启发式反思间接改进技能库：新经验到来时追加技能、总结反思或浅层改写，缺少对技能质量的直接控制。结果是技能库可能持续增长，却没有系统修复脆弱策略、探索替代解法、组合互补的部分技能，甚至积累冗余和冲突。
+
+3. 核心洞察：数学和代码中的未解决失败不是噪声，而是诊断信号。失败轨迹能暴露检索到的技能在哪里不完整、脆弱或错误，因此可以把失败作为进化起点：选择父技能，针对失败模式生成候选子技能，再让下游任务表现决定是否保留。这样，技能库的改进从“被动累积”变成“有方向的搜索与选择”。
+
+4. 方法主线：给定硬负例失败，EvoSkill-S1 选择父技能，并通过五种遗传启发算子生成候选子技能：revision 做单亲修复，cross-revision 做跨技能或跨题修订，mutation 做扰动探索，dual-reflection 做双视角反思，crossover 做双亲重组。技能进化器由下游任务奖励训练，目标是生成更有效的子技能。候选不会无条件写入技能库，而是经过评估器引导的回写，只保留有益更新。不同算子维护各自的技能库，Complementary Skill Bank Fusion 在统一整体预算下整合它们的互补修复模式；Procedural Skill Interface 则把进化技能组织成可迁移的指导，支持未见问题。
+
+5. 实验主线：论文在数学与代码基准上评估，使用 Qwen 与 GPT 系列求解器，并以对应的初始化技能库为起点。对比路径包括 Vanilla、Reflection、Skill Update 与 EvoSkill-S1；摘要报告在所有报告的数学和...**
+
 # AI Research
 
 <!-- paperflow-topic-summary:start -->
@@ -989,10 +1134,15 @@ Augmented 与 simulated data 可能放大偏见，同时让数据集看起来更
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Computer Vision
-- 方法：agent, language, vision-language-model, vision, vision-language
-- 论文/报告：2 篇
+- 方法：agent, generation, language, vision-language-model, vision, vision-language
+- 论文/报告：7 篇
 - CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models
 - OmniScore-Bench: Evaluating Vision-Language Models on Musical Score Reading
+- How VLMs Plan What's Next
+- Code World Model 2.0: Towards Infinite Controllable Video Generation
+- Pixel is All You Need
+- FastFrames: Video Generation at Interactive Latency
+- FrameRouter: Frame Budget Routing for Long-Video Understanding on Video-MME-v2 and Beyond
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -1030,3 +1180,129 @@ CoCode-World 关注多人生成式世界模型中的跨视角一致性：两名�
 
 四、与先行工作的关系
 论文把资源谱系铺得很清楚：DeepScoresV2（musi...**
+
+<!-- paperflow:0f1de677f26b8a8a -->
+## How VLMs Plan What's Next
+
+[[Deep Reading - Nov 2026/How VLMs Plan What's Next|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.21600](https://arxiv.org/pdf/2611.21600)
+
+- **论文从一个日常但机制上未被解释的现象出发：VLM 描述图像时逐个命名对象，很少重复，但二维图像本身没有天然的一维阅读顺序，因此模型内部必然存在一个决定“下一个看哪里”的计划。作者要解释的不是高层文本规划，而是每个答案生成前的视觉取用控制：查询如何绑定到区域、已写内容如何被记住、下一个区域如何被选中、选中区域如何变成词。
+
+在相关工作部分，论文把自身放在 binding 与 gaze 两条线上。LLM 中已有位置码绑定和内容过滤头两种解释；VLM 中已有空间索引和 gaze heads 的证据，说明模型会把 prompt 词匹配到图像区域，并通过注视头控制描述。但这些工作主要解释“如何找到区域”，没有完整解释“如何组织不重复的序列”“如何知道已经写过”“何时停止”。论文的增量是把 binding 从单次查询匹配扩展为跨答案的进度绑定，并加入 relay、select 和 lexicalization。
+
+方法上，作者构造合成视觉检索任务：图像由多个面板组成，模型按指令顺序报告匹配对象，答案空间被限制为五个候选字母。这个任务让“下一个正确区域”可以被唯一确定，也让作者可以在 shape token、colon token、comma token 等位置做精确干预。论文提出四阶段机制：binding heads 在查询词位置把文本与图像区域匹配成指针；同一组 heads 把已写答案回绑到来源区域，并在逗号 token 处形成 cursor；select 步骤在 cursor 之后选择最近的未写区域或停止；gaze heads 执行指针并读出概念，语言头与后段 MLP 负责词汇化。Conclusion 补充 relay heads 把指针传递到当前 token。
+
+因果验证是论文的核心。作者在 colon token 处做 layerwise causal patching，把 source 输入的激活逐层注入 target，追踪五个候选字母的 logits；并用 head blocking 测试特定头的必要性，用 rebind 实验改变已写答案与面板的绑定，用 relay 解...**
+
+<!-- paperflow:c9197acf4785c92d -->
+## Code World Model 2.0: Towards Infinite Controllable Video Generation
+
+[[Deep Reading - Nov 2026/Code World Model 2.0-Towards Infinite Controllable Video Generation|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22925v2](https://arxiv.org/pdf/2611.22925v2)
+
+- **一、论文要解决的问题与立论方式。论文站在「解耦式视频世界模型」这一范式上：显式世界状态由上游引擎维护，视觉合成交给生成式渲染器，二者通过视觉/几何代理（相机路径、布局、实体运动、关节几何）与外观参考图衔接。作者认为这一范式同时服务两种使用场景——离线片段创作与实时交互式流式渲染——因此渲染器必须是一个「共享条件接口的双形态模型」。由此导出两个必须解决的挑战：其一，上游代理的粒度随交互类型剧烈变化，渲染器既要能严格遵循细几何，又要在粗代理下合理补全局部运动，且不能把约束误读为冻结（论文的人体模型例子）；其二，流式推理必须在极少的因果步数内完成（本文为四步），同时不能在自己生成的历史上累积漂移。作者进一步指出，把「步数压缩」与「rollout 漂移」放在同一个优化里会互相放大：干净训练视频上的 few-step 蒸馏与自生成历史下的推理分布不匹配。
+
+二、技术主线。方案名为 Invoker-Render，底座是 MiniMax-H3 [42]，被适配成双向创作模型与因果四步流式渲染器两种形态，共享同一套以「结构代理 + 外观参考 + 语言」为输入的条件接口。多粒度能力不靠分支模型实现，而是让粗代理与细代理走同一条条件通路、在约 200 小时对齐的多粒度视频-代理语料上联合训练，从而支持运行时选择输入细节层级；细代理样本还配有 RGB 目标与动作文本，用于教模型合成与轨迹一致的自然步态与姿态。核心训练方法是 Progressive Forcing（ProForcing）：先训练因果预测器完成双向→因果适配；再用训练视频导出的、数据锚定的历史把它蒸馏成四步渲染器（DMD 与 GAN 式对抗蒸馏并用，对抗部分采用成对 relativistic logistic loss，在相同 (t, ε) 扰动下比较真实窗口与生成窗口的判别 logits）；最后把训练切换到连续的自生成 rollout 上，学习有状态的延续。这样「因果适配 + 四步压缩」发生在可控历史分布上，「漂移抑制」发生在真实推理分布上，二者解耦后再耦合。系统工程侧配套一个融合算子、KV 持久化、codec 流水线化的 s...**
+
+<!-- paperflow:d739f1a83586c864 -->
+## Pixel is All You Need
+
+[[Deep Reading - Nov 2026/Pixel is All You Need|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22820v1](https://arxiv.org/pdf/2611.22820v1)
+
+- **一、研究问题。论文从一个 provocatively simple 的观察出发：在作者能够检查管线的图像编辑、视频生成和统一多模态系统中，画布上的正确答案几乎都先以文本 token 形式出现。生成模块可以读画布、写文本，但真正的推理发生在 prompt rewriter 或文本模块，生成器只是把已经算好的答案渲染成像素。作者因此提出：如果视觉要成为统一所有模态的基底，就必须证明像素生成器能够完全不依赖文本通路，直接在画布上读取问题、写出中间推理步骤并给出答案。
+
+二、审计现有系统。论文检查了图像编辑、视频生成和统一多模态系统的管线，并用三类证据支撑其归因：第一，Figure 3 显示四个图像编辑模型（FLUX.2-klein、FLUX.3-klein、Qwen-Image-2.1、LongCat-Image-Edit）未经后训练时在所有任务上都是 0%；第二，只对生成模块做 LoRA 后训练，可以教会它复制可见字符串，但准确率随答案可见性下降而陡降，Arithmetic 与 Factual 只有 0% 到 2%；第三，关掉 prompt rewriter 后，两个图像编辑模型在每个样本上都留空答案框，Wan 3.0 则留空或写“17”“#ab)”一类涂鸦。作者据此认为，现有系统的“视觉推理”主要是文本模块在推理，生成器只负责渲染。
+
+三、像素空间任务套件。论文构建十个任务，分成五组配对：Expressions/Multiplication、Word Problems/Factual Questions、Mazes/Sum Mazes、Curve Tracing/Trace Then Sum、Count Then Paint/Compute Then Paint。每个任务是一张方形灰色画布，192×192，Word Problems 为 256×256；文本用固定等宽字体渲染在 24 列、12 行、每格 8×16 像素的网格上。问题写在水平线上方，正确的中间推理步骤也写在上方，最终答案写在下方两行答案区；曲线、区域、点等视觉元素画在剩余空间。这个设计的巧妙之处在于，它把“...**
+
+<!-- paperflow:37f4fab1636fb765 -->
+## FastFrames: Video Generation at Interactive Latency
+
+[[Deep Reading - Nov 2026/FastFrames-Video Generation at Interactive Latency|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23226v1](https://arxiv.org/pdf/2611.23226v1)
+
+- **一、论文主线
+FastFrames 是一篇系统导向的自回归视频扩散工作，目标是把输入到画面的响应延迟压到交互级，重点不在提高离线视频生成的吞吐。作者认为，现有模型在蒸馏和少步采样上已经很快，但用 FPS 衡量会掩盖真实交互延迟：一个模型可以把 30 帧打包在 1 秒内生成，报告 30 FPS，用户仍要等待 1 秒才看到响应。因此论文以每次自回归响应的时间为核心指标，并用 RPS 表示每秒可完成的响应数。
+二、问题诊断
+论文选择当时最快的少步 AR 模型 CF++ 做端到端剖析，发现扩散采样之外的 VAE 解码与 KV cache 更新合计超过一半延迟。尤其标准 AR 管线为了写入新帧的 K/V，需要在 t=0 对预测的 clean latent 再跑一次 DiT，然后丢弃这次前向的输出；这相当于为缓存写入支付一次完整 DiT 计算。VAE 解码则是每帧从 latent 到 RGB 的重型上采样。作者挑战“这些环节不可省”的假设，把它们视为可替换的实现细节。
+三、方法
+FastFrames 基于 Wan 2.1，采用单 latent frame per AR step 的分解 p(z1:N)=∏ p(zi|z<i)，每个 chunk 由 DiT 在 KV cache 上做两步去噪。它用轻量 pixel decoder 替代 VAE decoder，冻结 DiT，仅以像素重建为目标训练解码器；用 KV refinement network 直接预测新帧的 K/V，替代 t=0 的额外 DiT 前向。FastFrames-S（1.3B）从两步 CF++ checkpoint 初始化，只训练上述轻量组件；FastFrames-L（14B）从 Wan 2.1 14B 双向基座转为 AR，再按 CF++ 配方做少步蒸馏与 DMD。
+四、实验
+论文在 B200、832×480、满 KV cache 的稳态下测量端到端延迟，计时包含扩散采样、KV cache 更新与 pixel decoding，并在官方支持时启用 Ulysses 等分布式优化。对照包括同 backbone 的 CF+...**
+
+<!-- paperflow:7c9ebd4426ef5878 -->
+## FrameRouter: Frame Budget Routing for Long-Video Understanding on Video-MME-v2 and Beyond
+
+[[Deep Reading - Nov 2026/FrameRouter-Frame Budget Routing for Long-Video Understanding on Video-MME-v2 and Beyond|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23055v1](https://arxiv.org/pdf/2611.23055v1)
+
+- **一、论文的出发点。长视频问答要求模型在数分钟到数小时的视频中搜索、聚合和推理视觉证据，而当前视频-语言模型受上下文和计算限制，只能看少量帧。于是“帧预算”成为评测的核心变量。现有基准（Video-MME-v2、LongVideoBench、MLVU 等）通常对每个问题使用统一帧预算，这隐含假设所有问题的证据需求相同。论文指出这个假设不成立：同一视频中的不同问题可能只需要局部细节，也可能需要跨时段聚合；Video-MME-v2 还把问题组织成每组四个相关问题，并报告 Non-Lin、Consistency、Coherence 等组级指标，使统一预算的错配更明显。
+
+二、诊断发现。作者在 Video-MME-v2 上比较不同冻结帧预算策略，发现不同问题子集偏好不同预算；在 mid 策略答错的题中，29.8% 至少能被一个相邻预算策略答对。按 group_type 和 level 拆分的 pairwise correction matrices 显示，纠错关系随题型和难度变化，不是随机噪声。作者还报告，统一增加帧数并不能可靠提升所有指标。这两点共同构成论文的动机：预算不是越多越好，而是要与问题需求匹配；因此需要一种在相同平均预算下按题分配帧的机制。
+
+三、设定。论文提出“固定均值帧预算路由”（fixed-mean frame-budget routing）：每个问题可以获得不同帧预算，但所有问题的平均预算与统一参考基线相同。这个设定把比较从“更多计算”转为“同样的平均计算如何分布”，是全文最关键的实验控制。它不同于普通的 adaptive frame selection：后者改变预算内选哪些帧，前者改变每题预算高低；两者理论上正交。
+
+四、方法。FrameRouter 是 training-free 的测试时框架，包含三部分。第一，证据需求路由器：对回答阶段同一个 VLM 做一次确定性的纯文本调用，只输入问题/选项，不输入视频帧，输出上限 160 tokens，用来预测该题需要高/中/低哪一档预算。第二，预算约束分配规则：在冻结策略库上做 quota-constrained...**
+
+# AI for Education
+
+<!-- paperflow-topic-summary:start -->
+## PaperFlow Summary
+- 概念：AI for Education
+- 方法：agent
+- 论文/报告：3 篇
+- Inference after coding agents
+- Do LLM Agents Still Need to Be Told How to Self-Improve?
+- CrossEnv: Synthesizing Verifiable Cross-Environment Tasks for Long-Horizon Agent Training
+- 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
+<!-- paperflow-topic-summary:end -->
+
+<!-- paperflow:0f8671516a1a1b96 -->
+## Inference after coding agents
+
+[[Deep Reading - Nov 2026/Inference after coding agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23174v1](https://arxiv.org/pdf/2611.23174v1)
+
+- **一、论证主线
+论文从一个正在发生的科研工作流变化出发：coding agent 已能读文件、写代码、执行命令、查看结果并迭代，因而被越来越多地用于数据分析。论文引用调查称，2026 年 2–3 月已有 20% 的定量社会科学家、39% 的经济学家定期使用 coding agent；AI coding 应用的支出也从 2025 年约 44 亿美元升至 2026 年 9 月的约 340 亿美元年化水平。能力提升带来效率，但也带来统计推断威胁：当 agent 依据数据选择分析 q* 并报告 p* 时，p* 不再是“预先指定分析”的 p 值，而是“在数据上挑了一个看起来有利的分析”后的 p 值。
+
+二、问题形式化
+论文把 agent 输出写成 q*=(M_q*, H0_q*)，报告 p*=p_q*(D_n)。研究者提供与数据独立的提示 r 和数据集 D_n；agent 的选择还依赖内部随机性。目标是条件于 Q=q* 的有效推断。固定分析校准要求 q 在看数据前固定；agent 的选择使该条件不成立。更麻烦的是，agent 的选择规则是未知随机映射，含 token 抽样、工具调用和其他非确定性，无法像经典 selective inference 那样写出选择事件，也无法枚举开放式分析空间。
+
+三、技术方案
+论文提出 selective replay。先在完整数据上运行 agent，记录 q* 和 p*。再按 Assumption 1 抽取 m<n 的子样本，对每个子样本执行 q* 的固定分析程序，计算 p_q*(D^(j))，按是否 ≤p* 分为 tail 层和 body 层。持续抽样直到 tail 有 B1 个、body 有 B0 个。然后对每个子样本用原始提示 r 和独立随机性重放 agent；replay agent 先承诺自己的分析，再与原始 q* 的报告比较并判断匹配。Assumption 2（Trust your agent）下，匹配记录可识别 replay 是否选择了 q*。tail/body 的重选频率给出选择校正 hat p^{sel}_{q*}=hat H_{...**
+
+<!-- paperflow:58b3226c26c866d9 -->
+## Do LLM Agents Still Need to Be Told How to Self-Improve?
+
+[[Deep Reading - Nov 2026/Do LLM Agents Still Need to Be Told How to Self-Improve|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.23219v1](https://arxiv.org/pdf/2611.23219v1)
+
+- **【研究问题】
+论文从一个简单但尖锐的问题出发：当 LLM 能力越来越强时，自改进是否仍然需要人类规定学习算法。现有自改进工作通常让模型生成数据、构造环境或改写工具，但外部的学习循环、课程结构、更新规则或评价方式仍由人类设计。作者追问：如果只给智能体基本工具、算力预算和一个总目标，它能否自己构造出基于上下文的自我学习算法。
+【设定与方法】
+论文使用冻结的 LLM 智能体，在文件系统中提供 WRITE、PLAY、BASH 等基本工具，让它自己写游戏、试玩、记录 transcript、修改提示和策略文档。智能体没有外部 imposed loop，也不能访问真实世界数据；学习发生在文本工件中，而不是权重更新中。检索片段显示论文区分 teacher 与 player 角色，并有 teacher update budget、gameplay budget 等预算参数；默认 teacher update budget 为 20，具体配置汇总在 Table 3，消融在 Appendix D.3。
+【实验主线】
+第一，论文在 PuzzleScript-t20 上检验不同模型能否在最少指导下自改进。第二，论文算法化测量 teacher 的游戏设计和游玩行为，比较不同模型家族。第三，论文用 LLM judge 对 Zimmerman 自我调节学习循环的子过程进行标注，每个模型平均 3 个 teacher sessions，分析自改进模型的行为特征。第四，论文用 Claude Opus-5 评估文本工件向不同游戏时长、不同机制和 3D 导航的迁移。第五，论文通过预算消融、更新粒度和模型版本比较，刻画自改进的条件与边界。
+【主要发现】
+论文发现，能力足够强的模型可以在这种自主设定下实现自我改进，其策略与经典自我调节学习框架和机器学习中的自生成课程概念相吻合。会自改进的模型在大多数自我调节子过程上得分更高，游戏设计和游玩指标在不同模型家族间具有一致性。文本工件还能在一定程度上迁移到不同游戏时长、机制和 3D 导航。片段还显示，Opus 和 GLM 的新版本偏好更小的上下文更新，说明更新粒度是重要变...**
+
+<!-- paperflow:020202834cfc4078 -->
+## CrossEnv: Synthesizing Verifiable Cross-Environment Tasks for Long-Horizon Agent Training
+
+[[Deep Reading - Nov 2026/CrossEnv-Synthesizing Verifiable Cross-Environment Tasks for Long-Horizon Agent Training|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.22777v1](https://arxiv.org/pdf/2611.22777v1)
+
+- **一、论证主线。论文的出发点是一个观察而非一个新模型：长程 agent 的训练数据瓶颈在环境，而可执行合成环境提供可规模化任务与可验证反馈，是目前最可行的折中。但现有合成方法几乎都在「单环境内」生成任务——一套工具、一个数据库、一组局部约束，每个环境自我验证即可闭环（Figure 1(a) 的三个独立 verified 徽标）。作者认为这漏掉了真实世界最关键的结构：跨服务信息依赖，即一个服务的动作参数由另一个服务的返回结果决定（酒店地址决定餐厅搜索中心，航班到达时间决定晚餐时间下界）。因此论文的目标不是「造更多任务」，而是「造出带跨服务依赖、且仍然可执行可验证的任务」。
+二、技术主线。难点被明确诊断为跨环境数据一致性：环境 A 生成的实体与时间必须被环境 B 的数据库与工具 schema 共同承认，否则任务要么无解（假负例），要么局部通过但整体未被检验（假正例）。CrossEnv 的解法分三步：(1) 建实体–工具图，节点是实体与工具，边刻画工具对实体字段的读写以及实体间关系（酒店位于城市、餐厅 near 地址），用它在图上识别环境间的「接口点」；(2) 据此实例化被模板化的连接模式，Figure 1(b) 明确给出两类——Location reuse 与 Timing constraint；(3) 做任务特定数据对齐，为涉及的环境生成或筛选满足共享约束的数据，把「一致性」从生成时的偶然变成构造时的必然。验证侧对应地升级为 joint verification：在 episode 终态上同时判定距离 ≤ 1 km、晚餐 ≥ 到达 + 90 min、存在素食选项，而不是各环境各自打勾。这一「合成 + 联合验证」的配对是全文的技术核心。
+三、训练主线。作者进一步提出 CrossEnv-Curriculum，把难度拆成两条量化轴（环境数、业务域数）加一条定性轴（用户交互），形成四阶段：单环境工具使用 → 跨更多环境协同 → 跨更多业务域 → 引入用户交互。其意图可合理推断为缓解跨环境任务的稀疏奖励与冷启动：先让模型学会基本工具使用，再逐步加长依赖链，最后叠加用户输入的不确定性。...**
