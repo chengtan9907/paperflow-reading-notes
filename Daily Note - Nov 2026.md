@@ -693,12 +693,13 @@ HyInv 是一个 1.96M 参数的主链条件图网络，编码器-解码器架构
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：Language Models
-- 方法：language, audio, stat-ml, stat-me
-- 论文/报告：4 篇
+- 方法：language, reasoning, audio, deep-learning, stat-ml, stat-me
+- 论文/报告：5 篇
 - SCorPion: A Strategic, Controllable and Personified Conversational Companion
 - Hy ASR 3.0 Technical Report
 - Folding Language Models into Themselves
 - Latent Bridge: Asking for Help Without Words
+- Self-Improving Long-Horizon Reasoning by Learning Summaries from Local Continuations
 - 画像/前沿：该主题来自当前精读论文与研究画像的交集，供 Wiki 可视化和后续检索使用。
 <!-- paperflow-topic-summary:end -->
 
@@ -759,13 +760,31 @@ Hy ASR 3.0 由音频编码器、音频适配器、LLM 解码器和音频条件�
 POND 由三部分组成：冻结的 sender、可训练的 bridge、被联合微调的 receiver。形式化写作 p(y|x) = Π_t p(y_t | x, y_<t, M_t)，其中 M_t 是第 t 步可见的 latent memory。
 bridge 的工作分两步：先把 sender 最后一层 hidden states 压缩成一条跨层共享的 latent message（配置中出现 d_b = 2048 这类量级），再由 layer-specific adapters 展开成每一层可用的额外 KV 条目。共享 message 控制参数量并保证跨层一致，层特定 adapter 吸收不同层的语义与维度差异。receiver 把这些 latent KV 当作自注意力中的额外可见条目，生成仍全部由自己完成...**
 
+<!-- paperflow:853cbc82ba99335c -->
+## Self-Improving Long-Horizon Reasoning by Learning Summaries from Local Continuations
+
+[[Deep Reading - Nov 2026/Self-Improving Long-Horizon Reasoning by Learning Summaries from Local Continuations|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.31621v1](https://arxiv.org/pdf/2611.31621v1)
+
+- **一、问题与定位
+论文关注长程推理中的一个核心矛盾：test-time scaling 让模型可以生成更长的推理轨迹，但模型的有效推理 horizon 并不随上下文窗口线性增长。相反，推理模型在长上下文中会退化，出现“上下文越长、后续步骤越不可靠”的现象。因此，论文不把问题定义为“如何支持更长上下文”，而是“如何让模型在长预算下持续处于可靠的短上下文工作区间”。
+
+二、现有路线与缺口
+一条自然路线是上下文管理：把推理切成段，周期性把历史压缩成紧凑 state，再从 state 继续。现有方法通常用最终答案奖励训练 state，或从更强教师蒸馏 state。论文指出，这两种信号都没有直接衡量 state 本身的贡献：outcome reward 需要答案/验证器，且把结果归因于整条轨迹；教师蒸馏优化的是匹配教师，而非匹配当前 solver 在 state 下的行为。于是论文提出：应该直接训练 summarizer，使 solver 在“摘要状态”下的续写分布接近其在“完整历史”下的续写分布。
+
+三、方法与训练信号
+推理流程名为 TruSuCo（Truncate, Summarize, Continue）。系统包含冻结 solver πso 与可训练 summarizer g。设局部窗口长度为 K、保留尾部长度为 k；solver 从 state st 继续，st 的 tail 与新推理组成局部窗口 at；当 at 达到 K 时，保留最后 k 个 token 作为新 tail，把前 K−k 个 token 压缩成短摘要；摘要预算远小于被替换的推理（例如 512 token）。state 直接追加到 solver 已打开的 assistant turn 中，使 solver 把摘要当作自己正在进行的推理。state 更新有 append（累积摘要）与 roll（只保留最新摘要）两种形式。
+
+训练信号是 Delta-KL：对采样续写，比较冻结 solver 在完整历史与“摘要+tail”两种条件下的 token 级预测；对逐 token 差异加权平均，正差异截断到零以避免某些 t...**
+
 # AI Agents
 
 <!-- paperflow-topic-summary:start -->
 ## PaperFlow Summary
 - 概念：AI Agents
-- 方法：agent, generation, language, vision-language-model, reasoning, vision, reinforcement-learning, optimization
-- 论文/报告：21 篇
+- 方法：agent, generation, language, vision-language-model, reasoning, reinforcement-learning, vision, optimization
+- 论文/报告：25 篇
 - Learning to Interact and Direct: Co-Evolving Video Director Agents
 - Towards Self-Evolving Narrative Systems: Real-Time Adaptation and Long-Term Optimization with LLMs
 - Think or Remember: The Exchange Rate of Agentic Inference
@@ -1087,6 +1106,71 @@ RSI-Prime 含 350 条完整实验轨迹，跨 7 个任务类别，保留规划�
 4. 方法主线：给定硬负例失败，EvoSkill-S1 选择父技能，并通过五种遗传启发算子生成候选子技能：revision 做单亲修复，cross-revision 做跨技能或跨题修订，mutation 做扰动探索，dual-reflection 做双视角反思，crossover 做双亲重组。技能进化器由下游任务奖励训练，目标是生成更有效的子技能。候选不会无条件写入技能库，而是经过评估器引导的回写，只保留有益更新。不同算子维护各自的技能库，Complementary Skill Bank Fusion 在统一整体预算下整合它们的互补修复模式；Procedural Skill Interface 则把进化技能组织成可迁移的指导，支持未见问题。
 
 5. 实验主线：论文在数学与代码基准上评估，使用 Qwen 与 GPT 系列求解器，并以对应的初始化技能库为起点。对比路径包括 Vanilla、Reflection、Skill Update 与 EvoSkill-S1；摘要报告在所有报告的数学和...**
+
+<!-- paperflow:b72154838d047b93 -->
+## Reading the Tea Leaves, Again: Can Large Language Models Predict Language Model Training Runs?
+
+[[Deep Reading - Nov 2026/Reading the Tea Leaves, Again-Can Large Language Models Predict Language Model Training Runs|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.30141v1](https://arxiv.org/pdf/2611.30141v1)
+
+- **一、论文在问什么
+这篇论文把“研究者如何判断一个训练 run 是否值得继续”形式化为一个可测量任务。当前 LLM agents 能提出研究想法、写代码、跑实验，但通常把每个 run 训练到结束；人类研究者则会读配置、代码和曲线的前一小段，提前停掉没有希望的 run。作者认为，这种能力不是“解释 Adam”或“实现 warmup”，而是知道一个设计选择会把曲线推向哪里，即对训练动态的预判知识。论文用 Tea Leaves 基准测量这一层知识：给模型一个真实 run 的前 20% 曲线、配置、描述和代码，让它预测剩余曲线。
+二、为什么现有评测不够
+现有研究 agent 评测多把实验执行到终点，以最终指标评分；研究想法评估工作预测“想法是否有效”或“两个提案谁得分高”；学习曲线外推工作只看数值序列，不利用配置/代码语义；时间序列基础模型和 LLM 数值预测器是通用工具，不证明模型理解训练动态。Tea Leaves 的定位是诊断性 benchmark：它不是提出新预测器，而是把“读 run”拆成可比较的预测任务，并用多种基线、信息干预和 agent 决策场景来定位模型能力。
+三、技术主线
+数据侧，论文收集 682 条真实公开训练 run，覆盖预训练、微调、RL，并区分较密集的公开 run 与稀疏的社区 run（片段显示社区子集 232 条、184 位 owner）。任务侧，模型看到前 20% 曲线和实验语义，输出未来曲线；从片段推断，曲线按 2% 进度分箱，前缀约 10 个点，需预测后续约 40 个点。基线侧，包括 last-value、参数化曲线拟合、TimesFM-2.5、LC-PFN、pool-trained shape regressor、kNN on prefix shape，以及 11 个 LLM reader。评价侧，用 skill 分数、误差、pairwise ordering、failure flag、headroom ranking 等多维指标；并做相关信息注入、工具使用、代码变更知识、小模型训练等干预。
+四、实验主线与关键发现
+主实验显示，最强 LLM 在...**
+
+<!-- paperflow:074d2c0c7be446cb -->
+## ComputeWise: Measuring and Fixing GPU Waste by AI Research Agents
+
+[[Deep Reading - Nov 2026/ComputeWise-Measuring and Fixing GPU Waste by AI Research Agents|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.31027v1](https://arxiv.org/pdf/2611.31027v1)
+
+- **【论证主线】
+论文的论证从一次成本结构的观察出发：AI 智能体已被允许自主使用 GPU 做 AI 研究，但「它们是否把 GPU 用好了」缺乏可信答案。作者否定了最自然的代理指标——GPU 忙碌/利用率——因为忙碌可能来自答案根本不需要的工作。他们把这一点与成本现实绑定：智能体消耗的 token 花费相对于实验占用的 GPU 成本几乎可以忽略，因此 GPU 使用效率是这类系统成本结构中的主导项，改善它具有远超「省 token」的杠杆效应。由此确立研究目标：既要能测量这种浪费，也要能削减它。
+
+【技术主线】
+要测量就必须有基准，要大规模测量就必须有便宜的执行介质。论文因此做了两件基础设施工作：其一是 ComputeWise 基准——一组研究任务，在其上「答案需要哪些工作」可被界定，从而把 GPU 时间切成有用 / 不需要 / 空转；其二是自研的 simulated GPU——把录制好的运行过程回放给智能体提交的代码，使智能体照常「跑实验」而无需真实设备。这一设计的直接后果是实验规模：无需真实 GPU，因此可以跑数百次实验，这在真实硬件上是不可行的。模拟器同时带来确定性与可比性，代价是外部效度（回放能否代表真实 GPU 行为）需要额外论证。
+
+测量结果构成了论文的问题陈述：在无任何辅助的条件下，智能体只把 52% 的 GPU 时间用在答案需要的工作上，22% 用在不需要的工作上，26% 空转。换算成常用口径，即 utilization 为 74%，但忙碌时间中约 70% 才是有用的——浪费的主体是「看起来在干活」的那 22 个百分点，而非显眼的空转。这直接支撑了论文对 utilization 指标的批评。
+
+【干预主线及其失败路径】
+论文随后系统性地排除了三种直觉解法：要求智能体更快完成（改变的是速度而非选择）、要求保持每块 GPU 都忙（把代理指标设为显式目标，必然被钻空子）、提供作业调度器（优化的是排队与分配，而错误在「决定跑什么」时已经发生）。这三条负结果共同把病因定位在意图与规划层，而不是执行与调度层。基于此，作者提出一个开源 harness，形态上是「提示词 + 确...**
+
+<!-- paperflow:a776b7bfdff549af -->
+## Skill-Composer: Requirement-Driven Skill Selection from Multiple Marketplaces
+
+[[Deep Reading - Nov 2026/Skill-Composer-Requirement-Driven Skill Selection from Multiple Marketplaces|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.30715v1](https://arxiv.org/pdf/2611.30715v1)
+
+- **以下为按证据复原的论文主线。需前置说明：可用证据仅覆盖摘要（且为双栏交错抽取）与极小段 References，方法章节与实验章节正文均缺失，因此“实验主线”的部分只能给出骨架与待核对项，具体数值一律空缺。
+
+一、论证主线
+论文从一个接口观察出发：Agent skill 已成为智能体复用专门化能力的主要载体，而公开技能市场提供的检索原语是“给一个 query，返回一串按相关性或热度排序的单个技能”。作者认为，这个接口回答不了开发者真正的决策问题——为了完成一个任务，应该安装哪一组技能。
+随后论文把这一失败拆成两个层面。第一层是覆盖：检索到的技能是否覆盖了用户的完整需求。第二层是冗余：候选之间是否互相重叠。二者由同一个机制驱动：query relevance 不等于 requirement alignment。query 只是几个关键词，而任务携带多条子需求，有的被明说、有的是隐含的；相关性分数不表达“这个技能满足了哪几条子需求”。又因为每个候选是独立打分的，候选间的能力重叠不会被察觉，于是列表顶部被近似重复项填满，任务真正需要的能力反而无人覆盖。
+论文用一条外部证据加固这一诊断：已有研究表明，从这些市场下载的技能往往没有带来显著提升（原文 [6]，需核对）。这条证据与冗余诊断互相咬合——装一堆高度重叠的技能，边际收益自然趋零。由此得出核心主张：技能获取应当从 ranking 重构为 set selection。
+
+二、技术主线
+Skill-Composer 是一个 agent-native 框架，输出不是列表而是 bundle 加缺口报告。流程分四步（摘要明确）：
+1）需求澄清：把用户需求拆解为原子需求点，使其可被逐个判定满足；摘要特别指出任务含显式与隐含子需求，暗示框架需要处理隐含需求。
+2）跨市场检索与合并：面向碎片化的多个技能市场检索候选并合并，解决单一市场覆盖不全与同一技能在多市场重复出现的问题；证据提到 ClawHub 公共 API 的支撑能力。
+3）能力分解：把每个候选技能分解为能力集合——这是全系统的语义中枢，只有技能侧与需求侧都被表示为能力集合，覆盖与重叠...**
+
+<!-- paperflow:4131aef7e4052528 -->
+## Same Executions, Different Gaps: Judgment Rules in Web-Agent Evaluation
+
+[[Deep Reading - Nov 2026/Same Executions, Different Gaps-Judgment Rules in Web-Agent Evaluation|Deep Reading]]
+
+[https://arxiv.org/pdf/2611.30190v1](https://arxiv.org/pdf/2611.30190v1)
+
+- **论文的论证主线可以概括为：web-agent 研究习惯用成功率增益来判断一个改动是否值得继续，模型 judge 又让这种比较可以大规模进行；但“一个 agent 排第一”并不等于“它的领先幅度可信”。论文把评估比较本身作为对象，指出两个分数的差可以表现得不同于任一分数：如果一条判定规则同时压低两个 agent 的分数但幅度不等，排名可能不变，而报告的优势会大幅缩水；更反直觉的是，让每个 agent 的分数更准确，可能让二者之差更不准确，因为原来的误差可能部分抵消。由此，论文将比较拆成三个环节：成功如何定义、什么证据支持 judge 的判定、差距如何估计。第一个环节区分“任务可能成功”与“记录支持完成”，并把未解决完成与有支持的失败分开；第二个环节检查执行记录是否包含任务要求、对象与观察之间的必要关系；第三个环节则用点估计、抽样参考标签以及方差/偏差分解来估计差距。
+技术主线是固定 AgentRewardBench 的 executions 与 records，只改变 judge 问题：prediction 式问“可能成功吗”，certification 式问“记录支持完成吗”。图示/片段显示，预测式下 Claude 26.67%、Qwen 18.33%，差 8.33 pp；认证式下 Claude 14.50%、Qwen 13.17%，差 1.33 pp，排名仍是 Claude 在前。两个分数都下降，但 Claude 降幅更大，因而领先被压缩。论文进一步构造显式允许 unresolved verdict 的比较，发现缩减仍然保留，说明效应不是简单把未解决完成归为失败。控制性 source addition 实验在原始记录上加入 saved layout records 等来源，恢复位置约束、对象/时间等关系；结果显示，缺失关系既可能掩盖真实差异，也可能制造表面优势，方向取决于具体任务与证据缺口。
+实验主线还包括估计与误差分析：从 300 对配对任务中抽取 50 对（100 条 execution）获取参考标签，把 judge predictions 与 reference...**
 
 # AI Research
 
